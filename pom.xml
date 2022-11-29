@@ -37,6 +37,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
 		
 		<!-- 오라클 클라우드 연결 -->
 		<dependency>
@@ -44,8 +45,7 @@
 			<artifactId>ojdbc8</artifactId>
 			<scope>runtime</scope>
 		</dependency> 
-		
-		
+
 		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -67,19 +67,21 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- jsp view를 사용하기 위한 설정 -->
-		<dependency>
+	<!-- jsp view를 사용하기 위한 설정 -->
+		 <dependency>
 		   <groupId>org.apache.tomcat.embed</groupId>
 		   <artifactId>tomcat-embed-jasper</artifactId>
 		   <version>9.0.46</version>
        </dependency>
        
+
         		<!-- jsp에서 jstl lib --> 
+
        <dependency>
 		   <groupId>javax.servlet</groupId>
 		   <artifactId>jstl</artifactId>
 		   <version>1.2</version>
-       </dependency>
+       </dependency> 
        
        <!-- Query DSL 설정 -->
        <dependency>
