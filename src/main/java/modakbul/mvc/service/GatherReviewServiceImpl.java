@@ -1,10 +1,12 @@
 package modakbul.mvc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
 import modakbul.mvc.domain.GatherReview;
@@ -22,8 +24,9 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	 * 문의 전체
 	 * */
 	@Override
-	public List<GatherReview> gatherReviewList() {
-		return gatherReviewRep.findAll();
+	
+	public List<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo) {
+		return gatherReviewRep.selectAllByRegularGatherNo(regularGatherNo);
 	}
 	/**
 	 * 등록

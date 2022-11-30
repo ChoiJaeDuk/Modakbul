@@ -1,6 +1,7 @@
 	package modakbul.mvc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import modakbul.mvc.domain.GatherReview;
 
@@ -9,7 +10,7 @@ public interface GatherReviewService {
 	/**
 	 * 정기모임 후기 조회 하기 
 	 * */
-	List<GatherReview> gatherReviewList() ;
+	List<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo) ;
 
 	/**
 	 * 정기 모임 후기 등록하기
