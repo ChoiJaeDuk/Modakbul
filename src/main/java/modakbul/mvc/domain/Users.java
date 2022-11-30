@@ -56,7 +56,7 @@ public class Users {
 	private String userPhone;
 	
 	@Column(nullable = false)
-	private Date userPostCode;
+	private String userPostCode;
 	
 	@Column(nullable = false)
 	private String userAddr;

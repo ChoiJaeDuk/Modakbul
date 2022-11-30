@@ -1,8 +1,5 @@
 package modakbul.mvc.domain;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +22,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_no_seq")
 	@SequenceGenerator(name = "category_no_seq" , allocationSize = 1 , sequenceName = "category_no_seq")
-	private String categoryNo;
+	private Long categoryNo;
 	
 	private String categoryName;
 }

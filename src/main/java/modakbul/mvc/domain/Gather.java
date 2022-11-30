@@ -63,6 +63,7 @@ public class Gather {
 	private int gatherTime;
 	@Column(nullable = false)
 	private String gatherPlace;
+	private String gatherPlaceDetail;
 	
 	@Column(length = 500)
 	private String gatherComment;
@@ -76,6 +77,4 @@ public class Gather {
 	private String gatherBid;
 	private String gatherImg;
 	
-	
-		
 }
