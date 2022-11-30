@@ -1,5 +1,7 @@
 package modakbul.mvc.lim;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,6 @@ public class UsersTest {
 	@Autowired
 	private UsersRepository usersRep;
 	
-	@Autowired
-	private PasswordEncoder passwordEncorder;
 	
 	@Test
 	void contextLoads() {
@@ -36,6 +36,13 @@ public class UsersTest {
 					
 					);
 		}
+	}
+	
+	@Test
+	public void selectAll() {
+		List<Users> list = usersRep.findAll();
+		
+		list.forEach(b->System.out.println(b));
 	}
 	
 

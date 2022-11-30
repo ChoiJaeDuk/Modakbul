@@ -28,7 +28,7 @@ public interface UsersService {
 	 * @param user
 	 * @return
 	 */
-	Users login(Users user);
+	Users login(String userId, String userPwd);
 	
 	/**
 	 * 개인정보 조회,  아이디 중복체크
