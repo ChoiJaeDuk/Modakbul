@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -24,10 +26,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class RegularGather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "regularGather_no_seq")
 	@SequenceGenerator(name = "regularGather_no_seq" , allocationSize = 1 , sequenceName = "regularGather_no_seq")
+	@NonNull
 	private Long regularGatherNo;
 	
 	private int regularGatherCycle;
@@ -47,10 +51,5 @@ public class RegularGather {
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
 
-	
-	public RegularGather(Long regularGatherNo) {
-		super();
-		this.regularGatherNo = regularGatherNo;
-	}
 	
 }
