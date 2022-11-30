@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @RequiredArgsConstructor
+@DynamicInsert
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_no_seq")
@@ -79,7 +81,7 @@ public class Users {
 	@ColumnDefault("50")
 	private int temper;
 	
-	@ColumnDefault("0")
+	@ColumnDefault("1")
 	private int temperCount;
 	private String userProfileImg;
 	

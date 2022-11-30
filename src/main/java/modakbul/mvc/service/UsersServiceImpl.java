@@ -19,13 +19,13 @@ public class UsersServiceImpl implements UsersService {
 	
 	private final UsersRepository usersRep;
 	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public void insert(Users user) {
-//		String encodedPassword = passwordEncoder.encode(user.getUserpwd());
-//		user.setUserpwd(encodedPassword);
+		String encodedPassword = passwordEncoder.encode(user.getUserpwd());
+		user.setUserpwd(encodedPassword);
 		
 		usersRep.save(user);
 
@@ -40,23 +40,23 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Users login(String userId, String userPwd) {
 		
-		return null;//usersRep.login(userId, userPwd);
+		return usersRep.login(userId, userPwd);
 	
 	}
 
 	@Override
 	public Users selectById(String userId) {
 		
-		return null;//usersRep.selectById(userId);
+		return usersRep.selectById(userId);
 	}
 
 	@Override
 	public Users update(Users user) {
-//		Users dbUser = usersRep.selectById(user.getUserId());
-//		
-//		if(dbUser == null)
-//			throw new RuntimeException("해당 아이디에 대한 오류로 수정할 수 없습니다.");
-//	
+		Users dbUser = usersRep.selectById(user.getUserId());
+		
+		if(dbUser == null)
+			throw new RuntimeException("해당 아이디에 대한 오류로 수정할 수 없습니다.");
+	
 		
 		
 		
@@ -72,11 +72,11 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public String selectUserId(String userEmail) {
-//		String dbUserId = usersRep.selectUserId(userEmail);
-//		if(dbUserId == null)
-//			throw new RuntimeException("해당 이메일의 정보가 존재하지 않습니다.");
-//		return dbUserId;
-		return null;
+		String dbUserId = usersRep.selectUserId(userEmail);
+		if(dbUserId == null)
+			throw new RuntimeException("해당 이메일의 정보가 존재하지 않습니다.");
+		return dbUserId;
+		
 	}
 
 	@Override
