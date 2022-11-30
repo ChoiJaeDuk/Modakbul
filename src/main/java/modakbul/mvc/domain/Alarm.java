@@ -38,4 +38,10 @@ public class Alarm {
 	private String alarmContent;
 	@CreationTimestamp
 	private LocalDateTime issueDate;
+	
+	
+	public Alarm(Long alarmNo) {
+		super();
+		this.alarmNo = alarmNo;
+	}
 }

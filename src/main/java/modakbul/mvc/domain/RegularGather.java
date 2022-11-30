@@ -51,7 +51,11 @@ public class RegularGather {
 	
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
+
 	
-	
+	public RegularGather(Long regularGatherNo) {
+		super();
+		this.regularGatherNo = regularGatherNo;
+	}
 	
 }

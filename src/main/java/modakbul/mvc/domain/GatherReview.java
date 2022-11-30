@@ -46,7 +46,7 @@ public class GatherReview {
 	private Users hostUser;
 	
 	@Column(nullable = true)
-	private int gatehrTemper;
+	private int gatherTemper;
 	
 	@Column(nullable = false, length = 3000)
 	private String gatherReviewContent;
@@ -54,5 +54,10 @@ public class GatherReview {
 	@CreationTimestamp
 	private LocalDateTime reviewRegisDate;
 
+	
+	public GatherReview(Long gatherReviewNo) {
+		super();
+		this.gatherReviewNo = gatherReviewNo;
+	}
 	
 }
