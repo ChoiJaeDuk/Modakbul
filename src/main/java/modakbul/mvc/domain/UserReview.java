@@ -31,7 +31,7 @@ public class UserReview {
 	private Long userReviewNo;
 	
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writerUser_no")
 	private Users writerUser;
 	
@@ -42,7 +42,7 @@ public class UserReview {
 	@Column(nullable = true)
 	private int userTemper;
 	
-	@Column(nullable = false, length = 5000)
+	@Column(nullable = false, length = 3000)
 	private String userReviewContent;
 	
 	@CreationTimestamp

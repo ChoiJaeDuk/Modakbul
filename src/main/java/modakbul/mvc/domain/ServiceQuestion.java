@@ -1,7 +1,6 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +41,7 @@ public class ServiceQuestion {
 	@Column(nullable = false)
 	private String serviceQuestionSubject;
 	
-	@Column(nullable = false, length = 5000)
+	@Column(nullable = false, length = 3000)
 	private String serviceQuestionContent;
 	
 	@CreationTimestamp
@@ -50,7 +49,7 @@ public class ServiceQuestion {
 	
 	private String serviceQuestionPwd;
 	
-	@Column(length = 5000)
+	@Column(length = 3000)
 	private String serviceQuestionReply;
 	
 	@UpdateTimestamp

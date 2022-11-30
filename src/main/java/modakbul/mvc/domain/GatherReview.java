@@ -48,7 +48,7 @@ public class GatherReview {
 	@Column(nullable = true)
 	private int gatehrTemper;
 	
-	@Column(nullable = false, length = 5000)
+	@Column(nullable = false, length = 3000)
 	private String gatherReviewContent;
 	
 	@CreationTimestamp

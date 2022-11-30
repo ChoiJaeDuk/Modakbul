@@ -25,7 +25,7 @@ public class InquiryReply {
 	@JoinColumn(name = "inq_no")
 	private Inquiry inquiry;
 	
-	@Column(nullable = false, length = 500)
+	@Column(nullable = false, length = 3000)
 	private String inquiryReplycontent;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

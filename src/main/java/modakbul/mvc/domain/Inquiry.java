@@ -44,7 +44,7 @@ public class Inquiry {
 	@Column(nullable = false)
 	private String inqSubject;
 
-	@Column(nullable = false, length = 5000)
+	@Column(nullable = false, length = 3000)
 	private String inqContent;
 	
 	@CreationTimestamp

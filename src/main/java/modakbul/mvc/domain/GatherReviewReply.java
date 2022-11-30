@@ -36,7 +36,7 @@ public class GatherReviewReply {
 	@JoinColumn(name = "gather_review_no")
 	private GatherReview gatherReview;
 	
-	@Column(nullable = false, length = 5000)
+	@Column(nullable = false, length = 3000)
 	private String gatherReplyContent;
 	
 	@CreationTimestamp
