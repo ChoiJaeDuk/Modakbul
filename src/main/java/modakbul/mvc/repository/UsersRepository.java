@@ -1,4 +1,4 @@
-package modakbul.mvc.users.repository;
+package modakbul.mvc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

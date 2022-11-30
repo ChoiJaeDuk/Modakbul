@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
 import modakbul.mvc.domain.Users;
-import modakbul.mvc.users.repository.UsersRepository;
+import modakbul.mvc.repository.UsersRepository;
 
 @SpringBootTest
 @Commit
