@@ -30,7 +30,7 @@ import lombok.Setter;
 public class GatherReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather__review_no_seq")
-	@SequenceGenerator(name = "gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
+	@SequenceGenerator(name ="gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
 	private Long gatherReviewNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
