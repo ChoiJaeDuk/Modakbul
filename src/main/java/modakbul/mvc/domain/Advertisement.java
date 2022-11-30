@@ -27,11 +27,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class Advertisment {
+public class Advertisement {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisment_no_seq")
-	@SequenceGenerator(name = "advertisment_no_seq" , allocationSize = 1 , sequenceName = "advertisment_no_seq")
-	private Long advertismentNo;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisement_no_seq")
+	@SequenceGenerator(name = "advertisement_no_seq" , allocationSize = 1 , sequenceName = "advertisement_no_seq")
+	private Long advertisementNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY) //지연로딩!!
 	@JoinColumn(name = "user_no")

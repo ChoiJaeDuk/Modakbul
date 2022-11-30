@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
@@ -40,11 +41,18 @@ public class ServiceQuestion {
 	
 	@Column(nullable = false)
 	private String serviceQuestionSubject;
-	@Column(nullable = false)
+	
+	@Column(nullable = false, length = 5000)
 	private String serviceQuestionContent;
+	
 	@CreationTimestamp
 	private LocalDateTime serviceQuestionDate;
+	
 	private String serviceQuestionPwd;
+	
+	@Column(length = 5000)
 	private String serviceQuestionReply;
-	private String serviceQuestionAnswer;
+	
+	@UpdateTimestamp
+	private LocalDateTime serviceQuestionReplyDate;
 }

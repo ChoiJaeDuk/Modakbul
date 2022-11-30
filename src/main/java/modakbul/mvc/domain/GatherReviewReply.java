@@ -26,24 +26,24 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class ReviewReply {
+public class GatherReviewReply {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviewReply_no_seq")
-	@SequenceGenerator(name = "reviewReply_no_seq" , allocationSize = 1 , sequenceName = "reviewReply_no_seq")
-	private Long reviewReplyNo;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_review_reply_no_seq")
+	@SequenceGenerator(name = "gather_review_reply_no_seq" , allocationSize = 1 , sequenceName = "gather_review_reply_no_seq")
+	private Long gatherReviewReplyNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "review_no")
-	private Review review;
+	@JoinColumn(name = "gather_review_no")
+	private GatherReview gatherReview;
 	
-	@Column(nullable = false)
-	private String replycontent;
+	@Column(nullable = false, length = 5000)
+	private String gatherReplyContent;
 	
 	@CreationTimestamp
-	private LocalDateTime replyRegisDate;
+	private LocalDateTime gatherReviewReplyRegisDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_no")
 	private Users user;
 	
 	
