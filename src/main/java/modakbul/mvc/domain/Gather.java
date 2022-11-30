@@ -74,7 +74,7 @@ public class Gather {
 	@CreationTimestamp
 	private LocalDateTime gatherRegisDate;
 	
-	private String gatherBid;
+	private int gatherBid;
 	private String gatherImg;
 	
 	
