@@ -1,4 +1,4 @@
-package modakbul.mvc.service.gather;
+package modakbul.mvc.service.gatherervice;
 
 import modakbul.mvc.domain.Gather;
 
