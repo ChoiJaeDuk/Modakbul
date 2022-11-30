@@ -55,4 +55,9 @@ public class GatherReview {
 	private LocalDateTime reviewRegisDate;
 
 	
+	public GatherReview(Long gatherReviewNo) {
+		super();
+		this.gatherReviewNo = gatherReviewNo;
+	}
+	
 }

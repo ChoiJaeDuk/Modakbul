@@ -49,5 +49,12 @@ public class Inquiry {
 	
 	@CreationTimestamp
 	private LocalDateTime inqRegisDate;
+
+	public Inquiry(Long inqNo) {
+		super();
+		this.inqNo = inqNo;
+	}
+	
+	
 	
 }

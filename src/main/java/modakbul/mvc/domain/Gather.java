@@ -77,4 +77,10 @@ public class Gather {
 	private String gatherBid;
 	private String gatherImg;
 	
+	
+	public Gather(Long gatherNo) {
+		super();
+		this.gatherNo = gatherNo;
+	}
+	
 }

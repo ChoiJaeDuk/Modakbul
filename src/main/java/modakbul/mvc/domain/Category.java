@@ -25,4 +25,10 @@ public class Category {
 	private Long categoryNo;
 	
 	private String categoryName;
+
+	public Category(Long categoryNo) {
+		super();
+		this.categoryNo = categoryNo;
+	}
+	
 }

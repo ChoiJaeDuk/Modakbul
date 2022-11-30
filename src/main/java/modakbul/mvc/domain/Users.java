@@ -80,5 +80,10 @@ public class Users {
 	@Column(name = "state")
 	@Enumerated(EnumType.STRING)
 	private Role state;
+
+	public Users(Long userNo) {
+		super();
+		this.userNo = userNo;
+	}
 	
 }
