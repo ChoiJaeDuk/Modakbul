@@ -71,6 +71,8 @@ public class Users {
 	
 	@ColumnDefault("50")
 	private int temper;
+	
+	@ColumnDefault("0")
 	private int temperCount;
 	private String userProfileImg;
 	

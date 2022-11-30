@@ -16,26 +16,20 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Getter
-@Builder
-public class Review {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_no_seq")
-	@SequenceGenerator(name = "review_no_seq" , allocationSize = 1 , sequenceName = "review_no_seq")
-	private Long reviewNo;
+@Setter
+public class UserReview {
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "regularGather_no")
-	private RegularGather regularGather;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_review_no_seq")
+	@SequenceGenerator(name = "user_review_no_seq", allocationSize = 1, sequenceName = "user_review_no_seq")
+	private Long userReviewNo;
+	
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writerUser_no")
@@ -46,13 +40,12 @@ public class Review {
 	private Users hostUser;
 	
 	@Column(nullable = true)
-	private int field;
+	private int userTemper;
+	
+	@Column(nullable = false, length = 5000)
+	private String userReviewContent;
 	
 	@CreationTimestamp
-	private LocalDateTime reviewRegisDate;
-	
-	
-	
-	
-	
+	private LocalDateTime userRevieweRegisDate;
+
 }

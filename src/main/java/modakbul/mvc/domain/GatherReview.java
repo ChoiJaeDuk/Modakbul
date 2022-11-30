@@ -1,7 +1,6 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,27 +27,32 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class Inquiry {
+public class GatherReview {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inq_no_seq")
-	@SequenceGenerator(name = "inq_no_seq" , allocationSize = 1 , sequenceName = "inq_no_seq")
-	private Long inqNo;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather__review_no_seq")
+	@SequenceGenerator(name = "gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
+	private Long gatherReviewNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_no")
-	private Users user;
+	@JoinColumn(name = "regularGather_no")
+	private RegularGather regularGather;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "writerUser_no")
+	private Users writerUser;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "gather_no")
-	private Gather gather;
+	@JoinColumn(name = "hostUser_no")
+	private Users hostUser;
 	
-	@Column(nullable = false)
-	private String inqSubject;
-
+	@Column(nullable = true)
+	private int gatehrTemper;
+	
 	@Column(nullable = false, length = 5000)
-	private String inqContent;
+	private String gatherReviewContent;
 	
 	@CreationTimestamp
-	private LocalDateTime inqRegisDate;
+	private LocalDateTime reviewRegisDate;
+
 	
 }

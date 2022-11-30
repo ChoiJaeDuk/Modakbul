@@ -33,6 +33,8 @@ public class Alarm {
 	
 	@Column(nullable = false)
 	private String alarmSubject;
+	
+	@Column(length = 300)
 	private String alarmContent;
 	@CreationTimestamp
 	private LocalDateTime issueDate;

@@ -5,9 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -32,11 +34,17 @@ public class Gather {
 	@SequenceGenerator(name = "gather_no_seq" , allocationSize = 1 , sequenceName = "gather_no_seq")
 	private Long gatherNo;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_no")
 	private Category category;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_no")
 	private Users user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "regular_gather_no")
+	private RegularGather regularGather;
 	
 	@Column(nullable = false)
 	private String gatherName;
@@ -60,13 +68,14 @@ public class Gather {
 	private String gatherComment;
 	
 	@Column(nullable = false)
-	private String gatherKind;
-	@Column(nullable = false)
 	private String gatherState;
 	
 	@CreationTimestamp
 	private LocalDateTime gatherRegisDate;
+	
 	private String gatherBid;
 	private String gatherImg;
+	
+	
 		
 }

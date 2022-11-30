@@ -27,8 +27,8 @@ import lombok.Setter;
 @Builder
 public class GatherAttachments {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gatherAttachments_no_seq")
-	@SequenceGenerator(name = "gatherAttachments_no_seq" , allocationSize = 1 , sequenceName = "gatherAttachments_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_attachments_no_seq")
+	@SequenceGenerator(name = "gather_attachments_no_seq" , allocationSize = 1 , sequenceName = "gather_attachments_no_seq")
 	private Long gatherAttachmentsFileNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
