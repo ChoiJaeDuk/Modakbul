@@ -1,30 +1,38 @@
 package modakbul.mvc.service;
 
-import modakbul.mvc.domain.UserAttachments;
+import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.UserAttachments;
+import modakbul.mvc.domain.Users;
+import modakbul.mvc.repository.UserAttachmentsRepository;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class UserAttachmentsServiceImpl implements UserAttachmentsService {
+	
+	private final UserAttachmentsRepository userAttachRep;
+	private final UsersService usersService;
 
 	@Override
 	public void insert(UserAttachments userAttachments) {
-		// TODO Auto-generated method stub
-
+		
+		userAttachRep.save(userAttachments);
 	}
 
-	@Override
-	public UserAttachments selectById(Long userNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(UserAttachments userAttachments) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void update(UserAttachments userAttachments) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public void delete(Long userAttachmentsFileNo) {
-		// TODO Auto-generated method stub
+		
+		userAttachRep.deleteById(userAttachmentsFileNo);
 
 	}
 

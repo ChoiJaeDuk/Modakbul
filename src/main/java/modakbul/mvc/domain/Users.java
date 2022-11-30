@@ -2,7 +2,9 @@ package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -85,5 +88,8 @@ public class Users {
 		super();
 		this.userNo = userNo;
 	}
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<UserAttachments> userAttachList;
 	
 }
