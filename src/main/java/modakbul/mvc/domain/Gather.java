@@ -19,8 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -28,10 +29,12 @@ import lombok.ToString;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class Gather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_no_seq")
 	@SequenceGenerator(name = "gather_no_seq" , allocationSize = 1 , sequenceName = "gather_no_seq")
+	@NonNull
 	private Long gatherNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -77,10 +80,5 @@ public class Gather {
 	private int gatherBid;
 	private String gatherImg;
 	
-	
-	public Gather(Long gatherNo) {
-		super();
-		this.gatherNo = gatherNo;
-	}
 	
 }
