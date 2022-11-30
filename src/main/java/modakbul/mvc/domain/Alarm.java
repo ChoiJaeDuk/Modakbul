@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -25,10 +26,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class Alarm {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alarm_no_seq")
 	@SequenceGenerator(name = "alarm_no_seq" , allocationSize = 1 , sequenceName = "alarm_no_seq")
+	@NonNull
 	private Long alarmNo;
 	
 	@Column(nullable = false)
@@ -39,9 +42,4 @@ public class Alarm {
 	@CreationTimestamp
 	private LocalDateTime issueDate;
 	
-	
-	public Alarm(Long alarmNo) {
-		super();
-		this.alarmNo = alarmNo;
-	}
 }

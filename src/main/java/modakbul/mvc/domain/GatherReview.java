@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -27,10 +29,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class GatherReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather__review_no_seq")
 	@SequenceGenerator(name ="gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
+	@NonNull
 	private Long gatherReviewNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -53,11 +57,5 @@ public class GatherReview {
 	
 	@CreationTimestamp
 	private LocalDateTime reviewRegisDate;
-
-	
-	public GatherReview(Long gatherReviewNo) {
-		super();
-		this.gatherReviewNo = gatherReviewNo;
-	}
 	
 }

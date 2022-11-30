@@ -1,7 +1,6 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -84,6 +83,4 @@ public class Users {
 	@Column(name = "state")
 	@Enumerated(EnumType.STRING)
 	private Role state;
-
-	
 }

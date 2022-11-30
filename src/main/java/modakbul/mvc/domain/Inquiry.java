@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -27,10 +29,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class Inquiry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inq_no_seq")
 	@SequenceGenerator(name = "inq_no_seq" , allocationSize = 1 , sequenceName = "inq_no_seq")
+	@NonNull
 	private Long inqNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,12 +53,6 @@ public class Inquiry {
 	
 	@CreationTimestamp
 	private LocalDateTime inqRegisDate;
-
-	public Inquiry(Long inqNo) {
-		super();
-		this.inqNo = inqNo;
-	}
-	
 	
 	
 }
