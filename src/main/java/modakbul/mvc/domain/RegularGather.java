@@ -33,7 +33,7 @@ public class RegularGather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "regularGather_no_seq")
 	@SequenceGenerator(name = "regularGather_no_seq" , allocationSize = 1 , sequenceName = "regularGather_no_seq")
-	private Long regularGatherNo;
+	private Long gatherReviewRep;
 	
 	private int regularGatherCycle;
 	

@@ -30,7 +30,7 @@ import lombok.Setter;
 public class GatherReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather__review_no_seq")
-	@SequenceGenerator(name = "gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
+	@SequenceGenerator(name ="gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
 	private Long gatherReviewNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -46,7 +46,7 @@ public class GatherReview {
 	private Users hostUser;
 	
 	@Column(nullable = true)
-	private int gatehrTemper;
+	private int gatherTemper;
 	
 	@Column(nullable = false, length = 3000)
 	private String gatherReviewContent;

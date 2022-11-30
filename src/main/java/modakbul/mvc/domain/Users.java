@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -27,10 +29,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_no_seq")
 	@SequenceGenerator(name = "user_no_seq" , allocationSize = 1 , sequenceName = "user_no_seq")
+	@NonNull
 	private Long userNo;
 	
 	@Column(unique = true, nullable = true)
