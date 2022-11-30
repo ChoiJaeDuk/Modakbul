@@ -1,17 +1,12 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -33,7 +28,7 @@ public class RegularGather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "regularGather_no_seq")
 	@SequenceGenerator(name = "regularGather_no_seq" , allocationSize = 1 , sequenceName = "regularGather_no_seq")
-	private Long gatherReviewRep;
+	private Long regularGatherNo;
 	
 	private int regularGatherCycle;
 	
