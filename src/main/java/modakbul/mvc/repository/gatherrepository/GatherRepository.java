@@ -1,4 +1,4 @@
-package modakbul.mvc.repository.gather;
+package modakbul.mvc.repository.gatherrepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
