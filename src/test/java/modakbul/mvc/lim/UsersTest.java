@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Commit;
 import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
+import modakbul.mvc.service.UsersService;
 
 @SpringBootTest
 @Commit
@@ -24,6 +25,11 @@ public class UsersTest {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UsersService service;
+	
+	
 	
 	@Test
 	void contextLoads() {
@@ -77,5 +83,12 @@ public class UsersTest {
 		System.out.println(userId);
 	}
 	
+	@Test
+	public void updateTemper() {
+		
+		Users db =service.updateTemper(4L, 59);
+		System.out.println(db.getTemper() + "/" + db.getTemperCount());
+		
+	}
 
 }

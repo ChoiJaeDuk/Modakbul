@@ -1,5 +1,6 @@
 package modakbul.mvc.service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ import modakbul.mvc.repository.UserAttachmentsRepository;
 public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	
 	private final UserAttachmentsRepository userAttachRep;
-	private final UsersService usersService;
+	//private final UsersService usersService;
+	private final EntityManager em;
 
 	@Override
 	public void insert(UserAttachments userAttachments) {
@@ -23,11 +25,13 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 		userAttachRep.save(userAttachments);
 	}
 
-//	@Override
-//	public void update(UserAttachments userAttachments) {
-//		// TODO Auto-generated method stub
-//
-//	}
+	@Override
+	@org.springframework.transaction.annotation.Transactional
+	public void update(UserAttachments userAttachments) {
+		
+		em.merge(userAttachments);
+
+	}
 
 	@Override
 	public void delete(Long userAttachmentsFileNo) {

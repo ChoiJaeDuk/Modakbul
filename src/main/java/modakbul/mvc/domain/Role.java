@@ -1,6 +1,8 @@
 package modakbul.mvc.domain;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
 
 	ROLE_USER("ROLE_USER"),
     ROLE_ADMIN("ROLE_ADMIN");
@@ -14,5 +16,11 @@ public enum Role {
     public String value() {
         return role;
     }
+
+	@Override
+	public String getAuthority() {
+		
+		return role;
+	}
     
 }

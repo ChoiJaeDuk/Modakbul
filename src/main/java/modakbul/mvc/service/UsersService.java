@@ -15,6 +15,13 @@ public interface UsersService {
 	 */
 	void insert(Users user);
 	
+	/**
+	 * 이메일인증
+	 * @param userEamil
+	 * @return
+	 */
+	boolean emailCheck(String userEamil);
+	
 	
 	/**
 	 * 전체검색 - Page처리
@@ -36,6 +43,13 @@ public interface UsersService {
 	 * @return
 	 */
 	Users selectById(String userId);
+	
+	/**
+	 * 닉네임중복체크
+	 * @param userNick
+	 * @return
+	 */
+	boolean nickCheck(String userNick);
 	
 	
 	/**
@@ -66,6 +80,13 @@ public interface UsersService {
 	 * @return
 	 */
 	void selectUserPwd(String userId, String userEmail);
+	
+	/**
+	 * 모닥불온도 업데이트
+	 * @param userNo
+	 * @param temper
+	 */
+	Users updateTemper(Long userNo, double temper);
 	
 
 }

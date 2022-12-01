@@ -10,12 +10,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserAttachments {
 	
 	@Id
@@ -25,6 +34,7 @@ public class UserAttachments {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")
+	@NonNull
 	private Users user;
 	
 	@Column(nullable = false)
