@@ -31,6 +31,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @RequiredArgsConstructor
+@ToString
 public class Gather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_no_seq")
@@ -81,5 +82,6 @@ public class Gather {
 	private int gatherBid;
 	private String gatherImg;
 	
+	private int likeCount;
 	
 }
