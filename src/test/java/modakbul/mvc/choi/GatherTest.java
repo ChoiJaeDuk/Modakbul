@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.test.annotation.Commit;
 
 import modakbul.mvc.domain.Category;
@@ -21,6 +23,7 @@ import modakbul.mvc.repository.GatherRepository;
 @SpringBootTest
 @Transactional
 @Commit
+@EnableScheduling
 public class GatherTest {
 	
 	Users user = new Users(1L);
@@ -28,7 +31,10 @@ public class GatherTest {
 	RegularGather regularGather = new RegularGather(1L);
 	
 	@Autowired
-	GatherRepository gatherRep;
+	private EntityManager em;
+	
+	@Autowired
+	private GatherRepository gatherRep;
 	@Test
 	void contextLoads() {
 		System.out.println("gatherRep = " + gatherRep);
@@ -54,8 +60,67 @@ public class GatherTest {
 	
 	@Test
 	public void selectGather() {
-		Optional<Gather> op = gatherRep.findById(5L);
+		Optional<Gather> op = gatherRep.findById(8L);
 		Gather gather = op.orElse(null);
 		System.out.println(gather);
 	}
+	
+	
+	//이거는 새로 insert해준다.
+	@Test
+	@org.springframework.transaction.annotation.Transactional(readOnly = false)
+	public void insertNewGather() {
+		String sDate = "2022.12.09 20:00";
+		String sDate2 = "2022.12.09 10:00";
+		SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+		Date d = null;
+		Date d2 = null;
+		try {
+			d = date.parse(sDate);
+			d2 = date.parse(sDate2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, d, d2, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null);
+
+		em.merge(gather);
+	}
+	
+	
+
+		@Test
+		@org.springframework.transaction.annotation.Transactional
+		public void updateGather() {
+			String sDate = "2022.12.09 20:00";
+			String sDate2 = "2022.12.09 10:00";
+			SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+			Date d = null;
+			Date d2 = null;
+			try {
+				d = date.parse(sDate);
+				d2 = date.parse(sDate2);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, d, d2, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null);
+			//Gather findGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
+			Gather findGather = em.find(Gather.class, gather.getGatherNo());
+			findGather.setGatherName(gather.getGatherName());
+			findGather.setGatherComment(gather.getGatherComment());
+			findGather.setGatherDate(gather.getGatherDate());
+			findGather.setGatherDeadline(gather.getGatherDeadline());
+			findGather.setGatherMinAge(gather.getGatherMinAge());
+			findGather.setGatherMaxAge(gather.getGatherMaxAge());
+			findGather.setGatherMinUsers(gather.getGatherMinUsers());
+			findGather.setGatherBid(gather.getGatherBid());
+			findGather.setGatherImg(gather.getGatherImg());
+			findGather.setGatherPlace(gather.getGatherPlace());
+			findGather.setGatherPlaceDetail(gather.getGatherPlaceDetail());
+			findGather.setGatherSelectGender(gather.getGatherSelectGender());	
+			findGather.setGatherTime(gather.getGatherTime());
+		}
+	
+	
 }
