@@ -28,9 +28,9 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	}
 	
 	@Override
-	public LikeGather selectById(String userId) {
+	public LikeGather selectById(Long userNo) {
 		
-		return likeGatherRep.selectByUserId(userId);
+		return likeGatherRep.selectByUserId(userNo);
 	}
 
 	@Override

@@ -18,11 +18,11 @@ public class FollowServiceImpl implements FollowService {
 	private final JPAQueryFactory queryfactory;
 	private final FollowRepository followRep;
 
-//	@Override
-//	public Follow selectByUserId(String userId) {
-//		
-//		return followRep.selectByUserId(userId);
-//	}
+	@Override
+	public Follow selectByUserId(Long userNo) {
+		
+		return followRep.selectByUserId(userNo);
+	}
 
 	@Override
 	public void insert(Follow follow) {

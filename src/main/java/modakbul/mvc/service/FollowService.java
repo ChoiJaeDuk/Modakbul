@@ -7,7 +7,7 @@ public interface FollowService {
 	/**
 	 * 팔로잉 목록 출력
 	 */
-//	Follow selectByUserId(String userId);
+	Follow selectByUserId(Long userNo);
 	
 	/**
 	 * 등록

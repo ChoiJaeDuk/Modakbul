@@ -21,10 +21,12 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	public void insertFollow() {
 		System.out.println("followRep = " + followRep);
-		/*
-		 * followRep.save(Follow.builder() .followingUser(new Users(5L))
-		 * .followerUser(new Users(6L)) .build() );
-		 */
+		
+		 followRep.save(Follow.builder() 
+				 .followingUser(new Users(5L))
+				 .followerUser(new Users(6L)) 
+				 .build() );
+		 
 		
 	}
 }
