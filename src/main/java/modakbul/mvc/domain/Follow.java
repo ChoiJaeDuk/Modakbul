@@ -1,9 +1,9 @@
 package modakbul.mvc.domain;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Follow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "follow_no_seq")
-	@SequenceGenerator(name = "follw_no_seq" , allocationSize = 1 , sequenceName = "follow_no_seq")
+	@SequenceGenerator(name = "follow_no_seq" , allocationSize = 1 , sequenceName = "follow_no_seq")
 	private Long followNo;
 	
 	@ManyToOne
@@ -37,4 +37,7 @@ public class Follow {
 	@ManyToOne
 	@JoinColumn(name = "follower_no")
 	private Users followerUser;
+	
+//	@OneToMany(mappedBy = "Users", cascade = CascadeType.ALL)
+//  private Users followingList; // 따르는 사람 리스트 맞나? 위에 두개가 다 유저라...
 }
