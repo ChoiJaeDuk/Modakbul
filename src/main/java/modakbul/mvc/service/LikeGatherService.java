@@ -15,7 +15,7 @@ public interface LikeGatherService {
 	/**
 	 *  유저아이디별로 검색 - 마이페이지에서 띄우니까
 	 */
-	LikeGather selectById(String userId);
+	LikeGather selectById(Long userNo);
 	
 	/**
 	 * 등록 - 버튼 클릭시

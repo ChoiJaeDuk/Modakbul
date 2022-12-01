@@ -93,5 +93,11 @@ public class Users {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserAttachments> userAttachList;
 	
+	@OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
+	private List<Follow> followingList;
+	
+	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
+	private List<Follow> followerList;
+	
 
 }
