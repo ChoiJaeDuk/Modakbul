@@ -79,7 +79,7 @@ public class Users {
 	private LocalDateTime userJoinDate;
 	
 	@ColumnDefault("50")
-	private int temper;
+	private double temper;
 	
 	@ColumnDefault("1")
 	private int temperCount;

@@ -14,7 +14,7 @@ public interface UserAttachmentsService {
 	 * 회원첨부파일수정
 	 * @param userAttachments
 	 */
-	//void update(UserAttachments userAttachments);
+	void update(UserAttachments userAttachments);
 	
 	/**
 	 * 회원첨부파일삭제

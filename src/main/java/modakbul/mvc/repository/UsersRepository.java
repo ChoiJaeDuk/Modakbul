@@ -25,5 +25,11 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 	@Query("select u.userId from Users u where u.userEmail=?1")
 	String selectUserId(String userEamil);
 	
+	/**
+	 * 닉네임중복체크
+	 * */
+	@Query("select u from Users u where u.userNick=?1")
+	Users nickCheck(String userNick);
+	
 	
 }
