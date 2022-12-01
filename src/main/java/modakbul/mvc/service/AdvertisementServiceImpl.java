@@ -1,12 +1,14 @@
 package modakbul.mvc.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
  
 	@Autowired
 	private AdvertisementRepository advertisementRep;
-	
-	@Autowired
-	private Advertisement advertisement;
+
 	/**
 	 * 광고 등록
 	 * */
@@ -49,19 +49,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		return statusUpdate;
 	}
 	
+	/*
 	@Override
 	@Scheduled(cron = "* * 0 * * *")
 	public void scheduledStatusUpdate(Advertisement advertisement) {
 		
 		LocalDateTime now = LocalDateTime.now();
 		Date date = advertisement.getDeadLine();
-		
-		
-		
-			
-
-		
-	}
+		}
+		*/
 	
 	/**
 	 * 광고 배너 수정
@@ -87,10 +83,27 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			throw new RuntimeException("오류로 삭제 불가");
 		
 		advertisementRep.deleteById(advertisementNo);
-
+	}
+	
+	/**
+	 * 전체 검색
+	 * */
+	@Override
+	public List<Advertisement> selectAll() {
+		return advertisementRep.findAll();
+	}
+	
+	/**
+	 * 페이징
+	 * */
+	@Override
+	public Page<Advertisement> selectAll(Pageable pageable) {
+		
+		return advertisementRep.findAll(pageable);
 	}
 
 
+	
 
 	
 

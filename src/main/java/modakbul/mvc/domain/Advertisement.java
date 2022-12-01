@@ -1,7 +1,6 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -20,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -27,6 +27,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@ToString
 public class Advertisement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisement_no_seq")
