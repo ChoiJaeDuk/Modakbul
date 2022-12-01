@@ -50,4 +50,8 @@ public class Advertisement {
 	private Date adApproveDate;
 	
 	private Date deadLine;
+	
+	@Column(nullable = false)
+	private String adFileName;
+	
 }
