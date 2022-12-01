@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@ToString
 public class LikeGather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attention_no_seq")
