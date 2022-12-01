@@ -36,8 +36,7 @@ public class Follow {
 	
 	@ManyToOne
 	@JoinColumn(name = "follower_no")
-	private Users followerUser;
+	private Users followerUser; //
 	
-//	@OneToMany(mappedBy = "Users", cascade = CascadeType.ALL)
-//  private Users followingList; // 따르는 사람 리스트 맞나? 위에 두개가 다 유저라...
+	 // 따르는 사람 리스트 맞나? 위에 두개가 다 유저라...
 }
