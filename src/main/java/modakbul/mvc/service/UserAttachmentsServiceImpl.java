@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.UserAttachments;
-import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UserAttachmentsRepository;
 
 @Service
