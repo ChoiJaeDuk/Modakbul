@@ -3,6 +3,7 @@ package modakbul.mvc.choi;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -14,11 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.test.annotation.Commit;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import modakbul.mvc.domain.Category;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.LikeGather;
+import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.GatherRepository;
+import modakbul.mvc.service.GatherService;
 
 @SpringBootTest
 @Transactional
@@ -26,15 +33,21 @@ import modakbul.mvc.repository.GatherRepository;
 @EnableScheduling
 public class GatherTest {
 	
-	Users user = new Users(1L);
-	Category category = new Category(1L);
+	Users user = new Users(2L);
+	Category category = new Category(3L);
 	RegularGather regularGather = new RegularGather(1L);
+	
+	@Autowired
+	private JPAQueryFactory queryFactory;
 	
 	@Autowired
 	private EntityManager em;
 	
 	@Autowired
 	private GatherRepository gatherRep;
+	
+	@Autowired
+	private GatherService gatherService;
 	@Test
 	void contextLoads() {
 		System.out.println("gatherRep = " + gatherRep);
@@ -54,7 +67,7 @@ public class GatherTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Gather gather = new Gather(1L, category, user, regularGather, "풋살할사람~!", 12, 18, "남자", 20, 35, d, d2, 2, "성남시 야탑", "1층 풋살장", "즐겁게 운동하실분들 많이 모이세요!", "모집중", null , 0, null);
+		Gather gather = new Gather(1L, category, user, null, "코딩공부할사람~!", 0, 4, "남녀모두", 20, 35, d, d2, 2, "성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "모집중", null , 0, null);
 		gatherRep.save(gather);
 	}
 	
@@ -122,5 +135,48 @@ public class GatherTest {
 			findGather.setGatherTime(gather.getGatherTime());
 		}
 	
+		
+		@Test
+		public void selectGatherList() {
+			boolean gatherType = true; //true이면 정기모임, false이면 일일모임
+			String place = null;
+			List<Long> categoryList= java.util.Arrays.asList(1L);
+			
+			
+			QGather g = QGather.gather;
+			BooleanBuilder builder = new BooleanBuilder();
+			
+			//일일, 정기모임 구분
+			if(gatherType) {
+				builder.and(g.regularGather.regularGatherNo.isNotNull()); // 정기모임
+			}else {
+				builder.and(g.regularGather.regularGatherNo.isNull()); //일일모임
+			}
+			
+			if(categoryList!=null) builder.and(g.category.categoryNo.in(categoryList));
+		
+			//장소 검색
+			if(place != null) {
+				builder.and(g.gatherPlace.contains(place));
+			}
+			
+			List<Gather> gatherList = queryFactory
+			.selectFrom(g)
+			.where(builder)
+			.fetch();//카테고리 체크박스
+			
+			for(Gather a:gatherList) {
+				System.out.println("모임 = " + a);
+			}
+		}
+		
+		@Test
+		public void likeGatherCount() {
+			List<Gather> list = gatherRep.selectLikeGatherCount();
+			for(Gather l:list) {
+				System.out.println("likeGather = " + l);
+			}
+			
+		}
 	
 }
