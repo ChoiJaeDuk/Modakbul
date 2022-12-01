@@ -43,7 +43,7 @@ public class GatherReviewReply {
 	private LocalDateTime gatherReviewReplyRegisDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "host_user_no")
 	private Users user;
 	
 	
