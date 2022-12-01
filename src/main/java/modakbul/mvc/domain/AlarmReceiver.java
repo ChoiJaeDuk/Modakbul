@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@ToString
 public class AlarmReceiver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alarm_receiver_no_seq")
@@ -34,6 +36,7 @@ public class AlarmReceiver {
 	@OneToOne(fetch=FetchType.LAZY) //onetoone 맞나영
 	@JoinColumn(name = "user_no")
 	private Users user;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "alarm_no")
 	private Alarm alarm;
