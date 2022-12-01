@@ -2,6 +2,8 @@
     pageEncoding="EUC-KR"%>
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +23,10 @@
 
 <h1>
 <c:if test="${not empty pageContext.request.userPrincipal}">
+	<sec:authorize access="isAuthenticated()">
     ${pageContext.request.userPrincipal.name}ดิ<p>
+    <sec:authentication property="principal.userName"/>ดิ<p>
+    </sec:authorize>
 
    <form action="${pageContext.request.contextPath}/logout" method="post">
 	   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

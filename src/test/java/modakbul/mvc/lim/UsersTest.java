@@ -7,12 +7,17 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
 import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
+import modakbul.mvc.service.MailSendService;
 import modakbul.mvc.service.UsersService;
 
 @SpringBootTest
@@ -28,6 +33,12 @@ public class UsersTest {
 	
 	@Autowired
 	private UsersService service;
+	
+	@Autowired
+	private MailSendService mailSender;
+	
+	private final static int PAGE_COUNT = 5;
+	private final static int BLOCK_COUNT=4;
 	
 	
 	
@@ -66,6 +77,21 @@ public class UsersTest {
 	}
 	
 	@Test
+	public void selectAllByPage() {
+		int nowPage=4;
+		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
+		
+		Page<Users> list = usersRep.findAll(page);
+		
+		int temp = (nowPage-1)%BLOCK_COUNT;
+		
+		int startPage = nowPage-temp;
+		
+		System.out.println("blockCount = " + BLOCK_COUNT + "/" + "startPage = " + startPage + "/" + "nowPage = " + nowPage);
+		list.forEach(b->System.out.println(b));
+	}
+	
+	@Test
 	public void login() {
 		Users user = usersRep.login("user13", "1234");
 		System.out.println(user.getUserName());
@@ -89,6 +115,12 @@ public class UsersTest {
 		Users db =service.updateTemper(4L, 59);
 		System.out.println(db.getTemper() + "/" + db.getTemperCount());
 		
+	}
+	
+	@Test
+	public void sendMail() throws Exception {
+		String code=mailSender.sendSimpleMessage("aj3338@naver.com");
+		System.out.println("code = " + code);
 	}
 
 }
