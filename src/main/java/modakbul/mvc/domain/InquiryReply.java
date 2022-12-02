@@ -14,7 +14,19 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class InquiryReply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inquiry_reply_no_seq")
@@ -34,5 +46,7 @@ public class InquiryReply {
 	
 	@CreationTimestamp
 	private LocalDateTime inquiryReplyRegisDate;
+	
+	
 	
 }

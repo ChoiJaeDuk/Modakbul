@@ -42,7 +42,7 @@ public interface GatherService {
 	 * @param regularGatherNo
 	 * @return
 	 */
-	List<Gather> selectGatherList(int regularGatherNo, int categoryNo, String sort ,Pageable pageable);
+	List<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort ,Pageable pageable);
 	
 	
 	/**

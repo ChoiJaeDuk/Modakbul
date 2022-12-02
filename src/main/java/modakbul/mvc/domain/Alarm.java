@@ -26,12 +26,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@RequiredArgsConstructor
 public class Alarm {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alarm_no_seq")
 	@SequenceGenerator(name = "alarm_no_seq" , allocationSize = 1 , sequenceName = "alarm_no_seq")
-	@NonNull
 	private Long alarmNo;
 	
 	@Column(nullable = false)

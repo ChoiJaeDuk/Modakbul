@@ -1,8 +1,9 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -54,5 +56,8 @@ public class Inquiry {
 	@CreationTimestamp
 	private LocalDateTime inqRegisDate;
 	
+	//댓글과 연결
+	@OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL)
+	private List<InquiryReply> inquiryReplyList;
 	
 }

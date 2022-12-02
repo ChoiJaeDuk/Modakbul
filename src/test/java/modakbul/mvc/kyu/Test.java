@@ -11,13 +11,20 @@ import org.springframework.test.annotation.Commit;
 
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherReview;
+import modakbul.mvc.domain.GatherReviewReply;
 import modakbul.mvc.domain.Inquiry;
+import modakbul.mvc.domain.InquiryReply;
 import modakbul.mvc.domain.RegularGather;
+import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.repository.GatherReviewReplyRepository;
 import modakbul.mvc.repository.GatherReviewRepository;
+import modakbul.mvc.repository.InquiryReplyRepository;
 import modakbul.mvc.repository.InquiryRepository;
+import modakbul.mvc.repository.ServiceQuestionRepository;
 import modakbul.mvc.repository.UserReviewRepository;
+import modakbul.mvc.service.ServiceQuestionService;
 
 @SpringBootTest
 @Commit
@@ -32,6 +39,18 @@ public class Test {
 	
 	@Autowired
 	private InquiryRepository inquiryRep;
+	
+	@Autowired
+	private ServiceQuestionRepository serviceQuestionRep;
+	
+	@Autowired
+	private InquiryReplyRepository inquiryReplyRep;
+	
+	@Autowired
+	private GatherReviewReplyRepository gatherReviewReplyRep;
+	
+	@Autowired
+	private ServiceQuestionService sqservice;
 
 
 	@org.junit.jupiter.api.Test
@@ -121,4 +140,77 @@ public class Test {
 	void deleteInquiryId() {
 		inquiryRep.deleteById(10L);
 	}
+	
+	///////////////////////servicequestion
+	@org.junit.jupiter.api.Test
+	void insertServiceQuestion() {
+		for(int i=2; i<=6; i++) {
+		serviceQuestionRep.save(ServiceQuestion
+				.builder()
+				.user(new Users(2L))
+				.serviceQuestionContent("문의사항 등록 테스ㅈ트"+i)
+				.serviceQuestionSubject("문의사항 제목테스틍"+i)
+				.serviceQuestionPwd("1234")
+				.build());
+		}
+	}
+	
+	@org.junit.jupiter.api.Test
+	void selectAll() {
+		List<ServiceQuestion> li=serviceQuestionRep.findAll();
+		li.forEach(b->System.out.println(b.getServiceQuestionSubject()));
+	}
+	
+	@org.junit.jupiter.api.Test
+	void selectByServiceQuestionNo() {
+		ServiceQuestion sq=serviceQuestionRep.selectByServiceQuestionNo(4L, "1234");
+		System.out.println(sq.getServiceQuestionContent());
+		System.out.println(sq.getServiceQuestionSubject());
+		System.out.println(sq.getUser().getUserNick());
+	}
+	@org.junit.jupiter.api.Test
+	void deleteServiceQuestion() {
+		serviceQuestionRep.deleteServiceQuestion(5L,"1234");
+	}
+	
+	//댓글
+	@org.junit.jupiter.api.Test
+	void insertReply() {
+		for(int i=2; i<=6; i++) {
+		inquiryReplyRep.save(InquiryReply
+				.builder()
+				.inquiry(new Inquiry(3L))
+				.inquiryReplycontent("우아"+i)
+				.user(new Users(5L))
+				.build()
+				);
+		}
+	}
+
+	@org.junit.jupiter.api.Test
+	void selectInquiryReply() {
+		List<InquiryReply> li=inquiryReplyRep.selectReplyByInquiryNo(3L);
+		li.forEach(b->System.out.println(b.getInquiryReplyNo()+"//"+b.getUser().getUserNick()));
+	}
+	//모임댓글
+		@org.junit.jupiter.api.Test
+		void insertGatherReply() {
+			for(int i=1; i<=3; i++) {
+			gatherReviewReplyRep.save(GatherReviewReply
+					.builder()
+					.gatherReview(new GatherReview(10L))
+					.gatherReplyContent("문의댓글입니다"+i)
+					.user(new Users(5L))
+					.build()
+					);
+			}
+		}
+		
+	//문의사항 게시판에 댓글 달리면
+		@org.junit.jupiter.api.Test
+		void updateServiceQuestionReply() {
+			sqservice.updateServiceQuestionReply(ServiceQuestion.builder().serviceQuestionNo(7L).serviceQuestionReply("아나").build());
+			//serviceQuestionRep.updateServiceQuestionReply("댓글 테22",9L);
+		}
+	
 }

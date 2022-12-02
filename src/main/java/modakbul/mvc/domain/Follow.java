@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Follow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "follow_no_seq")
-	@SequenceGenerator(name = "follow_no_seq" , allocationSize = 1 , sequenceName = "follow_no_seq")
+	@SequenceGenerator(name = "follow_no_seq" , allocationSize = 1, sequenceName = "follow_no_seq")
 	private Long followNo;
 	
 	@ManyToOne

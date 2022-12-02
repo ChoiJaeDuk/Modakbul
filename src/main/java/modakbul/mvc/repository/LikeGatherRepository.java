@@ -18,7 +18,7 @@ public interface LikeGatherRepository extends JpaRepository<LikeGather, Long>,Qu
 	 * userId에 해당하는 관심모임 출력
 	 */ 
 	@Query(value = "select * from like_gather where user_no =?1",nativeQuery = true)
-	LikeGather selectByUserId(Long userNo);
+	List<LikeGather> selectByUserId(Long userNo);
 	 
 
 }
