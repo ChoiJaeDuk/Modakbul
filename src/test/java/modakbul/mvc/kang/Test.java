@@ -12,7 +12,7 @@ import org.springframework.test.annotation.Commit;
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
-import modakbul.mvc.repository.AdvertisementRepository;
+import modakbul.mvc.repository.AdminRepository;
 
 @SpringBootTest
 @Transactional
@@ -24,7 +24,7 @@ public class Test {
 
 	
 	@Autowired
-	private AdvertisementRepository advertisementRep;
+	private AdminRepository advertisementRep;
 	
 	/**
 	 * 광고 등록
@@ -35,7 +35,7 @@ public class Test {
 		LocalDateTime date = LocalDateTime.now();
 	
 		
-		Advertisement advertisement = new Advertisement(2L,users,gather,"신청대기",date,null,null,"test1.jpg");
+		Advertisement advertisement = new Advertisement(2L,users,gather,"신청대기",date,null,null,"test6.jpg");
 		advertisementRep.save(advertisement);
 
 	}

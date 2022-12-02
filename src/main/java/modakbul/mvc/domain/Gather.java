@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @RequiredArgsConstructor
+@ToString
 public class Gather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_no_seq")

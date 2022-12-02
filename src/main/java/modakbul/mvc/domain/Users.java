@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -34,6 +35,7 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @DynamicInsert
+@ToString
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_no_seq")

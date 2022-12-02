@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.Advertisement;
+import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.Users;
 
-public interface AdvertisementService {
+public interface AdminService {
 	
 	/**
 	 * 광고 등록
@@ -35,12 +37,33 @@ public interface AdvertisementService {
     void delete(Long advertisementNo);
     
     /**
-     * 광고 개수 조회
+     * 모임 조회
+     * */
+    List<Gather> selectGatherList();
+    
+    /**
+     * 회원 조회
+     * */
+    List<Users> selectUsersList();
+    
+    /**
+     * 광고 조회
      * */
     List<Advertisement> selectAll();
     
     /**
-	 * 전체검색 - Page처리
+	 * 모임 조회 - Page처리
+	 * */
+	Page<Gather> selectGatherList(Pageable pageable);
+	
+	/**
+	 * 회원 조회 - Page처리
+	 * */
+	Page<Users> selectUsersList(Pageable pageable);
+	
+	/**
+	 * 광고 조회 - Page처리
 	 * */
 	Page<Advertisement> selectAll(Pageable pageable);
+	
 }

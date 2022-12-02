@@ -51,6 +51,9 @@
 <h2> ADMIN </h2>
 <a href="${pageContext.request.contextPath}/admin/main">admin/main - 인증해야만 접근 가능(ROLE_ADMIN,ROLE_USER)</a><p>
 <a href="${pageContext.request.contextPath}/admin/board">admin/board - 인증해야만 접근 가능(ROLE_ADMIN,ROLE_USER)</a><p>
+<a href="${pageContext.request.contextPath}/admin2/main">유저 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/main2">모임 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/adlist">광고 페이지 가기</a><p>
 </body>
 </html>
 
