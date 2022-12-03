@@ -9,10 +9,10 @@ import javax.mail.internet.MimeMessage;
 
 public interface MailSendService {
 	
-	MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException;
+	MimeMessage createMessage(String to, String state) throws MessagingException, UnsupportedEncodingException;
 	
 	String createKey();
 	
-	String sendSimpleMessage(String to) throws Exception;
+	String sendSimpleMessage(String to, String state) throws Exception;
 
 }
