@@ -84,4 +84,5 @@ public class Gather {
 	
 	private int likeCount;
 	
+
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.groupby.GatherGroupBy;
 
 public interface GatherService {
 	
@@ -43,7 +44,7 @@ public interface GatherService {
 	 * @param regularGatherNo
 	 * @return
 	 */
-	Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort ,Pageable pageable);
+	Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort , String search, Pageable pageable);
 	
 	
 	/**
@@ -53,12 +54,6 @@ public interface GatherService {
 	 */
 	Gather selectGatherByGatherNo(Long gatherNo);
 	
-	/**
-	 * 광고로 등록된 모임 리스트를 반환한다.
-	 * @param adList
-	 * @return
-	 */
-	List<Gather> selectADGatherList(List<Long> adList);
 	
 	/**
 	 * 관심모임을 등록할때 모임의 likeCount를 업데이트 해준다.
@@ -66,4 +61,29 @@ public interface GatherService {
 	 * @param likeCount
 	 */
 	void updateLikeCount(Long gatherNo, int likeCount);
+	
+	
+	/**
+	 * 모임상태 카운트를 반환한다.
+	 */
+	List<Long> gatherStateCount(Long userNo);
+	
+	
+	
+	
+	/**
+	 * 월별 진행완료된 모임에 카운트
+	 * @param pageable
+	 * @return
+	 */
+	List<GatherGroupBy> selectGatherCountByMonth(Pageable pageable);
+	
+	
+	/**
+	 * 등록된 날짜순으로 모임정보를 출력
+	 * @param pageable
+	 * @return
+	 */
+	Page<Gather> selectGatherOrderByRegisDate(Pageable pageable);
+	
 }

@@ -17,7 +17,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
@@ -27,6 +26,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QGather;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 @Service
 @RequiredArgsConstructor
@@ -35,6 +35,8 @@ import modakbul.mvc.repository.GatherRepository;
 public class GatherServiceImpl implements GatherService {
 	
 	private final EntityManager em;
+	
+	private QGather g = QGather.gather;
 	
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -65,9 +67,8 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort, Pageable pageable) {
-		QGather g = QGather.gather;
-		
+	public Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort, String search, Pageable pageable) {
+				
 		List<OrderSpecifier> ORDERS = gatherSort(pageable);
 		
 		BooleanBuilder builder = new BooleanBuilder();
@@ -82,6 +83,10 @@ public class GatherServiceImpl implements GatherService {
 		if(categoryList!=null) builder.and(g.category.categoryNo.in(categoryList));
 	
 		//장소 검색
+		if(search !=null) {
+			builder.and(g.gatherName.contains(search));
+		}
+		
 		if(place != null) {
 			builder.and(g.gatherPlace.contains(place));
 		}
@@ -93,22 +98,18 @@ public class GatherServiceImpl implements GatherService {
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();//카테고리 체크박스
-		System.out.println("result = " + result);
 		
 		return new PageImpl<Gather>(result, pageable, result.size());
 	}
+	
+	
+	
 
 	@Override
 	public Gather selectGatherByGatherNo(Long gatherNo) {
 		Optional<Gather> op = gatherRep.findById(gatherNo);
 		Gather gather = op.orElse(null);
 		return gather;
-	}
-
-	@Override
-	public List<Gather> selectADGatherList(List<Long> adList) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	
@@ -151,4 +152,70 @@ public class GatherServiceImpl implements GatherService {
 		gather.setLikeCount(likeCount);
 	}
 
+	
+	
+	@Override
+	public List<Long> gatherStateCount(Long userNo) {
+		
+//		List<String> gatherList = queryFactory
+//				.select(g.gatherState)
+//				.from(g)
+//				.where(g.user.userNo.eq(userNo))
+//				.fetch();
+//		
+//		
+//		List<Tuple> result = queryFactory
+//				.select(g.gatherState, g.gatherState.count())
+//				.from(g)
+//				.where(g.gatherState.in(gatherList))
+//				.groupBy(g.gatherState)
+//				.fetch();
+//		
+//		for(Tuple tuple:result) {
+//			System.out.println(tuple.get(g.gatherState) + "/" + tuple.get(g.gatherState.count()));
+//		}
+//		return result;
+		
+		List<Long> countList = gatherRep.selectStateCount(userNo);
+		return countList;
+		
+	}
+
+	@Override
+	public Page<Gather> selectGatherOrderByRegisDate(Pageable pageable) {
+			
+		List<Gather> result = queryFactory
+				.selectFrom(g)
+				.where(g.gatherState.eq("모집중"))
+				.orderBy(g.gatherRegisDate.asc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();//카테고리 체크박스
+		System.out.println("result = " + result);
+		
+		return new PageImpl<Gather>(result, pageable, result.size());
+	}
+
+	@Override
+	public List<GatherGroupBy> selectGatherCountByMonth(Pageable pageable) {
+		List<GatherGroupBy> list = gatherRep.selectGatherCountByMonth();
+		
+		return list;
+			
+	}
+
+	@Override
+	public Page<Gather> selectGatherOrderByRegisDate(Pageable pageable) {
+		
+		List<Gather> gatherList = gatherRep.findAll()
+		
+		for(Gather ga:gatherList) {
+			System.out.println("결과 = " + ga);
+		}
+		
+		return null;
+	}
+
+	
+	
 }

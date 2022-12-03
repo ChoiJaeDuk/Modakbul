@@ -33,6 +33,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.LikeGatherRepository;
 import modakbul.mvc.service.GatherService;
@@ -46,7 +47,7 @@ public class GatherTest {
 	Users user = new Users(4L);
 	Category category = new Category(3L);
 	RegularGather regularGather = new RegularGather(1L);
-	
+	private QGather g = QGather.gather;
 	@Autowired
 	private JPAQueryFactory queryFactory;
 	
@@ -68,7 +69,7 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		String sDate = "2022.12.11 20:00";
+		String sDate = "2022.11.10 20:00";
 		String sDate2 = "2022.12.10 10:00";
 		SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
 		Date d = null;
@@ -80,7 +81,8 @@ public class GatherTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Gather gather = new Gather(1L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, d, d2, 2, "성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "모집중", null , 0, null, 0);
+		Gather gather = new Gather(3L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, d, d2, 2, "경기도 성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "진행완료", null , 0, null, 0);
+		
 		gatherRep.save(gather);
 	}
 	
@@ -244,7 +246,7 @@ public class GatherTest {
 		
 			List<OrderSpecifier> ORDERS = gatherSort(pageable);
 		
-			Page<Gather> page = gatherService.selectGatherList(gatherType, categoryList, place, sort, pageable);
+			Page<Gather> page = gatherService.selectGatherList(gatherType, categoryList, place, sort, "",pageable);
 			
 			List<Gather> gatherList = page.getContent();
 			gatherList.forEach(b->System.out.println(b));
@@ -256,5 +258,45 @@ public class GatherTest {
 			Gather gather = gatherService.selectGatherByGatherNo(10L);
 			System.out.println("gather = " + gather);
 		}
-	
+		
+		@Test
+		public void selectGatherOrderByRegisDate() {
+			Pageable pageable = PageRequest.of(0, 5 , Direction.DESC, "gatherRegisDate");
+			Page<Gather> gather = gatherService.selectGatherOrderByRegisDate(pageable);
+			System.out.println("gather = " + gather.getContent());
+			
+			for(Gather ga:gather.getContent()) {
+				System.out.println(ga);
+			}
+		}
+		
+		
+		@Test
+		public void gatherStateCount() {
+			List<Long> list = gatherService.gatherStateCount(1L);
+			for(Long a:list) {
+				System.out.println(a);
+			}
+			
+		}
+		
+		
+		@Test
+		public void selectGatherCountByMonth() {
+			Pageable pageable = PageRequest.of(0, 12);
+			//Page<GatherGroupBy> list = gatherService.selectGatherCountByMonth(pageable);
+			List<GatherGroupBy> gatherList = gatherService.selectGatherCountByMonth(pageable);
+			
+			for(GatherGroupBy b : gatherList) {
+				System.out.println("interface = " + b.getGatherCount());
+			}
+		}
+		
+		
+//		@Test
+//		public void selectGatherOrderByRegisDate() {
+//			Pageable pageable = PageRequest.of(0, 12, Direction.DESC, "gather");
+//			gatherService.selectGatherOrderByRegisDate();
+//		}
 }
+
