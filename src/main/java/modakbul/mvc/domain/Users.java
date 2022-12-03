@@ -34,6 +34,8 @@ import lombok.ToString;
 @Getter
 @Builder
 @RequiredArgsConstructor
+@DynamicInsert
+@ToString
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_no_seq")

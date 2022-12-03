@@ -2,8 +2,9 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"> -->
 <style>
  a {text-decoration: none}
  @import url("https://fonts.googleapis.com/css?family=Roboto:400,300");
@@ -93,7 +94,7 @@ img{width:200px; height:350px}
 
 
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
-<caption>상품 LIST</caption>
+<caption>모임 페이지</caption>
 	<colgroup>
 		<col width="15%"/>
 		<col width="30%"/>
@@ -103,24 +104,41 @@ img{width:200px; height:350px}
 		<col width="7%"/>
 		<col width="7%"/>
 	</colgroup>
+	
 	<tr>
-        <td bgcolor="#00cc00">
+		<td>
+            <p align="center"><font color="black"><b>모닥불 개수 : ${fn:length(gatherList)}</b></font></p>
+        </td>
+        <td>
+            <p align="center"><font color="black"><b>회원수 : ${fn:length(usersList)}</b></font></p>
+        </td>
+	</tr>
+	
+	<tr>
+        <td bgcolor="orange">
             <p align="center">
-            <font color="white"><b><span style="font-size:9pt;">번호</span></b></font></p>
+            <font color="white"><b><span style="font-size:9pt;">No</span></b></font></p>
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">제목</span></b></font></p>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">모임 대표 사진</span></b></font></p>
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">작성자</span></b></font></p>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">모임명</span></b></font></p>
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">날짜</span></b></font></p>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">주최자</span></b></font></p>
         </td>
-        
-       
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">조 회 수</span></b></font></p>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">구분</span></b></font></p>
+        </td>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">등록일</span></b></font></p>
+        </td>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">모임일</span></b></font></p>
+        </td>
+        <td bgcolor="orange">
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">모임상태</span></b></font></p>
         </td>
     </tr>
     <c:choose>
@@ -132,39 +150,51 @@ img{width:200px; height:350px}
     </tr>
     </c:when>
     <c:otherwise>
-	<c:forEach items="${requestScope.pageList.content}" var="board">
+	<c:forEach items="${requestScope.pageList.content}" var="gather">
 		    <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
 		        <td bgcolor="">
 		            <p align="center"><span style="font-size:9pt;">
-		            ${board.bno}</span></p>
+		            ${gather.gatherNo}</span></p>
 		        </td>
 		        <td bgcolor="">
 					<p><span style="font-size:9pt;">
-					<a href="${pageContext.request.contextPath}/board/read/${board.bno}"> 
-					  ${board.subject} /  Reply count : <b style="color:red"> ${board.replyList.size()} </b>
+					<a href="${pageContext.request.contextPath}/board/read/${advertisement.advertisementNo}"> 
+					  ${gather.gatherImg}
 					</a>
 					</span></p>
 		        </td>
-		        
-		       
 		        <td bgcolor="">
 		            <p align="center"><span style="font-size:9pt;">
-		            ${board.writer}</span></p>
+		            ${gather.gatherName}</span></p>
 		        </td>
-		         
-		        
 		        <td bgcolor="">
 		            <p align="center"><span style="font-size:9pt;">
-		            ${board.insertDate}</span></p>
+		            ${gather.user.userName}</span></p>
 		        </td>
 		         <td bgcolor="">
 		            <p align="center"><span style="font-size:9pt;">
-		            ${board.readnum}</span></p>
+		            ${gather.gatherState}</span></p>
+		        </td>
+		        <td bgcolor="">
+		            <p align="center"><span style="font-size:9pt;">
+		            ${gather.gatherRegisDate}</span></p>
+		        </td>
+		        <td bgcolor="">
+		            <p align="center"><span style="font-size:9pt;">
+		            ${gather.gatherDate}</span></p>
+		        </td>
+		        <td bgcolor="">
+		            <p align="center"><span style="font-size:9pt;">
+		            ${gather.gatherState}</span></p>
 		        </td>
 		    </tr>
     </c:forEach>
 	</c:otherwise>
     </c:choose>
+    
+   
+    
+    
 </table>
 <h3>
 <a href="${pageContext.request.contextPath}/chart">chart</a>
@@ -178,7 +208,7 @@ img{width:200px; height:350px}
 	<c:set var="doneLoop" value="false"/>
 		
 		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  --> <!--양수가 나오면 이전이 있다-->
-		      <a class="pagination-newer" href="${pageContext.request.contextPath}/board/list?nowPage=${startPage-1}">PREV</a>
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${startPage-1}">PREV</a>
 		  </c:if>
 		  
 		<span class="pagination-inner"> 
@@ -189,14 +219,14 @@ img{width:200px; height:350px}
 			    </c:if> 
 		    
 		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/board/list?nowPage=${i}">${i}</a> 
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/ammin2/main2?nowPage=${i}">${i}</a> 
 		  </c:if>
 		   
 		</c:forEach>
 		</span> 
 				
 		 <c:if test="${(startPage+blockCount)<=pageList.getTotalPages()}">
-		     <a class="pagination-older" href="${pageContext.request.contextPath}/board/list?nowPage=${startPage+blockCount}">NEXT</a>
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${startPage+blockCount}">NEXT</a>
 		 </c:if>
 				 
 			

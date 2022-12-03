@@ -27,7 +27,6 @@ import lombok.ToString;
 @Setter
 @Getter
 @Builder
-@ToString
 public class Advertisement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisement_no_seq")
