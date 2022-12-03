@@ -8,7 +8,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
+ 
 <body>
+<a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&redirect_uri=http://localhost:9000/auth/kakao/callback&response_type=code"><img src="/img/kakao_login_medium_narrow.png"/></a>
+ 
+
 
 <h3> user/loginForm.jsp 입니다. </h3>
 	<c:if test="${param.err != null}">

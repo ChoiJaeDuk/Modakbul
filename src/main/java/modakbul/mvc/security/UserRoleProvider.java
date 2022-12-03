@@ -46,21 +46,26 @@ public class UserRoleProvider implements AuthenticationProvider {
 		//2. 인증됬다면, 인수로 받는 user정보를 가지고 디비에 존재하는지 체크(id check)
 		
 		String id = auth.getName();
-		System.out.println(id);
+		System.out.println("id="+id);
 		
 		Users user = usersRep.selectById(id);
 		System.out.println(user.getUserId());
 		
 		if(user==null){// ID가 없는경우
+			
 			throw new RuntimeException("아이디 혹은 비밀번호를 다시 확인해주세요.");//spring exception
 		}
 		
 		//3.id가 존재하면 비밀번호 비교
 		String password = (String)auth.getCredentials();//비밀번호
-		
-		if(!passwordEncoder.matches(password, user.getUserpwd())){
-			throw new RuntimeException("아이디 혹은 비밀번호를 다시 확인해주세요.");
+		System.out.println("password = " + password);
+		if(!password.equals(user.getUserpwd())) {
+			if(!passwordEncoder.matches(password, user.getUserpwd())){
+				throw new RuntimeException("아이디 혹은 비밀번호를 다시 확인해주세요.");
+			}
 		}
+		
+		
 		
 	    ////////////    여기까지 왔다면 인증에 성공함  ///////////////// 
 		//4. id, password 모두가 일치하면 Authentication를 만들어서 리턴.
@@ -93,6 +98,7 @@ public class UserRoleProvider implements AuthenticationProvider {
 	public boolean supports(Class<?> authentication) {
 		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
+
 
 }
 
