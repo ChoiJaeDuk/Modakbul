@@ -36,6 +36,7 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	@Override
 	public void insert(LikeGather likeGather) {
 		LikeGather resultLikeGather = likeGatherRep.save(likeGather);
+		if(resultLikeGather == null) throw new RuntimeException("관심모임 등록에 실패했습니다.");
 		System.out.println("resultLikeGather = " + resultLikeGather);
 
 	}
