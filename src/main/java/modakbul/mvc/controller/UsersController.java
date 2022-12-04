@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import modakbul.mvc.service.UsersService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 @RequiredArgsConstructor
 public class UsersController {
 	private final UsersService usersService;

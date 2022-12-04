@@ -1,5 +1,7 @@
 package modakbul.mvc.service;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Page;
@@ -93,5 +95,11 @@ public interface UsersService {
 	 */
 	Users updateTemper(Long userNo, double temper);
 	
+	/***
+	 * 검색어에 따른 유저 찾기
+	 * @param keyword
+	 * @return
+	 */
+	List<Users> selectByKeyword(String keyword);
 
 }

@@ -1,32 +1,148 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+    
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/index.css" rel="stylesheet" />
+    <title>Document</title>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		//alert(1)
+		$("#findId").click(function(){
+			//document.getElementById("findIdForm1").style.display="";
+			//document.getElementById("findIdForm2").style.display="";
+			//$("#findIdForm").show("2000");
+			//alert(11);
+		})
+		
+		$("#findIdBtn").click(function(){
+			
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/selectUserId",
+				data: {"email":$("#email").val()},
+				
+				dataType:"text",
+				success:function(result){
+					
+					 var data = result;
+					 console.log(data);
+					 $("#selectId").html(data);	
 
- 
-<body>
-<a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&redirect_uri=http://localhost:9000/auth/kakao/callback&response_type=code"><img src="/img/kakao_login_medium_narrow.png"/></a>
- 
+				},//function
+				error:function(error){
+					
+				}
+			});//ajax
+		})
+	})
 
+	
+	</script>
 
-<h3> user/loginForm.jsp ÏûÖÎãàÎã§. </h3>
-	<c:if test="${param.err != null}">
-		Error message : 
-		<b style="color:red">${SPRING_SECURITY_LAST_EXCEPTION.message} / Ï†ïÎ≥¥Í∞Ä ÏùºÏπòÌïòÏßÄ ÏïäÏäµÎãàÎã§.</b>
-	</c:if>
-<form action="${pageContext.request.contextPath}/loginCheck" method="post">
-	id  : <input type="text" name="id"><p>
-	pwd : <input type="password" name="pwd"><p>
-	<input type="submit" value="login">
-	<input type="reset" value="cancle">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-</form>
-
-</body>
+    
+  </head>
+  <body>
+    <div id="wrap">
+      <main class="login-wrap">
+        <div class="login-logo-wrap">
+          <img class="login-logo-image" src="/img/assets/logo.png" />
+          <h1 class="login-logo-title">MODAKBUL</h1>
+        </div>
+        <div>
+          <form class="login-form" action="${pageContext.request.contextPath}/user/loginCheck" method="post">
+            <div>
+              <div class="login-form-item-wrap">
+                <label for="id" class="form-label">ID</label>
+                <input id="id" name="id" class="form-input" placeholder="æ∆¿Ãµ ¿‘∑¬" />
+              </div>
+              <div class="login-form-item-wrap">
+                <label for="pwd" class="form-label">PW</label>
+                <input type="password"id="pwd" name="pwd" class="form-input" placeholder="∫Òπ–π¯»£ ¿‘∑¬" />
+              </div>
+            </div>
+            <div>
+              <button class="login-button" type="submit">∑Œ±◊¿Œ</button>
+            </div>
+          </form>
+          <div class="option-wrap">
+            <div class="option-item"><a id="findId" href="">æ∆¿Ãµ √£±‚</a></div>
+            <div class="option-item"><a>∫Òπ–π¯»£ √£±‚</a></div>
+            <div class="option-item"><a id="f" href="">»∏ø¯∞°¿‘</a></div>
+          </div>
+          <div class="kakao-login-button-wrap">
+            <a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&redirect_uri=http://localhost:9000/auth/kakao/callback&response_type=code">
+            <img class="kakao-login-button" src="/img/assets/kakao-login.png" />
+            </a>
+          </div>
+        </div>
+      </main>
+      <!-- æ∆¿Ãµ √£±‚ -->
+  		<div class="modal-wrap" id="findIdForm" style="display: none"> 
+        <div>
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">E-mail</label>
+            <input class="modal-input" placeholder="¿Ã∏ﬁ¿œ ¿‘∑¬" id="email"/>
+          </div>
+        </div>
+        <div class="search-id-result" id="selectId"></div>
+        <div class="modal-button-wrap">
+          <button class="modal-button cancel-button">¥›±‚</button>
+          <button class="modal-button search-id-button" id="findIdBtn" >æ∆¿Ãµ √£±‚</button>
+        </div>
+      </div>
+      <!-- ∫Òπ–π¯»£ √£±‚ -->
+      <div class="modal-wrap"> 
+        <div>
+        <form class="find-pwd-form" action="${pageContext.request.contextPath}/selectPwd" method="post">
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">ID</label>
+            <input class="modal-input" placeholder="¿Ã∏ﬁ¿œ ¿‘∑¬" />
+          </div>
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">E-mail</label>
+            <input class="modal-input" placeholder="¿Ã∏ﬁ¿œ ¿‘∑¬" />
+          </div>
+        </div>
+        <div class="modal-button-wrap">
+          <button type="button" class="modal-button cancel-button">¥›±‚</button>
+          <button type="button" class="modal-button search-id-button">
+            ∫Òπ–π¯»£ √£±‚
+          </button>
+          </form>
+        </div>
+      </div>
+      <!-- øœ∑· ∆Àæ˜ -->
+      <div class="modal-wrap" style="display: none">
+        <div class="modal-text">
+          «ÿ¥Á ¿Ã∏ﬁ¿œ∑Œ ¿”Ω√ ∫Òπ–π¯»£∞°<br />¿¸º€µ«æ˙Ω¿¥œ¥Ÿ.
+        </div>
+        <div class="modal-button-wrap">
+          <div></div>
+          <button type="button" class="modal-button cancel-button">¥›±‚</button>
+        </div>
+      </div>
+      <!-- ±‚∞¸ ∞≥¿Œ º±≈√ ∏¥ﬁ -->
+      <div class="modal-wrap" style="display: none">
+        <div class="modal-sign-up-button-wrap">
+          <button class="sign-up-agency-button">±‚∞¸/ªÁæ˜¿⁄</button>
+          <button class="sign-up-individual-button">∞≥¿Œ</button>
+        </div>
+        <div class="modal-button-wrap">
+          <div></div>
+          <button type="button" class="modal-button cancel-button">¥›±‚</button>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

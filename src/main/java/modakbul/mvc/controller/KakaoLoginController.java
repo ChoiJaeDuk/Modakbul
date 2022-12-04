@@ -46,4 +46,8 @@ public class KakaoLoginController {
 		return "redirect:/login/"+token.getAccess_token();
 	}
 	
+	@RequestMapping("/login/loginUser")
+	public void loginUser() {
+		
+	}
 }

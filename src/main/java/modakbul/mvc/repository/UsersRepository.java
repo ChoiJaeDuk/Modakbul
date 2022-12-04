@@ -1,8 +1,11 @@
 package modakbul.mvc.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
@@ -27,11 +30,13 @@ public interface UsersRepository extends JpaRepository<Users, Long>, QuerydslPre
 	@Query("select u.userId from Users u where u.userEmail=?1")
 	String selectUserId(String userEamil);
 	
-	/**
+	/** 
 	 * 닉네임중복체크
 	 * */
 	@Query("select u from Users u where u.userNick=?1")
 	Users nickCheck(String userNick);
 	
+	
+	List<Users> findByUserNickContaining(String keyword);
 	
 }

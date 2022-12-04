@@ -11,7 +11,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,11 +34,13 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
 import modakbul.mvc.domain.QUsers;
+import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
 
@@ -57,6 +62,10 @@ public class UsersServiceImpl implements UsersService {
 	// private final MailTest mail;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	private final static int PAGE_COUNT = 5;
+	private final static int BLOCK_COUNT=4;
+	
 
 	@Override
 	public void insert(Users user) {
@@ -64,13 +73,50 @@ public class UsersServiceImpl implements UsersService {
 		String encodedPassword = passwordEncoder.encode(user.getUserpwd());
 
 		user.setUserpwd(encodedPassword);
-
-		usersRep.save(user);
-
+		
+		if(user.getUserGender()!=null) {
+			usersRep.save(
+					Users.builder()
+					.userId(user.getUserId())
+					.userpwd(encodedPassword)
+					.userName(user.getUserName())
+					.userNick(user.getUserNick())
+					.userEmail(user.getUserEmail())
+					.userValidateNo(user.getUserValidateNo())
+					.userPhone(user.getUserPhone())
+					.userPostCode(user.getUserPostCode())
+					.userAddr(user.getUserAddr())
+					.userAddrDetail(user.getUserAddrDetail())
+					.state(Role.ROLE_USER)
+					.userJob("개인")
+					.userGender(user.getUserGender())
+					.build());
+			
+		}else {
+			usersRep.save(
+					Users.builder()
+					.userId(user.getUserId())
+					.userpwd(encodedPassword)
+					.userName(user.getUserName())
+					.userNick(user.getUserNick())
+					.userEmail(user.getUserEmail())
+					.userValidateNo(user.getUserValidateNo())
+					.userPhone(user.getUserPhone())
+					.userPostCode(user.getUserPostCode())
+					.userAddr(user.getUserAddr())
+					.userAddrDetail(user.getUserAddrDetail())
+					.state(Role.ROLE_USER)
+					.userJob("기관")
+					.build());
+		}
+		
 	}
 
 	@Override
 	public String emailCheck(String userEmail) throws Exception {
+		String userId = usersRep.selectUserId(userEmail);
+		
+		if(userId != null) throw new RuntimeException("이미 가입되어있는 유저아이디입니다.");
 
 		return mailSender.sendSimpleMessage(userEmail, "join");
 
@@ -79,12 +125,32 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Page<Users> selectAll(Pageable pageable, String job) {
 		QUsers users = QUsers.users;
-	
-		List<Users> list = queryFactory.select(users).where(users.userJob.eq(job)).fetch();
+		
+		int nowPage=4;
+		pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
+		
+		//Page<Users> list = usersRep.findAll(page);
+		
+		//int temp = (nowPage-1)%BLOCK_COUNT;
+		
+		//int startPage = nowPage-temp;
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		if(job != null) {
+			builder.and(users.userJob.eq(job));
+		}
+		
+		List<Users> list = queryFactory
+				.select(users)
+				.from(users)
+				.where(builder)
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
 
 		//return usersRep.findAll(pageable); 
 		//findall
-		return null;
+		return new PageImpl<Users>(list, pageable, list.size());
 	}
 
 	
@@ -364,6 +430,13 @@ public class UsersServiceImpl implements UsersService {
 			return jsonObject;
 
 
+	}
+
+	@Override
+	public List<Users> selectByKeyword(String keyword) {
+		
+		//return usersRep.selectByKeyword(keyword);
+		return null;
 	}
 
 }

@@ -34,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/admin/**")
 		.hasRole("USER")
 		.and()
-		//.csrf().disable() // <security:csrf disabled="true"/>
+		.csrf().disable() // <security:csrf disabled="true"/>
 		.formLogin()
 		.loginPage("/user/loginForm")
-		.loginProcessingUrl("/loginCheck")
+		.loginProcessingUrl("/user/loginCheck")
 		.usernameParameter("id")
 		.passwordParameter("pwd")
 		.defaultSuccessUrl("/")
@@ -53,13 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		/*
-		 * auth.inMemoryAuthentication()
-		 * .withUser("jang").password("{noop}1234").authorities("ROLE_USER") .and()
-		 * .withUser("admin").password("{noop}1234").authorities("ROLE_USER",
-		 * "ROLE_ADMIN");
-		 */
-		
+	
 		auth.authenticationProvider(userRoleProvider);
 		
 	}
