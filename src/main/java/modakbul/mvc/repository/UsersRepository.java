@@ -2,10 +2,12 @@ package modakbul.mvc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
+import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
 
-public interface UsersRepository extends JpaRepository<Users, Long> {
+public interface UsersRepository extends JpaRepository<Users, Long>, QuerydslPredicateExecutor<Users>  {
 
 	/**
 	 * 로그인

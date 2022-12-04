@@ -30,7 +30,7 @@ public interface UsersService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Users> selectAll(Pageable pageable);
+	Page<Users> selectAll(Pageable pageable, String job);
 	
 	/**
 	 * 카카오로그인

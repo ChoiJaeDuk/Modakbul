@@ -1,6 +1,7 @@
 package modakbul.mvc.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -9,7 +10,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
@@ -30,12 +30,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
-import modakbul.mvc.domain.Role;
+import modakbul.mvc.domain.QUsers;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
 
@@ -47,6 +47,7 @@ public class UsersServiceImpl implements UsersService {
 	private final UsersRepository usersRep;
 	private final EntityManager em;
 	private final MailSendService mailSender;
+	private final JPAQueryFactory queryFactory;
 	
 	//@Value("${apikey.kakao.rest.api.key")
 	//private String KAKAO_REST_API_KEY="14b0e31baeb3e5bc554c607d7293b85c";
@@ -76,9 +77,14 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Page<Users> selectAll(Pageable pageable) {
+	public Page<Users> selectAll(Pageable pageable, String job) {
+		QUsers users = QUsers.users;
+	
+		List<Users> list = queryFactory.select(users).where(users.userJob.eq(job)).fetch();
 
-		return usersRep.findAll(pageable); 
+		//return usersRep.findAll(pageable); 
+		//findall
+		return null;
 	}
 
 	

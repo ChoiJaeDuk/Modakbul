@@ -87,6 +87,7 @@ public class UsersTest {
 		
 		int startPage = nowPage-temp;
 		
+		System.out.println("개수" + list.getTotalElements());
 		System.out.println("blockCount = " + BLOCK_COUNT + "/" + "startPage = " + startPage + "/" + "nowPage = " + nowPage);
 		list.forEach(b->System.out.println(b));
 	}
