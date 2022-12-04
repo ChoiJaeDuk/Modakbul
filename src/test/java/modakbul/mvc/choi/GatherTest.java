@@ -2,6 +2,7 @@ package modakbul.mvc.choi;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,19 +70,10 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		String sDate = "2022.11.10 20:00";
-		String sDate2 = "2022.12.10 10:00";
-		SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-		Date d = null;
-		Date d2 = null;
-		try {
-			d = date.parse(sDate);
-			d2 = date.parse(sDate2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Gather gather = new Gather(3L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, d, d2, 2, "경기도 성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "진행완료", null , 0, null, 0);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
+		
+		Gather gather = new Gather(3L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, deadLine, gatherDate, 2, "경기도 성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "신청대기", null , 5000, null, 0);
 		
 		gatherRep.save(gather);
 	}
@@ -98,19 +90,9 @@ public class GatherTest {
 	@Test
 	@org.springframework.transaction.annotation.Transactional(readOnly = false)
 	public void insertNewGather() {
-		String sDate = "2022.12.09 20:00";
-		String sDate2 = "2022.12.09 10:00";
-		SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-		Date d = null;
-		Date d2 = null;
-		try {
-			d = date.parse(sDate);
-			d2 = date.parse(sDate2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, d, d2, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
+		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 
 		em.merge(gather);
 	}
@@ -120,19 +102,9 @@ public class GatherTest {
 		@Test
 		@org.springframework.transaction.annotation.Transactional
 		public void updateGather() {
-			String sDate = "2022.12.09 20:00";
-			String sDate2 = "2022.12.09 10:00";
-			SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-			Date d = null;
-			Date d2 = null;
-			try {
-				d = date.parse(sDate);
-				d2 = date.parse(sDate2);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, d, d2, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+			LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
+			LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
+			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 			//Gather findGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
 			Gather findGather = em.find(Gather.class, gather.getGatherNo());
 			findGather.setGatherName(gather.getGatherName());
@@ -283,7 +255,7 @@ public class GatherTest {
 		
 		@Test
 		public void selectGatherCountByMonth() {
-			Pageable pageable = PageRequest.of(0, 12);
+			Pageable pageable = PageRequest.of(0, 12, Direction.DESC,"gatherRegisDate");
 			//Page<GatherGroupBy> list = gatherService.selectGatherCountByMonth(pageable);
 			List<GatherGroupBy> gatherList = gatherService.selectGatherCountByMonth(pageable);
 			
@@ -292,11 +264,20 @@ public class GatherTest {
 			}
 		}
 		
+		@Test
+		public void selectBidGatherappliList() {
+			Pageable pageable = PageRequest.of(0, 5);
+			
+			Page<Gather> gather = gatherService.selectBidGatherappliList(pageable);
+			
+			System.out.println(gather);
+		}
 		
-//		@Test
-//		public void selectGatherOrderByRegisDate() {
-//			Pageable pageable = PageRequest.of(0, 12, Direction.DESC, "gather");
-//			gatherService.selectGatherOrderByRegisDate();
-//		}
+		@Test
+		public void autoUpdateGatherState() {
+			gatherService.autoUpdateGatherState();
+			
+		}
 }
+
 

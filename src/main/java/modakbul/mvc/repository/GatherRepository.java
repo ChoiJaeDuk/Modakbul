@@ -30,4 +30,7 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 			+ "group by to_char(g1.gather_date,'yyyy-mm')", nativeQuery = true)
 	List<GatherGroupBy> selectGatherCountByMonth();
 	
+	
+	@Query(value ="select g from Gather g where g.gatherState='신청대기'")
+	List<Gather> selectBidGatherappliList();
 }

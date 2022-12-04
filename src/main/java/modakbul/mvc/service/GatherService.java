@@ -23,7 +23,7 @@ public interface GatherService {
 	 * (모집중 -> 모집마감 -> 진행중 -> 진행완료)
 	 * @param state
 	 */
-	void updateGatherState();
+	void autoUpdateGatherState();
 	
 	
 	/**
@@ -86,4 +86,11 @@ public interface GatherService {
 	 */
 	Page<Gather> selectGatherOrderByRegisDate(Pageable pageable);
 	
+	
+	/**
+	 * 신청대기상태인 유료모임 조회
+	 * @param pageable
+	 * @return
+	 */
+	Page<Gather> selectBidGatherappliList(Pageable pageable);
 }

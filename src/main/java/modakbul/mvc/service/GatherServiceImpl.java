@@ -1,5 +1,6 @@
 package modakbul.mvc.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,12 +46,40 @@ public class GatherServiceImpl implements GatherService {
 	
 	@Override
 	public void insertGather(Gather gather) {
+		LocalDateTime grd = LocalDateTime.of(gather.getGatherRegisDate().toLocalDate(),gather.getGatherRegisDate().toLocalTime());
+		LocalDateTime gatherRegisDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour(), grd.getMinute());
+		gather.setGatherRegisDate(gatherRegisDate);
 		gatherRep.save(gather);
 	}
-
+	
 	@Override
-	@Scheduled(cron = "0 0/30 * * * *")//30분마다 실행된다.
-	public void updateGatherState() {
+	@Scheduled(cron = "0/20 * * * * *")//매시간 0분 30분마다 실행된다.
+	public void autoUpdateGatherState() {
+		List<Gather> gatherList = queryFactory.
+				selectFrom(g)
+				.where(g.gatherState.ne("진행완료").or(g.gatherState.ne("모임취소")))
+				.fetch();
+		//System.out.println(gatherList);
+		
+		for(Gather gather:gatherList) {
+			LocalDateTime grd = LocalDateTime.of(gather.getGatherRegisDate().toLocalDate(),gather.getGatherRegisDate().toLocalTime());
+			LocalDateTime gatherRegisDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour(), grd.getMinute());
+			System.out.println("gatherRegisDate 시간변환 확인 = "+ gatherRegisDate);
+			
+			LocalDateTime dl = LocalDateTime.of(gather.getGatherDeadline().toLocalDate(),gather.getGatherDeadline().toLocalTime());
+			LocalDateTime deadLine = LocalDateTime.of(dl.getYear(),dl.getMonth(), dl.getDayOfMonth(), dl.getHour(), dl.getMinute());
+			System.out.println("deadLine 시간변환 확인 = "+ deadLine);
+			
+			
+			
+		}
+		
+//		LocalDateTime date1 = LocalDateTime.of(2022, 12, 4, 0, 8);
+//		LocalDateTime now = LocalDateTime.now();
+//		LocalDateTime ldt = LocalDateTime.of(now.getYear(),now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
+//		boolean result = date1.isEqual(ldt);
+//		
+//		System.out.println(result);
 		
 	}
 
@@ -205,17 +234,11 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectGatherOrderByRegisDate(Pageable pageable) {
+	public Page<Gather> selectBidGatherappliList(Pageable pageable) {
 		
-		List<Gather> gatherList = gatherRep.findAll()
+		List<Gather> result = gatherRep.selectBidGatherappliList();
 		
-		for(Gather ga:gatherList) {
-			System.out.println("결과 = " + ga);
-		}
-		
-		return null;
+		return new PageImpl<Gather>(result, pageable, result.size());
 	}
-
-	
 	
 }

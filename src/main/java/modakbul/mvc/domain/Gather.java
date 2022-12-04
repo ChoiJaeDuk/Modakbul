@@ -62,9 +62,9 @@ public class Gather {
 	private int gatherMaxAge;
 	
 	@Column(nullable = false)
-	private Date gatherDate;
+	private LocalDateTime gatherDate;
 	@Column(nullable = false)
-	private Date gatherDeadline;
+	private LocalDateTime gatherDeadline;
 	private int gatherTime;
 	@Column(nullable = false)
 	private String gatherPlace;
