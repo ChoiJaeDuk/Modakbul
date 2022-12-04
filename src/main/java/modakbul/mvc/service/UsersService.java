@@ -1,9 +1,11 @@
 package modakbul.mvc.service;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
+import modakbul.mvc.domain.KakaoOAuthToken;
 import modakbul.mvc.domain.Users;
 
 
@@ -20,7 +22,7 @@ public interface UsersService {
 	 * @param userEamil
 	 * @return
 	 */
-	boolean emailCheck(String userEamil);
+	String emailCheck(String userEamil) throws Exception;
 	
 	
 	/**
@@ -31,11 +33,14 @@ public interface UsersService {
 	Page<Users> selectAll(Pageable pageable);
 	
 	/**
-	 * 로그인
+	 * 카카오로그인
 	 * @param user
 	 * @return
 	 */
-	Users login(String userId, String userPwd);
+	String kakaoLogin(String token) throws ParseException;
+
+	
+	KakaoOAuthToken getAccessToken(String code);
 	
 	/**
 	 * 개인정보 조회,  아이디 중복체크
@@ -79,7 +84,7 @@ public interface UsersService {
 	 * @param userEmail
 	 * @return
 	 */
-	void selectUserPwd(String userId, String userEmail);
+	void selectUserPwd(String userId, String userEmail) throws Exception;
 	
 	/**
 	 * 모닥불온도 업데이트

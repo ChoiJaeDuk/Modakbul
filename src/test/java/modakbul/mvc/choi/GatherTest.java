@@ -1,10 +1,7 @@
 package modakbul.mvc.choi;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.test.annotation.Commit;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
@@ -31,7 +29,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Category;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.domain.QGather;
+import modakbul.mvc.domain.QLikeGather;
 import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
@@ -162,7 +162,6 @@ public class GatherTest {
 			}
 		}
 		
-		
 		public static OrderSpecifier<?> getSortedColumn(Order order, Path<?> parent, String fieldName) {
 		        Path<Object> fieldPath = Expressions.path(Object.class, parent, fieldName);
 		        return new OrderSpecifier(order, fieldPath);
@@ -278,6 +277,29 @@ public class GatherTest {
 			gatherService.autoUpdateGatherState();
 			
 		}
+
+	
+		
+		@Test
+	      public void likeGatherCount() {
+	         QLikeGather likeGather = QLikeGather.likeGather;
+	         List<LikeGather> likeGatherList;
+	         List<Tuple> list = queryFactory
+	               .select(likeGather.gather.gatherNo, likeGather.gather.gatherNo.count())
+	               .from(likeGather)
+	               .groupBy(likeGather.gather.gatherNo)
+	               .fetch();
+	         
+	         
+	         for(int i=0;i<list.size();i++) {
+	            Tuple t = list.get(i);
+	            
+	             
+	            //likeGatherList.add(new LikeGather(new Gather()));
+	         }
+	         
+	      }
+
 }
 
 

@@ -47,15 +47,15 @@ public class UsersTest {
 		
 		String encodedPassword = passwordEncoder.encode("1234");
 		
-		for(int i=15; i<=16; i++) {
+	
 			usersRep.save(
 					Users.builder()
-					.userId("user"+i)
+					.userId("aj3338@nate.com")
 					.userpwd(encodedPassword)
-					.userName("회원"+i)
-					.userNick("유저"+i)
+					.userName("임지민")
+					.userNick("지민")
 					.userGender("여자")
-					.userEmail("user"+i+"@gmail.com")
+					.userEmail("aj3338@nate.com")
 					.userValidateNo("32333")
 					.userPhone("122231")
 					.userPostCode("1231")
@@ -66,7 +66,7 @@ public class UsersTest {
 					.build()
 					
 					);
-		}
+		
 	}
 	
 	@Test
@@ -119,8 +119,15 @@ public class UsersTest {
 	
 	@Test
 	public void sendMail() throws Exception {
-		String code=mailSender.sendSimpleMessage("aj3338@naver.com");
+		String code=mailSender.sendSimpleMessage("aj3338@naver.com", "join");
 		System.out.println("code = " + code);
+	}
+	
+	@Test
+	public void selectUserPwd() throws Exception {
+		
+		service.selectUserPwd("jieun1234", "jieun3604@gmail.com");
+		
 	}
 
 }

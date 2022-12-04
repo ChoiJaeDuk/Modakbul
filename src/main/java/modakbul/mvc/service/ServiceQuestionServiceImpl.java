@@ -60,6 +60,13 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 		//serviceQuestionRep.updateServiceQuestionReply(serviceQuestionReply,serviceQuestionNo);
 		
 	}
+	
+	
+	@Override
+	public List<ServiceQuestion> selectByAdminNo() {	
+		List<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo();
+		return adminList;
+	}
 
 	
 
