@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.service.AdvertisementService;
@@ -69,6 +70,7 @@ public class AdvertisementController {
 	/**
 	 * 전체 검색 페이지
 	 * */
+	@ResponseBody
 	@RequestMapping("/list")
 	public void list(Model model , 
 			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기

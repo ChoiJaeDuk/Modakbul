@@ -144,13 +144,13 @@ public class Test {
 	///////////////////////servicequestion
 	@org.junit.jupiter.api.Test
 	void insertServiceQuestion() {
-		for(int i=2; i<=6; i++) {
+		for(int i=2; i<=5; i++) {
 		serviceQuestionRep.save(ServiceQuestion
 				.builder()
-				.user(new Users(2L))
-				.serviceQuestionContent("문의사항 등록 테스ㅈ트"+i)
-				.serviceQuestionSubject("문의사항 제목테스틍"+i)
-				.serviceQuestionPwd("1234")
+				.user(new Users(4L))
+				.serviceQuestionContent("공지사항 내용"+i)
+				.serviceQuestionSubject("공지사항 제목테스틍"+i)
+				.serviceQuestionPwd("admin")
 				.build());
 		}
 	}
@@ -212,5 +212,11 @@ public class Test {
 			sqservice.updateServiceQuestionReply(ServiceQuestion.builder().serviceQuestionNo(7L).serviceQuestionReply("아나").build());
 			//serviceQuestionRep.updateServiceQuestionReply("댓글 테22",9L);
 		}
-	
+		
+	//어드민이 ServiceQuestion등록한 글 리스트
+		@org.junit.jupiter.api.Test
+		void selectByAdminNo() {
+			List<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo();
+			adminList.forEach(b->System.out.println(b.getUser().getUserNick()+"//"+ b.getServiceQuestionContent()));
+		}
 }

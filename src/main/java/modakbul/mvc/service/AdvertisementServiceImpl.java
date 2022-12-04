@@ -18,7 +18,7 @@ import modakbul.mvc.repository.AdvertisementRepository;
 
 @Service
 @Transactional
-@EnableScheduling
+//@EnableScheduling
 public class AdvertisementServiceImpl implements AdvertisementService {
  
 	@Autowired
@@ -101,9 +101,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		
 		return advertisementRep.findAll(pageable);
 	}
-
-
-	
 
 	
 
