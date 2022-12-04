@@ -10,7 +10,6 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 
 public interface AdminService {
-   
    /**
     * 광고 등록
     * */

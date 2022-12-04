@@ -7,16 +7,30 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import modakbul.mvc.domain.Gather;
-import modakbul.mvc.domain.LikeGather;
+import modakbul.mvc.groupby.GatherGroupBy;
 
 public interface GatherRepository extends JpaRepository<Gather, Long> , QuerydslPredicateExecutor<Gather> {
-
-//	@Query(value="select l.gatherNo, count(l.gatherNo) as likeGatherCount from LikeGather l group by l.gatherNo")
-//	List<LikeGather> selectLikeGatherCount();
 	
-//	@Query(value="select gather_no, count(gather_no) as gatherLikeCount from like_gather group by gather_no", nativeQuery = false)
-//	List<LikeGather> selectLikeGatherCount();
+	@Query(value ="select count(g2.gather_state) as gatherStateCount \r\n"
+			+ "from \r\n"
+			+ "(select distinct gather_state from gather) g1\r\n"
+			+ "left outer join \r\n"
+			+ "(select * from gather where user_no=?1) g2\r\n"
+			+ "on g1.gather_state = g2.gather_state\r\n"
+			+ "group by g1.gather_state\r\\n"
+			+ "order by g1.gather_state",nativeQuery = true)
+	List<Long> selectStateCount(Long userNo);
 	
-	@Query(value="select * from gather", nativeQuery = true)
-	List<Gather> selectLikeGatherCount();
+	
+	
+	@Query(value ="select distinct to_char(g1.gather_date,'yyyy-mm')as gatherMonth,count(g2.gather_state) as gatherCount\r\n"
+			+ "from (select distinct gather_date from gather) g1 \r\n"
+			+ "left outer join (select * from gather where gather_state='진행완료') g2\r\n"
+			+ "on g1.gather_date = g2.gather_date\r\n"
+			+ "group by to_char(g1.gather_date,'yyyy-mm')", nativeQuery = true)
+	List<GatherGroupBy> selectGatherCountByMonth();
+	
+	
+	@Query(value ="select g from Gather g where g.gatherState='신청대기'")
+	List<Gather> selectBidGatherappliList();
 }

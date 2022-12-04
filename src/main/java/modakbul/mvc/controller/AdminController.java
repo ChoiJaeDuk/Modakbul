@@ -191,9 +191,4 @@ Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC , "adver
       model.addAttribute("gatherList", gatherList);
       
    }
-   
-   
-   
-   
-
 }
