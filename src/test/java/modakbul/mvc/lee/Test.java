@@ -66,6 +66,15 @@ public class Test {
 			System.out.println(l);
 		}
 	}
+	
+	@org.junit.jupiter.api.Test
+	public void countGather() {
+		int result = like.countLikeGather(5L);
+		System.out.println("관심모임 갯수 = " + result);
+	}
+	
+	
+	
 ////////////////////////////////////////////////////////////////////////////////////////////
 	@org.junit.jupiter.api.Test
 	public void insertAlarm() {
@@ -114,5 +123,9 @@ public class Test {
 		int newAlarm = alarmReceiverRep.countNewAlarm(7L);
 		System.out.println(newAlarm);
 	}
+	
+	///////////////////////////////////////////////////////////////////
+	
+	
 
 }
