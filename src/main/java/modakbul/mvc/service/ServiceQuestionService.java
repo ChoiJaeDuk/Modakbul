@@ -25,8 +25,12 @@ public interface ServiceQuestionService {
 	void deleteServiceQuestion(Long serviceQuestionNo,String serviceQuestionPwd);
 	
 	/**
-	 * 문의에 댓글달리면 업뎃 
+	 * 문의에 댓글달리면 날짜랑 댓글 내용업뎃 
 	 * */
 	void updateServiceQuestionReply(ServiceQuestion serviceQuestion);
 
+	/**
+	 * 어드민이 쓴 글(user_no=4)은 공지사항
+	 * */
+	List<ServiceQuestion> selectByAdminNo();
 }

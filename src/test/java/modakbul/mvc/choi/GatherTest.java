@@ -16,12 +16,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.test.annotation.Commit;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Category;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.domain.QGather;
+import modakbul.mvc.domain.QLikeGather;
 import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.GatherRepository;
@@ -170,13 +172,26 @@ public class GatherTest {
 			}
 		}
 		
+	
+		
 		@Test
-		public void likeGatherCount() {
-			List<Gather> list = gatherRep.selectLikeGatherCount();
-			for(Gather l:list) {
-				System.out.println("likeGather = " + l);
-			}
-			
-		}
+	      public void likeGatherCount() {
+	         QLikeGather likeGather = QLikeGather.likeGather;
+	         List<LikeGather> likeGatherList;
+	         List<Tuple> list = queryFactory
+	               .select(likeGather.gather.gatherNo, likeGather.gather.gatherNo.count())
+	               .from(likeGather)
+	               .groupBy(likeGather.gather.gatherNo)
+	               .fetch();
+	         
+	         
+	         for(int i=0;i<list.size();i++) {
+	            Tuple t = list.get(i);
+	            
+	             
+	            //likeGatherList.add(new LikeGather(new Gather()));
+	         }
+	         
+	      }
 	
 }
