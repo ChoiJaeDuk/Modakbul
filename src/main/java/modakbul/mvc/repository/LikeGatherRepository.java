@@ -14,11 +14,19 @@ import modakbul.mvc.domain.Users;
 
 public interface LikeGatherRepository extends JpaRepository<LikeGather, Long>,QuerydslPredicateExecutor<LikeGather>{
 	
+	
 	/**
 	 * userId에 해당하는 관심모임 출력
 	 */ 
 	@Query(value = "select * from like_gather where user_no =?1",nativeQuery = true)
 	List<LikeGather> selectByUserId(Long userNo);
 	 
+	
+	/**
+	 * 관심모임 갯수 구하기
+	 *///@Query("select count(*) from AlarmReceiver a where a.user.userNo = ?1")
+	@Query(value="select count(*) from Like_Gather where user_No=?1", nativeQuery = true)
+	int countLikeGather(Long userNo);
+	
 
 }

@@ -1,8 +1,5 @@
 package modakbul.mvc.domain;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,4 +36,5 @@ public class Participant {
 	private Users user;
 	
 	
+	private String applicationState;
 }

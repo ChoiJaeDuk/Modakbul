@@ -192,13 +192,7 @@ img{width:200px; height:350px}
 	</c:otherwise>
     </c:choose>
     
-   
-    
-    
 </table>
-<h3>
-<a href="${pageContext.request.contextPath}/chart">chart</a>
-</h3>
 <hr>
 <%-- ${pageList.hasPrevious()}  /  ${pageList.hasNext()} --%>
 <div style="text-align: center">
@@ -219,7 +213,7 @@ img{width:200px; height:350px}
 			    </c:if> 
 		    
 		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/ammin2/main2?nowPage=${i}">${i}</a> 
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${i}">${i}</a> 
 		  </c:if>
 		   
 		</c:forEach>

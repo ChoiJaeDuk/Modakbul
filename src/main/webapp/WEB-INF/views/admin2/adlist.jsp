@@ -107,14 +107,19 @@ img{width:200px; height:350px}
 	
 	<tr>
 		<td>
-            <p align="center"><font color="black"><b>진행중 광고 : <c:if test="${fn:length(advertisementList)==fn:length(advertisementList)}">${fn:length(advertisementList)}</c:if> </b></font></p>
+            <p align="center"><font color="black"><b>진행중 광고 : ${fn:length(adStatusList1)}</b></font></p>
         </td>
         <td>
-            <p align="center"><font color="black"><b>신청대기 광고 : ${fn:length(advertisement.adStatus)}</b></font></p>
+            <p align="center"><font color="black"><b>신청대기 광고 : ${fn:length(adStatusList2)}</b></font></p>
         </td>
         <td>
-            <p align="center"><font color="black"><b>종료된 광고 : <c:if test="${fn:length(advertisementList)==7}">3</c:if></b></font></p>
-            
+            <p align="center"><font color="black"><b>종료된 광고 : ${fn:length(adStatusList3)}</b></font></p>
+        </td>
+         <td>
+            <p align="center"><font color="black"><b>test : <c:if test="${fn:length(advertisementList)==7}">3</c:if></b></font></p>
+        </td>
+        <td>
+            <p align="center"><font color="black"><b>test : <c:if test="${fn:length(advertisementList)==fn:length(advertisementList)}">${fn:length(advertisementList)}</c:if> </b></font></p>
         </td>
 	</tr>
 
@@ -192,7 +197,13 @@ img{width:200px; height:350px}
 		            <p align="center"><span style="font-size:9pt;">
 		            ${advertisement.adFileName}</span></p>
 		        </td>
+		        <td>
+            		<p align="center"><font color="black"><b>TEST : <c:if test="${advertisement.adStatus=='광고중'}">${fn:length(adStatusList)}</c:if></b></font></p>
+        		</td>
+       
 		    </tr>
+		    
+		   
     </c:forEach>
 	</c:otherwise>
     </c:choose>

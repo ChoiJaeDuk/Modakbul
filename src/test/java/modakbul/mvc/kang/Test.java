@@ -19,8 +19,8 @@ import modakbul.mvc.repository.AdminRepository;
 @Commit
 public class Test {
 	
-	Users users = new Users(1L);
-	Gather gather = new Gather(5L);
+	Users users = new Users(2L);
+	Gather gather = new Gather(10L);
 
 	
 	@Autowired
@@ -35,7 +35,7 @@ public class Test {
 		LocalDateTime date = LocalDateTime.now();
 	
 		
-		Advertisement advertisement = new Advertisement(2L,users,gather,"신청대기",date,null,null,"test6.jpg");
+		Advertisement advertisement = new Advertisement(1L,users,gather,"광고종료",date,null,null,"test7.jpg");
 		advertisementRep.save(advertisement);
 
 	}

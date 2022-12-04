@@ -42,7 +42,7 @@ public class LikeGather {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_no")
 	private Users user;
-	
+
 	
 	/*
 	 * @OneToMany(mappedBy = "Gather", cascade = CascadeType.ALL) private
