@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,17 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 		List<ParticipantGroupBy> applicationStateCount = participantRep.selectApplicationStateCount(userNo);
 		return applicationStateCount;
+	}
+
+
+	@Override
+	public int selectParticipantCountByGatherNo(Long gatherNo) {
+		
+		List<Participant> list = queryFactory.selectFrom(participant)
+		.where(participant.gather.gatherNo.eq(gatherNo))
+		.fetch();
+		
+		return list.size();
 	}
 
 	

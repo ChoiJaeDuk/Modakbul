@@ -22,11 +22,16 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
+import modakbul.mvc.domain.QGatherReview;
+import modakbul.mvc.domain.QUserReview;
+import modakbul.mvc.domain.QUsers;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 @Service
@@ -39,6 +44,17 @@ public class GatherServiceImpl implements GatherService {
 	
 	private QGather g = QGather.gather;
 	
+	private QAdvertisement a = QAdvertisement.advertisement;
+	
+	private QUsers u = QUsers.users;
+	
+	private QUserReview ur=QUserReview.userReview;
+	
+	private QGatherReview gr = QGatherReview.gatherReview;
+	
+	@Autowired
+	private ParticipantService participantService;
+ 	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 	
@@ -46,15 +62,17 @@ public class GatherServiceImpl implements GatherService {
 	
 	@Override
 	public void insertGather(Gather gather) {
-		LocalDateTime grd = LocalDateTime.of(gather.getGatherRegisDate().toLocalDate(),gather.getGatherRegisDate().toLocalTime());
-		LocalDateTime gatherRegisDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour(), grd.getMinute());
-		gather.setGatherRegisDate(gatherRegisDate);
 		gatherRep.save(gather);
+
 	}
 	
 	@Override
-	@Scheduled(cron = "0/20 * * * * *")//매시간 0분 30분마다 실행된다.
+	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
+	@Scheduled(cron = "0/20 * * * * *")//20초마다 실행된다.
 	public void autoUpdateGatherState() {
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime ldt = LocalDateTime.of(now.getYear(),now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
+		//boolean result = date1.isEqual(ldt);
 		List<Gather> gatherList = queryFactory.
 				selectFrom(g)
 				.where(g.gatherState.ne("진행완료").or(g.gatherState.ne("모임취소")))
@@ -62,24 +80,25 @@ public class GatherServiceImpl implements GatherService {
 		//System.out.println(gatherList);
 		
 		for(Gather gather:gatherList) {
-			LocalDateTime grd = LocalDateTime.of(gather.getGatherRegisDate().toLocalDate(),gather.getGatherRegisDate().toLocalTime());
-			LocalDateTime gatherRegisDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour(), grd.getMinute());
-			System.out.println("gatherRegisDate 시간변환 확인 = "+ gatherRegisDate);
 			
-			LocalDateTime dl = LocalDateTime.of(gather.getGatherDeadline().toLocalDate(),gather.getGatherDeadline().toLocalTime());
-			LocalDateTime deadLine = LocalDateTime.of(dl.getYear(),dl.getMonth(), dl.getDayOfMonth(), dl.getHour(), dl.getMinute());
-			System.out.println("deadLine 시간변환 확인 = "+ deadLine);
+			LocalDateTime grd = gather.getGatherDate();
+			//LocalDateTime gatherRegisDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour(), grd.getMinute());
 			
+			LocalDateTime completeDate = LocalDateTime.of(grd.getYear(),grd.getMonth(), grd.getDayOfMonth(), grd.getHour()+gather.getGatherTime(), grd.getMinute());
 			
+			//System.out.println("시작시간 = " + gather.getGatherDate() + "/" + "완료시간 : " + completeDate);
+			if(ldt.isEqual(gather.getGatherDeadline())) {
+			
+				this.updateGatherState(gather.getGatherNo(), "모집마감");
+			}else if(ldt.isEqual(gather.getGatherDate())) {
+				this.updateGatherState(gather.getGatherNo(), "진행중");
+			}else if(ldt.isEqual(completeDate)) {
+				this.updateGatherState(gather.getGatherNo(), "진행완료");
+			}
 			
 		}
-		
-//		LocalDateTime date1 = LocalDateTime.of(2022, 12, 4, 0, 8);
-//		LocalDateTime now = LocalDateTime.now();
-//		LocalDateTime ldt = LocalDateTime.of(now.getYear(),now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
-//		boolean result = date1.isEqual(ldt);
-//		
-//		System.out.println(result);
+
+
 		
 	}
 
@@ -240,5 +259,40 @@ public class GatherServiceImpl implements GatherService {
 		
 		return new PageImpl<Gather>(result, pageable, result.size());
 	}
+
+	
+	@Override
+	public Page<Gather> selectNoneADGatherList(Long userNo, Pageable pageable) {
+		List<Gather> result= queryFactory
+			.select(g)
+			.from(g).leftJoin(a)
+			.on(g.gatherNo.eq(a.gather.gatherNo))
+			.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo)))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+		return new PageImpl<Gather>(result, pageable, result.size());
+	}
+
+	@Override
+	public void updateGatherState(Long gaherNo, String state) {
+		Gather gather = gatherRep.findById(gaherNo).orElse(null);
+		
+		gather.setGatherState(state);
+	}
+
+	@Override
+	public Page<Gather> selectUnWriteReview(Long userNo) {
+		List<Gather> result = queryFactory
+				.select(g)
+				.from(g).join(u).on(g.user.userNo.eq(u.userNo))
+				.leftJoin(gr).on(u.userNo.eq(gr.hostUser.userNo))
+				.where(gr.gatherReviewNo.isNull()).fetch();
+		
+		
+		return null;
+	}
+	
+	
 	
 }

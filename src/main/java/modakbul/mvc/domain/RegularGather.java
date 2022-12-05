@@ -40,9 +40,9 @@ public class RegularGather {
 	private String regularGatherDay;//정기모임요일
 	
 	@ColumnDefault("50")
-	private int gatherTemper;
+	private double gatherTemper;
 	
-	@ColumnDefault(" 0")
+	@ColumnDefault("0")
 	private int gatherTemperCount;
 	
 	@Column(nullable = false)

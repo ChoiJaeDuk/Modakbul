@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.querydsl.jpa.impl.JPAQuery;
+
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
 
@@ -93,4 +95,25 @@ public interface GatherService {
 	 * @return
 	 */
 	Page<Gather> selectBidGatherappliList(Pageable pageable);
+	
+	
+	/**
+	 * 모집중인 모임중 광고가 등록되지 않은 모임 리스트 출력
+	 * @param userNo
+	 * @param pageable
+	 * @return
+	 */
+	Page<Gather> selectNoneADGatherList(Long userNo, Pageable pageable);
+	
+	
+	/**
+	 * gatherNo와 state를 받아서 모임상태를 업데이트해준다.(자동업데이트에 사용)
+	 * @param gaherNo
+	 * @param state
+	 */
+	void updateGatherState(Long gaherNo, String state);
+	
+	
+	Page<Gather> selectUnWriteReview(Long userNo);
+	
 }
