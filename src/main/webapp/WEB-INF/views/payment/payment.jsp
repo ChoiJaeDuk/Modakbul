@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@ $(document).ready(function(){
 		$("#a").click(function(){				
 			alert(1)
 			/* if($("#address").val()==""){
-				return;
+				return;	
 			} */
 			$.ajax({
 				type:"post",
@@ -49,8 +49,7 @@ $(document).ready(function(){
 		$("#kakaopyBtn")
 				.click(
 						function() {
-							let address = '경기도오오오ㅗ';
-							//alert("클릭")
+
 							var IMP = window.IMP;
 							IMP.init('imp55744106');
 							IMP.request_pay(
@@ -69,7 +68,6 @@ $(document).ready(function(){
 												m_redirect_url : 'index.jsp'
 											},
 											function(rsp) {
-												//alert(11)
 												if (rsp.success) {
 													var msg = '결제가 완료되었습니다.';
 													var result = {
@@ -114,13 +112,9 @@ $(document).ready(function(){
 	<button type="button" class="kakaopay" id="kakaopyBtn">
 	결제버튼
 	</button>
-	
-	
 	<H1>아작스테스트 버튼</H1>
 	<button type="button" class="a" id="a">
 		아작스테스트
 	</button>
-	
-	
 </body>
 </html>

@@ -53,7 +53,7 @@ public class GatherReview {
 	private Users hostUser;
 	
 	@Column(nullable = true)
-	private int gatherTemper;
+	private double gatherTemper;
 	
 	@Column(nullable = false, length = 3000)
 	private String gatherReviewContent;
@@ -63,5 +63,8 @@ public class GatherReview {
 	
 	@OneToMany(mappedBy = "gatherReview", cascade=CascadeType.ALL)
 	private List<GatherReviewReply> gatherReviewReplyList;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "gather_no")
+	private Gather gather;
 }

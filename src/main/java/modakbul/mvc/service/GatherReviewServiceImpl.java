@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.GatherReviewRepository;
+import modakbul.mvc.repository.UsersRepository;
 
 @Service
 @Transactional
@@ -19,6 +20,9 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	
 	@Autowired
 	private GatherReviewRepository gatherReviewRep;
+	
+	@Autowired 
+	private UsersService userService;
 	
 	/**
 	 * 문의 전체
@@ -34,6 +38,8 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	@Override
 	public void insert(GatherReview gatherReview) {
 		GatherReview resultReview=gatherReviewRep.save(gatherReview);
+		userService.updateTemper(gatherReview.getRegularGather().getRegularGatherNo(),gatherReview.getGatherTemper()); //정기모임 번호, 모임온도 -- 재덕 
+		userService.updateTemper(gatherReview.getHostUser().getUserNo(),gatherReview.getHostUser().getTemper()); //주최자 온도, 회원 온도
 	}
 
 	/**
