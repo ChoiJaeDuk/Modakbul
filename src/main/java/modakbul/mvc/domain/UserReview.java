@@ -44,12 +44,18 @@ public class UserReview {
 	private Users hostUser;
 	
 	@Column(nullable = true)
-	private int userTemper;
+	private double userTemper;
 	
 	@Column(nullable = false, length = 3000)
 	private String userReviewContent;
 	
 	@CreationTimestamp
 	private LocalDateTime userRevieweRegisDate;
-
+	
+	
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "user_no") private Users user;
+	 */
 }

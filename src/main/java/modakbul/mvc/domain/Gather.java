@@ -1,8 +1,9 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -84,5 +86,9 @@ public class Gather {
 	
 	private int likeCount;
 	
+	//유저리뷰 리스트
+	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	//private List<UserReview> userReviewList;
+
 
 }

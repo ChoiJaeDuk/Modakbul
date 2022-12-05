@@ -99,5 +99,13 @@ public class Users {
 	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
 	private List<Follow> followerList;
 	
+	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
+	private List<UserReview> userReviewList;
+	
+	/*
+	 * @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) private
+	 * List<GatherReview> gatherReviewList;
+	 */
+	
 
 }

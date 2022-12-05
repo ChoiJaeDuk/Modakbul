@@ -5,9 +5,16 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryFactory;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import modakbul.mvc.domain.QServiceQuestion;
 import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 
@@ -16,6 +23,9 @@ import modakbul.mvc.repository.ServiceQuestionRepository;
 public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	@Autowired
 	private ServiceQuestionRepository serviceQuestionRep;
+	
+	@Autowired
+	private JPAQueryFactory queryFactory;
 	
 	@Override
 		public List<ServiceQuestion> selectAllByServiceQuestionNo() {
@@ -28,12 +38,27 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	}
 
 	@Override
-	public ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo, String serviceQuestionPwd) {
+	public ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo, String serviceQuestionPwd, Long userNo) {
+
+		QServiceQuestion serviceQusetion = QServiceQuestion.serviceQuestion;
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		
 		ServiceQuestion dbServiceQueestion=serviceQuestionRep.findById(serviceQuestionNo).orElse(null);
 		if(dbServiceQueestion == null)
 			throw new RuntimeException("글번호 오류로 검색불가");
-		if(!dbServiceQueestion.getServiceQuestionPwd().equals(serviceQuestionPwd))
-			throw new RuntimeException("비번 오류요 ");
+		
+		
+		
+		if((serviceQuestionPwd!=null)) {
+			if(!dbServiceQueestion.getServiceQuestionPwd().equals(serviceQuestionPwd))
+				throw new RuntimeException("비번 오류요 ");
+			builder.and(serviceQusetion.serviceQuestionPwd.eq(serviceQuestionPwd));
+		}
+		
+		builder.and(serviceQusetion.serviceQuestionNo.eq(serviceQuestionNo));
+		
+		queryFactory.select(serviceQusetion).from(serviceQusetion).where(builder);
 		
 		
 		return dbServiceQueestion;
