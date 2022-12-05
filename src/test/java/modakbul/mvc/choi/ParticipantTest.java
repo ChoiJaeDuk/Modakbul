@@ -71,4 +71,11 @@ public class ParticipantTest {
 		}
 	}
 	
+	
+	@Test
+	void selectParticipantCountByGatherNo() {
+		int count = participantService.selectParticipantCountByGatherNo(10L);
+		System.out.println("count = " + count);
+	}
+	
 }

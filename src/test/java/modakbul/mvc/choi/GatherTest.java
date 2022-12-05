@@ -25,6 +25,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Category;
@@ -73,9 +74,9 @@ public class GatherTest {
 		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
 		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
 		
-		Gather gather = new Gather(3L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, deadLine, gatherDate, 2, "경기도 성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "신청대기", null , 5000, null, 0);
-		
-		gatherRep.save(gather);
+		Gather gather = new Gather(5L, category, user, null, "시간테스트입니다2", 0, 4, "남녀모두", 20, 35, deadLine, gatherDate, 2, "경기도 성남시 오리역", "6층 코스타", "시간테스트입니다2", "신청대기", null , 5000, null, 0);
+		//gatherRep.save(gather);
+		gatherService.insertGather(gather);
 	}
 	
 	@Test
@@ -299,6 +300,14 @@ public class GatherTest {
 	         }
 	         
 	      }
+		
+		
+		@Test
+		public void selectNoneADGatherList () {
+			Pageable pageable = PageRequest.of(0, 12, Direction.DESC,"gatherRegisDate");
+			Page<Gather> list = gatherService.selectNoneADGatherList(5L, pageable);
+			System.out.println(list);			
+		}
 
 }
 

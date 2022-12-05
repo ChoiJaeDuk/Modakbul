@@ -45,5 +45,10 @@ public interface ParticipantService {
 	List<ParticipantGroupBy> selectApplicationStateCount(Long userNo);
 	
 	
-	
+	/**
+	 * 해당 모임의 참가자 카운트를 불러온다
+	 * @param gatherNo
+	 * @return
+	 */
+	int selectParticipantCountByGatherNo(Long gatherNo);
 }
