@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -96,6 +95,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
+		System.out.println("참가자 상태 업데이트 호출되니?" +state);
 		queryFactory.update(participant)
 		.set(participant.applicationState, state)
 		.where(participant.gather.gatherNo.eq(gatherNo)
