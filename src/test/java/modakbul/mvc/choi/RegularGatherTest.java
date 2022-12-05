@@ -31,16 +31,16 @@ public class RegularGatherTest {
 	
 	@Test
 	void insertRegularGather() {
-		RegularGather regularGather =new RegularGather(3L, 2, "화요일", 50, 0, "진행중", null);
-		//regularGatherRep.save(RegularGather.builder().regularGatherCycle(3).regularGatherDay("dd").gatherTemper(12).gatherTemperCount(0).regularGatehrState("진행중").build());
-		regularGatherService.insertRegularGather(regularGather);
+		//RegularGather regularGather =new RegularGather(3L, 2, "화요일", 50, 0, "진행중", null);
+		regularGatherRep.save(RegularGather.builder().regularGatherCycle(3).regularGatherDay("dd").gatherTemper(12).gatherTemperCount(0).regularGatehrState("진행중").build());
+		//regularGatherService.insertRegularGather(regularGather);
 	}
 	
 	
 	@Test
 	void updateRegularGather() {
-		RegularGather regularGather =new RegularGather(1L, 1, "수요일", 50, 1, "신청대기", null);
-		regularGatherService.updateRegularGather(regularGather);
+		//RegularGather regularGather =new RegularGather(1L, 1, "수요일", 50, 1, "신청대기", null);
+		//regularGatherService.updateRegularGather(regularGather);
 	}
 	
 	
