@@ -71,12 +71,12 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
-		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 22, 40);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 22, 43);
 		
-		Gather gather = new Gather(5L, category, user, null, "시간테스트입니다2", 0, 4, "남녀모두", 20, 35, deadLine, gatherDate, 2, "경기도 성남시 오리역", "6층 코스타", "시간테스트입니다2", "신청대기", null , 5000, null, 0);
-		//gatherRep.save(gather);
-		gatherService.insertGather(gather);
+		Gather gather = new Gather(13L, category, user, null, "참가자들 상태확인테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
+		gatherRep.save(gather);
+		//gatherService.insertGather(gather);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public class GatherTest {
 	public void insertNewGather() {
 		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
 		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
-		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, gatherDate, deadLine, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 
 		em.merge(gather);
 	}
@@ -105,7 +105,7 @@ public class GatherTest {
 		public void updateGather() {
 			LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
 			LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
-			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, gatherDate, deadLine, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 			//Gather findGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
 			Gather findGather = em.find(Gather.class, gather.getGatherNo());
 			findGather.setGatherName(gather.getGatherName());

@@ -86,10 +86,21 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public int selectParticipantCountByGatherNo(Long gatherNo) {
 		
 		List<Participant> list = queryFactory.selectFrom(participant)
-		.where(participant.gather.gatherNo.eq(gatherNo))
+		.where(participant.gather.gatherNo.eq(gatherNo)
+				.and(participant.applicationState.eq("참가승인")))
 		.fetch();
 		
 		return list.size();
+	}
+
+
+	@Override
+	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
+		queryFactory.update(participant)
+		.set(participant.applicationState, state)
+		.where(participant.gather.gatherNo.eq(gatherNo)
+				.and(participant.applicationState.eq(dbState)))
+		.execute();
 	}
 
 	

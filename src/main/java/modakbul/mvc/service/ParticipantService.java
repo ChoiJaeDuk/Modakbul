@@ -51,4 +51,8 @@ public interface ParticipantService {
 	 * @return
 	 */
 	int selectParticipantCountByGatherNo(Long gatherNo);
+	
+	
+	void autoUpdateParticipantState(Long gatherNo, String state, String dbState);
+	
 }
