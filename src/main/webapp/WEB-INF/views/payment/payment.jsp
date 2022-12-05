@@ -76,8 +76,7 @@ $(document).ready(function(){
 												if (rsp.success) {
 													var msg = '결제가 완료되었습니다.';
 													var result = {
-													"imp_uid" : rsp.imp_uid,
-													
+													"imp_uid" : rsp.imp_uid,													
 			 										"pay_date" : new Date().getTime(),
 													"amount" : rsp.paid_amount,
 													"buyer_name": rsp.buyer_name
@@ -96,7 +95,7 @@ $(document).ready(function(){
 												        contentType:'application/json;charset=utf-8',
 												        success : function(result) {
 												        location.href="${pageContext.request.contextPath}/success";
-															alert("결제됐어요~!]")
+														alert("결제됐어요~!]")
 												        },
 														error : function(err) {
 															alert(err);
