@@ -5,5 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ReviewController {
-
+	
+	@RequestMapping("my_page/my_page_index")
+	public void a() {
+		
+	}
 }

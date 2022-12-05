@@ -18,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,10 +30,12 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
+@RequiredArgsConstructor
 public class Advertisement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisement_no_seq")
 	@SequenceGenerator(name = "advertisement_no_seq" , allocationSize = 1 , sequenceName = "advertisement_no_seq")
+	@NonNull
 	private Long advertisementNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY) //지연로딩!!
@@ -43,6 +47,7 @@ public class Advertisement {
 	private Gather gather;
 	
 	@Column(nullable = false)
+	@NonNull
 	private String adStatus;
 	
 	@Column(nullable = false)
@@ -53,6 +58,7 @@ public class Advertisement {
 	private Date deadLine;
 	
 	@Column(nullable = false)
+	@NonNull
 	private String adFileName;
 	
 }
