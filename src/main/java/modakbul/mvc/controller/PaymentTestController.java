@@ -17,7 +17,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.AdminService;
 
 @Controller
-@Transactional
+
 public class PaymentTestController {
 	@Autowired
 	private AdminService adminSer; 

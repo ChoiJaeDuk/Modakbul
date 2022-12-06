@@ -11,6 +11,10 @@
     <link href="${pageContext.request.contextPath}/css/my-page/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/reset.css" rel="stylesheet" />
     <title>Document</title>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+   
+    </script>
   </head>
   <body>
     <div class="wrap">
@@ -93,8 +97,10 @@
                     </div>
                 </div>
                 <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count">2</span>&nbsp;개
+                    <div class="my-page-profile-card-count-wrap" id="replyState">
+                         <a class="btn btn-outline-secondary" href="index.jsp" id="replyState" >
+                         <span class="my-page-profile-card-count">${replyState}</span></a>&nbsp;개
+                         
                     </div>
                     <div class="my-page-profile-card-label">
                         댓글대기중인 문의글
