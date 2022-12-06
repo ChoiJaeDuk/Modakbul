@@ -30,6 +30,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	private QParticipant participant = QParticipant.participant;
 	private QGather gather = QGather.gather;
+	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 	
@@ -101,6 +102,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		.where(participant.gather.gatherNo.eq(gatherNo)
 				.and(participant.applicationState.eq(dbState)))
 		.execute();
+		
 	}
 
 	

@@ -14,18 +14,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -33,8 +30,8 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
+import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
-import modakbul.mvc.domain.QUsers;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 
@@ -51,11 +48,13 @@ public class GatherServiceImpl implements GatherService {
 
 	private QAdvertisement a = QAdvertisement.advertisement;
 
-	private QUsers u = QUsers.users;
-
 	private QUserReview ur = QUserReview.userReview;
 
 	private QGatherReview gr = QGatherReview.gatherReview;
+	
+	private QParticipant p = QParticipant.participant;
+	
+	
 
 	@Autowired
 	private ParticipantService participantService;
@@ -73,7 +72,7 @@ public class GatherServiceImpl implements GatherService {
 	boolean state = false;
 	@Override
 	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
-	//@Scheduled(cron = "0 * * * * *") // 20초마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {		
 		
 		/////////////////////////////////
@@ -82,39 +81,61 @@ public class GatherServiceImpl implements GatherService {
 
 		// boolean result = date1.isEqual(ldt);
 		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중")).fetch();
-		System.out.println(gatherList.size());
+		
+		System.out.println("검색결과 수 : "+gatherList.size());
+		
 		for (Gather gather : gatherList) {
 			System.out.println(gather.getGatherNo());
-			LocalDateTime grd = gather.getGatherDate();
 			
-			//시간은 0~23까지 표현되기 때문에 24가 넘어가면 -24를 빼주고 다음날로 넘긴다..
-	
+			LocalDateTime grd = gather.getGatherDate();
 			LocalDateTime completeDate = grd.plusHours(gather.getGatherTime());
-			System.out.println(completeDate);
+			
 			int i = participantService.selectParticipantCountByGatherNo(gather.getGatherNo());
-			System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
-			System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
+			
+			//System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
+			//System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
 			if (ldt.isEqual(gather.getGatherDeadline())) {
-				
-				
-				if (i < gather.getGatherMinUsers()) {
+				if ( i < gather.getGatherMinUsers() ) {
+					System.out.println("11111111111");
 					gather.setGatherState("모임취소");
-					participantService.autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
+					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
+					
 				} else {
+					System.out.println("22222222222222");
 					gather.setGatherState("모집마감");
-					participantService.autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
+					autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
 				}
 			} else if (ldt.isEqual(gather.getGatherDate())) {
+				System.out.println("33333333333");
 				gather.setGatherState("진행중");
-				participantService.autoUpdateParticipantState(gather.getGatherNo(), "참가중", "참가확정");
+				autoUpdateParticipantState(gather.getGatherNo(), "참가중", "참가확정");
 			} else if (ldt.isEqual(completeDate)) {
+				System.out.println("4444444444444");
 				gather.setGatherState("진행완료");
-				participantService.autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
+				autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
+			}else {
+				System.out.println("555555555555");
 			}
+			
+			System.out.println("--------------------------------------\n");
 		} // for문
 
+	   System.out.println("---메소드 완료...----\n");
+	}
+	
+	
+	@Override
+	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
+		//System.out.println("참가자 상태 업데이트 호출되니?" +state);
+		queryFactory.update(p)
+		.set(p.applicationState, state)
+		.where(p.gather.gatherNo.eq(gatherNo)
+				.and(p.applicationState.eq(dbState)))
+		.execute();
 	}
 
+	
+	
 	@Override
 	public void updateGather(Gather gather) {
 		Gather dbGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
@@ -279,11 +300,22 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectUnWriteReview(Long userNo) {
-		List<Gather> result = queryFactory.select(g).from(g).join(u).on(g.user.userNo.eq(u.userNo)).leftJoin(gr)
-				.on(u.userNo.eq(gr.hostUser.userNo)).where(gr.gatherReviewNo.isNull()).fetch();
-
-		return null;
+	public Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable) {
+		BooleanBuilder builder = new BooleanBuilder();
+		
+		builder.and(p.user.userNo.eq(userNo));
+		builder.and(p.applicationState.eq("참가확정"));
+		if(state) {//true이면 후기를 남긴 Gather를 리턴한다.
+			builder.and(ur.writerUser.userNo.isNotNull());
+		}else {//false이면 후기를 안남긴 Gather를 리턴한다.
+			builder.and(ur.writerUser.userNo.isNull());
+		}
+		
+		List<Gather> result = queryFactory.select(p.gather)
+				.from(p).leftJoin(ur).on(p.user.userNo.eq(ur.writerUser.userNo))
+				.where(builder).fetch();
+		
+		return new PageImpl<Gather>(result, pageable, result.size());
 	}
 
 }

@@ -25,7 +25,7 @@ import modakbul.mvc.service.ParticipantService;
 @Commit
 public class ParticipantTest {
 	Users user = new Users(6L);
-	Gather gather = new Gather(13L);
+	Gather gather = new Gather(51L);
 	
 	private QParticipant participant;
 	
@@ -74,7 +74,7 @@ public class ParticipantTest {
 	
 	@Test
 	void selectParticipantCountByGatherNo() {
-		int count = participantService.selectParticipantCountByGatherNo(13L);
+		int count = participantService.selectParticipantCountByGatherNo(51L);
 		System.out.println("count = " + count);
 	}
 	

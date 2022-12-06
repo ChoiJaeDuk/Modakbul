@@ -114,6 +114,9 @@ public interface GatherService {
 	void updateGatherState(Long gaherNo, String state);
 	
 	
-	Page<Gather> selectUnWriteReview(Long userNo);
+	Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable);
+	
+	
+	void autoUpdateParticipantState(Long gatherNo, String state, String dbState);
 	
 }

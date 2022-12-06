@@ -53,7 +53,7 @@ $(document).ready(function(){
 
 		$("#kakaopyBtn")
 				.click(
-						function() {
+						function() { 
 
 							var IMP = window.IMP;
 							IMP.init('imp55744106');
