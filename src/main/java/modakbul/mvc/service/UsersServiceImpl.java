@@ -69,12 +69,14 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void insert(Users user) {
+		System.out.println("insert하자!");
 
 		String encodedPassword = passwordEncoder.encode(user.getUserpwd());
 
 		user.setUserpwd(encodedPassword);
 		
 		if(user.getUserGender()!=null) {
+			System.out.println("insert하자!");
 			usersRep.save(
 					Users.builder()
 					.userId(user.getUserId())
@@ -90,6 +92,9 @@ public class UsersServiceImpl implements UsersService {
 					.state(Role.ROLE_USER)
 					.userJob("개인")
 					.userGender(user.getUserGender())
+					.temper(50)
+					.temperCount(1)
+					.userProfileImg(user.getUserProfileImg())
 					.build());
 			
 		}else {
@@ -113,14 +118,23 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public String emailCheck(String userEmail) throws Exception {
+	public String sendCode(String userEmail) throws Exception {
 		String userId = usersRep.selectUserId(userEmail);
 		
-		if(userId != null) throw new RuntimeException("이미 가입되어있는 유저아이디입니다.");
+		if(userId != null) {
+			return "이미 가입되어있는 email입니다.";
+			//throw new RuntimeException("이미 가입되어있는 유저아이디입니다.");
+		}
 
 		return mailSender.sendSimpleMessage(userEmail, "join");
 
 	}
+	
+	/*
+	 * @Override public String checkCode(String code) throws Exception {
+	 * 
+	 * return null; }
+	 */
 
 	@Override
 	public Page<Users> selectAll(Pageable pageable, String job) {
@@ -215,7 +229,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void selectUserPwd(String userId, String userEmail) throws Exception{
+	public String selectUserPwd(String userId, String userEmail) throws Exception{
 
 		Users user = usersRep.selectById(userId);
 		if (!user.getUserEmail().equals(userEmail))
@@ -226,6 +240,7 @@ public class UsersServiceImpl implements UsersService {
 		String encodedPassword = passwordEncoder.encode(ePw);
 		user.setUserpwd(encodedPassword);
 
+		return "임시비밀번호가 메일로 발송되었습니다.";
 	}
 
 	@Override
@@ -281,9 +296,7 @@ public class UsersServiceImpl implements UsersService {
 
 		//Users newUser = Users.builder().userEmail(userEmail).userNick(userNick).build();		
 		/*if(id==null) {
-			
-			 
-			 
+
 			 usersRep.save(
 						Users.builder()
 						.userId(userEmail)
@@ -302,9 +315,7 @@ public class UsersServiceImpl implements UsersService {
 						.build()
 						
 						);
-			
-			
-			
+
 		}*/
 		
 			if(id!=null) {

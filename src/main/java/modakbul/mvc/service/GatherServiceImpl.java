@@ -14,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
@@ -40,6 +42,7 @@ import modakbul.mvc.repository.GatherRepository;
 @RequiredArgsConstructor
 @Transactional
 @EnableScheduling
+//@EnableTransactionManagement
 public class GatherServiceImpl implements GatherService {
 
 	private final EntityManager em;
@@ -67,38 +70,36 @@ public class GatherServiceImpl implements GatherService {
 		gatherRep.save(gather);
 
 	}
-
+	boolean state = false;
 	@Override
-	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
-	@Scheduled(cron = "0/20 * * * * *") // 20초마다 실행된다.
-	public void autoUpdateGatherState() {
+	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 20초마다 실행된다.
+	public void autoUpdateGatherState() {		
+		
+		/////////////////////////////////
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime ldt = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(),now.getMinute());
 
 		// boolean result = date1.isEqual(ldt);
 		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중")).fetch();
-
+		System.out.println(gatherList.size());
 		for (Gather gather : gatherList) {
-
+			System.out.println(gather.getGatherNo());
 			LocalDateTime grd = gather.getGatherDate();
 			
 			//시간은 0~23까지 표현되기 때문에 24가 넘어가면 -24를 빼주고 다음날로 넘긴다..
-			int completeTime = grd.getHour() + gather.getGatherTime();
-			int completeDay = grd.getDayOfMonth();
-			if(completeTime >= 24) {
-				completeTime -= 24;
-				completeDay += 1;
-			}
-			
-			LocalDateTime completeDate = LocalDateTime.of(grd.getYear(), grd.getMonth(), completeDay ,completeTime, grd.getMinute());
-			
-			System.out.println("completeDate = " + completeDate);
-			
+	
+			LocalDateTime completeDate = grd.plusHours(gather.getGatherTime());
+			System.out.println(completeDate);
+			int i = participantService.selectParticipantCountByGatherNo(gather.getGatherNo());
+			System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
+			System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
 			if (ldt.isEqual(gather.getGatherDeadline())) {
-				int i = participantService.selectParticipantCountByGatherNo(gather.getGatherNo());
+				
 				
 				if (i < gather.getGatherMinUsers()) {
 					gather.setGatherState("모임취소");
+					participantService.autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
 				} else {
 					gather.setGatherState("모집마감");
 					participantService.autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
@@ -115,7 +116,6 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	@org.springframework.transaction.annotation.Transactional(readOnly = false)
 	public void updateGather(Gather gather) {
 		Gather dbGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
 
