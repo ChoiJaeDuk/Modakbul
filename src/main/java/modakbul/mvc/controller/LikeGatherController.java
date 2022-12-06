@@ -26,9 +26,19 @@ public class LikeGatherController {
 	 */
 	@RequestMapping("/myLikeGather")
 	public ModelAndView myLike(Long userNo) {
+		System.out.println("누구의 관심목록 ? " + userNo);
+		
 		List<LikeGather> like = likeGatherService.selectById(userNo);
 		
-		return new ModelAndView("myPage/myLikeGather", "myList", like);
+		if(like.isEmpty() || like.size()==0) {
+			System.out.println("비었거나 팔로잉이 없다.");
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("myList", like);
+		mv.addObject("userNo", userNo);
+		mv.setViewName("my-page/myLikeGather");
+		
+		return mv;
 	}
 	
 	/**
@@ -46,9 +56,16 @@ public class LikeGatherController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Long attentionNo) {
+		System.out.println("온거임? 삭제번호 = " + attentionNo);
 		likeGatherService.delete(attentionNo);
 		
 		return "";
 	}
+	
+	///////////////////////////////////////////////////////////////
+//	@RequestMapping("/myindex")
+//	public String myindex() {
+//		return "my-page/index";
+//	}
 	
 }

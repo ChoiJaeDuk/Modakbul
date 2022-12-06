@@ -1,0 +1,377 @@
+.sign-up-wrap {
+  width: 700px;
+  position: relative;
+}
+.sign-up-image-area {
+  margin-bottom: 24px;
+}
+.sign-up-form-image {
+  display: inline-block;
+  text-align: center;
+}
+.sign-up-image-wrap {
+  width: 150px;
+  height: 150px;
+  background-color: coral;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.sign-up-image {
+  width: 100%;
+}
+/* 버튼 */
+.sign-up-form-button {
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.sign-up-form-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.sign-up-form-button:active {
+  background-color: rgb(214, 132, 0);
+}
+
+.sign-up-form-item {
+  display: flex;
+  align-items: center;
+}
+.sign-up-form-item + .sign-up-form-item {
+  margin-top: 16px;
+}
+.sign-up-form-label {
+  width: 100px;
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+}
+
+/*인풋*/
+.sign-up-form-input {
+  flex: 1;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.sign-up-form-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.sign-up-form-input-medium {
+  width: 300px;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.sign-up-form-input-medium:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.input-validate-error {
+  margin-left: 8px;
+  font-size: 16px;
+  color: rgb(231, 76, 60);
+}
+.input-validate-clear {
+  margin-left: 8px;
+  font-size: 16px;
+  color: rgb(46, 204, 113);
+}
+
+.sign-up-add-image {
+  display: none;
+}
+.sign-up-gender-area {
+  display: flex;
+}
+.sign-up-gender-item {
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+  position: relative;
+}
+.sign-up-gender-item + .sign-up-gender-item {
+  margin-left: 50px;
+}
+.sign-up-gender-radio {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sign-up-gender-radio {
+  opacity: 0;
+  cursor: pointer;
+}
+.sign-up-gender-checkmark {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  cursor: pointer;
+}
+.sign-up-gender-item:hover .sign-up-gender-checkmark {
+  box-shadow: 0px 0px 0px 1px rgb(211, 211, 211) inset;
+  background-color: rgb(240, 240, 240);
+}
+.sign-up-gender-radio:checked ~ .sign-up-gender-checkmark {
+  box-shadow: 0px 0px 0px 1px rgb(211, 211, 211) inset;
+  background-color: white;
+}
+.sign-up-gender-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.sign-up-gender-radio:checked ~ .sign-up-gender-checkmark:after {
+  display: block;
+}
+.sign-up-gender-checkmark:after {
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgb(243, 156, 18);
+}
+
+.zip-input-wrap {
+  flex: 1;
+  display: flex;
+  gap: 0 8px;
+}
+.rrn-input-wrap {
+  width: 300px;
+  display: flex;
+  gap: 0 8px;
+}
+.rrn-input {
+  width: 50%;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.rrn-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.email-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 8px;
+}
+.email-input {
+  width: 140px;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.email-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.email-select {
+  width: 140px;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.email-select:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.email-validate-error {
+  font-size: 16px;
+  color: rgb(231, 76, 60);
+}
+.email-validate-clear {
+  font-size: 16px;
+  color: rgb(46, 204, 113);
+}
+.certificate-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+}
+.certificate-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(190, 190, 190);
+  cursor: pointer;
+  font-size: 25px;
+  border-radius: 4px;
+}
+.certificate-add-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.certificate-add-button:active {
+  background-color: rgb(114, 114, 114);
+}
+.certificate-file-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.certificate-file-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.certificate-file-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.sign-up-add-image {
+  display: none;
+}
+.form-button-wrap {
+  display: flex;
+  margin-top: 24px;
+  justify-content: center;
+  gap: 0 8px;
+}
+.sign-up-cancel-button {
+  width: 155px;
+  height: 40px;
+  font-size: 22px;
+  border-radius: 4px;
+  border: 0;
+  color: rgb(255, 255, 255);
+  background-color: rgb(190, 190, 190);
+}
+.sign-up-cancel-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.sign-up-cancel-button:active {
+  background-color: rgb(114, 114, 114);
+}
+.sign-up-cancel-button {
+  width: 155px;
+  height: 40px;
+  font-size: 22px;
+  border-radius: 4px;
+  border: 0;
+  color: rgb(255, 255, 255);
+  background-color: rgb(190, 190, 190);
+  cursor: pointer;
+}
+.sign-up-cancel-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.sign-up-cancel-button:active {
+  background-color: rgb(114, 114, 114);
+}
+.sign-up-button {
+  width: 155px;
+  height: 40px;
+  font-size: 22px;
+  border-radius: 4px;
+  border: 0;
+  color: rgb(255, 255, 255);
+  background-color: rgb(243, 156, 18);
+  cursor: pointer;
+}
+.sign-up-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.sign-up-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.modal-wrap {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: rgb(0 0 0 / 23%) 3px 3px 8px 0px;
+  z-index: 5;
+  border-radius: 4px;
+}
+.modal-button {
+  height: 45px;
+  padding: 0 16px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.modal-input-wrap {
+  display: flex;
+  gap: 0 8px;
+  margin: 16px 0px 24px;
+}
+.modal-input {
+  flex: 1;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.modal-title {
+  font-weight: bold;
+  font-size: 32px;
+}
+.modal-button-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 8px;
+}
+.cancel-button {
+  color: rgb(0, 0, 0);
+  background-color: rgb(190, 190, 190);
+}
+.search-id-button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(243, 156, 18);
+}
+.cancel-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.search-id-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.cancel-button:active {
+  background-color: rgb(114, 114, 114);
+}
+.search-id-button:active {
+  background-color: rgb(214, 132, 0);
+}
