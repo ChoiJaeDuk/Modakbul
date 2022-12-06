@@ -20,12 +20,13 @@ public interface UsersService {
 	void insert(Users user);
 	
 	/**
-	 * 이메일인증
+	 * 이메일인증코드전송
 	 * @param userEamil
 	 * @return
 	 */
-	String emailCheck(String userEamil) throws Exception;
+	String sendCode(String userEamil) throws Exception;
 	
+	//String checkCode(String code);
 	
 	/**
 	 * 전체검색 - Page처리
@@ -86,7 +87,7 @@ public interface UsersService {
 	 * @param userEmail
 	 * @return
 	 */
-	void selectUserPwd(String userId, String userEmail) throws Exception;
+	String selectUserPwd(String userId, String userEmail) throws Exception;
 	
 	/**
 	 * 모닥불온도 업데이트
