@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/admin/**")
 		.hasRole("USER")
 		.and()
-		.csrf().disable() // <security:csrf disabled="true"/>
+		//.csrf().disable() // <security:csrf disabled="true"/>
 		.formLogin()
 		.loginPage("/user/loginForm")
 		.loginProcessingUrl("/user/loginCheck")

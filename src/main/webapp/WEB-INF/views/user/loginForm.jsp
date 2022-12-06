@@ -11,7 +11,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/index.css" rel="stylesheet" />
+    <link href="/css/loginForm/index.css" rel="stylesheet" />
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript">
@@ -42,8 +42,37 @@
 				error:function(error){
 					
 				}
+				
 			});//ajax
 		})
+		
+		 $("#findPwdBtn").click(function(){
+			console.log($("#idForPwd").val() )
+			
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/selectUserPwd",
+				data: 
+					//"${_csrf.parameterName}=${_csrf.token}&address="+$('#address').val(),+"&id="+$("#idForPwd").val(), 
+					"${_csrf.parameterName}=${_csrf.token}&email="+$('#emailForPwd').val()+"&id="+$("#idForPwd").val()
+
+				,
+				
+				dataType:"text",
+				success:function(result){
+					 
+					 var data = result;
+					 console.log(data);
+					 //$("#selectId").html(data);	
+					 alert(data);
+
+				},//function
+				error:function(error){
+					
+				}
+				
+			});//ajax
+		}) 
 	})
 
 	
@@ -68,6 +97,7 @@
               <div class="login-form-item-wrap">
                 <label for="pwd" class="form-label">PW</label>
                 <input type="password"id="pwd" name="pwd" class="form-input" placeholder="비밀번호 입력" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
               </div>
             </div>
             <div>
@@ -103,22 +133,22 @@
       <!-- 비밀번호 찾기 -->
       <div class="modal-wrap"> 
         <div>
-        <form class="find-pwd-form" action="${pageContext.request.contextPath}/selectPwd" method="post">
-          <div class="modal-input-wrap">
+       
+          <div class="modal-input-wrap" >
             <label class="modal-input-label" for="">ID</label>
-            <input class="modal-input" placeholder="이메일 입력" />
+            <input class="modal-input" placeholder="이메일 입력" id="idForPwd"/>
           </div>
           <div class="modal-input-wrap">
             <label class="modal-input-label" for="">E-mail</label>
-            <input class="modal-input" placeholder="이메일 입력" />
+            <input class="modal-input" placeholder="이메일 입력" id="emailForPwd"/>
           </div>
         </div>
         <div class="modal-button-wrap">
           <button type="button" class="modal-button cancel-button">닫기</button>
-          <button type="button" class="modal-button search-id-button">
+          <button type="button" class="modal-button search-id-button" id="findPwdBtn">
             비밀번호 찾기
           </button>
-          </form>
+         
         </div>
       </div>
       <!-- 완료 팝업 -->
