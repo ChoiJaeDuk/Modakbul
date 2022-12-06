@@ -76,4 +76,69 @@ public interface AdminService {
     * */
    Page<Advertisement> selectAll(Pageable pageable);
    
+   /**
+    * 1월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng1(Advertisement advertisement);
+   
+   /**
+    * 2월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng2(Advertisement advertisement);
+   
+   /**
+    * 3월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng3(Advertisement advertisement);
+   
+   /**
+    * 4월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng4(Advertisement advertisement);
+   
+   /**
+    * 5월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng5(Advertisement advertisement);
+   
+   /**
+    * 6월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng6(Advertisement advertisement);
+   
+   /**
+    * 7월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng7(Advertisement advertisement);
+   
+   /**
+    * 8월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng8(Advertisement advertisement);
+   
+   /**
+    * 9월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng9(Advertisement advertisement);
+   
+   /**
+    * 10월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng10(Advertisement advertisement);
+   
+   /**
+    * 11월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng11(Advertisement advertisement);
+   
+   /**
+    * 12월 광고중
+    * */
+   List<Advertisement> selectAdStatusIng12(Advertisement advertisement);
+   
+   /**
+    * 모임 참가비 조회 1
+    * */
+   String selectGatherBid1(String gatherBid);
+   
 }
