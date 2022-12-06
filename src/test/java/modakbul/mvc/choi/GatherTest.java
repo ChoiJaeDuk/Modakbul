@@ -25,6 +25,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Category;
@@ -70,12 +71,12 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
-		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 14, 47);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 6, 14, 49);
 		
-		Gather gather = new Gather(3L, category, user, null, "코딩공부할사람~!!@@", 0, 4, "남녀모두", 20, 35, deadLine, gatherDate, 2, "경기도 성남시 오리역", "1층 카페", "즐겁게 공부하실분!", "신청대기", null , 5000, null, 0);
-		
+		Gather gather = new Gather(13L, category, user, null, "참가자들 상태확인테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
 		gatherRep.save(gather);
+		//gatherService.insertGather(gather);
 	}
 	
 	@Test
@@ -92,7 +93,7 @@ public class GatherTest {
 	public void insertNewGather() {
 		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
 		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
-		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+		Gather gather = new Gather(7L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, gatherDate, deadLine, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 
 		em.merge(gather);
 	}
@@ -104,7 +105,7 @@ public class GatherTest {
 		public void updateGather() {
 			LocalDateTime deadLine = LocalDateTime.of(2022, 12, 5, 20, 0);
 			LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 5, 15, 0);
-			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, deadLine, gatherDate, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+			Gather gather = new Gather(6L, category, user, regularGather, "풋살모집합니다", 12, 18, "남자", 20, 35, gatherDate, deadLine, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
 			//Gather findGather = gatherRep.findById(gather.getGatherNo()).orElse(null);
 			Gather findGather = em.find(Gather.class, gather.getGatherNo());
 			findGather.setGatherName(gather.getGatherName());
@@ -299,6 +300,14 @@ public class GatherTest {
 	         }
 	         
 	      }
+		
+		
+		@Test
+		public void selectNoneADGatherList () {
+			Pageable pageable = PageRequest.of(0, 12, Direction.DESC,"gatherRegisDate");
+			Page<Gather> list = gatherService.selectNoneADGatherList(5L, pageable);
+			System.out.println(list);			
+		}
 
 }
 

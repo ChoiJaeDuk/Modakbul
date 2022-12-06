@@ -3,6 +3,7 @@ package modakbul.mvc.service;
 import java.util.List;
 
 import modakbul.mvc.domain.Inquiry;
+import modakbul.mvc.groupby.SelectReplyState;
 
 public interface InquiryService {
 
@@ -24,4 +25,14 @@ public interface InquiryService {
 	 * 문의 삭제하기 
 	 * */
 	void deleteInquiry(Long inqNo);
+	
+	/**
+	 * 마이페이지에서 문의글 답변 달렸는지 상태확인
+	 * */
+	List<SelectReplyState> selectReplyState(Long userNo);
+	
+	/**
+	 * 문의 수정하기 
+	 * */
+	Inquiry updatedInquiry(Inquiry inquiry);
 }

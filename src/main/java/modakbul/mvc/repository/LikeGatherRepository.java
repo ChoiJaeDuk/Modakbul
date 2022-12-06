@@ -28,5 +28,10 @@ public interface LikeGatherRepository extends JpaRepository<LikeGather, Long>,Qu
 	@Query(value="select count(*) from Like_Gather where user_No=?1", nativeQuery = true)
 	int countLikeGather(Long userNo);
 	
+	/**
+	 * 유저가 해당모임을 관심등록함?
+	 */
+	@Query("select lg from LikeGather lg where lg.gather.gatherNo = ?1 and lg.user.userNo =?2 ")
+	LikeGather searchLikeGather(Long gatherNo, Long userNo);
 
 }

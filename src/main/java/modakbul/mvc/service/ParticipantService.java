@@ -45,5 +45,20 @@ public interface ParticipantService {
 	List<ParticipantGroupBy> selectApplicationStateCount(Long userNo);
 	
 	
+	/**
+	 * 해당 모임의 참가자 카운트를 불러온다
+	 * @param gatherNo
+	 * @return
+	 */
+	int selectParticipantCountByGatherNo(Long gatherNo);
+	
+	
+	/**
+	 * 모임 상태변화에 따라 참가자들의 상태를 변경해준다.
+	 * @param gatherNo
+	 * @param state
+	 * @param dbState
+	 */
+	void autoUpdateParticipantState(Long gatherNo, String state, String dbState);
 	
 }

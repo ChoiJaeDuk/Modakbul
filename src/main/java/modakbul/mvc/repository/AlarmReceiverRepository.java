@@ -22,7 +22,16 @@ public interface AlarmReceiverRepository extends JpaRepository<AlarmReceiver, Lo
 	/**
 	 * 회원의 안읽은 알람 갯수
 	 */
-	@Query("select count(*) from AlarmReceiver a where a.user.userNo = ?1")
+	@Query("select count(*) from AlarmReceiver a where a.user.userNo = ?1 and a.alarmStatus = '안읽음'")
 	int countNewAlarm(Long userNo);
+	
+	
+	/**
+	 * 알람읽음 일괄처리를 위한 list(setAlarmStatus("읽음"))
+	 */
+	@Query("select ar from AlarmReceiver ar where ar.user.userNo = ?1 and ar.alarmStatus = '안읽음'")
+	List<AlarmReceiver> unreadAlarms(Long userNo);
+	
+	
 	
 }

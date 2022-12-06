@@ -13,6 +13,7 @@ import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.AdminRepository;
+import modakbul.mvc.repository.GatherRepository;
 
 @SpringBootTest
 @Transactional
@@ -25,6 +26,9 @@ public class Test {
 	
 	@Autowired
 	private AdminRepository advertisementRep;
+	
+	@Autowired
+	private GatherRepository gatherRepository;
 	
 	/**
 	 * 광고 등록
@@ -76,6 +80,53 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	public void selectAll() {
 		List<Advertisement> list = advertisementRep.findAll();
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+	}
+	
+	/**
+	 * 광고 상태 검색 
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectByStatus2() {
+		List<Advertisement> list = advertisementRep.selectByStatus2(null);
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+	}
+	
+	/**
+	 * 12월 광고중 검색 
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectAdStatusIng12() {
+		List<Advertisement> list = advertisementRep.selectAdStatusIng12(null);
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+	}
+	
+	/**
+	 * 모임 참가비 조회1
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectGatherBid1() {
+		String selectGatherBid1 = advertisementRep.selectGatherBid1(null);
+	
+			System.out.println("selectGatherBid1 = "+selectGatherBid1);
+	
+	}
+	
+	/**
+	 * 유료 광고중 모임 검색 
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectAdGather() {
+		List<Advertisement> list = advertisementRep.selectAdGather();
 		/*for(Advertisement b :list) {
 			System.out.println(b);
 		}*/

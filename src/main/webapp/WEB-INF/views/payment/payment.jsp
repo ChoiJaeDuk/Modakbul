@@ -19,7 +19,7 @@ $(document).ready(function(){
 		$("#a").click(function(){				
 			alert(1)
 			/* if($("#address").val()==""){
-				return;
+				return;	
 			} */
 			$.ajax({
 				type:"post",
@@ -45,12 +45,16 @@ $(document).ready(function(){
 		});//click 
 		
 		////////////////////////////////////
+		
+		$(document).ajaxSend(function(e,xht,op){
+			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		});
+		
 
 		$("#kakaopyBtn")
 				.click(
-						function() {
-							let address = '경기도오오오ㅗ';
-							//alert("클릭")
+						function() { 
+
 							var IMP = window.IMP;
 							IMP.init('imp55744106');
 							IMP.request_pay(
@@ -66,38 +70,38 @@ $(document).ready(function(){
 												buyer_tel : '01085510356',
 												buyer_addr : '경기도 용인시 ',
 												buyer_postcode : '01234',
-												m_redirect_url : 'index.jsp'
+												//m_redirect_url : '/index.jsp'
 											},
 											function(rsp) {
-												//alert(11)
 												if (rsp.success) {
 													var msg = '결제가 완료되었습니다.';
 													var result = {
-													"imp_uid" : rsp.imp_uid,
-													"merchant_uid" : rsp.merchant_uid,
-													"pay_date" : new Date().getTime(),
+													"imp_uid" : rsp.imp_uid,													
+			 										"pay_date" : new Date().getTime(),
 													"amount" : rsp.paid_amount,
-													"card_no" : rsp.apply_num
+													"buyer_name": rsp.buyer_name
 													
-													}
+											     }
 													
-															$.ajax({
-																type : "post",
-																url : "${pageContext.request.contextPath}/ajaxTest",  
-																dataType:"json",
-																data :{"${_csrf.parameterName}":"${_csrf.token}","b":JSON.stringify(result,
-														     		['imp_uid', 'merchant_uid', 
-														        			'pay_date', 'amount', 'card_no'])},
-														        //contentType:'application/json;charset=utf-8',
-														        success : function(result) {
-														        	alert(result);
-																	alert('성공')
-																},
-																error : function(
-																		err) {
-																	alert(err);
-																}
-															});
+													//console.log("result = " + result.imp_uid);
+													//alert("${_csrf.parameterName}")
+													//alert("${_csrf.token}")
+													
+													$.ajax({
+														type : "post",
+														url : "${pageContext.request.contextPath}/ajaxTest",  
+														dataType:"text",
+												   		data:JSON.stringify(result),	
+												        contentType:'application/json;charset=utf-8',
+												        success : function(result) {
+												        location.href="${pageContext.request.contextPath}/success";
+														alert("결제됐어요~!]")
+												        },
+														error : function(err) {
+															alert(err);
+														}
+													});
+											
 												} else {
 													var msg = '결제에 실패하였습니다.';
 													rsp.error_msg;
@@ -111,15 +115,19 @@ $(document).ready(function(){
 </head>
 <body>
 	<H1>결제 imp55744106</H1>
+	
 	<button type="button" class="kakaopay" id="kakaopyBtn">
 	결제버튼
 	</button>
+	
 	
 	
 	<H1>아작스테스트 버튼</H1>
 	<button type="button" class="a" id="a">
 		아작스테스트
 	</button>
+	
+
 	
 	
 </body>

@@ -24,8 +24,8 @@ import modakbul.mvc.service.ParticipantService;
 @Transactional
 @Commit
 public class ParticipantTest {
-	Users user = new Users(1L);
-	Gather gather = new Gather(5L);
+	Users user = new Users(6L);
+	Gather gather = new Gather(51L);
 	
 	private QParticipant participant;
 	
@@ -37,7 +37,7 @@ public class ParticipantTest {
 	
 	@Test
 	void insertParticipant() {
-		Participant participant = new Participant(1L, gather, user, "참가대기");
+		Participant participant = new Participant(0L, gather, user, "참가승인");
 		participantService.insertParticipant(participant);
 	}
 	
@@ -69,6 +69,19 @@ public class ParticipantTest {
 		for(ParticipantGroupBy p:list) {
 			System.out.println(p.getApplicationState() + "/"+p.getApplicationStateCount());
 		}
+	}
+	
+	
+	@Test
+	void selectParticipantCountByGatherNo() {
+		int count = participantService.selectParticipantCountByGatherNo(51L);
+		System.out.println("count = " + count);
+	}
+	
+	
+	@Test
+	void autoUpdateParticipantState() {
+		participantService.autoUpdateParticipantState(13L, "참가승인", "참가확정");
 	}
 	
 }

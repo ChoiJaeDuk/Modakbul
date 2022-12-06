@@ -18,205 +18,207 @@ import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.GatherReviewReplyRepository;
 import modakbul.mvc.repository.GatherReviewRepository;
 import modakbul.mvc.repository.InquiryReplyRepository;
 import modakbul.mvc.repository.InquiryRepository;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 import modakbul.mvc.repository.UserReviewRepository;
+import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.ServiceQuestionService;
+import modakbul.mvc.service.UserReviewService;
 
 @SpringBootTest
 @Commit
 @Transactional
 public class Test {
-	
+
 	@Autowired
 	private GatherReviewRepository gatherReviewRep;
-	
+
 	@Autowired
 	private UserReviewRepository userReviewRep;
 	
 	@Autowired
+	private UserReviewService userReviewSer;
+
+	@Autowired
 	private InquiryRepository inquiryRep;
-	
+
 	@Autowired
 	private ServiceQuestionRepository serviceQuestionRep;
-	
+
 	@Autowired
 	private InquiryReplyRepository inquiryReplyRep;
-	
+
 	@Autowired
 	private GatherReviewReplyRepository gatherReviewReplyRep;
-	
+
 	@Autowired
 	private ServiceQuestionService sqservice;
 
+	@Autowired
+	private InquiryService inqSer;
+	
 
 	@org.junit.jupiter.api.Test
 	public void contextLoads() {
-		//모임후기에 13개 정도 레코드 추가
-		for(int i=1; i<=3; i++) {
-			gatherReviewRep.save(GatherReview.builder()
-					.regularGather(new RegularGather(1L))
-					.gatherTemper(10)
-					.writerUser(new Users(2L))
-					.hostUser(new Users(1L))
-					.gatherReviewContent("내용"+i)
-					.build()
-					);
+		// 모임후기에 13개 정도 레코드 추가
+		for (int i = 1; i <= 3; i++) {
+			gatherReviewRep.save(GatherReview.builder().regularGather(new RegularGather(1L)).gatherTemper(10)
+					.writerUser(new Users(2L)).hostUser(new Users(1L)).gatherReviewContent("내용" + i).build());
 		}
 	}
-	
+
 	@org.junit.jupiter.api.Test
-	public void selectAllById() { 
-		List<GatherReview> list=gatherReviewRep.selectAllByRegularGatherNo(1L);
-		list.forEach(b->System.out.println(b));
+	public void selectAllById() {
+		List<GatherReview> list = gatherReviewRep.selectAllByRegularGatherNo(1L);
+		list.forEach(b -> System.out.println(b));
 
 	}
-	
+
 	@org.junit.jupiter.api.Test
 	public void deleteGatherReview() {
 		gatherReviewRep.deleteById(8L);
 	}
-	
-	
-	
-	
+
 	@org.junit.jupiter.api.Test
 	public void insertUserReview() {
-		for(int i=1; i<=2; i++) {
-			userReviewRep.save(UserReview.builder()
-					.writerUser(new Users(1L))
-					.hostUser(new Users(3L))
-					.userTemper(50)
-					.userReviewContent("일일모임 테스즁 "+i)
-					.build());
+		for (int i = 1; i <= 2; i++) {
+			userReviewRep.save(UserReview.builder().writerUser(new Users(2L)).hostUser(new Users(4L)).userTemper(50)
+					.userReviewContent("테스트re" + i).build());
 		}
 	}
-	
+
 	@org.junit.jupiter.api.Test
 	public void selectUserReview() {
-		List<UserReview> urList=userReviewRep.selectByUserReviewNo(3L);
-		urList.forEach(b->System.out.println(b.getUserReviewContent()));
+		List<UserReview> urList = userReviewRep.selectByUserReviewNo(3L);
+		urList.forEach(b -> System.out.println(b.getUserReviewContent()));
 	}
+
 	@org.junit.jupiter.api.Test
 	public void deleteuserReview() {
 		userReviewRep.deleteById(9L);
 	}
-	
-	@org.junit.jupiter.api.Test 
+
+	@org.junit.jupiter.api.Test
 	void selectByUserReviewNo() {
-		Optional<UserReview> dbUserReview=userReviewRep.findById(10L);
-		UserReview userReview=dbUserReview.orElse(null);
+		Optional<UserReview> dbUserReview = userReviewRep.findById(10L);
+		UserReview userReview = dbUserReview.orElse(null);
 		System.out.println(userReview.getUserReviewContent());
 		System.out.println(userReview.getWriterUser().getUserName());
 	}
-	
+
 	@org.junit.jupiter.api.Test
 	public void insertInquiry() {
-		for(int i=1; i<=2; i++) {
-			inquiryRep.save(Inquiry.builder()
-					.user(new Users(1L))
-					.gather(new Gather(5L))
-					.inqSubject("질문있어용"+i)
-					.inqContent("질문내욤."+i)
-					.build());
+		for (int i = 1; i <= 2; i++) {
+			inquiryRep.save(Inquiry.builder().user(new Users(1L)).gather(new Gather(5L)).inqSubject("질문있어용" + i)
+					.inqContent("질문내욤." + i).build());
 		}
 	}
-	
-	@org.junit.jupiter.api.Test //전체 문의
+
+	@org.junit.jupiter.api.Test // 전체 문의
 	void selectInquiryByGatherNo() {
-		List<Inquiry> list=inquiryRep.InquiryListByGatherNo(5L);
-		list.forEach(b->System.out.println(b.getInqSubject()));
+		List<Inquiry> list = inquiryRep.InquiryListByGatherNo(5L);
+		list.forEach(b -> System.out.println(b.getInqSubject()));
 	}
-	@org.junit.jupiter.api.Test//상세
+
+	@org.junit.jupiter.api.Test // 상세
 	void selectByInquiryId() {
-		Optional<Inquiry> optionInquiry=inquiryRep.findById(7L);
-		Inquiry inquiry=optionInquiry.orElse(null);
+		Optional<Inquiry> optionInquiry = inquiryRep.findById(7L);
+		Inquiry inquiry = optionInquiry.orElse(null);
 		System.out.println(inquiry.getInqContent());
 	}
+
 	@org.junit.jupiter.api.Test
 	void deleteInquiryId() {
 		inquiryRep.deleteById(10L);
 	}
-	
-	///////////////////////servicequestion
+
+	/////////////////////// servicequestion
 	@org.junit.jupiter.api.Test
 	void insertServiceQuestion() {
-		for(int i=2; i<=5; i++) {
-		serviceQuestionRep.save(ServiceQuestion
-				.builder()
-				.user(new Users(4L))
-				.serviceQuestionContent("공지사항 내용"+i)
-				.serviceQuestionSubject("공지사항 제목테스틍"+i)
-				.serviceQuestionPwd("admin")
-				.build());
+		for (int i = 2; i <= 5; i++) {
+			serviceQuestionRep.save(ServiceQuestion.builder().user(new Users(4L)).serviceQuestionContent("공지사항 내용" + i)
+					.serviceQuestionSubject("공지사항 제목테스틍" + i).serviceQuestionPwd("admin").build());
 		}
 	}
-	
+
 	@org.junit.jupiter.api.Test
 	void selectAll() {
-		List<ServiceQuestion> li=serviceQuestionRep.findAll();
-		li.forEach(b->System.out.println(b.getServiceQuestionSubject()));
+		List<ServiceQuestion> li = serviceQuestionRep.findAll();
+		li.forEach(b -> System.out.println(b.getServiceQuestionSubject()));
 	}
-	
+
 	@org.junit.jupiter.api.Test
 	void selectByServiceQuestionNo() {
-		ServiceQuestion sq=serviceQuestionRep.selectByServiceQuestionNo(4L, "1234");
+		ServiceQuestion sq = sqservice.selectByServiceQuestionNo(22L, null,4L); //
 		System.out.println(sq.getServiceQuestionContent());
 		System.out.println(sq.getServiceQuestionSubject());
 		System.out.println(sq.getUser().getUserNick());
 	}
+
 	@org.junit.jupiter.api.Test
 	void deleteServiceQuestion() {
-		serviceQuestionRep.deleteServiceQuestion(5L,"1234");
+		serviceQuestionRep.deleteServiceQuestion(5L, "1234");
 	}
-	
-	//댓글
+
+	// 댓글
 	@org.junit.jupiter.api.Test
 	void insertReply() {
-		for(int i=2; i<=6; i++) {
-		inquiryReplyRep.save(InquiryReply
-				.builder()
-				.inquiry(new Inquiry(3L))
-				.inquiryReplycontent("우아"+i)
-				.user(new Users(5L))
-				.build()
-				);
+		for (int i = 2; i <= 6; i++) {
+			inquiryReplyRep.save(InquiryReply.builder().inquiry(new Inquiry(3L)).inquiryReplycontent("우아" + i)
+					.user(new Users(5L)).build());
 		}
 	}
 
 	@org.junit.jupiter.api.Test
 	void selectInquiryReply() {
-		List<InquiryReply> li=inquiryReplyRep.selectReplyByInquiryNo(3L);
-		li.forEach(b->System.out.println(b.getInquiryReplyNo()+"//"+b.getUser().getUserNick()));
+		List<InquiryReply> li = inquiryReplyRep.selectReplyByInquiryNo(3L);
+		li.forEach(b -> System.out.println(b.getInquiryReplyNo() + "//" + b.getUser().getUserNick()));
 	}
-	//모임댓글
-		@org.junit.jupiter.api.Test
-		void insertGatherReply() {
-			for(int i=1; i<=3; i++) {
-			gatherReviewReplyRep.save(GatherReviewReply
-					.builder()
-					.gatherReview(new GatherReview(10L))
-					.gatherReplyContent("문의댓글입니다"+i)
-					.user(new Users(5L))
-					.build()
-					);
-			}
+
+	// 모임댓글
+	@org.junit.jupiter.api.Test
+	void insertGatherReply() {
+		for (int i = 1; i <= 3; i++) {
+			gatherReviewReplyRep.save(GatherReviewReply.builder().gatherReview(new GatherReview(10L))
+					.gatherReplyContent("문의댓글입니다" + i).user(new Users(5L)).build());
 		}
+	}
+
+	// 문의사항 게시판에 댓글 달리면
+	@org.junit.jupiter.api.Test
+	void updateServiceQuestionReply() {
+		sqservice.updateServiceQuestionReply(
+				ServiceQuestion.builder().serviceQuestionNo(7L).serviceQuestionReply("아나").build());
+		// serviceQuestionRep.updateServiceQuestionReply("댓글 테22",9L);
+	}
+
+	// 어드민이 ServiceQuestion등록한 글 리스트
+	@org.junit.jupiter.api.Test
+	void selectByAdminNo() {
+		List<ServiceQuestion> adminList = serviceQuestionRep.selectByAdminNo();
+		adminList.forEach(b -> System.out.println(b.getUser().getUserNick() + "//" + b.getServiceQuestionContent()));
+	}
+
+	// 마이페이지에서 답변유무 상태 확인
+	@org.junit.jupiter.api.Test
+	void selectReplyState() {
+		List<SelectReplyState> list = inqSer.selectReplyState(1L);
+		for (SelectReplyState a : list) {
+			System.out.println(a.getState());
+		}
+	}
+	
+	//문의 수정 
+	@org.junit.jupiter.api.Test
+	void updatedInquiry() {
+		Inquiry dbinq=inquiryRep.findById(6L).orElse(null);
 		
-	//문의사항 게시판에 댓글 달리면
-		@org.junit.jupiter.api.Test
-		void updateServiceQuestionReply() {
-			sqservice.updateServiceQuestionReply(ServiceQuestion.builder().serviceQuestionNo(7L).serviceQuestionReply("아나").build());
-			//serviceQuestionRep.updateServiceQuestionReply("댓글 테22",9L);
-		}
-		
-	//어드민이 ServiceQuestion등록한 글 리스트
-		@org.junit.jupiter.api.Test
-		void selectByAdminNo() {
-			List<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo();
-			adminList.forEach(b->System.out.println(b.getUser().getUserNick()+"//"+ b.getServiceQuestionContent()));
-		}
+		dbinq.setInqContent("4564576");
+	}
+	
+	
 }

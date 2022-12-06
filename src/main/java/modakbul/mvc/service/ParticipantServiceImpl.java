@@ -30,6 +30,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	private QParticipant participant = QParticipant.participant;
 	private QGather gather = QGather.gather;
+	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 	
@@ -78,6 +79,30 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 		List<ParticipantGroupBy> applicationStateCount = participantRep.selectApplicationStateCount(userNo);
 		return applicationStateCount;
+	}
+
+
+	@Override
+	public int selectParticipantCountByGatherNo(Long gatherNo) {
+		
+		List<Participant> list = queryFactory.selectFrom(participant)
+		.where(participant.gather.gatherNo.eq(gatherNo)
+				.and(participant.applicationState.eq("참가승인")))
+		.fetch();
+		
+		return list.size();
+	}
+
+
+	@Override
+	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
+		System.out.println("참가자 상태 업데이트 호출되니?" +state);
+		queryFactory.update(participant)
+		.set(participant.applicationState, state)
+		.where(participant.gather.gatherNo.eq(gatherNo)
+				.and(participant.applicationState.eq(dbState)))
+		.execute();
+		
 	}
 
 	

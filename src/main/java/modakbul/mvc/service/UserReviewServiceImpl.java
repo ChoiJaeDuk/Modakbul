@@ -17,6 +17,9 @@ import modakbul.mvc.repository.UserReviewRepository;
 public class UserReviewServiceImpl implements UserReviewService {
 	@Autowired
 	private UserReviewRepository userReviewRep;
+	
+	@Autowired 
+	private UsersService userService;
 
 	@Override
 	public List<UserReview> selectAllByUserReviewNo(Long hostUserNo) {
@@ -27,6 +30,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 	@Override
 	public void insert(UserReview userReview) {
 		userReviewRep.save(userReview);
+		userService.updateTemper(userReview.getHostUser().getUserNo(),userReview.getUserTemper()); //주최자 온도, 회원 온도
 
 	}
 
@@ -48,5 +52,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 			throw new RuntimeException("글번호 오류입니다.");
 		return userReview;
 	}
+
+	
 
 }

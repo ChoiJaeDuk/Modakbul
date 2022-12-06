@@ -116,7 +116,7 @@ img{width:200px; height:350px}
             <p align="center"><font color="black"><b>종료된 광고 : ${fn:length(adStatusList3)}</b></font></p>
         </td>
          <td>
-            <p align="center"><font color="black"><b>test : <c:if test="${fn:length(advertisementList)==7}">3</c:if></b></font></p>
+            <p align="center"><font color="black"><b>test : <c:if test="${fn:length(advertisementList)==9}">3</c:if></b></font></p>
         </td>
         <td>
             <p align="center"><font color="black"><b>test : <c:if test="${fn:length(advertisementList)==fn:length(advertisementList)}">${fn:length(advertisementList)}</c:if> </b></font></p>

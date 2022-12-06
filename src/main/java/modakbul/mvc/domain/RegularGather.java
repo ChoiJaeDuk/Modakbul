@@ -1,12 +1,15 @@
 package modakbul.mvc.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -40,9 +43,9 @@ public class RegularGather {
 	private String regularGatherDay;//정기모임요일
 	
 	@ColumnDefault("50")
-	private int gatherTemper;
+	private double gatherTemper;
 	
-	@ColumnDefault(" 0")
+	@ColumnDefault("0")
 	private int gatherTemperCount;
 	
 	@Column(nullable = false)
@@ -51,5 +54,9 @@ public class RegularGather {
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
 
+	@OneToMany(mappedBy = "gather", cascade = CascadeType.ALL) //모임에 대한 후기 
+	private List<GatherReview> gatherReivew;
 	
+	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
+	private List<UserReview> userReviewList;
 }
