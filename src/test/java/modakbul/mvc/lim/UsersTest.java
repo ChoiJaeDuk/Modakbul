@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -81,16 +82,19 @@ public class UsersTest {
 		int nowPage=4;
 		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
 		
-		Page<Users> list = usersRep.findAll(page);
+		//Page<Users> list = usersRep.findAll(page);
 		
 		int temp = (nowPage-1)%BLOCK_COUNT;
 		
 		int startPage = nowPage-temp;
-		
-		System.out.println(list.getTotalElements());
-		
+
+		//System.out.println("개수" + list.getTotalElements());
+
+
 		System.out.println("blockCount = " + BLOCK_COUNT + "/" + "startPage = " + startPage + "/" + "nowPage = " + nowPage);
-		list.forEach(b->System.out.println(b));
+		//list.forEach(b->System.out.println(b));
+		Page<Users> pageList = service.selectAll(page, null);
+		pageList.forEach(b->System.out.println(b));
 	}
 	
 	@Test
@@ -101,8 +105,8 @@ public class UsersTest {
 	
 	@Test
 	public void selectById() {
-		Users user = usersRep.selectById("jieun1234");
-		System.out.println(user);
+		Users user = usersRep.selectById("user1");
+		System.out.println("userNo = " + user.getUserNo() + "follow = " + user.getFollowingList().size());
 	}
 	
 	@Test
@@ -132,4 +136,10 @@ public class UsersTest {
 		
 	}
 
+	@Test
+	public void selectByKeyword(){
+		//List<Users> list = usersRep.selectByKeyword("유저");
+		List<Users> list = usersRep.findByUserNickContaining("저");
+		list.forEach(b->System.out.println(b));
+	}
 }

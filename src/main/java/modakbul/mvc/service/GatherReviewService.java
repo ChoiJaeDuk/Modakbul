@@ -25,4 +25,10 @@ public interface GatherReviewService {
 	 * 리뷰 아이디별 상세
 	 * */
 	GatherReview selectByGatherReviewNo(Long gatherReviewNo);
+	
+	/**
+	 * 리뷰 작성 유무 체크 
+	 * */
+	
+	
 }

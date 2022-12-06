@@ -9,7 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h3>회원가입하세영</h3>
 
-<h3> user/main.jsp 입니다. </h3>
+
+
 </body>
 </html>

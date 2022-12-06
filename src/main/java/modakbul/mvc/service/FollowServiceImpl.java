@@ -1,5 +1,7 @@
 package modakbul.mvc.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class FollowServiceImpl implements FollowService {
 	private final FollowRepository followRep;
 
 	@Override
-	public Follow selectByUserId(Long userNo) {
+	public List<Follow> selectByUserId(Long userNo) {
 		
 		return followRep.selectByUserId(userNo);
 	}
@@ -35,6 +37,24 @@ public class FollowServiceImpl implements FollowService {
 	public void delete(Long followNo) {
 		followRep.deleteById(followNo);
 
+	}
+
+	@Override
+	public List<Follow> myFollower(Long userNo) {
+		List<Follow> list = followRep.myFollower(userNo);
+		
+		//if(list.isEmpty()) throw new RuntimeException("팔로워 수를 불러올 수 없습니다.");
+			
+		return list;
+	}
+
+	@Override
+	public List<Follow> myFollowing(Long userNo) {
+		List<Follow> list = followRep.myFollwing(userNo);
+		
+		//if(list.isEmpty()) throw new RuntimeException("팔로잉 수를 불러올 수 없습니다.");
+		
+		return list;
 	}
 
 }

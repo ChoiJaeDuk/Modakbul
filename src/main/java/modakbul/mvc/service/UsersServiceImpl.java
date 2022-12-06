@@ -1,6 +1,7 @@
 package modakbul.mvc.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -9,9 +10,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,11 +33,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
+import modakbul.mvc.domain.QUsers;
 import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
@@ -47,6 +52,7 @@ public class UsersServiceImpl implements UsersService {
 	private final UsersRepository usersRep;
 	private final EntityManager em;
 	private final MailSendService mailSender;
+	private final JPAQueryFactory queryFactory;
 	
 	//@Value("${apikey.kakao.rest.api.key")
 	//private String KAKAO_REST_API_KEY="14b0e31baeb3e5bc554c607d7293b85c";
@@ -56,29 +62,109 @@ public class UsersServiceImpl implements UsersService {
 	// private final MailTest mail;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	private final static int PAGE_COUNT = 5;
+	private final static int BLOCK_COUNT=4;
+	
 
 	@Override
 	public void insert(Users user) {
+		System.out.println("insert하자!");
 
 		String encodedPassword = passwordEncoder.encode(user.getUserpwd());
 
 		user.setUserpwd(encodedPassword);
-
-		usersRep.save(user);
-
+		
+		if(user.getUserGender()!=null) {
+			System.out.println("insert하자!");
+			usersRep.save(
+					Users.builder()
+					.userId(user.getUserId())
+					.userpwd(encodedPassword)
+					.userName(user.getUserName())
+					.userNick(user.getUserNick())
+					.userEmail(user.getUserEmail())
+					.userValidateNo(user.getUserValidateNo())
+					.userPhone(user.getUserPhone())
+					.userPostCode(user.getUserPostCode())
+					.userAddr(user.getUserAddr())
+					.userAddrDetail(user.getUserAddrDetail())
+					.state(Role.ROLE_USER)
+					.userJob("개인")
+					.userGender(user.getUserGender())
+					.temper(50)
+					.temperCount(1)
+					.userProfileImg(user.getUserProfileImg())
+					.build());
+			
+		}else {
+			usersRep.save(
+					Users.builder()
+					.userId(user.getUserId())
+					.userpwd(encodedPassword)
+					.userName(user.getUserName())
+					.userNick(user.getUserNick())
+					.userEmail(user.getUserEmail())
+					.userValidateNo(user.getUserValidateNo())
+					.userPhone(user.getUserPhone())
+					.userPostCode(user.getUserPostCode())
+					.userAddr(user.getUserAddr())
+					.userAddrDetail(user.getUserAddrDetail())
+					.state(Role.ROLE_USER)
+					.userJob("기관")
+					.build());
+		}
+		
 	}
 
 	@Override
-	public String emailCheck(String userEmail) throws Exception {
+	public String sendCode(String userEmail) throws Exception {
+		String userId = usersRep.selectUserId(userEmail);
+		
+		if(userId != null) {
+			return "이미 가입되어있는 email입니다.";
+			//throw new RuntimeException("이미 가입되어있는 유저아이디입니다.");
+		}
 
 		return mailSender.sendSimpleMessage(userEmail, "join");
 
 	}
+	
+	/*
+	 * @Override public String checkCode(String code) throws Exception {
+	 * 
+	 * return null; }
+	 */
 
 	@Override
-	public Page<Users> selectAll(Pageable pageable) {
+	public Page<Users> selectAll(Pageable pageable, String job) {
+		QUsers users = QUsers.users;
+		
+		int nowPage=4;
+		pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
+		
+		//Page<Users> list = usersRep.findAll(page);
+		
+		//int temp = (nowPage-1)%BLOCK_COUNT;
+		
+		//int startPage = nowPage-temp;
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		if(job != null) {
+			builder.and(users.userJob.eq(job));
+		}
+		
+		List<Users> list = queryFactory
+				.select(users)
+				.from(users)
+				.where(builder)
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
 
-		return usersRep.findAll(pageable); 
+		//return usersRep.findAll(pageable); 
+		//findall
+		return new PageImpl<Users>(list, pageable, list.size());
 	}
 
 	
@@ -143,7 +229,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void selectUserPwd(String userId, String userEmail) throws Exception{
+	public String selectUserPwd(String userId, String userEmail) throws Exception{
 
 		Users user = usersRep.selectById(userId);
 		if (!user.getUserEmail().equals(userEmail))
@@ -154,6 +240,7 @@ public class UsersServiceImpl implements UsersService {
 		String encodedPassword = passwordEncoder.encode(ePw);
 		user.setUserpwd(encodedPassword);
 
+		return "임시비밀번호가 메일로 발송되었습니다.";
 	}
 
 	@Override
@@ -209,9 +296,7 @@ public class UsersServiceImpl implements UsersService {
 
 		//Users newUser = Users.builder().userEmail(userEmail).userNick(userNick).build();		
 		/*if(id==null) {
-			
-			 
-			 
+
 			 usersRep.save(
 						Users.builder()
 						.userId(userEmail)
@@ -230,9 +315,7 @@ public class UsersServiceImpl implements UsersService {
 						.build()
 						
 						);
-			
-			
-			
+
 		}*/
 		
 			if(id!=null) {
@@ -358,6 +441,13 @@ public class UsersServiceImpl implements UsersService {
 			return jsonObject;
 
 
+	}
+
+	@Override
+	public List<Users> selectByKeyword(String keyword) {
+		
+		//return usersRep.selectByKeyword(keyword);
+		return null;
 	}
 
 }

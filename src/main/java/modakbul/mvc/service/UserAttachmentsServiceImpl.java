@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.UserAttachments;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UserAttachmentsRepository;
 
 @Service
@@ -21,7 +22,14 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	@Override
 	public void insert(UserAttachments userAttachments) {
 		
-		userAttachRep.save(userAttachments);
+		userAttachRep.save(
+				UserAttachments.builder()
+				.user(new Users(2L))
+				.userAttachmentsFileSubject("자격증")
+				.userAttachmentsFileName("fff.hwp")
+				.build()
+
+				);
 	}
 
 	@Override
