@@ -14,8 +14,8 @@ public interface FollowRepository extends JpaRepository<Follow, Long>,QuerydslPr
 	/**
 	 * userId에 해당하는 팔로잉 목록 출력 - 내가 구독한 사람들의 리스트(마이페이지)
 	 */
-	@Query(value = "select * from Follow where follow_no =?1",nativeQuery = true)
-	Follow selectByUserId(Long userNo);
+	@Query(value = "select * from Follow where FOLLOWING_NO =?1",nativeQuery = true)
+	List<Follow> selectByUserId(Long userNo);
 	
 	/**
 	 * 나를 팔로우(구독자) 하는 사람들
