@@ -2,6 +2,8 @@ package modakbul.mvc.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -32,5 +34,5 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 	
 	
 	@Query(value ="select g from Gather g where g.gatherState='신청대기'")
-	List<Gather> selectBidGatherappliList();
+	Page<Gather> selectBidGatherappliList(Pageable pageable);
 }

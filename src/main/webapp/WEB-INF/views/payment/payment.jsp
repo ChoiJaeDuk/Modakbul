@@ -94,8 +94,8 @@ $(document).ready(function(){
 												   		data:JSON.stringify(result),	
 												        contentType:'application/json;charset=utf-8',
 												        success : function(result) {
-												        location.href="${pageContext.request.contextPath}/success";
-														alert("결제됐어요~!]")
+												    	    location.href="${pageContext.request.contextPath}/payment/success";
+															alert("결제됐어요~!]")
 												        },
 														error : function(err) {
 															alert(err);

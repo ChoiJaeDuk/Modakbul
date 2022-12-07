@@ -76,8 +76,8 @@ public class GatherServiceImpl implements GatherService {
 	
 	
 	@Override
-	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
-	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {		
 		
 		/////////////////////////////////
@@ -298,9 +298,10 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public Page<Gather> selectBidGatherappliList(Pageable pageable) {
 
-		List<Gather> result = gatherRep.selectBidGatherappliList();
+		Page<Gather> result = gatherRep.selectBidGatherappliList(pageable);
 
-		return new PageImpl<Gather>(result, pageable, result.size());
+		//return new PageImpl<Gather>(result, pageable, result.size());
+		return result;
 	}
 
 	@Override

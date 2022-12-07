@@ -1,7 +1,7 @@
 	package modakbul.mvc.service;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.GatherReview;
 
@@ -10,7 +10,8 @@ public interface GatherReviewService {
 	/**
 	 * 정기모임 후기 조회 하기 
 	 * */
-	List<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo) ;
+	//List<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo) ;
+	Page<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo, Pageable pageable) ;
 
 	/**
 	 * 정기 모임 후기 등록하기
@@ -25,10 +26,7 @@ public interface GatherReviewService {
 	 * 리뷰 아이디별 상세
 	 * */
 	GatherReview selectByGatherReviewNo(Long gatherReviewNo);
-	
-	/**
-	 * 리뷰 작성 유무 체크 
-	 * */
+
 	
 	
 }

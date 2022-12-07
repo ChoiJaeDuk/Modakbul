@@ -64,7 +64,7 @@ public class GatherReview {
 	@OneToMany(mappedBy = "gatherReview", cascade=CascadeType.ALL)
 	private List<GatherReviewReply> gatherReviewReplyList;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "gather_no")
-	private Gather gather;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "gather_no")
+//	private Gather gather;
 }

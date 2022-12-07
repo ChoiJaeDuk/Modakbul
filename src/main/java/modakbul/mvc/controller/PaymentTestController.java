@@ -3,6 +3,8 @@ package modakbul.mvc.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.AdminService;
 
 @Controller
+
 public class PaymentTestController {
 	@Autowired
 	private AdminService adminSer; 
@@ -27,12 +30,13 @@ public class PaymentTestController {
 	
 	@RequestMapping("/ajaxTest")
 	@ResponseBody
-	public void ajaxTest(@RequestBody Map<String, Object> result,Advertisement advertisement) {
+	public void ajaxTest(@RequestBody Map<String, Object> result) {
 		for (String m:result.keySet()) {
 			 System.out.println("key:"+m+",value:"+result.get(m));
 		}
-		adminSer.advertisementInsert(Advertisement.builder().adStatus("신청대기").gather(new Gather(10L)).user(Users.builder().userNo(2L).build()).adFileName("logo").build());
-		//return "index";
+		//adminSer.advertisementInsert(new Advertisement(66L, "신청대기", "asd"));
+		//이거 호출 하는것 빼고 연결함,, 
+
 		
 		System.out.println("123123");
 	}

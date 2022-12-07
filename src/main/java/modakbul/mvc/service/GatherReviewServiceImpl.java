@@ -1,18 +1,17 @@
 package modakbul.mvc.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import modakbul.mvc.domain.GatherReview;
-import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.GatherReviewRepository;
-import modakbul.mvc.repository.UsersRepository;
 
 @Service
 @Transactional
@@ -29,8 +28,11 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	 * */
 	@Override
 	
-	public List<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo) {
-		return gatherReviewRep.selectAllByRegularGatherNo(regularGatherNo);
+	public Page<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo,Pageable pageable) {
+		
+		Page<GatherReview> list = gatherReviewRep.selectAllByRegularGatherNo(regularGatherNo, pageable);
+	
+		return list;
 	}
 	/**
 	 * 등록
