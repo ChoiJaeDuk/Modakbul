@@ -46,7 +46,7 @@ import modakbul.mvc.service.GatherService;
 @EnableScheduling
 public class GatherTest {
 	
-	Users user = new Users(4L);
+	Users user = Users.builder().userNo(5L).build();
 	Category category = new Category(3L);
 	RegularGather regularGather = new RegularGather(1L);
 	private QGather g = QGather.gather;
@@ -71,10 +71,11 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 14, 47);
-		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 6, 14, 49);
+		RegularGather regularGather = new RegularGather(1L);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 21, 0);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 6, 21, 3);
 		
-		Gather gather = new Gather(13L, category, user, null, "참가자들 상태확인테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
+		Gather gather = new Gather(51L, category, user, regularGather, "참가자들 상태확인테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
 		gatherRep.save(gather);
 		//gatherService.insertGather(gather);
 	}
@@ -309,6 +310,22 @@ public class GatherTest {
 			System.out.println(list);			
 		}
 
+		
+		@Test
+		public void insertTest() {
+			//LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 14, 47);
+			//LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 6, 14, 49);
+			//Gather gather = new Gather(51L, category, user, regularGather, "풋살할사람~!!!!", 10, 15, "남자", 20, 35, gatherDate, deadLine, 2, "성남시 야탑", "1층 풋살장", "매너있게 공찰분들 오세요!", "모집중", null , 0, null,0);
+			Gather gather = gatherRep.findById(52L).orElse(null);
+			LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+			LocalDateTime newDeadline = newGatherDate.minusHours(3);
+			Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather(), gather.getGatherName()
+					, gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+					, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace(), gather.getGatherPlaceDetail()
+					, gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+			
+			gatherRep.save(newGather);
+		}
 }
 
 
