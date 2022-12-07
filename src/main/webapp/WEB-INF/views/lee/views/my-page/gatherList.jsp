@@ -11,51 +11,52 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(function(){
-		alert(11111111);	
+		//alert(11111111);	
 		// 토글
 		$(document).ajaxSend(function(e,xht,op){
          xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
       });
 		
 		$(document).on('click', 'button[type=button]',function(){
-			alert(1)
 			
-			alert("모임번호 = "+ $(this).val() )
-			alert("회원번호 = " + ${userNo})
-			let result = {gatherNo:$(this).val() , userNo:"${userNo}"}
+			let target = {"gatherNo":$(this).val() , "userNo":"${userNo}"}
+			let targetBtn = $(this);
 			
 			if($(this).text() == "♥"){
-				alert(22222);
+				alert("딜리트 반응?");
 				$.ajax({
 					url:"${pageContext.request.contextPath}/likeGather/delete",
 					type:"post",
-					data:"attentionNo="+$(this).val(),
-					dataType:"json",
+					dataType:"text",
+                    data:JSON.stringify(target),   
+                    contentType:'application/json;charset=utf-8',
 					success:function(result){
-						alert("관심모임 해제 되었습니다.");
-						$(this).text("♡");
+						if(result=="ok"){
+							alert("관심모임 해제 되었습니다.")						
+							
+							targetBtn.text("♡")
+						}
 					},error:function(err){
 						alert("err : "+err);
 					}
 				});//Delete ajax END
 			}
 			
-			//$("#table > tbody > tr > td:nth-child(0)").text()
-			console.log($(this).text())
 			if($(this).text()=="♡"){
 				alert("인설트반응?");
 				$.ajax({
 					url:"${pageContext.request.contextPath}/likeGather/insert",
-					type:"post",//"${_csrf.parameterName}=${_csrf.token}&address="
-					//data:{gatherNo:$(this).val() , userNo:"${userNo}"},
-					//dataType:"json",
+					type:"post",
 					dataType:"text",
-                    data:JSON.stringify(result),   
+                    data:JSON.stringify(target),   
                     contentType:'application/json;charset=utf-8',
 					success:function(result){
-						alert("관심모임 등록 되었습니다.")
-						console.log($(this).text())
-						$("[name='like']").html("♥")
+						if(result=="ok"){
+							alert("관심모임 등록 되었습니다.")						
+							
+							targetBtn.text("♥")
+						}
+						
 					},error:function(err){
 						alert("err : "+err);
 					}
