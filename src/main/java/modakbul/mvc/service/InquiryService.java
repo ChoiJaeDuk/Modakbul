@@ -1,6 +1,7 @@
 package modakbul.mvc.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.groupby.SelectReplyState;
@@ -10,7 +11,7 @@ public interface InquiryService {
 	/**
 	 * 모임번호에 해당하는 문의전체 띄우기(일일,정기 구분 x)
 	 * */
-	List<Inquiry> InquiryListByGatherNo(Long gatherNo);
+	Page<Inquiry> InquiryListByGatherNo(Long gatherNo,Pageable pageable);
 	
 	/**
 	 * 문의 상세보기
@@ -29,7 +30,7 @@ public interface InquiryService {
 	/**
 	 * 마이페이지에서 문의글 답변 달렸는지 상태확인
 	 * */
-	List<SelectReplyState> selectReplyState(Long userNo);
+	Page<SelectReplyState> selectReplyState(Long userNo, Pageable pageable);
 	
 	/**
 	 * 문의 수정하기 

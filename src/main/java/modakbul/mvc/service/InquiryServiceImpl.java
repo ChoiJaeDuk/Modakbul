@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import modakbul.mvc.domain.Inquiry;
@@ -19,8 +21,8 @@ public class InquiryServiceImpl implements InquiryService {
 	private InquiryRepository inquiryRep;
 	
 	@Override
-	public List<Inquiry> InquiryListByGatherNo(Long gatherNo) {
-		return inquiryRep.InquiryListByGatherNo(gatherNo);
+	public Page<Inquiry> InquiryListByGatherNo(Long gatherNo,Pageable pageable) {
+		return inquiryRep.InquiryListByGatherNo(gatherNo,pageable);
 	}
 
 	@Override
@@ -50,8 +52,8 @@ public class InquiryServiceImpl implements InquiryService {
 	/**
 	 * 마이페이지에서 문의글 답변 달렸는지 상태확인
 	 * */
-	public List<SelectReplyState> selectReplyState(Long userNo){
-		List<SelectReplyState> l=inquiryRep.selectReplyState(userNo);
+	public Page<SelectReplyState> selectReplyState(Long userNo,Pageable pageable){
+		Page<SelectReplyState> l=inquiryRep.selectReplyState(userNo, pageable);
 		
 		return l;
 		

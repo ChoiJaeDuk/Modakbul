@@ -2,13 +2,16 @@ package modakbul.mvc.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import modakbul.mvc.domain.ServiceQuestion;
 
 public interface ServiceQuestionService {
 	/**
 	 * 회원이 문의사항게시판에 쓴 글 전체보기
 	 * */
-	List<ServiceQuestion> selectAllByServiceQuestionNo();
+	Page<ServiceQuestion> selectAll(Pageable pageable);
 	/**
 	 * 문의 사항게시판에 글쓰기
 	 * */
@@ -32,7 +35,7 @@ public interface ServiceQuestionService {
 	/**
 	 * 어드민이 쓴 글(user_no=4)은 공지사항
 	 * */
-	List<ServiceQuestion> selectByAdminNo();
+	Page<ServiceQuestion> selectByAdminNo(Long userNo,Pageable pageable);
 	
 
 	
