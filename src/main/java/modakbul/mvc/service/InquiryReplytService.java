@@ -1,8 +1,8 @@
 package modakbul.mvc.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.InquiryReply;
 
 public interface InquiryReplytService {
@@ -10,7 +10,7 @@ public interface InquiryReplytService {
 	/**
 	 * 문의 번호에 해당하는 댓글 다 
 	 * */
-	List<InquiryReply> selectReplyByInquiryNo(Long inqNo);
+	Page<InquiryReply> selectReplyByInquiryNo(Long inqNo,Pageable pageable);
 	
 	/**
 	 * 문의 상세보기

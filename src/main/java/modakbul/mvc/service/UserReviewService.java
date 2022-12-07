@@ -1,6 +1,7 @@
 package modakbul.mvc.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.UserReview;
 
@@ -8,7 +9,7 @@ public interface UserReviewService {
 	/**
 	 * 일일 모임 후기 조회하기
 	 * */
-	List<UserReview> selectAllByUserReviewNo(Long hostUserNo);
+	Page<UserReview> selectAllByUserReviewNo(Long hostUserNo, Pageable pageable);
 
 	/**
 	 * 일일모임 등록하기

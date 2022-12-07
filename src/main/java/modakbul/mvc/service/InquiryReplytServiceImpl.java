@@ -1,10 +1,10 @@
 package modakbul.mvc.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import modakbul.mvc.domain.InquiryReply;
@@ -18,9 +18,9 @@ public class InquiryReplytServiceImpl implements InquiryReplytService {
 	private InquiryReplyRepository inquiryReplyRep;
 	
 	@Override
-	public List<InquiryReply> selectReplyByInquiryNo(Long inqNo) {
-
-		return inquiryReplyRep.selectReplyByInquiryNo(inqNo);
+	public Page<InquiryReply> selectReplyByInquiryNo(Long inqNo,Pageable pageable) {
+		Page<InquiryReply> list=inquiryReplyRep.selectReplyByInquiryNo(inqNo,pageable);
+		return list;
 	}
 
 	@Override

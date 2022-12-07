@@ -29,6 +29,7 @@ import modakbul.mvc.repository.InquiryRepository;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 import modakbul.mvc.repository.UserReviewRepository;
 import modakbul.mvc.service.GatherReviewService;
+import modakbul.mvc.service.InquiryReplytService;
 import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.ServiceQuestionService;
 import modakbul.mvc.service.UserReviewService;
@@ -58,6 +59,8 @@ public class Test {
 
 	@Autowired
 	private InquiryReplyRepository inquiryReplyRep;
+	@Autowired
+	private InquiryReplytService inquiryReplySer;
 
 	@Autowired
 	private GatherReviewReplyRepository gatherReviewReplyRep;
@@ -67,6 +70,7 @@ public class Test {
 
 	@Autowired
 	private InquiryService inqSer;
+	
 	
 
 	@org.junit.jupiter.api.Test
@@ -105,8 +109,11 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	public void selectUserReview() {
-		List<UserReview> urList = userReviewRep.selectByUserReviewNo(3L);
-		urList.forEach(b -> System.out.println(b.getUserReviewContent()));
+Pageable pageable = PageRequest.of(0, 5);
+		
+		Page<UserReview> list = userReviewSer.selectAllByUserReviewNo(1L,pageable);
+		List<UserReview> review = list.getContent();
+		System.out.println(list);
 	}
 
 	@org.junit.jupiter.api.Test
@@ -132,8 +139,15 @@ public class Test {
 
 	@org.junit.jupiter.api.Test // 전체 문의
 	void selectInquiryByGatherNo() {
-		List<Inquiry> list = inquiryRep.InquiryListByGatherNo(5L);
+		Pageable pageable = PageRequest.of(0, 5,Direction.DESC, "INQ_NO");
+		
+		Page<Inquiry> page = inqSer.InquiryListByGatherNo(5L, pageable);
+		List<Inquiry> list = page.getContent();
 		list.forEach(b -> System.out.println(b.getInqSubject()));
+		
+		list.forEach(b -> System.out.println(b.getInqSubject() + "//" + b.getUser().getUserNick()));
+		System.out.println(page);
+	
 	}
 
 	@org.junit.jupiter.api.Test // 상세
@@ -159,8 +173,11 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	void selectAll() {
-		List<ServiceQuestion> li = serviceQuestionRep.findAll();
-		li.forEach(b -> System.out.println(b.getServiceQuestionSubject()));
+		Pageable pageable = PageRequest.of(0, 5,Direction.DESC,"SERVICE_QUESTION_NO");
+		
+		Page<ServiceQuestion> li = serviceQuestionRep.selectAll(pageable);
+		List<ServiceQuestion> list = li.getContent();
+		list.forEach(b -> System.out.println(b.getServiceQuestionSubject()));
 	}
 
 	@org.junit.jupiter.api.Test
@@ -187,8 +204,15 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	void selectInquiryReply() {
-		List<InquiryReply> li = inquiryReplyRep.selectReplyByInquiryNo(3L);
-		li.forEach(b -> System.out.println(b.getInquiryReplyNo() + "//" + b.getUser().getUserNick()));
+		
+		Pageable pageable = PageRequest.of(0, 5,Direction.DESC,"INQUIRY_REPLY_NO");
+
+		Page<InquiryReply> li = inquiryReplySer.selectReplyByInquiryNo(3L,pageable);
+		List<InquiryReply> replyList=li.getContent();
+		
+		replyList.forEach(b -> System.out.println(b.getInquiryReplycontent() + "//" + b.getUser().getUserNick()));
+		System.out.println(li);
+		System.out.println();
 	}
 
 	// 모임댓글
@@ -211,17 +235,23 @@ public class Test {
 	// 어드민이 ServiceQuestion등록한 글 리스트
 	@org.junit.jupiter.api.Test
 	void selectByAdminNo() {
-		List<ServiceQuestion> adminList = serviceQuestionRep.selectByAdminNo();
+		Pageable pageable = PageRequest.of(0, 5,Direction.DESC,"SERVICE_QUESTION_NO");
+
+		Page<ServiceQuestion> page = serviceQuestionRep.selectByAdminNo(4L,pageable);
+		List<ServiceQuestion> adminList=page.getContent();
 		adminList.forEach(b -> System.out.println(b.getUser().getUserNick() + "//" + b.getServiceQuestionContent()));
 	}
 
-	// 마이페이지에서 답변유무 상태 확인
+	// 마이페이지에서 답변유무 상태 확인 ---------------ㅋ 못함요
 	@org.junit.jupiter.api.Test
 	void selectReplyState() {
-		List<SelectReplyState> list = inqSer.selectReplyState(1L);
-		for (SelectReplyState a : list) {
-			System.out.println(a.getState());
-		}
+		Pageable pageable = PageRequest.of(0, 5);
+
+		
+		Page<SelectReplyState> list = inqSer.selectReplyState(1L,pageable);
+		List<SelectReplyState> result=list.getContent();
+		
+		System.out.println(result);
 	}
 	
 	//문의 수정 
