@@ -19,6 +19,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.UsersRepository;
@@ -184,6 +185,13 @@ public class AdminServiceImpl implements AdminService {
 		List<AdvertisementGroupBy> total = adminRep.selectAdTotalPrice();
 		
 		return total;
+	}
+
+	@Override
+	public List<UsersGroupBy> selectMonthCountUser(Users users) {
+		
+		List<UsersGroupBy> totalUser = usersRepository.selectMonthCountUser();
+		return totalUser;
 	}
 
 

@@ -59,7 +59,8 @@
 <a href="${pageContext.request.contextPath}/admin2/main">유저 페이지 가기</a><p>
 <a href="${pageContext.request.contextPath}/admin2/main2">모임 페이지 가기</a><p>
 <a href="${pageContext.request.contextPath}/admin2/adlist">광고 페이지 가기</a><p>
-<a href="${pageContext.request.contextPath}/admin2/chart2">광고 매출 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/adChart">광고 월별 매출 차트</a><p>
+<a href="${pageContext.request.contextPath}/admin2/userChart">유저 월별 증가 차트</a><p>
 </body>
 </html>
 

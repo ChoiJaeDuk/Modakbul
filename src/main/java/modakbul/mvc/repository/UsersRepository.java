@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.UsersGroupBy;
 
 public interface UsersRepository extends JpaRepository<Users, Long>, QuerydslPredicateExecutor<Users>  {
 
@@ -38,5 +39,14 @@ public interface UsersRepository extends JpaRepository<Users, Long>, QuerydslPre
 	
 	
 	List<Users> findByUserNickContaining(String keyword);
+	
+	/**
+	 * 월별 회원 증가수
+	 * */
+	@Query(value = "select distinct TO_CHAR(user_join_date,'mm') as month, count(user_no) as userCount, sum(count(*)) over(order by TO_CHAR(user_join_date,'mm') ) as userTotalCount \r\n"
+			+ "from users \r\n"
+			+ "group by TO_CHAR(user_join_date,'mm') \r\n"
+			+ "order by TO_CHAR(user_join_date,'mm')",nativeQuery = true)
+	List<UsersGroupBy>  selectMonthCountUser();
 	
 }

@@ -9,6 +9,7 @@ import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.UsersGroupBy;
 
 public interface AdminService {
 
@@ -86,5 +87,10 @@ public interface AdminService {
 	 * 광고 매출 차트
 	 * */
 	List<AdvertisementGroupBy> selectAdTotalPrice(Advertisement advertisement);
+	
+	/**
+	 * 월별 회원수 증가 차트
+	 * */
+	List<UsersGroupBy> selectMonthCountUser(Users users);
 
 }

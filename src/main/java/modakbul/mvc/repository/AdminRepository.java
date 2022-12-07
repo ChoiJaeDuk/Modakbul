@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import com.querydsl.core.Tuple;
-
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
 
@@ -57,4 +55,5 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	@Query(value = "select distinct TO_CHAR(ad_regis_date,'mm') as month, sum(ad_price)as totalPrice, count(advertisement_no) as adCount\r\n"
 			+ "from advertisement group by TO_CHAR(ad_regis_date,'mm') order by TO_CHAR(ad_regis_date,'mm')", nativeQuery = true)
 	List<AdvertisementGroupBy> selectAdTotalPrice();
+	
 }

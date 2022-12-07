@@ -17,6 +17,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 
@@ -34,6 +35,41 @@ public class AdminController {
 
 	private final static int BLOCK_COUNT=4;
 
+	/**
+	 * 유저 페이지
+	 * */
+	@RequestMapping("/main")
+	public void userList(Long userNo, Model model , 
+			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
+
+		//모임 리스트
+		List<Gather> gatherList = adminService.selectGatherList();
+
+		model.addAttribute("gatherList", gatherList);
+		//회원 리스트
+		List<Users> usersList = adminService.selectUsersList();
+
+		model.addAttribute("usersList", usersList);
+		//회원 팔로워 리스트
+		List<Follow> followerList = followService.myFollower(userNo);
+
+		model.addAttribute("followerList", followerList);
+		/////페이징 처리/////
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC , "userNo");//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
+
+		Page<Users> pageList = adminService.selectUsersList(pageable);
+
+		int temp = (nowPage-1)%BLOCK_COUNT;//nowPage=6 //5 % 4 = 1// 나머지
+
+		int startPage=nowPage-temp; //6 - 1 = 5
+
+		model.addAttribute("pageList", pageList);
+		model.addAttribute("blockCount" , BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
 	/**
 	 * 모임 페이지
 	 * */
@@ -64,37 +100,7 @@ public class AdminController {
 		model.addAttribute("nowPage", nowPage);
 	}
 
-	/**
-	 * 유저 페이지
-	 * */
-	@RequestMapping("/main")
-	public void userList(Long userNo, Model model , 
-			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
-
-		//모임 리스트
-		List<Gather> gatherList = adminService.selectGatherList();
-
-		model.addAttribute("gatherList", gatherList);
-		//회원 리스트
-		List<Users> usersList = adminService.selectUsersList();
-
-		model.addAttribute("usersList", usersList);
-		
-		/////페이징 처리/////
-		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC , "userNo");//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
-
-		Page<Users> pageList = adminService.selectUsersList(pageable);
-
-		int temp = (nowPage-1)%BLOCK_COUNT;//nowPage=6 //5 % 4 = 1// 나머지
-
-		int startPage=nowPage-temp; //6 - 1 = 5
-
-		model.addAttribute("pageList", pageList);
-		model.addAttribute("blockCount" , BLOCK_COUNT);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
-
-	}
+	
 
 	/**
 	 * 광고 페이지
@@ -183,25 +189,29 @@ public class AdminController {
 		return "";
 	}
 	*/
+	
+	/**
+	 * 모임 매출 페이지
+	 * */
+	@RequestMapping("/userChart")
+	public void selectMonthCountUser(Users users, Model model) {
+		
+		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
+		model.addAttribute("selectMonthCountUser", selectMonthCountUser);
 
+
+	}
+	
 	/**
 	 * 광고 매출 페이지
 	 * */
-	@RequestMapping("/chart2")
+	@RequestMapping("/adChart")
 	public void chart(Advertisement advertisement, Model model) {
 
-		//12월 광고중
 		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
 		
 		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
 
 	}
-	/**
-	 * 모임 매출 페이지
-	 * */
-	@RequestMapping("/chart")
-	public void chart(String gatherBid, Model model) {
 
-
-	}
 }
