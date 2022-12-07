@@ -81,11 +81,12 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	public void selectAllById() {
 		
-		Pageable pageable = PageRequest.of(0, 5,Direction.ASC , "regular_gather_no");
+		Pageable pageable = PageRequest.of(0, 5);
 		
 		Page<GatherReview> list = gatherReviewSer.selectAllByRegularGatherNo(1L,pageable);
 		List<GatherReview> review = list.getContent();
-		review.forEach(b -> System.out.println(b));
+		System.out.println(list);
+		//review.forEach(b -> System.out.println(b));
 
 	}
 
