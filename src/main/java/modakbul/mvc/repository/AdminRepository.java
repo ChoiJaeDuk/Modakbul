@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import modakbul.mvc.domain.Advertisement;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.GatherGroupBy;
 
 public interface AdminRepository extends JpaRepository<Advertisement, Long>, QuerydslPredicateExecutor<Advertisement> {
 	
@@ -56,4 +58,9 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 			+ "from advertisement group by TO_CHAR(ad_regis_date,'mm') order by TO_CHAR(ad_regis_date,'mm')", nativeQuery = true)
 	List<AdvertisementGroupBy> selectAdTotalPrice();
 	
+	/**
+	 * 카테고리 별 모임 개수 
+	 * */
+	@Query(value = "select distinct category_no as category , count(gather_no) as gatherCount from gather group by category_no order by category_no", nativeQuery = true)
+	List<GatherGroupBy> selectCategoryCount();
 }

@@ -56,11 +56,12 @@
 <h2> ADMIN </h2>
 <a href="${pageContext.request.contextPath}/admin/main">admin/main - 인증해야만 접근 가능(ROLE_ADMIN,ROLE_USER)</a><p>
 <a href="${pageContext.request.contextPath}/admin/board">admin/board - 인증해야만 접근 가능(ROLE_ADMIN,ROLE_USER)</a><p>
-<a href="${pageContext.request.contextPath}/admin2/main">유저 페이지 가기</a><p>
-<a href="${pageContext.request.contextPath}/admin2/main2">모임 페이지 가기</a><p>
-<a href="${pageContext.request.contextPath}/admin2/adlist">광고 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/userList">유저 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/gatherList">모임 페이지 가기</a><p>
+<a href="${pageContext.request.contextPath}/admin2/adList">광고 페이지 가기</a><p>
 <a href="${pageContext.request.contextPath}/admin2/adChart">광고 월별 매출 차트</a><p>
 <a href="${pageContext.request.contextPath}/admin2/userChart">유저 월별 증가 차트</a><p>
+<a href="${pageContext.request.contextPath}/admin2/categoryGatherChart">카테고리별 모임 개수 차트</a><p>
 </body>
 </html>
 

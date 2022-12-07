@@ -17,6 +17,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
@@ -38,7 +39,7 @@ public class AdminController {
 	/**
 	 * 유저 페이지
 	 * */
-	@RequestMapping("/main")
+	@RequestMapping("/userList")
 	public void userList(Long userNo, Model model , 
 			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
 
@@ -73,7 +74,7 @@ public class AdminController {
 	/**
 	 * 모임 페이지
 	 * */
-	@RequestMapping("/main2")
+	@RequestMapping("/gatherList")
 	public void gatherList(Model model , 
 			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
 
@@ -105,7 +106,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 * */
-	@RequestMapping("/adlist")
+	@RequestMapping("/adList")
 	public void list(Gather gather, Advertisement advertisement, Model model , 
 			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
 
@@ -191,7 +192,7 @@ public class AdminController {
 	*/
 	
 	/**
-	 * 모임 매출 페이지
+	 * 월별 유저 증가수 차트
 	 * */
 	@RequestMapping("/userChart")
 	public void selectMonthCountUser(Users users, Model model) {
@@ -199,11 +200,21 @@ public class AdminController {
 		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
 		model.addAttribute("selectMonthCountUser", selectMonthCountUser);
 
+	}
+	
+	/**
+	 * 카테고리별 모임 개수 차트
+	 * */
+	@RequestMapping("/categoryGatherChart")
+	public void selectCategoryCount(Gather gather, Model model) {
+		
+		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
+		model.addAttribute("selectCategoryCount", selectCategoryCount);
 
 	}
 	
 	/**
-	 * 광고 매출 페이지
+	 * 광고 매출 차트
 	 * */
 	@RequestMapping("/adChart")
 	public void chart(Advertisement advertisement, Model model) {

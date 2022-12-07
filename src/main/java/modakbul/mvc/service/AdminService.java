@@ -9,6 +9,7 @@ import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
 
 public interface AdminService {
@@ -92,5 +93,10 @@ public interface AdminService {
 	 * 월별 회원수 증가 차트
 	 * */
 	List<UsersGroupBy> selectMonthCountUser(Users users);
+	
+	/**
+	 * 카테고리별 모임 개수
+	 * */
+	List<GatherGroupBy> selectCategoryCount(Gather gather);
 
 }

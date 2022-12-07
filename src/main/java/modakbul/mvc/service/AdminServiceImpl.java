@@ -19,6 +19,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.repository.GatherRepository;
@@ -178,7 +179,9 @@ public class AdminServiceImpl implements AdminService {
 		return adminRep.selectByStatus3(advertisement);
 	}
 
-	
+	/**
+	 * 광고 매출 차트
+	 * */
 	@Override
 	public List<AdvertisementGroupBy> selectAdTotalPrice(Advertisement advertisement) {
 		
@@ -186,12 +189,26 @@ public class AdminServiceImpl implements AdminService {
 		
 		return total;
 	}
-
+	
+	/**
+	 * 월별 회원수 증가 차트
+	 * */
 	@Override
 	public List<UsersGroupBy> selectMonthCountUser(Users users) {
 		
 		List<UsersGroupBy> totalUser = usersRepository.selectMonthCountUser();
 		return totalUser;
+	}
+	
+	/**
+	 * 카테고리별 모임 개수
+	 * */
+	@Override
+	public List<GatherGroupBy> selectCategoryCount(Gather gather) {
+		
+		List<GatherGroupBy> categoryCount = adminRep.selectCategoryCount();
+		
+		return categoryCount;
 	}
 
 
