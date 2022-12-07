@@ -322,7 +322,7 @@ public class UsersServiceImpl implements UsersService {
 		//profile.setEmail(userEmail);
 	
 		
-		System.out.println(id);
+		System.out.println(userEmail);
 		
 		userInfo.put("userNick", userNick);
         userInfo.put("profileImage", profileImage);
