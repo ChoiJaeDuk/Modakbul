@@ -42,11 +42,18 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	}
 
 	@Override
-	public void delete(Long attentionNo) {
+	public void delete(Long gatherNo, Long userNo) {
 		
+		LikeGather lg = likeGatherRep.searchLikeGather(gatherNo, userNo);
+		likeGatherRep.deleteById(lg.getAttentionNo());
 		
-		likeGatherRep.deleteById(attentionNo);
 
+	}
+	
+	@Override
+	public LikeGather selectEle(Long gatherNo, Long userNo) {
+		LikeGather lg = likeGatherRep.searchLikeGather(gatherNo, userNo);
+		return lg;
 	}
 
 	

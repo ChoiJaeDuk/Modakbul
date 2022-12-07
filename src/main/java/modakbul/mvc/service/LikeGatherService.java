@@ -27,5 +27,10 @@ public interface LikeGatherService {
 	/**
 	 * 삭제 - 버튼 클릭시
 	 */
-	void delete(Long attentionNo);
+	void delete(Long gatherNo, Long userNo);
+	
+	/**
+	 * 검색 - 단일객체
+	 */
+	LikeGather selectEle(Long gatherNo, Long userNo);
 }
