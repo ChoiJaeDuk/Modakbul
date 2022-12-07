@@ -23,6 +23,9 @@ public class UsersAjaxController {
 		System.out.println("email = " + email );
 		String userId = usersService.selectUserId(email);
 		System.out.println(userId);
+		if(userId == null) {
+			return "이메일에 해당하는 정보가 없습니다.";
+		}
 		return userId;
 		
 	}
@@ -33,8 +36,12 @@ public class UsersAjaxController {
 		String email = request.getParameter("email");
 		String id = request.getParameter("id");
 		System.out.println(email + "," + id);
-		
-		return usersService.selectUserPwd(id, email);
+		boolean result = usersService.selectUserPwd(id, email);
+		System.out.println("result = " + result);
+		if(result==true) {
+			return "해당 이메일로 임시비밀번호가 전송되었습니다.";
+		}
+		return "해당 정보에 해당하는 회원이 없습니다.";
 		
 	}
 	

@@ -17,26 +17,39 @@
 	<script type="text/javascript">
 	$(function(){
 		//alert(1)
-		$("#findId").click(function(){
+	/* 	$("#findId").click(function(){
 			//document.getElementById("findIdForm1").style.display="";
 			//document.getElementById("findIdForm2").style.display="";
 			//$("#findIdForm").show("2000");
 			//alert(11);
-		})
+			$("#findIdForm").show();
+			
+		}) */
 		
 		$("#findIdBtn").click(function(){
+			if($("#email").val()==""){
+				alert("이메일을 입력해주세요.");
+				return;
+			}
 			
 			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/selectUserId",
-				data: {"email":$("#email").val()},
-				
+				data: "${_csrf.parameterName}=${_csrf.token}&email="+$('#email').val(),
+			
 				dataType:"text",
 				success:function(result){
 					
 					 var data = result;
 					 console.log(data);
-					 $("#selectId").html(data);	
+					 
+					if(data=="이메일에 해당하는 정보가 없습니다."){
+						 $("#selectId").html(data);	
+						 $("#email").val("");
+					}else{
+						$("#selectId").html("ID : " + data);	
+					}
+					
 
 				},//function
 				error:function(error){
@@ -48,27 +61,32 @@
 		
 		 $("#findPwdBtn").click(function(){
 			console.log($("#idForPwd").val() )
+			if( $("#idForPwd").val()=="" || $("#emailForPwd").val()==""){
+				alert("정보를 입력해주세요.");
+				return;
+			}
 			
 			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/selectUserPwd",
 				data: 
-					//"${_csrf.parameterName}=${_csrf.token}&address="+$('#address').val(),+"&id="+$("#idForPwd").val(), 
+					
 					"${_csrf.parameterName}=${_csrf.token}&email="+$('#emailForPwd').val()+"&id="+$("#idForPwd").val()
 
 				,
 				
 				dataType:"text",
 				success:function(result){
-					 
+					
 					 var data = result;
+					 
 					 console.log(data);
 					 //$("#selectId").html(data);	
 					 alert(data);
 
 				},//function
 				error:function(error){
-					
+					console.log(error)
 				}
 				
 			});//ajax
@@ -105,9 +123,9 @@
             </div>
           </form>
           <div class="option-wrap">
-            <div class="option-item"><a id="findId" href="">아이디 찾기</a></div>
-            <div class="option-item"><a>비밀번호 찾기</a></div>
-            <div class="option-item"><a id="f" href="">회원가입</a></div>
+            <div class="option-item"><a href="#" onclick="$('#findIdForm').show()">아이디 찾기</a></div>
+            <div class="option-item"><a href="#" onclick="$('#findPwdForm').show()">비밀번호 찾기</a></div>
+            <div class="option-item"><a id="f" href="${pageContext.request.contextPath }/user/joinForm">회원가입</a></div>
           </div>
           <div class="kakao-login-button-wrap">
             <a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&redirect_uri=http://localhost:9000/auth/kakao/callback&response_type=code">
@@ -126,12 +144,12 @@
         </div>
         <div class="search-id-result" id="selectId"></div>
         <div class="modal-button-wrap">
-          <button class="modal-button cancel-button">닫기</button>
+          <button class="modal-button cancel-button" onclick="$('#findIdForm').hide()">닫기</button>
           <button class="modal-button search-id-button" id="findIdBtn" >아이디 찾기</button>
         </div>
       </div>
       <!-- 비밀번호 찾기 -->
-      <div class="modal-wrap"> 
+      <div class="modal-wrap" id="findPwdForm" style="display: none"> 
         <div>
        
           <div class="modal-input-wrap" >
@@ -144,7 +162,7 @@
           </div>
         </div>
         <div class="modal-button-wrap">
-          <button type="button" class="modal-button cancel-button">닫기</button>
+          <button type="button" class="modal-button cancel-button" onclick="$('#findPwdForm').hide()">닫기</button>
           <button type="button" class="modal-button search-id-button" id="findPwdBtn">
             비밀번호 찾기
           </button>
