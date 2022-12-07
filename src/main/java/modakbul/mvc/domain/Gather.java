@@ -86,9 +86,6 @@ public class Gather {
 	
 	private int likeCount;
 	
-	//유저리뷰 리스트
-	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	//private List<UserReview> userReviewList;
 
 
 }
