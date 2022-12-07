@@ -30,7 +30,7 @@ public class UsersController {
 	private final UserAttachmentsService userAttachService;
 	
 	@RequestMapping("/{url}")
-	public void loginForm() {
+	public void url() {
 		
 	}
 	
@@ -40,21 +40,29 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/insert")
-	public ModelAndView insert(Users user, UserAttachments userAttach, HttpSession session, List<MultipartFile> file) {
+	public ModelAndView insert(Users user, UserAttachments userAttach, HttpSession session, @RequestParam("filesList[]") List<MultipartFile> filesList, MultipartFile file) {
 		
-		System.out.println("하잉");
+		System.out.println("userGender" + user.getUserGender());
+		
 		String saveDir = session.getServletContext().getRealPath("/WEB-INF/save");
 		//fileList.forEach(b->System.out.println(b));
-		MultipartFile fileOne = file.get(0);
 		
-		String originalFileName = fileOne.getOriginalFilename();
+		String originalFileName = file.getOriginalFilename();
+		System.out.println("파일 = "+ originalFileName);
 		try {
-			fileOne.transferTo(new File(saveDir + "/" + originalFileName));
+			file.transferTo(new File(saveDir + "/" + originalFileName));
 		}catch (Exception e) {
 			e.getStackTrace();
 		}
-		user.setUserProfileImg(originalFileName);
+		
+		if(user.getUserProfileImg()==null) {
+			
+			user.setUserProfileImg(originalFileName);
+		}
+		
 		usersService.insert(user);
+		System.out.println("성공");
+		System.out.println("userId= " + user.getUserId());
 		Users dbUser = usersService.selectById(user.getUserId());
 		
 		/*
@@ -65,18 +73,27 @@ public class UsersController {
 		 * 
 		 * }catch (Exception e) { e.getStackTrace(); } }
 		 */
-		for(int i = 1; i<file.size(); i++) {
-			fileOne = file.get(i);
-			originalFileName = fileOne.getOriginalFilename();
-			try {
-				fileOne.transferTo(new File(saveDir + "/" + originalFileName));
-			}catch(Exception e) {
-				e.getStackTrace();
+		System.out.println("사이즈 + " + filesList.size());
+		if(filesList.size()>1) {
+			for(int i = 0; i<filesList.size(); i++) {
+				
+				System.out.println("여기를안와?");
+				file = filesList.get(i);
+				originalFileName = file.getOriginalFilename();
+				try {
+					System.out.println("업로드");
+					file.transferTo(new File(saveDir + "/" + originalFileName));
+				}catch(Exception e) {
+					e.getStackTrace();
+					System.out.println("안된거야");
+				}
+				System.out.println("attach = " + userAttach.getUserAttachmentsFileSubject());
+				userAttach.setUser(Users.builder().userNo(dbUser.getUserNo()).build());
+				userAttach.setUserAttachmentsFileName(originalFileName);
+				userAttachService.insert(userAttach);
 			}
-			System.out.println("attach = " + userAttach.getUserAttachmentsFileSubject());
-			userAttach.setUser(Users.builder().userNo(dbUser.getUserNo()).build());
-			userAttach.setUserAttachmentsFileName(originalFileName);
-			userAttachService.insert(userAttach);
+			
+			
 		}
 		
 		

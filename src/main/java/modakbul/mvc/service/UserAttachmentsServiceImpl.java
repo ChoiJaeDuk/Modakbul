@@ -24,9 +24,9 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 		
 		userAttachRep.save(
 				UserAttachments.builder()
-				.user(new Users(2L))
-				.userAttachmentsFileSubject("자격증")
-				.userAttachmentsFileName("fff.hwp")
+				.user(userAttachments.getUser())
+				.userAttachmentsFileSubject(userAttachments.getUserAttachmentsFileSubject())
+				.userAttachmentsFileName(userAttachments.getUserAttachmentsFileName())
 				.build()
 
 				);

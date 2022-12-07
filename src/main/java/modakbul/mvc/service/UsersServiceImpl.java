@@ -1,6 +1,7 @@
 package modakbul.mvc.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -40,6 +41,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
 import modakbul.mvc.domain.QUsers;
+//import modakbul.mvc.domain.QUsers;
 import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
@@ -76,7 +78,7 @@ public class UsersServiceImpl implements UsersService {
 		user.setUserpwd(encodedPassword);
 		
 		if(user.getUserGender()!=null) {
-			System.out.println("insert하자!");
+			
 			usersRep.save(
 					Users.builder()
 					.userId(user.getUserId())
@@ -165,6 +167,7 @@ public class UsersServiceImpl implements UsersService {
 		//return usersRep.findAll(pageable); 
 		//findall
 		return new PageImpl<Users>(list, pageable, list.size());
+		//return null;
 	}
 
 	
@@ -222,25 +225,36 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public String selectUserId(String userEmail) {
 		String dbUserId = usersRep.selectUserId(userEmail);
-		if (dbUserId == null)
-			throw new RuntimeException("해당 이메일의 정보가 존재하지 않습니다.");
+		//if (dbUserId == null)
+			//throw new RuntimeException("해당 이메일의 정보가 존재하지 않습니다.");
 		return dbUserId;
 
 	}
 
 	@Override
-	public String selectUserPwd(String userId, String userEmail) throws Exception{
-
-		Users user = usersRep.selectById(userId);
-		if (!user.getUserEmail().equals(userEmail))
-			throw new RuntimeException("해당 정보에 맞는 회원이 없습니다.");
+	public boolean selectUserPwd(String userId, String userEmail) throws Exception{
+		System.out.println("시작 = " + userId);
 		
-		String ePw = mailSender.sendSimpleMessage(userEmail, "find");
 		
-		String encodedPassword = passwordEncoder.encode(ePw);
-		user.setUserpwd(encodedPassword);
+		//if (!user.getUserEmail().equals(userEmail))
+			//throw new RuntimeException("해당 정보에 맞는 회원이 없습니다.");
+		
+		if (usersRep.selectById(userId)==null) {
+			System.out.println("1번");
+			return false;
+		}else {
+			Users user = usersRep.selectById(userId);
+			System.out.println("user = " + user.getUserEmail());
+			System.out.println("2번");
+			String ePw = mailSender.sendSimpleMessage(userEmail, "find");
+			
+			String encodedPassword = passwordEncoder.encode(ePw);
+			user.setUserpwd(encodedPassword);
 
-		return "임시비밀번호가 메일로 발송되었습니다.";
+			
+			return true;
+		}
+		
 	}
 
 	@Override
@@ -260,10 +274,12 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public String kakaoLogin(String token) throws ParseException {
+	public HashMap<String, Object> kakaoLogin(String token) throws ParseException {
+		HashMap<String, Object> userInfo = new HashMap<String, Object>();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + token);
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
 		
 		RestTemplate rt = new RestTemplate();
 		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
@@ -284,15 +300,36 @@ public class UsersServiceImpl implements UsersService {
 				
 		);
 		
+		/*KakaoProfile kp = rt.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST, kakaoProfileRequest, KakaoProfile.class).getBody();
+		String email = kp.kakao_account.getEmail();
+		System.out.println("여기즘이니 ?"+email);
+		String id = usersRep.selectUserId(email);
+		Users user = usersRep.selectById(id);*/
 		String str = response.getBody();
 		JSONObject kakao_response = parseJSON(str);
 		JSONObject kakao_account = (JSONObject) kakao_response.get("kakao_account");
 		JSONObject profile = (JSONObject) kakao_account.get("profile");
+		JSONObject properties = (JSONObject) kakao_response.get("properties");
+		
 		String userEmail = (String) kakao_account.get("email");
 		String userNick = (String) profile.get("nickname");
 		String id = usersRep.selectUserId(userEmail);
+		String profileImage = (String) properties.get("profile_image");
+		String gender = (String) kakao_account.get("gender");
+		
 		Users user = usersRep.selectById(id);
+		
+		//profile.setEmail(userEmail);
+	
+		
 		System.out.println(id);
+		
+		userInfo.put("userNick", userNick);
+        userInfo.put("profileImage", profileImage);
+        userInfo.put("userEmail", userEmail);
+        userInfo.put("id", id);
+        userInfo.put("gender", gender);
+
 
 		//Users newUser = Users.builder().userEmail(userEmail).userNick(userNick).build();		
 		/*if(id==null) {
@@ -329,7 +366,7 @@ public class UsersServiceImpl implements UsersService {
 	
 		
 		
-		return id;
+		return userInfo;
 	}
 
 	@Override
