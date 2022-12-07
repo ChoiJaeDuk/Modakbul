@@ -1,14 +1,12 @@
 package modakbul.mvc.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import modakbul.mvc.domain.GatherReview;
-import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.repository.UserReviewRepository;
 
@@ -22,9 +20,9 @@ public class UserReviewServiceImpl implements UserReviewService {
 	private UsersService userService;
 
 	@Override
-	public List<UserReview> selectAllByUserReviewNo(Long hostUserNo) {
+	public Page<UserReview> selectAllByUserReviewNo(Long hostUserNo, Pageable pageable) {
 		
-		return userReviewRep.selectByUserReviewNo(hostUserNo);
+		return userReviewRep.selectByUserReviewNo(hostUserNo,pageable);
 	}
 
 	@Override

@@ -1,17 +1,15 @@
 package modakbul.mvc.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryFactory;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.QServiceQuestion;
@@ -28,9 +26,9 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	private JPAQueryFactory queryFactory;
 	
 	@Override
-		public List<ServiceQuestion> selectAllByServiceQuestionNo() {
+		public Page<ServiceQuestion> selectAll(Pageable pageable) {
 
-		return serviceQuestionRep.findAll();
+		return serviceQuestionRep.selectAll(pageable);
 		}
 	@Override
 	public void insertServiceQustion(ServiceQuestion serviceQuestion) {
@@ -88,8 +86,9 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	
 	
 	@Override
-	public List<ServiceQuestion> selectByAdminNo() {	
-		List<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo();
+	public Page<ServiceQuestion> selectByAdminNo(Long userNo, Pageable pageable) {	
+		Page<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo(userNo,pageable);
+		
 		return adminList;
 	}
 

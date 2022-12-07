@@ -34,20 +34,30 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	}
 
 	@Override
-	public void insert(LikeGather likeGather) {
+	public String insert(LikeGather likeGather) {
+		LikeGather dbLg = likeGatherRep.searchLikeGather(likeGather.getGather().getGatherNo(), likeGather.getUser().getUserNo());
+		
+		if(dbLg != null)return "fail";
+		
 		LikeGather resultLikeGather = likeGatherRep.save(likeGather);
-		if(resultLikeGather == null) throw new RuntimeException("관심모임 등록에 실패했습니다.");
-		System.out.println("resultLikeGather = " + resultLikeGather);
-
+		
+		if(resultLikeGather == null) {
+			System.out.println("인서트 오류");
+			return "fail";
+		}
+		return "ok";
 	}
 
 	@Override
-	public void delete(Long gatherNo, Long userNo) {
+	public String delete(Long gatherNo, Long userNo) {
 		
 		LikeGather lg = likeGatherRep.searchLikeGather(gatherNo, userNo);
+		
+		System.out.println("서비스에서 삭제할 항목 = " + lg.getAttentionNo());
+		
 		likeGatherRep.deleteById(lg.getAttentionNo());
 		
-
+		return "ok";
 	}
 	
 	@Override
