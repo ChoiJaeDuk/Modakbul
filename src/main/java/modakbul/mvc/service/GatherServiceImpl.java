@@ -298,9 +298,10 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public Page<Gather> selectBidGatherappliList(Pageable pageable) {
 
-		List<Gather> result = gatherRep.selectBidGatherappliList();
+		Page<Gather> result = gatherRep.selectBidGatherappliList(pageable);
 
-		return new PageImpl<Gather>(result, pageable, result.size());
+		//return new PageImpl<Gather>(result, pageable, result.size());
+		return result;
 	}
 
 	@Override

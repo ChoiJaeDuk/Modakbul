@@ -31,7 +31,7 @@
 		    }
 		}
 		// input file에 change 이벤트 부여
-		const inputImage = document.getElementById("sign-up-add-image")
+		const inputImage = document.getElementById("group-add-image")
 		
 		inputImage.addEventListener("change", e => {
 		    readImage(e.target)
@@ -49,7 +49,7 @@
 		      });
    		 
 		
-})
+//})
 	})    
     
     </script>
