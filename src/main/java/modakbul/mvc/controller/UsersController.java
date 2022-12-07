@@ -63,6 +63,7 @@ public class UsersController {
 		usersService.insert(user);
 		System.out.println("성공");
 		System.out.println("userId= " + user.getUserId());
+		System.out.println("userId= " + user.getUserEmail());
 		Users dbUser = usersService.selectById(user.getUserId());
 		
 		/*
