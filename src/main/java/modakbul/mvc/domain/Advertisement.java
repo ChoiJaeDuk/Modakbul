@@ -53,12 +53,15 @@ public class Advertisement {
 	@Column(nullable = false)
 	private LocalDateTime adRegisDate;
 	
-	private Date adApproveDate;
+	private LocalDateTime adApproveDate;
 	
-	private Date deadLine;
+	private LocalDateTime deadLine;
 	
 	@Column(nullable = false)
 	@NonNull
 	private String adFileName;
+	
+	@Column(nullable = false)
+	private int adPrice;
 	
 }

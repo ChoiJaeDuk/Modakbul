@@ -18,4 +18,8 @@ public class KakaoOAuthToken {
 	private int expires_in;
 	private String scope;
 	private int refresh_token_expires_in;
+	
+	private String email;
+	private String nick;
+	
 }

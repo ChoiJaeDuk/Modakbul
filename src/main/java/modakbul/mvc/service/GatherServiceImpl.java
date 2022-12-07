@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,12 +26,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.GatherAttachments;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
 import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
 
 @Service
@@ -63,13 +64,17 @@ public class GatherServiceImpl implements GatherService {
 	private JPAQueryFactory queryFactory;
 
 	private final GatherRepository gatherRep;
-
+	
+	private final GatherAttachmentsRepository gatherAttachementsRep;
+	
 	@Override
-	public void insertGather(Gather gather) {
+	public void insertGather(Gather gather, GatherAttachments gatherAttachments) {
 		gatherRep.save(gather);
+		gatherAttachementsRep.save(gatherAttachments);
 
 	}
-	boolean state = false;
+	
+	
 	@Override
 	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
 	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
@@ -96,31 +101,45 @@ public class GatherServiceImpl implements GatherService {
 			//System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
 			if (ldt.isEqual(gather.getGatherDeadline())) {
 				if ( i < gather.getGatherMinUsers() ) {
-					System.out.println("11111111111");
 					gather.setGatherState("모임취소");
 					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
-					
+					if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+						//다음 날짜를 계산
+						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+						//다음 마감시간을 계산
+						LocalDateTime newDeadline = newGatherDate.minusHours(3);
+						//새로운 모임을 insert
+						Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
+								, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+								, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
+								, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+						gatherRep.save(newGather);
+					}
 				} else {
-					System.out.println("22222222222222");
 					gather.setGatherState("모집마감");
 					autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
 				}
 			} else if (ldt.isEqual(gather.getGatherDate())) {
-				System.out.println("33333333333");
 				gather.setGatherState("진행중");
 				autoUpdateParticipantState(gather.getGatherNo(), "참가중", "참가확정");
 			} else if (ldt.isEqual(completeDate)) {
-				System.out.println("4444444444444");
 				gather.setGatherState("진행완료");
 				autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
-			}else {
-				System.out.println("555555555555");
+				if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+					//다음 날짜를 계산
+					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+					//다음 마감시간을 계산
+					LocalDateTime newDeadline = newGatherDate.minusHours(3);
+					//새로운 모임을 insert
+					Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
+							, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+							, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
+							, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+					gatherRep.save(newGather);
+				}
 			}
-			
-			System.out.println("--------------------------------------\n");
 		} // for문
 
-	   System.out.println("---메소드 완료...----\n");
 	}
 	
 	

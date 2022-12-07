@@ -36,6 +36,7 @@ public class PaymentTestController {
 		}
 		//adminSer.advertisementInsert(new Advertisement(66L, "신청대기", "asd"));
 		//이거 호출 하는것 빼고 연결함,, 
+
 		
 		System.out.println("123123");
 	}

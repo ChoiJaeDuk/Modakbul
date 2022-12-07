@@ -1,5 +1,6 @@
 package modakbul.mvc.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.AdvertisementGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.UsersRepository;
@@ -29,7 +35,31 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private UsersRepository usersRepository;
 
-
+	@Autowired
+	private JPAQueryFactory queryFactory;
+	
+	QAdvertisement ad = QAdvertisement.advertisement;
+	
+	/**
+	 * 광고 종료 스케줄러 
+	 * */
+	@Override
+	@Scheduled(cron = "0 * * * * *")
+	public void AutoAdvertisementUpdate() {
+		List<Advertisement> advertisementList = queryFactory.selectFrom(ad).where(ad.adStatus.eq("광고중")).fetch();
+		
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime ldt = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(),now.getMinute());
+		
+		for(Advertisement advertisement : advertisementList) {
+			System.out.println("adNo = " + advertisement.getAdvertisementNo()+"/"+advertisement.getDeadLine().isEqual(ldt));
+			
+			if(advertisement.getDeadLine().isEqual(ldt)) {
+				advertisement.setAdStatus("광고종료");
+			}
+		}
+	}
+	
 	/**
 	 * 모임 조회
 	 * */
@@ -95,53 +125,38 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	/**
-	 * 광고 상태 변경 void예정
+	 * 광고 상태 변경 
 	 * */
 	@Override
-	public Advertisement statusUpdate(Advertisement advertisement) {
+	public void statusUpdate(Advertisement advertisement) {
 		Advertisement statusUpdate = adminRep.findById(advertisement.getAdvertisementNo()).orElse(advertisement);
-		if(statusUpdate==null)
-			throw new RuntimeException("오류로 수정 불가");
-
+	
 		statusUpdate.setAdStatus(advertisement.getAdStatus());
 
-		return statusUpdate;
-	}
-
-	/*
-   @Override
-   @Scheduled(cron = "* * 0 * * *")
-   public void scheduledStatusUpdate(Advertisement advertisement) {
-
-      LocalDateTime now = LocalDateTime.now();
-      Date date = advertisement.getDeadLine();
-      }
-	 */
-
-	/**
-	 * 광고 배너 수정 void예정
-	 * */
-	@Override
-	public Advertisement bannerUpdate(Advertisement advertisement) {
-		Advertisement bannerUpdate = adminRep.findById(advertisement.getAdvertisementNo()).orElse(advertisement);
-		if(bannerUpdate==null)
-			throw new RuntimeException("오류로 수정 불가");
-
-		bannerUpdate.setAdFileName(advertisement.getAdFileName());
-
-		return bannerUpdate;
 	}
 
 	/**
-	 * 삭제하기
+	 * 광고 수정
 	 * */
 	@Override
-	public void delete(Long advertisementNo) {
-		Advertisement updateAdvertiserment = adminRep.findById(advertisementNo).orElse(null);
-		if(updateAdvertiserment==null)
-			throw new RuntimeException("오류로 삭제 불가");
+	public void updateAdvertisement(Advertisement advertisement) {			
+		if(advertisement.getAdStatus().equals("광고중")) {
+			delete(advertisement);
+		}
+		adminRep.save(advertisement);
+	
+	}
 
-		adminRep.deleteById(advertisementNo);
+	/**
+	 * 광고중 광고 삭제하기
+	 * */
+	@Override
+	public void delete(Advertisement advertisement) {
+		queryFactory.delete(ad)
+		.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo())
+				.and(ad.adStatus.eq("광고중")))
+		.execute();
+
 	}
 
 	@Override
@@ -162,83 +177,17 @@ public class AdminServiceImpl implements AdminService {
 		return adminRep.selectByStatus3(advertisement);
 	}
 
-	@Override
-	public List<Advertisement> selectAdStatusIng1(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng1(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng2(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng2(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng3(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng3(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng4(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng4(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng5(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng5(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng6(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng6(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng7(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng7(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng8(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng8(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng9(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng9(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng10(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng10(advertisement);
-	}
-
-	@Override
-	public List<Advertisement> selectAdStatusIng11(Advertisement advertisement) {
-		// TODO Auto-generated method stub
-		return adminRep.selectAdStatusIng11(advertisement);
-	}
 	
 	@Override
-	public List<Advertisement> selectAdStatusIng12(Advertisement advertisement) {
-
-		return adminRep.selectAdStatusIng12(advertisement);
+	public List<AdvertisementGroupBy> selectAdTotalPrice(Advertisement advertisement) {
+		
+		List<AdvertisementGroupBy> total = adminRep.selectAdTotalPrice();
+		
+		return total;
 	}
 
-	@Override
-	public String selectGatherBid1(String gatherBid) {
 
-		return adminRep.selectGatherBid1(gatherBid);
-	}
+	
 
 	
 

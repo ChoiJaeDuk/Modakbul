@@ -12,23 +12,37 @@ import org.springframework.test.annotation.Commit;
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.AdvertisementGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.repository.GatherRepository;
+import modakbul.mvc.repository.UsersRepository;
+import modakbul.mvc.service.AdminService;
 
 @SpringBootTest
 @Transactional
 @Commit
 public class Test {
-	
-	Users users = new Users(2L);
-	Gather gather = new Gather(10L);
 
-	
+	Gather gather = new Gather(7L);
+
+	@Autowired
+	private AdminService adminService;
 	@Autowired
 	private AdminRepository advertisementRep;
 	
 	@Autowired
 	private GatherRepository gatherRepository;
+	
+	@Autowired
+	private UsersRepository users;
+	
+	Users userTest = new Users().builder().userNo(2L).build();
+	/**
+	 * 스케줄러
+	 * */
+	void AutoAdvertisementUpdate() {
+		
+	}
 	
 	/**
 	 * 광고 등록
@@ -37,9 +51,9 @@ public class Test {
 	void advertisementInsert() {
 
 		LocalDateTime date = LocalDateTime.now();
-	
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 18, 15);
 		
-		Advertisement advertisement = new Advertisement(1L,users,gather,"광고종료",date,null,null,"test7.jpg");
+		Advertisement advertisement = new Advertisement(141L,userTest,gather,"광고중",date,null,deadLine,"test7.jpg",50000);
 		advertisementRep.save(advertisement);
 
 	}
@@ -99,18 +113,6 @@ public class Test {
 	}
 	
 	/**
-	 * 12월 광고중 검색 
-	 * */
-	@org.junit.jupiter.api.Test
-	public void selectAdStatusIng12() {
-		List<Advertisement> list = advertisementRep.selectAdStatusIng12(null);
-		/*for(Advertisement b :list) {
-			System.out.println(b);
-		}*/
-		list.forEach(b->System.out.println(b));
-	}
-	
-	/**
 	 * 모임 참가비 조회1
 	 * */
 	@org.junit.jupiter.api.Test
@@ -133,4 +135,25 @@ public class Test {
 		list.forEach(b->System.out.println(b));
 	}
 	
+	/**
+	 * 광고 수정 
+	 * */
+	@org.junit.jupiter.api.Test
+	public void UpdateAdvertisement() {
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 14, 47);
+		LocalDateTime approveDate = LocalDateTime.of(2022, 12, 6, 14, 49);
+		LocalDateTime date = LocalDateTime.now();
+		Advertisement ad = new Advertisement(78L , userTest , gather, "광고중", date, approveDate, deadLine, "test3",10000);
+		adminService.updateAdvertisement(ad);
+		
+	}
+	
+	@org.junit.jupiter.api.Test
+	public void selectAdTotalPrice() {
+
+		List<AdvertisementGroupBy> test = adminService.selectAdTotalPrice(null);
+		for(AdvertisementGroupBy t: test) {
+			System.out.println(t.getMonth() + "월 / "+ t.getTotalPrice() +"원" + " / 갯수: " + t.getAdCount());
+		}
+	}
 }
