@@ -1,5 +1,6 @@
 package modakbul.mvc.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.KakaoOAuthToken;
+import modakbul.mvc.domain.KakaoProfile;
 import modakbul.mvc.domain.Users;
 
 
@@ -40,7 +42,7 @@ public interface UsersService {
 	 * @param user
 	 * @return
 	 */
-	String kakaoLogin(String token) throws ParseException;
+	HashMap<String, Object> kakaoLogin(String token) throws ParseException;
 
 	
 	KakaoOAuthToken getAccessToken(String code);
@@ -87,7 +89,7 @@ public interface UsersService {
 	 * @param userEmail
 	 * @return
 	 */
-	String selectUserPwd(String userId, String userEmail) throws Exception;
+	boolean selectUserPwd(String userId, String userEmail) throws Exception;
 	
 	/**
 	 * 모닥불온도 업데이트

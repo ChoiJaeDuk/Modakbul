@@ -31,7 +31,7 @@ public class PaymentTestController {
 		for (String m:result.keySet()) {
 			 System.out.println("key:"+m+",value:"+result.get(m));
 		}
-		adminSer.advertisementInsert(Advertisement.builder().adStatus("신청대기").gather(new Gather(10L)).user(new Users(2L)).adFileName("logo").build());
+		adminSer.advertisementInsert(Advertisement.builder().adStatus("신청대기").gather(new Gather(10L)).user(Users.builder().userNo(2L).build()).adFileName("logo").build());
 		//return "index";
 		
 		System.out.println("123123");

@@ -4,6 +4,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
     <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,9 +36,24 @@
 	
 	let rrn1J = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))$/;
 	let rrn2J = /[1-4][0-9]{6}$/;
-
+	//var $div// = $(".certificate-input-wrap").eq(0).clone();	
 	
 		$(function(){
+			
+			
+			$("#email").keyup(function(){
+				$(".email-validate-error").html("미인증");
+				
+		
+			})
+			
+			$("#id").keyup(function(){
+				$("#checkId").html(" id 중복체크 ");
+				
+				
+			})
+			
+			
 			$("#sendEmail").click(function(){
 				
 				var email=$("#email").val()+"@"+$(".email-select option:selected").val();
@@ -68,8 +84,7 @@
 					console.log(email)
 				}
 				
-				var data2 ="<input type='hidden' name='userEmail' value='"+ email +"'>"
-				$("#userEmail").prepend(data2)
+				$("input[name='userEmail']").val(email);
 			
 				$.ajax({
 					type:"POST",
@@ -196,25 +211,9 @@
 				
 			})
 			
-			$("input[name='gender']").click(function(){
-					$("input[name='gender']").attr("checked", false);
+			$("input[name='userGender']").click(function(){
+					$("input[name='userGender']").attr("checked", false);
 					$(this).attr("checked", true);
-					var data = "<input type='hidden' name='userGender'";
-					if($("input[name='gender']:checked").val()=="female"){
-						
-						data +=  "value='여자'>"
-						
-						console.log(data);
-						$("#userGender").remove("input[name='userGender']");
-						$("#userGender").prepend(data);	
-						 
-					}else{
-						
-						data +=  "value='남자'>"
-						$("#userGender").remove("input[name='userGender']");
-						$("#userGender").prepend(data);	
-					}
-
 					
 			})
 			
@@ -268,13 +267,106 @@
 				});//ajax
 			})
 			
+			var count = 1;
+			$(document).on("click",".certificate-add-button", function(){
+				
+			
+				var $div = $(".certificate-input-wrap").eq(0).clone();	
+				$div.find("input").val("");
+				
+				//alert(1);
+				count++;
+				// $(".certificate-add-button").on("click",function(){
+					//var $data = "<span></span>";
+					//var data = 
+					if(count <=5){
+						
+						alert("$div = " + $div.html())
+						
+						//event.target
+					    
+					    
+						//$data += $div
+						
+						$("#certAdd").append($div);
+						
+						//$(this).parent().lastChild($div);
+						//$(this).after($div)
+						
+						//$div.after("<p>")
+						//$(".certificate-input-wrap").after("<p>")
+					}
+			})
+			
+			$(document).on("click", ".certificate-file-button", function(){
+				
+		
+				
+				$(document).on("change", ".sign-up-add-image", function(){
+					alert(1)
+			      
+			        	var filename = $(this).val().split('/').pop().split('\\').pop();
+			          console.log(filename)
+			          $(this).prev().val(filename);
+			       
+				
+			      
+				})   
+				
+			})
+					
+					 function readImage(input) {
+						  
+						// 인풋 태그에 파일이 있는 경우
+					    if(input.files && input.files[0]) {
+					        // 이미지 파일인지 검사 (생략)
+					        // FileReader 인스턴스 생성
+					        const reader = new FileReader()
+					        // 이미지가 로드가 된 경우
+					        reader.onload = e => {
+					            const previewImage = document.getElementById("sign-up-image")
+					          
+					            previewImage.src = e.target.result
+					          
+					        }
+					        // reader가 이미지 읽도록 하기
+					        reader.readAsDataURL(input.files[0])
+					    }
+					}
+					// input file에 change 이벤트 부여
+					const inputImage = document.getElementById("sign-up-add-image")
+					
+					inputImage.addEventListener("change", e => {
+					    readImage(e.target)
+					})
+				
+				    
+				        
+				    //  });
+		   		  
+				
+			//})
+			
+			
+			
 			$("form").on("submit",function() {
 			//$(".sign-up-cancel-button").click(function(){
+				var img = $(".sign-up-image").attr("src")
+					console.log(img)
+					
+					if($(".sign-up-add-image").val()==""){
+						
+						var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
+						//console.log(img)
+						$(".sign-up-image-wrap").prepend(data);
+						return;
+					}
+				
 				let inval_Arr = new Array(8).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
 					
-					inval_Arr[0] = true;console.log("4 = " + inval_Arr[4])
+					inval_Arr[0] = true;
 				} else {
 					inval_Arr[0] = false;
 					alert("이름은 한글로만 작성가능합니다.");
@@ -345,7 +437,7 @@
 				} 
 						
 				//성별 
-				if($('input:radio[name=gender]').is(':checked')==true){
+				if($('input:radio[name=userGender]').is(':checked')==true){
 					inval_Arr[7] = true;
 					
 				}else{
@@ -354,10 +446,10 @@
 					return false;
 				}
 				var data = $("#RRN2").val();
-				if( (data.charAt(0)==1 || 3)  &&  ($("input[name='gender']:checked").val()=="male") ){
+				if( (data.charAt(0)==1 || 3)  &&  ($("input[name='userGender']:checked").val()=="남자") ){
 					inval_Arr[8] = true;
 					
-				}else if((data.charAt(0)==2 || 4)  &&  ($("input[name='gender']:checked").val()=="female")){
+				}else if((data.charAt(0)==2 || 4)  &&  ($("input[name='userGender']:checked").val()=="여자")){
 					inval_Arr[8] = true;
 					
 				}else{
@@ -365,6 +457,10 @@
 					alert("주민등록번호, 성별을 확인해주세요.");
 					return false;
 				}
+				
+				
+				
+				
 				
 				//전체 유효성 검사
 				let validAll = true;
@@ -384,65 +480,12 @@
 			
 			
  
+	    });
 			
-			function readImage(input) {
-				  
-					// 인풋 태그에 파일이 있는 경우
-				    if(input.files && input.files[0]) {
-				        // 이미지 파일인지 검사 (생략)
-				        // FileReader 인스턴스 생성
-				        const reader = new FileReader()
-				        // 이미지가 로드가 된 경우
-				        reader.onload = e => {
-				            const previewImage = document.getElementById("sign-up-image")
-				          
-				            previewImage.src = e.target.result
-				          
-				        }
-				        // reader가 이미지 읽도록 하기
-				        reader.readAsDataURL(input.files[0])
-				    }
-				}
-				// input file에 change 이벤트 부여
-				const inputImage = document.getElementById("sign-up-add-image")
-				
-				inputImage.addEventListener("change", e => {
-				    readImage(e.target)
-				})
-				
-				
-				      $("#sign-up-add-file").on("change",function(){
-				        if(window.FileReader){
-				        	var filename = $(this).val().split('/').pop().split('\\').pop();
-				          console.log(filename)
-				        } else {
-				          var filename = $(this).val().split('/').pop().split('\\').pop();
-				        }
-				        $("#fileName").val(filename);
-				      });
-		   		 
-				
-		})
 		
+		var count = 1;
 		
-		
-		/*function putFileName(){
-			//javascript: = this.value		
-			/* var filePath = $("#sign-up-add-file").val()	; //document.getElementById('fileName').value
-			console.log(filePath)
-			var split = filePath.split("\");
-			
-			var length = split.length;
-			console.log(length)
-			var fname = split[length-1];
-			console.log(fname) 
-			var filename = $(this).val().split('/').pop().split('\\').pop();
-			
-			$("fileName").html(fname);
-			this.$("#fileName").val();
-				
-		}*/
-		
+
 		
 		function execPostCode() {
 		new daum.Postcode({
@@ -484,9 +527,7 @@
 		}).open();
 			
 		}
-			
-			
-
+	
 	
 	</script>
   </head>
@@ -498,13 +539,30 @@
           <div class="sign-up-image-area">
             <div class="sign-up-form-image ">
               <div class="sign-up-image-wrap">
-                 <img
+              <c:choose>
+              <c:when test="${empty requestScope.userInfo }">
+              
+              <img
                   class="sign-up-image"
                   id="sign-up-image"
                   src="https://dummyimage.com/150x150/c2c2c2/ffffff&text=duck"
                   width="100%"
                   height="100%"
                 />
+              
+              </c:when>
+              <c:otherwise>
+              	<img
+                  class="sign-up-image"
+                  id="sign-up-image"
+                  src="${userInfo.get("profileImage")}"
+                  width="100%"
+                  height="100%"
+                />
+              
+              </c:otherwise>
+              </c:choose>
+                 
               </div>
               <input id="sign-up-add-image" class="sign-up-add-image" type="file" name="file" accept="image/*" />
               
@@ -542,7 +600,7 @@
           </div class="sign-up-form-item">
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="nick">닉네임</label>
-            <input class="sign-up-form-input-medium" id="nick" name="userNick"/>
+            <input class="sign-up-form-input-medium" id="nick" name="userNick" value="${userInfo.get('userNick') }"/>
             <span class="input-validate-error" id="compareNick"></span>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item">
@@ -557,9 +615,29 @@
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" name="userEmail" id="userEmail">
+          	<input type="hidden" name="userEmail">
             <label class="sign-up-form-label" for="email">E-mail</label>
             <div class="email-input-wrap">
-              <input class="email-input" id="email"/>
+             
+             
+			<c:choose>
+   			 <c:when test="${!empty requestScope.userInfo}">
+   			 <input type="hidden" name="userEmail" value=${userInfo.get("userEmail") }/>
+   			  <input class="email-input" id="email" value="${fn:split(userInfo.get('userEmail'),'@')[0] }" readonly="readonly"/>
+              <div>@</div>
+              <select class="email-select"> 
+              	<option value="free">직접입력</option>
+                <option value="naver.com">naver.com</option>
+                <option value="daum.net">daum.net</option>
+                <option value="gmail.com">gmail.com</option>
+              </select>
+                <input class="email-input" id="etc" value="${fn:split(userInfo.get('userEmail'),'@')[1] }" readonly="readonly"/>
+              	<button class="sign-up-form-button" type="button" id="sendEmail" disabled="disabled">이메일 인증</button>
+             	<span class="email-validate-error">인증 완료</span>
+             </c:when>
+              <c:otherwise>
+              
+               <input class="email-input" id="email"/>
               <div>@</div>
               <select class="email-select"> 
               	<option value="free">직접입력</option>
@@ -568,8 +646,10 @@
                 <option value="gmail.com">gmail.com</option>
               </select>
               <input class="email-input" id="etc"/>
-              <button class="sign-up-form-button" type="button" id="sendEmail">이메일 인증</button>
+              <button class="sign-up-form-button" type="button" id="sendEmail" >이메일 인증</button>
               <span class="email-validate-error">미인증</span>
+              </c:otherwise>
+              </c:choose>
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item">
@@ -590,41 +670,70 @@
           <div class="sign-up-form-item" id="userGender">
             <label class="sign-up-form-label" >성별</label>
             <div class="sign-up-gender-area">
-              <div class="sign-up-gender-item">
+            <c:choose>
+            	<c:when test="${empty requestScope.userInfo}">
+            		<div class="sign-up-gender-item">
                 <label>
                   남자
-                  <input class="sign-up-gender-radio" name="gender" type="radio" value="male"/>
+                  
+                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="남자"/>
                   <span class="sign-up-gender-checkmark"></span>
                 </label>
               </div>
               <div class="sign-up-gender-item">
                 <label>
                   여자
-                  <input class="sign-up-gender-radio" name="gender" type="radio" value="female" />
+                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="여자" />
                   <span class="sign-up-gender-checkmark"></span>
                 </label>
               </div>
+            	</c:when>
+            	<c:otherwise>
+            		
+            			<div class="sign-up-gender-item">
+			                <label>
+			                  남자
+			                  <c:if test="${userInfo.get('gender')=='male' }">
+			                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="남자" checked="checked"/>
+			                  </c:if>
+			                  <span class="sign-up-gender-checkmark"></span>
+			                </label>
+			              </div>
+			              <div class="sign-up-gender-item">
+			                <label>
+			                  여자
+			                   <c:if test="${userInfo.get('gender')=='female' }">
+			                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="여자" checked="checked"/>
+			                  </c:if>
+			                  <span class="sign-up-gender-checkmark"></span>
+			                </label>
+            			 </div>
+            	</c:otherwise>
+            </c:choose>
+              
             </div>
           </div class="sign-up-form-item">
-          <div class="sign-up-form-item">
-            <label class="sign-up-form-label" for="certificate">증명서</label>
-            <div class="certificate-input-wrap">
-              <input class="sign-up-form-input" id="certificate" name="userAttachmentsFileSubject"/>
-              <input class="sign-up-form-input" id="fileName" name="userAttachmentsFileName" />
+          <div class="sign-up-form-item" id="certAdd" style="display: block">
+            <label class="sign-up-form-label" for="certificate">증명서</label><p>
+            <div class="certificate-input-wrap" >
+              <input class="sign-up-form-input" name="userAttachmentsFileSubject"/>
+              <input class="sign-up-form-input" name="userAttachmentsFileName" />
               <input
               id="sign-up-add-file"
               class="sign-up-add-image"
-              type="file"
-               
+              type="file" 
+              name="filesList[]"
               />
-              
-           
+
             <label for="sign-up-add-file" class="certificate-file-button" >
               파일 첨부
             </label>
               <div class="certificate-add-button">+</div>
+             
             </div>
+         
           </div class="sign-up-form-item">
+          
           <div class="form-button-wrap">
             <button class="sign-up-cancel-button" type="button">취소</button>
             <button class="sign-up-button" type="submit">회원가입</button>
