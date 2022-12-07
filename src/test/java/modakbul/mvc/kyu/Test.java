@@ -7,6 +7,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.annotation.Commit;
 
 import modakbul.mvc.domain.Gather;
@@ -14,7 +18,6 @@ import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.domain.GatherReviewReply;
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.InquiryReply;
-import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
@@ -25,6 +28,7 @@ import modakbul.mvc.repository.InquiryReplyRepository;
 import modakbul.mvc.repository.InquiryRepository;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 import modakbul.mvc.repository.UserReviewRepository;
+import modakbul.mvc.service.GatherReviewService;
 import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.ServiceQuestionService;
 import modakbul.mvc.service.UserReviewService;
@@ -36,6 +40,9 @@ public class Test {
 
 	@Autowired
 	private GatherReviewRepository gatherReviewRep;
+	
+	@Autowired
+	private GatherReviewService gatherReviewSer;
 
 	@Autowired
 	private UserReviewRepository userReviewRep;
@@ -66,15 +73,19 @@ public class Test {
 	public void contextLoads() {
 		// 모임후기에 13개 정도 레코드 추가
 		for (int i = 1; i <= 3; i++) {
-			gatherReviewRep.save(GatherReview.builder().regularGather(new RegularGather(1L)).gatherTemper(10)
-					.writerUser(new Users(2L)).hostUser(new Users(1L)).gatherReviewContent("내용" + i).build());
+		//	gatherReviewRep.save(GatherReview.builder().regularGather(new RegularGather(1L)).gatherTemper(10)
+		//			.writerUser(new Users(2L)).hostUser(new Users(1L)).gatherReviewContent("내용" + i).build());
 		}
 	}
 
 	@org.junit.jupiter.api.Test
 	public void selectAllById() {
-		List<GatherReview> list = gatherReviewRep.selectAllByRegularGatherNo(1L);
-		list.forEach(b -> System.out.println(b));
+		
+		Pageable pageable = PageRequest.of(0, 5,Direction.ASC , "regular_gather_no");
+		
+		Page<GatherReview> list = gatherReviewSer.selectAllByRegularGatherNo(1L,pageable);
+		List<GatherReview> review = list.getContent();
+		review.forEach(b -> System.out.println(b));
 
 	}
 
