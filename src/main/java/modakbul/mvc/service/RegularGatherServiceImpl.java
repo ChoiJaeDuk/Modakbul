@@ -46,7 +46,7 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 	@Override
 	public void updateRegularGatherState(Long RegularGatherNo, String state) {
 		RegularGather regularGather = regularGatherRep.findById(RegularGatherNo).orElse(null);
-		regularGather.setRegularGatehrState(state);
+		regularGather.setRegularGatherState(state);
 	}
 	
 

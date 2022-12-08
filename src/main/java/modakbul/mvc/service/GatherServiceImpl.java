@@ -32,7 +32,6 @@ import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
-import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
@@ -71,16 +70,9 @@ public class GatherServiceImpl implements GatherService {
 	
 	private final RegularGatherRepository regularGatherRep;
 	@Override
-	public void insertGather(Gather gather, List<GatherAttachments> gatherAttachments) {
+	public void insertGather(Gather gather) {
 		
 		gatherRep.save(gather);
-		
-		if(gatherAttachments!=null) {
-			for(GatherAttachments ga:gatherAttachments) {
-				gatherAttachementsRep.save(ga);
-			}
-		}
-		
 	}
 	
 	
@@ -112,7 +104,7 @@ public class GatherServiceImpl implements GatherService {
 				if ( i < gather.getGatherMinUsers() ) {
 					gather.setGatherState("모임취소");
 					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
-					if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+					if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 						//다음 날짜를 계산
 						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
 						//다음 마감시간을 계산
@@ -134,7 +126,7 @@ public class GatherServiceImpl implements GatherService {
 			} else if (ldt.isEqual(completeDate)) {
 				gather.setGatherState("진행완료");
 				autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
-				if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+				if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 					//다음 날짜를 계산
 					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
 					//다음 마감시간을 계산

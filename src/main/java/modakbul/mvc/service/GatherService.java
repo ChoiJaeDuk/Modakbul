@@ -16,7 +16,7 @@ public interface GatherService {
 	 * 정기모임이면 정기모임도 등록한다.
 	 * @param gather
 	 */
-	void insertGather(Gather gather, List<GatherAttachments> gatherAttachments);
+	void insertGather(Gather gather);
 	
 	
 	/**

@@ -16,7 +16,7 @@
     <script type="text/javascript">
     
     $(function() {
-    
+    	
     	function readImage(input) {
 			  
 			// 인풋 태그에 파일이 있는 경우
@@ -95,10 +95,6 @@
 		
 		
 		$("form").on("submit",function() {
-			
-			//모임 날짜 합치기 및 유효성검사
-			
-			
 		
 			if($("#category").val()===""){
 				alert("카테고리를 설정해주세요.")
@@ -110,12 +106,17 @@
 				alert("모임명을 입력해주세요.")
 				return false;
 			}
+	
 			
+			let minUsers = Number($("#gatherMinUsers").val());
+			let maxUsers = Number($("#gatherMaxUsers").val());
+					
+	
 			//모임인원 유효성검사
 			if($("#gatherMinUsers").val()=="" || $("#gatherMaxUsers").val()==""){
 				alert("모임 인원을 설정해주세요.");
 				return false;
-			}else if($("#gatherMinUsers").val()>=$("#gatherMaxUsers").val()||$("#gatherMaxUsers").val()<0 ||$("#gatherMinUsers").val()<0){
+			}else if(minUsers > maxUsers || $("#gatherMaxUsers").val()< 0 || $("#gatherMinUsers").val() < 0){
 				alert("모임 인원을 다시 설정해주세요.")
 				return false;
 			}
@@ -202,7 +203,7 @@
                 />
               
               </div>
-              <input type="file" class="file-input" id="group-add-image" accept="image/*"/>
+              <input type="file" class="file-input" id="group-add-image" accept="image/*" name="file"/>
               <div class="image-button-wrap">
                 <label for="group-add-image">
                   <div class="small-button">사진 추가</div>
@@ -235,13 +236,13 @@
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">최소인원</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-small" type="number" name="gatherMinUsers" id="gatherMinUsers"/>
+                  <input class="create-group-form-input-small" type="number" name="gatherMinUsers" id="gatherMinUsers" min="0"/>
                 </div>
               </div>
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">최대인원</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-small" type="number" name="gatherMaxUsers" id="gatherMaxUsers"/>
+                  <input class="create-group-form-input-small" type="number" name="gatherMaxUsers" id="gatherMaxUsers" min="0"/>
                 </div>
               </div>
             </div>
@@ -315,9 +316,9 @@
               <div class="create-group-info-table-item-label">모임 장소</div>
               <div class="create-group-info-table-item-content">
               	<div>
-              		모임주소 <input class="create-group-form-input-medium" disabled="disabled" name="gatherPlace" id="gatherPlace" style="width:400px;">
+              		모임주소 <input class="create-group-form-input-medium" readonly="readonly" name="gatherPlace" id="gatherPlace" style="width:400px;">
               		<p>
-              		상세주소 <input class="create-group-form-input-medium" name="gatherPlace" id="gatherPlace">
+              		상세주소 <input class="create-group-form-input-medium" name="gatherPlaceDetail" id="gatherPlaceDetail">
               	</div>
               <div class="map_wrap">
               

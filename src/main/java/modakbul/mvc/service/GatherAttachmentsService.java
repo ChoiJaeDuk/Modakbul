@@ -6,7 +6,7 @@ import modakbul.mvc.domain.GatherAttachments;
 
 public interface GatherAttachmentsService {
 	
-	void insertGatherAttachments(GatherAttachments gatherAttachments);
+	void insertGatherAttachments(List<GatherAttachments> gatherAttachments);
 	
 	
 	void updateGatherAttachments(GatherAttachments gatherAttachments);

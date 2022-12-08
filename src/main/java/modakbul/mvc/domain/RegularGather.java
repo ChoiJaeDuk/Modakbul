@@ -46,7 +46,7 @@ public class RegularGather {
 	private int gatherTemperCount;
 	
 	@Column(nullable = false)
-	private String regularGatehrState;
+	private String regularGatherState;
 	
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
