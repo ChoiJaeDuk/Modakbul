@@ -33,10 +33,7 @@
 	let mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	// 휴대폰 번호 정규식
 	let phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-	
-	let rrn1J = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))$/;
-	let rrn2J = /[1-4][0-9]{6}$/;
-	//var $div// = $(".certificate-input-wrap").eq(0).clone();	
+	let businessJ = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/
 	
 		$(function(){
 			
@@ -135,7 +132,7 @@
 				}
 				
 				else if( !idJ.test( uid ) ){
-					alert("아이디는 영소문자로 시작하는 4~20자 영문자 또는 숫자이어야 합니다.");
+					alert("아이디는 영소문자로 시작하는 5~20자 영문자 또는 숫자이어야 합니다.");
 					$("#id").val("");
 					return;
 		         }
@@ -217,26 +214,14 @@
 					
 				}
 			})
-			
-			//$("#RRN1").val().length
-			$("#RRN1").keyup(function(){
-				if($("#RRN1").val().length == 6){
-					$("#RRN2").focus();
-					 /* var data = "<input type='hidden' name='userValidateNo' value='" + $("#RRN1").val() + "-" + $("#RRN2").val() +"'>"
-					console.log(data)
-					$("#validateNo").prepend(data);
-					  */
-				
-				}
-			})
+		
 			
 			$("#nick").keyup(function(){
 				$("#checkNick").val("닉네임 중복체크")
 			})
 			
 			$("#checkNick").click(function(){
-				
-				
+		
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/checkNick",
@@ -276,7 +261,7 @@
 				var $div = $(".certificate-input-wrap").eq(0).clone();	
 				$div.find("input").val("");
 				
-				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject"/>';
+				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>';
 				$div+='<input class="sign-up-form-input" name="userAttachmentsFileName" />';
 				$div+='<input  id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>'
 				$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" > 파일 첨부 </label>';
@@ -345,13 +330,13 @@
 				
 				 if($(".sign-up-add-image").html()==""){
 					
-					var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
 					
-					$(".sign-up-image-wrap").prepend(data);
+					$("input[name='userProfileImg']").val($(".sign-up-image").attr("src"));
 					
 				}
+			
 		
-				let inval_Arr = new Array(8).fill(false);
+				let inval_Arr = new Array(7).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
 					
@@ -405,15 +390,15 @@
 				} 
 						
 				//주민번호
+				if (businessJ.test($("#business").val())) {
+					
+					inval_Arr[5] = true;
 				
- 				 if ( rrn1J.test($("#RRN1").val()) && rrn2J.test($("#RRN2").val()) ) {
- 					inval_Arr[5] = true;
- 				
- 				} else {
- 					inval_Arr[5] = false;
- 					alert("주민등록번호를 확인해주세요.");
- 					return false;
- 				} 
+				} else {
+					inval_Arr[5] = false;
+					alert("휴대폰 번호를 확인하세요.");
+					return false;
+				} 
 				
 				//이메일
 				  if($(".email-validate-error").html()=="인증완료"){
@@ -424,6 +409,15 @@
 					alert("email 인증을 진행해주세요.");
 					return false;
 				} 
+				//파일첨부
+					if($("input[name='userAttachmentsFileSubject[]']").val()=="" && $("input[name='userAttachmentsFileName']").val() != "" ){
+						inval_Arr[7] = false;
+						alert("파일이름을 입력해주세요.");
+						return false;
+
+					}else{
+						inval_Arr[7] = true;
+					}
 				
 				//전체 유효성 검사
 				let validAll = true;
@@ -489,10 +483,15 @@
 	</script>
   </head>
   <body>
+					
     <div class="wrap">
       <div class="sign-up-wrap">
-          <form action="${pageContext.request.contextPath }/user/insert" method="post" enctype="multipart/form-data">
+          <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+         	<input type="hidden" name="userJob" value="기관">
+         	<input type="hidden" name="state" value="ROLE_USER"> 
+         	<input type="hidden" name="temper" value=50> 
+         	<input type="hidden" name="temperCount" value=1> 
           <div class="sign-up-image-area">
             <div class="sign-up-form-image ">
               <div class="sign-up-image-wrap">
@@ -506,6 +505,7 @@
                 />
          
               </div>
+              <input type="hidden" name="userProfileImg">
               <input id="sign-up-add-image" class="sign-up-add-image" type="file" name="file" accept="image/*" />
               
              <!--  파일 첨부 : <input type="file" name="file"/>
@@ -553,10 +553,9 @@
             <input class="sign-up-form-input-medium" id="phone" name="userPhone" />
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" id=validateNo>
-            <label class="sign-up-form-label" for="RRN">사업자등록번호</label>
+            <label class="sign-up-form-label" for="business">사업자등록번호</label>
             <div class="rrn-input-wrap" name="userValidateNo">
-              <input class="rrn-input" id="RRN1" name="userValidateNo"/>-
-              <input type="password" class="rrn-input" id="RRN2"/>
+              <input class="rrn-input" id="business" name="userValidateNo"/>
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" name="userEmail" id="userEmail">
@@ -597,7 +596,7 @@
           <div class="sign-up-form-item" id="certAdd" style="display: block">
             <label class="sign-up-form-label" for="certificate">증명서</label><p>
             <div class="certificate-input-wrap" >
-              <input class="sign-up-form-input" name="userAttachmentsFileSubject"/>
+              <input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>
               <input class="sign-up-form-input" name="userAttachmentsFileName" />
               <input
               id="sign-up-add-file"

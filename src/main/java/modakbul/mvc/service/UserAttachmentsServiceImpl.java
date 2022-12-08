@@ -1,6 +1,9 @@
 package modakbul.mvc.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.swing.plaf.ListUI;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -41,10 +44,22 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	}
 
 	@Override
-	public void delete(Long userAttachmentsFileNo) {
-		
+	public List<UserAttachments> delete(Long userAttachmentsFileNo) {
+		Users user = userAttachRep.selectUser(userAttachmentsFileNo);
 		userAttachRep.deleteById(userAttachmentsFileNo);
-
+		 
+		 
+		 System.out.println("user1 = " + user);
+		 List<UserAttachments> list = userAttachRep.selectById(user);
+		 System.out.println("size + " + list.size());
+		 return list;
+	}
+	
+	@Override
+	public List<UserAttachments> selectAll(Users user) {
+		
+		return userAttachRep.selectById(user);
+		
 	}
 
 }

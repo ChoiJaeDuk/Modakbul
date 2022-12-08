@@ -21,6 +21,7 @@ import modakbul.mvc.repository.UsersRepository;
 
 @Service 
 public class UserRoleProvider implements AuthenticationProvider {
+	
 
 	@Autowired
 	private UsersRepository usersRep;

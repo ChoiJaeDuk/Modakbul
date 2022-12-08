@@ -141,7 +141,7 @@
 				}
 				
 				else if( !idJ.test( uid ) ){
-					alert("아이디는 영소문자로 시작하는 4~20자 영문자 또는 숫자이어야 합니다.");
+					alert("아이디는 영소문자로 시작하는 5~20자 영문자 또는 숫자이어야 합니다.");
 					$("#id").val("");
 					return;
 		         }
@@ -233,10 +233,6 @@
 			$("#RRN1").keyup(function(){
 				if($("#RRN1").val().length == 6){
 					$("#RRN2").focus();
-					 /* var data = "<input type='hidden' name='userValidateNo' value='" + $("#RRN1").val() + "-" + $("#RRN2").val() +"'>"
-					console.log(data)
-					$("#validateNo").prepend(data);
-					  */
 				
 				}
 			})
@@ -269,8 +265,7 @@
 							
 							
 						}
-						
-						
+
 
 					},//function
 					error:function(error){
@@ -283,11 +278,10 @@
 			var count = 1;
 			$(document).on("click",".certificate-add-button", function(){
 				
-			
 				var $div = $(".certificate-input-wrap").eq(0).clone();	
 				$div.find("input").val("");
 				
-				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject"/>';
+				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>';
 				$div+='<input class="sign-up-form-input" name="userAttachmentsFileName" />';
 				$div+='<input  id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>'
 				$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" > 파일 첨부 </label>';
@@ -316,8 +310,7 @@
 			          
 			         console.log($(this))
 			        // $(this).prev().find("input").val(filename);
-			       
-				
+
 			      
 				})   
 					
@@ -346,12 +339,6 @@
 					    readImage(e.target)
 					})
 				
-				    
-				        
-				    //  });
-		   		  
-				
-			//})
 			
 			$(".email-select").change(function(){
 				$(".email-input").attr("readonly",false);
@@ -359,16 +346,15 @@
 			})
 			
 			$("form").on("submit",function(){
-				
-				 if($(".sign-up-add-image").html()==""){
+				if($(".sign-up-add-image").html()==""){
 					
-					var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
 					
-					$(".sign-up-image-wrap").prepend(data);
+					$("input[name='userProfileImg']").val($(".sign-up-image").attr("src"));
 					
 				}
+				
+				let inval_Arr = new Array(9).fill(false);
 		
-				let inval_Arr = new Array(8).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
 					
@@ -406,7 +392,7 @@
 				
 				}else{
 					inval_Arr[3] = false;
-					alert("닉네임을 다시 입력해주세요.")
+					alert("닉네임을 중복체크를 해주세요.")
 					return false;
 				}
 				
@@ -452,6 +438,8 @@
 					return false;
 				}
 				var data = $("#RRN2").val();
+				
+				//주민번호와 성별확인
 				if( (data.charAt(0)==1 || 3)  &&  ($("input[name='userGender']:checked").val()=="남자") ){
 					inval_Arr[8] = true;
 					
@@ -463,6 +451,17 @@
 					alert("주민등록번호, 성별을 확인해주세요.");
 					return false;
 				}
+				//파일첨부
+				if($("input[name='userAttachmentsFileSubject[]']").val()=="" && $("input[name='userAttachmentsFileName']").val() != "" ){
+					inval_Arr[9] = false;
+					alert("파일이름을 입력해주세요.");
+					return false;
+
+				}else{
+					inval_Arr[9] = true;
+				}
+				
+				
 
 				//전체 유효성 검사
 				let validAll = true;
@@ -536,8 +535,10 @@
   <body>
     <div class="wrap">
       <div class="sign-up-wrap">
-          <form action="${pageContext.request.contextPath }/user/insert" method="post" enctype="multipart/form-data">
+          <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+         	<input type="hidden" name="userJob" value="개인"> 
+         	<input type="hidden" name="state" value="ROLE_USER">
           <div class="sign-up-image-area">
             <div class="sign-up-form-image ">
               <div class="sign-up-image-wrap">
@@ -566,6 +567,7 @@
               </c:choose>
                  
               </div>
+              <input type="hidden" name="userProfileImg">
               <input id="sign-up-add-image" class="sign-up-add-image" type="file" name="file" accept="image/*" />
               
              <!--  파일 첨부 : <input type="file" name="file"/>
@@ -727,7 +729,7 @@
           <div class="sign-up-form-item" id="certAdd" style="display: block">
             <label class="sign-up-form-label" for="certificate">증명서</label><p>
             <div class="certificate-input-wrap" >
-              <input class="sign-up-form-input" name="userAttachmentsFileSubject"/>
+              <input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>
               <input class="sign-up-form-input" name="userAttachmentsFileName" />
               <input
               id="sign-up-add-file"
