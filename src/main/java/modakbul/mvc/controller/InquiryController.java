@@ -14,15 +14,16 @@ import modakbul.mvc.service.InquiryService;
 public class InquiryController {
 	@Autowired
 	private InquiryService inqService;
-	
+
 	@RequestMapping("/my_page/my_page_index")
 	public ModelAndView main(Long userNo) {
-		ModelAndView mv= new ModelAndView();
-		
-		List<SelectReplyState> list=inqService.selectReplyState(userNo);
+		ModelAndView mv = new ModelAndView();
+
+		List<SelectReplyState> list = inqService.selectReplyState(userNo);
 		mv.addObject("replyState", list.size());
 		mv.setViewName("my_page/my_page_index");
-		
+
 		return mv;
 	}
+
 }
