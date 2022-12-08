@@ -1,6 +1,9 @@
 package modakbul.mvc.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.Inquiry;
@@ -30,8 +33,9 @@ public interface InquiryService {
 	/**
 	 * 마이페이지에서 문의글 답변 달렸는지 상태확인
 	 * */
+	//Page<SelectReplyState> selectReplyState(Long userNo,Pageable pageable);
 	Page<SelectReplyState> selectReplyState(Long userNo, Pageable pageable);
-	
+
 	/**
 	 * 문의 수정하기 
 	 * */
