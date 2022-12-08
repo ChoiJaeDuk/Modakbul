@@ -20,14 +20,14 @@ public interface LikeGatherService {
 	/**
 	 * 등록 - 버튼 클릭시
 	 */
-	void insert(LikeGather likeGather);
+	String insert(LikeGather likeGather) throws Exception;
 	
 	
 	
 	/**
 	 * 삭제 - 버튼 클릭시
 	 */
-	void delete(Long gatherNo, Long userNo);
+	String delete(Long gatherNo, Long userNo);
 	
 	/**
 	 * 검색 - 단일객체

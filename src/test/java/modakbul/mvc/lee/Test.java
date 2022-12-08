@@ -107,7 +107,7 @@ public class Test {
 	
 	@org.junit.jupiter.api.Test
 	public void searchLikeGather() {
-		LikeGather lg = like.searchLikeGather(10L, 5L);
+		LikeGather lg = like.searchLikeGather(53L, 7L);
 		if(lg != null) System.out.println("10L 모임을 5L님이 관심등록 했어요!!!");
 		else System.out.println("10L 모임을 5L님이 관심등록 안했어요~~");
 	}

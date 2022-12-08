@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.LikeGather;
-
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.LikeGatherService;
@@ -65,23 +66,42 @@ public class LikeGatherController {
 	@RequestMapping("/insert")
 	@ResponseBody
 	public String insert(@RequestBody Map<String, Object> result) {
-		System.out.println("온거니?");
-		  for (String m:result.keySet()) {
-	          System.out.println("key:"+m+",value:"+result.get(m));
-	      }
-		//System.out.println("온거임? 등록모임번호 = " + gatherNo + "등록 회원번호 = "+ userNo);
-		//LikeGather likeGather = likeGatherService.selectEle((Long)result.get("gatherNo"), (Long)result.get("userNo"));
-		//likeGatherService.insert(likeGather);
+//		System.out.println("온거니?");
+//		  for (String m:result.keySet()) {
+//	          System.out.println("key:"+m+",value:"+result.get(m));
+//	      }
+		  
+		  long userNo = (long)Integer.parseInt((String) result.get("userNo"));		  
+		  long gatherNo = (long)Integer.parseInt((String) result.get("gatherNo"));
+		  
+		LikeGather likeGather = LikeGather.builder()
+				.gather(new Gather(gatherNo))
+				.user(Users.builder().userNo(userNo).build())
+				.build();
+				
+		try {
+			likeGatherService.insert(likeGather);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("관심등록오류");
+			return "fail";
+		}
 
-		return "redirect:/likeGather/gatherList";
+		return "ok";
 	}
 
 	/**
 	 * 삭제
 	 */
 	@RequestMapping("/delete")
-	public String delete(Long gatherNo, Long userNo) {
-		System.out.println("온거임? 삭제모임번호 = " + gatherNo + "삭제 회원번호 = "+ userNo);
+	@ResponseBody
+	public String delete(@RequestBody Map<String, Object> result) {
+//		for (String m:result.keySet()) {
+//	          System.out.println("key:"+m+",value:"+result.get(m));
+//	      }
+		long userNo = (long)Integer.parseInt((String) result.get("userNo"));		  
+		  long gatherNo = (long)Integer.parseInt((String) result.get("gatherNo"));
+		
 		likeGatherService.delete(gatherNo, userNo);
 
 		return "redirect:/likeGather/gatherList";

@@ -242,18 +242,31 @@
 			})
 			
 			$("#nick").keyup(function(){
-				
+				$("#checkNick").val("닉네임 중복체크")
+			})
+			
+			$("#checkNick").click(function(){
+				console.log($("#ff").val());
 				
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/checkNick",
 					dataType:"text",
-					data: "${_csrf.parameterName}=${_csrf.token}&nick="+$('#nick').val(),			
+					data: "${_csrf.parameterName}=${_csrf.token}&nick="+$("#nick").val(),			
 					success:function(result){
 						if($("#nick").val().length==0){
-							$("#compareNick").html("");
+							alert("닉네임을 입력해주세요.")
+							//$("#compareNick").html("");
 						}else{
-							$("#compareNick").html(result);
+							//$("#compareNick").html(result);
+							alert(result);
+							if(result=="이미 사용중인 닉네임"){
+								$("#nick").val("");
+								
+							}else{
+								$("#checkNick").html("중복체크완료");
+							}
+							
 							
 						}
 						
@@ -274,46 +287,39 @@
 				var $div = $(".certificate-input-wrap").eq(0).clone();	
 				$div.find("input").val("");
 				
-				//alert(1);
+				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject"/>';
+				$div+='<input class="sign-up-form-input" name="userAttachmentsFileName" />';
+				$div+='<input  id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>'
+				$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" > 파일 첨부 </label>';
+				$div+='<div class="certificate-add-button" >+</div> </div></div>';
+				
 				count++;
-				// $(".certificate-add-button").on("click",function(){
-					//var $data = "<span></span>";
-					//var data = 
+		
 					if(count <=5){
-						
-						alert("$div = " + $div.html())
-						
-						//event.target
-					    
-					    
-						//$data += $div
-						
+		
+						alert($div)
 						$("#certAdd").append($div);
-						
-						//$(this).parent().lastChild($div);
-						//$(this).after($div)
-						
-						//$div.after("<p>")
-						//$(".certificate-input-wrap").after("<p>")
+					
 					}
 			})
 			
-			$(document).on("click", ".certificate-file-button", function(){
-				
-		
-				
-				$(document).on("change", ".sign-up-add-image", function(){
+			
+			$(document).on("change", ".sign-up-add-image", function(){ //주황색
+					
 					alert(1)
-			      
+			        console.log($(this))
 			        	var filename = $(this).val().split('/').pop().split('\\').pop();
-			          console.log(filename)
-			          $(this).prev().val(filename);
+			          //console.log(filename)
+			          
+			        $(this).prev().val(filename);
+			          //$(this).attr("name","test");
+			          
+			         console.log($(this))
+			        // $(this).prev().find("input").val(filename);
 			       
 				
 			      
 				})   
-				
-			})
 					
 					 function readImage(input) {
 						  
@@ -347,21 +353,21 @@
 				
 			//})
 			
+			$(".email-select").change(function(){
+				$(".email-input").attr("readonly",false);
+				$(".email-validate-error").html("미인증");
+			})
 			
-			
-			$("form").on("submit",function() {
-			//$(".sign-up-cancel-button").click(function(){
-				var img = $(".sign-up-image").attr("src")
-					console.log(img)
-					
-					if($(".sign-up-add-image").val()==""){
-						
-						var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
-						//console.log(img)
-						$(".sign-up-image-wrap").prepend(data);
-						return;
-					}
+			$("form").on("submit",function(){
 				
+				 if($(".sign-up-add-image").html()==""){
+					
+					var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
+					
+					$(".sign-up-image-wrap").prepend(data);
+					
+				}
+		
 				let inval_Arr = new Array(8).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
@@ -395,7 +401,7 @@
 				}
 				
 				//닉네임
-				if($("#compareNick").html()=="사용가능한 닉네임"){
+				if($("#checkNick").html()=="중복체크완료"){
 					inval_Arr[3] = true;
 				
 				}else{
@@ -457,11 +463,7 @@
 					alert("주민등록번호, 성별을 확인해주세요.");
 					return false;
 				}
-				
-				
-				
-				
-				
+
 				//전체 유효성 검사
 				let validAll = true;
 				for (let i = 0; i < inval_Arr.length; i++) {
@@ -577,7 +579,7 @@
             </div>
           </div>
           <div class="sign-up-form-item">
-            <label class="sign-up-form-label" for="name">name</label>
+            <label class="sign-up-form-label" for="name">이름</label>
             <input class="sign-up-form-input-medium" id="name" name="userName" />
            <span class="input-validate-error"></span>
           </div class="sign-up-form-item">
@@ -601,7 +603,10 @@
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="nick">닉네임</label>
             <input class="sign-up-form-input-medium" id="nick" name="userNick" value="${userInfo.get('userNick') }"/>
-            <span class="input-validate-error" id="compareNick"></span>
+           	 <span class="input-validate-error"></span>
+<!--              <span class="input-validate-error" id="compareNick"></span> -->
+            <button class="sign-up-form-button" type="button" id="checkNick"> 닉네임 중복체크</button>
+          
           </div class="sign-up-form-item">
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="phone" name="userPhone">전화번호</label>
@@ -615,28 +620,34 @@
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" name="userEmail" id="userEmail">
-          	<input type="hidden" name="userEmail">
+          	
             <label class="sign-up-form-label" for="email">E-mail</label>
             <div class="email-input-wrap">
-             
-             
 			<c:choose>
    			 <c:when test="${!empty requestScope.userInfo}">
-   			 <input type="hidden" name="userEmail" value=${userInfo.get("userEmail") }/>
+   			 <input id="ff" type="hidden" name="userEmail" value=${userInfo.get("userEmail")} />
    			  <input class="email-input" id="email" value="${fn:split(userInfo.get('userEmail'),'@')[0] }" readonly="readonly"/>
               <div>@</div>
-              <select class="email-select"> 
-              	<option value="free">직접입력</option>
-                <option value="naver.com">naver.com</option>
-                <option value="daum.net">daum.net</option>
-                <option value="gmail.com">gmail.com</option>
+              <select class="email-select" disabled="disabled"> 
+              <option value="free">직접입력</option>
+              <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'gmail.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'nate.com'}">
+              	<option value="free" selected="selected" >직접입력</option>
+              	</c:if>
+                <option value="naver.com" <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'naver.com' }">selected="selected"</c:if> >naver.com</option>
+                <option value="daum.net"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'daum.net' }">selected="selected"</c:if> >daum.net</option>
+                <option value="gmail.com"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'gmail.com' }">selected="selected"</c:if> >gmail.com</option>
+              	<option value="nate.com"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'nate.com' }">selected="selected"</c:if> >nate.com</option>
               </select>
+           
+              <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'gmail.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'nate.com'}">
                 <input class="email-input" id="etc" value="${fn:split(userInfo.get('userEmail'),'@')[1] }" readonly="readonly"/>
+                </c:if>
+                <input class="email-input" id="etc" value=""  readonly="readonly"/>
               	<button class="sign-up-form-button" type="button" id="sendEmail" disabled="disabled">이메일 인증</button>
-             	<span class="email-validate-error">인증 완료</span>
+             	<span class="email-validate-error">인증완료</span>
              </c:when>
               <c:otherwise>
-              
+              <input type="hidden" name="userEmail">
                <input class="email-input" id="email"/>
               <div>@</div>
               <select class="email-select"> 

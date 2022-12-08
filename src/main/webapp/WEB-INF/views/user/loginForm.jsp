@@ -123,9 +123,9 @@
             </div>
           </form>
           <div class="option-wrap">
-            <div class="option-item"><a href="#" onclick="$('#findIdForm').show()">아이디 찾기</a></div>
-            <div class="option-item"><a href="#" onclick="$('#findPwdForm').show()">비밀번호 찾기</a></div>
-            <div class="option-item"><a id="f" href="${pageContext.request.contextPath }/user/joinForm">회원가입</a></div>
+            <div class="option-item"><a href="javascript:void(0)" onclick="$('#findIdForm').show()">아이디 찾기</a></div>
+            <div class="option-item"><a href="javascript:void(0)" onclick="$('#findPwdForm').show()">비밀번호 찾기</a></div>
+            <div class="option-item"><a href="javascript:void(0)" onclick="$('#userJob').show()">회원가입</a></div>
           </div>
           <div class="kakao-login-button-wrap">
             <a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&redirect_uri=http://localhost:9000/auth/kakao/callback&response_type=code">
@@ -180,14 +180,14 @@
         </div>
       </div>
       <!-- 기관 개인 선택 모달 -->
-      <div class="modal-wrap" style="display: none">
+      <div class="modal-wrap" style="display: none" id="userJob">
         <div class="modal-sign-up-button-wrap">
-          <button class="sign-up-agency-button">기관/사업자</button>
-          <button class="sign-up-individual-button">개인</button>
+          <button class="sign-up-agency-button" onclick="location.href='${pageContext.request.contextPath }/user/joinFormForCompany'">기관/사업자</button>
+          <button class="sign-up-individual-button" onclick="location.href='${pageContext.request.contextPath }/user/joinFormForIndiv'">개인</button>
         </div>
         <div class="modal-button-wrap">
           <div></div>
-          <button type="button" class="modal-button cancel-button">닫기</button>
+          <button type="button" class="modal-button cancel-button" onclick="$('#userJob').hide()">닫기</button>
           <div></div>
         </div>
       </div>

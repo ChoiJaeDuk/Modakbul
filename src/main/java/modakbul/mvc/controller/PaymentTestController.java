@@ -1,9 +1,6 @@
 package modakbul.mvc.controller;
 
-import java.util.List;
 import java.util.Map;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import modakbul.mvc.domain.Advertisement;
-import modakbul.mvc.domain.Gather;
-import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.AdminService;
 
 @Controller
