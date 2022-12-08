@@ -245,13 +245,19 @@ Pageable pageable = PageRequest.of(0, 5);
 	// 마이페이지에서 답변유무 상태 확인 ---------------ㅋ 못함요
 	@org.junit.jupiter.api.Test
 	void selectReplyState() {
-		Pageable pageable = PageRequest.of(0, 5);
 
-		
+		int nowPage=1;
+		Pageable pageable = PageRequest.of(nowPage-1,7);
+
+		//List<SelectReplyState> result= inquiryRep.selectReplyState(1L);
 		Page<SelectReplyState> list = inqSer.selectReplyState(1L,pageable);
-		List<SelectReplyState> result=list.getContent();
+		//List<SelectReplyState> list=result.getContent();
+		//int pageSize=list.getSize();
+	
 		
-		System.out.println(result);
+
+		list.forEach(b->System.out.println(b.getGatherName()));
+		
 	}
 	
 	//문의 수정 
