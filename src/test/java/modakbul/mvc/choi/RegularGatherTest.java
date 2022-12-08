@@ -31,9 +31,11 @@ public class RegularGatherTest {
 	
 	@Test
 	void insertRegularGather() {
-		//RegularGather regularGather =new RegularGather(3L, 2, "화요일", 50, 0, "진행중", null);
-		regularGatherRep.save(RegularGather.builder().regularGatherCycle(3).regularGatherDay("dd").gatherTemper(12).gatherTemperCount(0).regularGatehrState("진행중").build());
-		//regularGatherService.insertRegularGather(regularGather);
+		RegularGather regularGather =new RegularGather(3L, 2, 50, 0, "진행중", null,null,null);
+		RegularGather dbregularGather = regularGatherRep.save(regularGather);
+		
+		System.out.println(dbregularGather.getRegularGatherNo());
+		
 	}
 	
 	

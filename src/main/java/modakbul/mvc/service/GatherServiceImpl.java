@@ -36,6 +36,7 @@ import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
+import modakbul.mvc.repository.RegularGatherRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -68,8 +69,10 @@ public class GatherServiceImpl implements GatherService {
 	
 	private final GatherAttachmentsRepository gatherAttachementsRep;
 	
+	private final RegularGatherRepository regularGatherRep;
 	@Override
-	public void insertGather(Gather gather, List<GatherAttachments> gatherAttachments, RegularGather regularGather) {
+	public void insertGather(Gather gather, List<GatherAttachments> gatherAttachments) {
+		
 		gatherRep.save(gather);
 		
 		if(gatherAttachments!=null) {
@@ -77,6 +80,7 @@ public class GatherServiceImpl implements GatherService {
 				gatherAttachementsRep.save(ga);
 			}
 		}
+		
 	}
 	
 	

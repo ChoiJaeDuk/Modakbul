@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -16,7 +16,7 @@
     <script type="text/javascript">
     
     $(function() {
-    	
+    
     	function readImage(input) {
 			  
 			// 인풋 태그에 파일이 있는 경우
@@ -55,8 +55,9 @@
 		
 		
 		$(document).on("click","#placeName", function() {
-			alert($(this).next().text()+" "+$(this).text()+"가 선택되었습니다.");
-			$("#gatherPlace").val($(this).next().text()+" / "+$(this).text());
+			if(confirm($(this).next().text()+" "+$(this).text()+"을 \n모임장소로 선택하시겠습니까?")){
+				$("#gatherPlace").val($(this).next().text()+" "+$(this).text());
+			};
 		})
 		
 		
@@ -71,19 +72,109 @@
 		});
 		
 		
-		$("#time1").timepicker({
+		$("#ageLimit").change(function() {
+			if($("#ageLimit").is(":checked")){
+	            $("#gatherMinAge").attr("disabled",false);
+	            $("#gatherMaxAge").attr("disabled",false);
+	        }else{
+	        	$("#gatherMinAge").attr("disabled",true);
+	            $("#gatherMaxAge").attr("disabled",true);
+	        	$("#gatherMinAge").val("");
+	        	$("#gatherMaxAge").val("");
+	        }
+		});
+		
+		
+		$("#time").timepicker({
 			interval: 30, //시간간격 : 5분
 			startTime: "00:00",           
 			timeFormat: "HH:mm"    //시간:분 으로표시
 		});
+		$('#time').attr("readonly",true);
 		
-		$('#time1').attr("readonly",true);
 		
 		
-		$("#insertGather").click(function() {
-			alert($("#date").val() +" "+ $("#time1").val())
+		$("form").on("submit",function() {
+			
+			//모임 날짜 합치기 및 유효성검사
+			
+			
+		
+			if($("#category").val()===""){
+				alert("카테고리를 설정해주세요.")
+				return false;
+			}
+			
+			//모임명 유효성검사
+			if($("#gatherName").val()===""){
+				alert("모임명을 입력해주세요.")
+				return false;
+			}
+			
+			//모임인원 유효성검사
+			if($("#gatherMinUsers").val()=="" || $("#gatherMaxUsers").val()==""){
+				alert("모임 인원을 설정해주세요.");
+				return false;
+			}else if($("#gatherMinUsers").val()>=$("#gatherMaxUsers").val()||$("#gatherMaxUsers").val()<0 ||$("#gatherMinUsers").val()<0){
+				alert("모임 인원을 다시 설정해주세요.")
+				return false;
+			}
+			
+			//연령제한 유효성검사
+			if($("#ageLimit").is(":checked")){
+				if($("#gatherMinAge").val()==""||$("#gatherMaxAge").val()==""){
+					alert("연령제한을 설정해주세요.")
+					return false;
+				}else if($("#gatherMinAge").val()>=$("#gatherMaxAge").val()||$("#gatherMinAge").val()<0 ||$("#gatherMaxAge").val()<0){
+					alert("연령제한을 다시 설정해주세요.")
+					return false;
+				}
+			}
+			
+			
+			//모임 주기 유효성 검사
+			if($("#regularGatherCycle").val()==""){
+				alert("모임 주기를 설정해주세요.")
+				return false;
+			}else if($("#regularGatherCycle").val()<1){
+				alert("모임 주기를 다시 설정해주세요")
+				return false;
+			}
+			
+			//진행시간 유효성 검사
+			if($("#gatherTime").val()==""){
+				alert("진행시간을 입력해주세요.")
+				return false;
+			}else if(0>$("#gatherTime").val() || $("#gatherTime").val()>24){
+				alert("진행시간을 다시 입력해주세요")
+				return false;
+			}
+			
+			
+			//모임 날짜 유효성검사
+			let today = new Date();
+			//let gatherDate = new Date($("#date").val() + " " + $("#time").val())
+			//let gatherDate = LocalDateTime.parse($("#date").val() + "T" + $("#time").val())
+			
+			if($("#date").val()=="" || $("#time").val()==""){
+				alert("모임 날짜 및 시간을 입력해주세요.")
+				return false;
+			}else if(today>=gatherDate){//현재 날짜와 비교
+				alert("모임 날짜를 다시 설정해주세요.")
+				return false;
+			}else{
+				$("#gatherDate").val($("#date").val() + " " + $("#time").val())	
+			}
+			
+			
+			//모임 장소 유효성검사
+			if($("#gatherPlace").val()==""){
+				alert("모임 장소를 설정해주세요")
+				return false;
+			}
 			
 		});
+		
 	})        
   	
 	
@@ -94,7 +185,11 @@
     <div class="wrap">
       <div class="create-group-wrap">
         <form action="${pageContext.request.contextPath}/gather/gatherInsert" method="post" enctype="multipart/form-data">
-        <input hidden="" id="gatherDate"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+        <input hidden="" id="regularGatherState" name="regularGatherState" value="신청대기"/>
+        <input hidden="" id="gatherDate" name="date"/>
+        <input hidden="" name="gatherState" value="신청대기"/>
+        <input hidden="" id="userNo" name="userNo" value="1"/>
           <div class="create-group-top">
             <div class="create-group-wrap-image">
               <div class="group-image-wrap">
@@ -116,10 +211,11 @@
             </div>
             <div class="account-info-wrap">
               <div class="account-item-wrap">
-                <select class="create-group-form-select" name="category">
-                  <option value="스포츠">스포츠</option>
-                  <option value="클래스">클래스</option>
-                  <option value="자유">자유</option>
+                <select class="create-group-form-select" name="categoryNo" id="category">
+     	          <option value="">--선택--</option>
+                  <option value="1">스포츠</option>
+                  <option value="2">클래스</option>
+                  <option value="3">자유</option>
                 </select>
               </div>
               <div class="account-item-wrap">
@@ -139,13 +235,13 @@
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">최소인원</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-small" type="number" name="gatherMinUsers"/>
+                  <input class="create-group-form-input-small" type="number" name="gatherMinUsers" id="gatherMinUsers"/>
                 </div>
               </div>
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">최대인원</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-small" type="number" name="gatherMaxUsers"/>
+                  <input class="create-group-form-input-small" type="number" name="gatherMaxUsers" id="gatherMaxUsers"/>
                 </div>
               </div>
             </div>
@@ -153,7 +249,7 @@
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">성별 선택</div>
                 <div class="create-group-info-table-item-content">
-                  <select class="create-group-form-select-small" name="gatherSelectGender">
+                  <select class="create-group-form-select-small" name="gatherSelectGender" id="gatherSelectGender">
                   	<option value="남녀모두">남녀모두</option>
                     <option value="남자">남자</option>
                     <option value="여자">여자</option>
@@ -161,12 +257,12 @@
                 </div>
               </div>
               <div class="create-group-half-wrap">
-                <div class="create-group-info-table-item-label">연령 제한</div>
+                <div class="create-group-info-table-item-label"> <input type="checkbox" style="width:20px; height:20px;" id="ageLimit" >연령 제한</div>
                 <div class="create-group-info-table-item-content">
                   <div class="create-group-form-age-wrap">
-                    <input class="create-group-form-input-small" name="gatherMinAge"/>
+                    <input class="create-group-form-input-small" disabled="disabled" name="gatherMinAge" id="gatherMinAge"/>
                     <div>~</div>
-                    <input class="create-group-form-input-small" name="gatherMaxAge"/>
+                    <input class="create-group-form-input-small" disabled="disabled" name="gatherMaxAge" id="gatherMaxAge"/>
                   </div>
                 </div>
               </div>
@@ -176,14 +272,14 @@
                 <div class="create-group-info-table-item-label">모임 주기</div>
                 <div class="create-group-info-table-item-content">
                   <div class="create-group-form-term-wrap">
-                  <input class="create-group-form-input-small" name="regularGatherCycle"/>
+                  <input class="create-group-form-input-small" name="regularGatherCycle" id="regularGatherCycle"/>
                   </div>
                 </div>
               </div>
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">진행 시간</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-medium" type="number" name="gatherTime"/>
+                  <input class="create-group-form-input-medium" type="number" name="gatherTime" id="gatherTime"/>
                 </div>
               </div>
             </div>
@@ -197,7 +293,7 @@
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">모임 시간</div>
                 <div class="create-group-info-table-item-content">
-                  <input class="create-group-form-input-medium" type="text" id="time1"/>
+                  <input class="create-group-form-input-medium" type="text" id="time"/>
                 </div>
               </div>
               
@@ -219,7 +315,9 @@
               <div class="create-group-info-table-item-label">모임 장소</div>
               <div class="create-group-info-table-item-content">
               	<div>
-              		<input hidden ="" name="gatherPlace" id="gatherPlace">
+              		모임주소 <input class="create-group-form-input-medium" disabled="disabled" name="gatherPlace" id="gatherPlace" style="width:400px;">
+              		<p>
+              		상세주소 <input class="create-group-form-input-medium" name="gatherPlace" id="gatherPlace">
               	</div>
               <div class="map_wrap">
               
@@ -228,10 +326,9 @@
 			        <div class="option">
 			            <div>
 			                <!-- <form onsubmit="searchPlaces();return false;"> -->
-			                <form >
-			                    키워드 : <input type="text" value="모임장소" id="keyword" size="15"> 
-			                    <button type="button" onclick="searchPlaces()"> 검색하기</button> 
-			                </form>
+		                    키워드 : <input type="text" value="모임장소" id="keyword" size="15"> 
+		                    <button type="button" onclick="searchPlaces()"> 검색하기</button> 
+			                
 			            </div>
 			        </div>
 			        <hr>
@@ -465,22 +562,23 @@
             <div class="create-group-info-table-item">
               <div class="create-group-info-table-item-label">내용</div>
               <div class="create-group-info-table-item-content">
-                <textarea class="create-group-form-textarea" name="gatherComment"></textarea>
+                <textarea class="create-group-form-textarea" name="gatherComment" id="gatherComment"></textarea>
               </div>
             </div>
             <div class="create-group-info-table-item">
               <div class="create-group-info-table-item-label">파일 첨부</div>
-              <div class="create-group-info-table-item-content">
+              <div class="certificate-input-wrap">
                 <input class="create-group-form-input-medium"/>
-                <button class="create-group-form-button" type="button">
-                  파일 첨부
-                </button>
+                <input id="sign-up-add-file" class="sign-up-add-image" type="file" name="filesList[]"/>
+	               <label for="sign-up-add-file" class="certificate-file-button" >
+	                  파일 첨부
+	              </label>
               </div>
             </div>
           </div>
           <div class="create-group-button-wrap">
-            <button class="create-group-cancel-button">취소</button>
-            <button class="create-group-button" id="insertGather">등록하기</button>
+            <button class="create-group-cancel-button" type="button">취소</button>
+            <button class="create-group-button" type="submit">등록하기</button>
           </div>
         </form>
       </div>

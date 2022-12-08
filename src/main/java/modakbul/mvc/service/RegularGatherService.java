@@ -9,7 +9,7 @@ public interface RegularGatherService {
 	 * 정기모임을 등록하는 메소드
 	 * @param regularGather
 	 */
-	void insertRegularGather(RegularGather regularGather);
+	RegularGather insertRegularGather(RegularGather regularGather);
 	
 	
 	/**
