@@ -77,45 +77,7 @@ public class UsersServiceImpl implements UsersService {
 
 		user.setUserpwd(encodedPassword);
 		
-		if(user.getUserGender()!=null) {
-			
-			usersRep.save(
-					Users.builder()
-					.userId(user.getUserId())
-					.userpwd(encodedPassword)
-					.userName(user.getUserName())
-					.userNick(user.getUserNick())
-					.userEmail(user.getUserEmail())
-					.userValidateNo(user.getUserValidateNo())
-					.userPhone(user.getUserPhone())
-					.userPostCode(user.getUserPostCode())
-					.userAddr(user.getUserAddr())
-					.userAddrDetail(user.getUserAddrDetail())
-					.state(Role.ROLE_USER)
-					.userJob("개인")
-					.userGender(user.getUserGender())
-					.temper(50)
-					.temperCount(1)
-					.userProfileImg(user.getUserProfileImg())
-					.build());
-			
-		}else {
-			usersRep.save(
-					Users.builder()
-					.userId(user.getUserId())
-					.userpwd(encodedPassword)
-					.userName(user.getUserName())
-					.userNick(user.getUserNick())
-					.userEmail(user.getUserEmail())
-					.userValidateNo(user.getUserValidateNo())
-					.userPhone(user.getUserPhone())
-					.userPostCode(user.getUserPostCode())
-					.userAddr(user.getUserAddr())
-					.userAddrDetail(user.getUserAddrDetail())
-					.state(Role.ROLE_USER)
-					.userJob("기관")
-					.build());
-		}
+		usersRep.save(user);
 		
 	}
 

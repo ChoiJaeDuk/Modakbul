@@ -18,6 +18,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,10 +35,12 @@ import lombok.ToString;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_no_seq")
 	@SequenceGenerator(name = "user_no_seq" , allocationSize = 1 , sequenceName = "user_no_seq")
+	@NonNull
 	private Long userNo;
 	
 	@Column(unique = true, nullable = true)
@@ -49,7 +53,7 @@ public class Users {
 	@Column(unique = true, nullable = true)
 	private String userNick;
 	
-	@Column(nullable = false)
+
 	private String userGender;
 	
 	@Column(unique = true)
@@ -87,7 +91,7 @@ public class Users {
 	@Enumerated(EnumType.STRING)
 	private Role state;
 
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserAttachments> userAttachList;
 	

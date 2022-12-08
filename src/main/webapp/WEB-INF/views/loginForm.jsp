@@ -16,16 +16,7 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript">
 	$(function(){
-		//alert(1)
-	/* 	$("#findId").click(function(){
-			//document.getElementById("findIdForm1").style.display="";
-			//document.getElementById("findIdForm2").style.display="";
-			//$("#findIdForm").show("2000");
-			//alert(11);
-			$("#findIdForm").show();
-			
-		}) */
-		
+	
 		$("#findIdBtn").click(function(){
 			if($("#email").val()==""){
 				alert("이메일을 입력해주세요.");
@@ -91,6 +82,14 @@
 				
 			});//ajax
 		}) 
+		
+		$("form").on("submit",function(){
+			if($("#id").val()=="" || $("#pwd").val()==""){
+				alert("아이디 혹은 비밀번호를 입력해주세요.")
+				return false;
+			}
+			
+		})
 	})
 
 	
@@ -182,8 +181,8 @@
       <!-- 기관 개인 선택 모달 -->
       <div class="modal-wrap" style="display: none" id="userJob">
         <div class="modal-sign-up-button-wrap">
-          <button class="sign-up-agency-button" onclick="location.href='${pageContext.request.contextPath }/user/joinFormForCompany'">기관/사업자</button>
-          <button class="sign-up-individual-button" onclick="location.href='${pageContext.request.contextPath }/user/joinFormForIndiv'">개인</button>
+          <button class="sign-up-agency-button" onclick="location.href='${pageContext.request.contextPath }/joinFormForCompany'">기관/사업자</button>
+          <button class="sign-up-individual-button" onclick="location.href='${pageContext.request.contextPath }/joinFormForIndiv'">개인</button>
         </div>
         <div class="modal-button-wrap">
           <div></div>

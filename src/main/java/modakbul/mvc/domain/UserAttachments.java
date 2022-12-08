@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +37,7 @@ public class UserAttachments {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")
 	@NonNull
+	@JsonIgnore
 	private Users user;
 	
 	@Column(nullable = false)
