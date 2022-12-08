@@ -6,8 +6,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.groupby.SelectReplyState;
@@ -16,6 +19,8 @@ import modakbul.mvc.repository.InquiryRepository;
 @Service
 @Transactional
 public class InquiryServiceImpl implements InquiryService {
+	@Autowired
+	private JPAQueryFactory queryFactory;
 
 	@Autowired
 	private InquiryRepository inquiryRep;
@@ -53,9 +58,13 @@ public class InquiryServiceImpl implements InquiryService {
 	 * 마이페이지에서 문의글 답변 달렸는지 상태확인
 	 * */
 	public Page<SelectReplyState> selectReplyState(Long userNo,Pageable pageable){
-		Page<SelectReplyState> l=inquiryRep.selectReplyState(userNo, pageable);
+		List<SelectReplyState> l=inquiryRep.selectReplyState(userNo);
+		//List<SelectReplyState> l=inquiryRep.selectReplyState(userNo,pageRequest);
+		final int start = (int)pageable.getOffset();
+		final int end = Math.min((start + pageable.getPageSize()), l.size());
 		
-		return l;
+		final Page<SelectReplyState> page = new PageImpl<>(l.subList(start, end), pageable, l.size());
+		return page;
 		
 	}
 	//문의수정
