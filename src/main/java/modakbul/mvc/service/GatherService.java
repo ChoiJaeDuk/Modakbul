@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.querydsl.jpa.impl.JPAQuery;
-
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherAttachments;
+import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.groupby.GatherGroupBy;
 
 public interface GatherService {
@@ -18,7 +17,7 @@ public interface GatherService {
 	 * 정기모임이면 정기모임도 등록한다.
 	 * @param gather
 	 */
-	void insertGather(Gather gather, GatherAttachments gatherAttachments);
+	void insertGather(Gather gather, List<GatherAttachments> gatherAttachments, RegularGather regularGather);
 	
 	
 	/**

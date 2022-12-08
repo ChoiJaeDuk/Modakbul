@@ -32,6 +32,7 @@ import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
+import modakbul.mvc.domain.RegularGather;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
@@ -68,10 +69,14 @@ public class GatherServiceImpl implements GatherService {
 	private final GatherAttachmentsRepository gatherAttachementsRep;
 	
 	@Override
-	public void insertGather(Gather gather, GatherAttachments gatherAttachments) {
+	public void insertGather(Gather gather, List<GatherAttachments> gatherAttachments, RegularGather regularGather) {
 		gatherRep.save(gather);
-		gatherAttachementsRep.save(gatherAttachments);
-
+		
+		if(gatherAttachments!=null) {
+			for(GatherAttachments ga:gatherAttachments) {
+				gatherAttachementsRep.save(ga);
+			}
+		}
 	}
 	
 	
