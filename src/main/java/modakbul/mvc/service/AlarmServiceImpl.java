@@ -1,5 +1,7 @@
 package modakbul.mvc.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.AlarmReceiverRepository;
 import modakbul.mvc.repository.AlarmRepository;
 
@@ -40,11 +43,14 @@ public class AlarmServiceImpl implements AlarmService{
 	
 	/**
 	 * 알람 등록
+	 * @return 
 	 */
 	@Override
-	public void insertAlarm(Alarm alarm) {
+	public Alarm insertAlarm(Alarm alarm) {
 		alarmRep.save(alarm);
 		
+		
+		return alarm;
 	}
 	
 	/**
@@ -57,9 +63,17 @@ public class AlarmServiceImpl implements AlarmService{
 	 * 알람 리시버 등록
 	 */
 	@Override
-	public void insertReceiver(AlarmReceiver receiver) {
+	public void insertReceiver(List<Users> userList, Alarm alarm) {
+		insertAlarm(alarm);
 		
-		receiverRep.save(receiver);
+		List<AlarmReceiver> alarmReceiverList = new ArrayList<AlarmReceiver>();
+		
+		for(Users user:userList) {
+			 alarmReceiverList.add(new AlarmReceiver(0L, user, alarm , "안읽음"));
+		}
+		
+		receiverRep.saveAll(alarmReceiverList);
+		
 		
 	}
 	

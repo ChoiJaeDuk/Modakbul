@@ -106,7 +106,12 @@
       </dependency>   
       
        <!-- 알림 문자 보내기 -->
-   
+   <!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
+	<dependency>
+	    <groupId>net.nurigo</groupId>
+	    <artifactId>sdk</artifactId>
+	    <version>4.2.7</version>
+	</dependency>
 	
 	      
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
@@ -153,12 +158,7 @@
       </dependency>
       
 
- <!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
-	<dependency>
-	    <groupId>net.nurigo</groupId>
-	    <artifactId>sdk</artifactId>
-	    <version>4.2.7</version>
-	</dependency>
+ 
 
    <!-- 아임포트 -->
    <dependency>
