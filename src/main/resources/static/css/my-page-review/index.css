@@ -83,6 +83,22 @@
 .my-page-button:active {
   background-color: rgb(214, 132, 0);
 }
+.my-page-button-gray {
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(190, 190, 190);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.my-page-button-gray:hover {
+  background-color: rgb(226, 226, 226);
+}
+.my-page-button-gray:active {
+  background-color: rgb(114, 114, 114);
+}
 /* 인풋 */
 .my-page-form-input {
   width: 100%;
@@ -169,17 +185,6 @@
   border: 1px solid rgb(243, 156, 18);
 }
 .certificate-add-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  background-color: rgb(190, 190, 190);
-  cursor: pointer;
-  font-size: 25px;
-  border-radius: 4px;
-}
-.certificate-delete-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,7 +354,6 @@ input[type="checkbox"]:checked + label {
   border: 0;
   cursor: pointer;
 }
-
 .modal-text-wrap {
   margin-top: 24px;
   font-size: 14px;
@@ -385,5 +389,152 @@ input[type="checkbox"]:checked + label {
 .search-id-button:active {
   background-color: rgb(214, 132, 0);
 }
-.modal-button-wrap {
+
+/* 추가된 내용 */
+.inquiry-replied {
+  color: rgb(46, 204, 113);
 }
+
+.table-small-image-wrap {
+  display: inline-block;
+  width: 80px;
+  height: 50px;
+}
+.table-interest-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.table-heart {
+  width: 25px;
+  height: 25px;
+  background: url("https://dummyimage.com/25x25/ff2bb5/fff") no-repeat
+    center/cover;
+}
+/* 추가된 내용 */
+
+/* 추가된 모달 */
+.commercial-modal-wrap {
+  width: 650px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: rgb(0 0 0 / 23%) 3px 3px 8px 0px;
+  z-index: 5;
+  border-radius: 4px;
+}
+.create-commercial-wrap {
+  margin-top: 24px;
+}
+.create-commercial-value-required {
+  color: red;
+}
+.create-commercial-class-name {
+  font-weight: bold;
+  font-size: 24px;
+}
+.create-commercial-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+.create-commercial-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.create-commercial-item + .create-commercial-item {
+  margin-top: 12px;
+}
+.create-commercial-value-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 16px;
+}
+.create-commercial-image-wrap {
+  width: 150px;
+  height: 120px;
+  background-color: red;
+}
+.commercial-modal-title {
+  font-weight: bold;
+  font-size: 24px;
+}
+.create-commercial-input {
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.create-commercial-input-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+.create-commercial-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.create-commercial-input-tip {
+  margin-top: 12px;
+  font-size: 13px;
+  color: rgb(127, 127, 127);
+}
+.create-commercial-warning {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modify-commercial-current-image-text {
+  font-size: 16px;
+  color: rgb(127, 127, 127);
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.modify-commercial-current-image-wrap {
+  width: 100%;
+  background-color: lightblue;
+  height: 100px;
+  overflow: hidden;
+}
+.modify-commercial-change-image-wrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.modify-commercial-change-image-value-wrap {
+  display: flex;
+  gap: 0 8px;
+}
+.commercial-image-input {
+  display: none;
+}
+.commercial-file-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.commercial-file-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.commercial-file-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.commercial-modal-label {
+  margin-top: 10px;
+}
+/* 추가된 모달 */

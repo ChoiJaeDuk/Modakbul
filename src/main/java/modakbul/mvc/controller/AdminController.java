@@ -34,6 +34,11 @@ public class AdminController {
 
 	private final static int BLOCK_COUNT=4;
 
+	
+	@RequestMapping("{url}")
+	public void url(){
+		
+	}
 	/**
 	 * 모임 페이지
 	 * */
