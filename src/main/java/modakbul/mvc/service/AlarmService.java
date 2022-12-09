@@ -27,9 +27,14 @@ public interface AlarmService {
 	void deleteAlarm(Long alarmNo);
 	
 	/**
-	 * 알람 리시버 등록
+	 * 알람 리시버 등록(다수)
 	 */
-	void insertReceiver(List<Users> userList, Alarm alarm);
+	void insertReceiverAll(List<Users> userList, Alarm alarm);
+	
+	/**
+	 * 알람 리시버 등록(개인)
+	 */
+	void insertReceiverOne(Users user, Alarm alarm);
 	
 	/**
 	 * 알람 리시버 삭제

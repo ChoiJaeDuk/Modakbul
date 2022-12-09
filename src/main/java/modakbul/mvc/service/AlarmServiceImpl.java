@@ -60,10 +60,10 @@ public class AlarmServiceImpl implements AlarmService{
 	public void deleteAlarm(Long alarmNo) {	}
 	
 	/**
-	 * 알람 리시버 등록
+	 * 알람 리시버 등록(다수)
 	 */
 	@Override
-	public void insertReceiver(List<Users> userList, Alarm alarm) {
+	public void insertReceiverAll(List<Users> userList, Alarm alarm) {
 		insertAlarm(alarm);
 		
 		List<AlarmReceiver> alarmReceiverList = new ArrayList<AlarmReceiver>();
@@ -75,6 +75,18 @@ public class AlarmServiceImpl implements AlarmService{
 		receiverRep.saveAll(alarmReceiverList);
 		
 		
+	}
+	
+	/**
+	 * 알람 리시버 등록(개인)
+	 */
+	@Override
+	public void insertReceiverOne(Users user, Alarm alarm) {
+		insertAlarm(alarm);
+		
+		AlarmReceiver ar = new AlarmReceiver(0L, user, alarm , "안읽음");
+		
+		receiverRep.save(ar);
 	}
 	
 	/**
