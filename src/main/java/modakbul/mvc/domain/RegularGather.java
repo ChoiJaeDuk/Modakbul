@@ -15,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +40,11 @@ public class RegularGather {
 	private Long regularGatherNo;
 	
 	private int regularGatherCycle;
+	
+
+	@Column(nullable = false)
+	@JsonProperty("regularGatherDay")
+	private String regularGatherDay;//정기모임요일
 	
 	@ColumnDefault("50")
 	private double gatherTemper;

@@ -47,6 +47,12 @@
          <optional>true</optional>
       </dependency>
 
+      <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+
+</dependency>
       
       <!-- 오라클 클라우드 연결 --> 
 
@@ -105,24 +111,16 @@
          <artifactId>querydsl-jpa</artifactId>
       </dependency>   
       
+
        <!-- 알림 문자 보내기 -->
    <!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
+
 	<dependency>
 	    <groupId>net.nurigo</groupId>
 	    <artifactId>sdk</artifactId>
 	    <version>4.2.7</version>
 	</dependency>
-	
-	      
-            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-mail</artifactId>
-          <version>2.7.1</version><!--$NO-MVN-MAN-VER$ -->
-      </dependency>
       
-    
-	
       
       <!-- 파일업로드 -->
       <dependency>
@@ -156,9 +154,6 @@
           <artifactId>httpclient</artifactId>
           <version>4.5.3</version><!--$NO-MVN-MAN-VER$ -->
       </dependency>
-      
-
- 
 
    <!-- 아임포트 -->
    <dependency>
@@ -167,7 +162,14 @@
      <version>0.2.14</version>
    </dependency>
    
-  
+   <!-- 알림 문자 보내기 -->
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-mail</artifactId>
+          <version>2.7.1</version><!--$NO-MVN-MAN-VER$ -->
+      </dependency>
   
 
    </dependencies>
