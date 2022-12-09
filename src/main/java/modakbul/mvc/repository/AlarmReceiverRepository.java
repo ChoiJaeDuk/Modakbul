@@ -32,6 +32,10 @@ public interface AlarmReceiverRepository extends JpaRepository<AlarmReceiver, Lo
 	@Query("select ar from AlarmReceiver ar where ar.user.userNo = ?1 and ar.alarmStatus = '안읽음'")
 	List<AlarmReceiver> unreadAlarms(Long userNo);
 	
-	
+	/**
+	 * 리시버 insert에 넣을현재 no 를 구해오기
+	 */
+	@Query(value="insert into alarm_receiver values (alarm_receiver_no_seq.nextval, '안읽음', alarm_no_seq.currval, ?1)", nativeQuery = true)
+	int insertReceiver(Long userNo);
 	
 }

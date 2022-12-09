@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.service.AlarmService;
@@ -56,7 +57,14 @@ public class AlarmController {
 	 * 알람 & 알람리시버 등록
 	 */
 	@RequestMapping("/insert")
-	public String insert() {
+	public String insert(Long userNo) {
+		Alarm alarm = Alarm.builder()
+				.alarmSubject("참가 신청이 승인되었습니다.")
+				.alarmContent("주최자가 신청을 승인했습니다.")
+				.build();
+		
+		alarmService.insertReceiver(null, alarm);
+		
 		
 		return "redirect:/alarm/myAlarmuserNo=";
 	}
@@ -65,7 +73,8 @@ public class AlarmController {
 	 * 알람리시버 삭제
 	 */
 	@RequestMapping("/delete")
-	public String delete() {
+	public String delete(Long receiverNo) {
+		alarmService.deleteReceiver(receiverNo);
 		
 		return "redirect:/alarm/myAlarm?userNo=";
 	}
