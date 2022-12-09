@@ -3,7 +3,7 @@
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
@@ -34,6 +34,9 @@
 	// 휴대폰 번호 정규식
 	let phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 	
+	//주소
+	//lett addrJ = /^[가-힣A-Za-z·\d~\-\.]+(로|길)$/;
+	
 	let rrn1J = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))$/;
 	let rrn2J = /[1-4][0-9]{6}$/;
 	//var $div// = $(".certificate-input-wrap").eq(0).clone();	
@@ -42,7 +45,8 @@
 			
 			
 			$("#email").keyup(function(){
-				$(".email-validate-error").html("미인증");
+				
+				$("#sendEmail").html("이메일 인증");
 				
 		
 			})
@@ -121,7 +125,7 @@
 				
 				if($("#code").val()==$("#checkEmail").val()){
 					alert("성공");
-					$(".email-validate-error").html("인증완료");
+					$("#sendEmail").html("인증완료");
 					$(".modal-wrap").hide();
 					
 				}else{
@@ -192,7 +196,7 @@
 					else if($("#check-pw").val()!=$("#pw").val()){
 						$("#comparePwd").html("비밀번호 불일치");
 					}else{
-						$("#comparePwd").html("비밀번호 일치");
+						$("#comparePwd").html("");
 						
 					}
 				}else{
@@ -203,7 +207,7 @@
 					else if($("#check-pw").val()!=$("#pw").val()){
 						$("#comparePwd").html("비밀번호 불일치");
 					}else{
-						$("#comparePwd").html("비밀번호 일치");
+						$("#comparePwd").html("");
 						
 					}
 					
@@ -224,7 +228,7 @@
 				else if($("#check-pw").val()!=$("#pw").val()){
 					$("#comparePwd").html("비밀번호 불일치");
 				}else{
-					$("#comparePwd").html("비밀번호 일치");
+					$("#comparePwd").html("");
 					
 				}
 			})
@@ -342,7 +346,7 @@
 			
 			$(".email-select").change(function(){
 				$(".email-input").attr("readonly",false);
-				$(".email-validate-error").html("미인증");
+				$("#sendEmail").html("이메일 인증");
 			})
 			
 			$("form").on("submit",function(){
@@ -353,7 +357,7 @@
 					
 				}
 				
-				let inval_Arr = new Array(9).fill(false);
+				let inval_Arr = new Array(12).fill(false);
 		
 				//이름확인
 				if (nameJ.test($("#name").val())) {
@@ -377,7 +381,7 @@
 				}
 				
 				// 비밀번호가 같은 경우 && 비밀번호 정규식
-				if ($("#comparePwd").html()=="비밀번호 일치") {
+				if ($("#comparePwd").html() == "" && $("#pw").val() != "" && $("#check-pw").val() != "" ) {
 					inval_Arr[2] = true;
 					
 				} else {
@@ -419,7 +423,7 @@
  				} 
 				
 				//이메일
-				  if($(".email-validate-error").html()=="인증완료"){
+				  if($("#sendEmail").html()=="인증완료"){
 					inval_Arr[6] = true;
 					
 				}else{
@@ -461,7 +465,36 @@
 					inval_Arr[9] = true;
 				}
 				
+				//우편번호
+				if ( $("#zip").val().length >0 ) {
+					
+					inval_Arr[10] = true;
 				
+				} else {
+					inval_Arr[10] = false;
+					alert("우편번호를 입력해주세요.");
+					return false;
+				} 
+				//도로명주소
+				if ($("#address").val()!="") {
+					
+					inval_Arr[11] = true;
+				
+				} else {
+					inval_Arr[11] = false;
+					alert("주소를 확인해주세요.");
+					return false;
+				} 
+				
+				if ($("#address-detail").val() != "") {
+					
+					inval_Arr[12] = true;
+				
+				} else {
+					inval_Arr[12] = false;
+					alert("주소를 확인해주세요.");
+					return false;
+				} 
 
 				//전체 유효성 검사
 				let validAll = true;
@@ -539,6 +572,8 @@
          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
          	<input type="hidden" name="userJob" value="개인"> 
          	<input type="hidden" name="state" value="ROLE_USER">
+         	<input type="hidden" name="temper" value=50> 
+         	<input type="hidden" name="temperCount" value=1> 
           <div class="sign-up-image-area">
             <div class="sign-up-form-image ">
               <div class="sign-up-image-wrap">
@@ -645,8 +680,8 @@
                 <input class="email-input" id="etc" value="${fn:split(userInfo.get('userEmail'),'@')[1] }" readonly="readonly"/>
                 </c:if>
                 <input class="email-input" id="etc" value=""  readonly="readonly"/>
-              	<button class="sign-up-form-button" type="button" id="sendEmail" disabled="disabled">이메일 인증</button>
-             	<span class="email-validate-error">인증완료</span>
+              	<button class="sign-up-form-button" type="button" id="sendEmail" disabled="disabled">인증완료</button>
+             	<!-- <span class="email-validate-error">인증완료</span> -->
              </c:when>
               <c:otherwise>
               <input type="hidden" name="userEmail">
@@ -660,7 +695,7 @@
               </select>
               <input class="email-input" id="etc"/>
               <button class="sign-up-form-button" type="button" id="sendEmail" >이메일 인증</button>
-              <span class="email-validate-error">미인증</span>
+              <!-- <span class="email-validate-error">미인증</span> -->
               </c:otherwise>
               </c:choose>
             </div>
@@ -745,7 +780,7 @@
              
             </div>
          
-          </div class="sign-up-form-item">
+          </div>
           
           <div class="form-button-wrap">
             <button class="sign-up-cancel-button" type="button">취소</button>

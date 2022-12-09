@@ -3,7 +3,6 @@ package modakbul.mvc.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.swing.plaf.ListUI;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -21,18 +20,21 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	private final UserAttachmentsRepository userAttachRep;
 	//private final UsersService usersService;
 	private final EntityManager em;
+	
+	
 
 	@Override
 	public void insert(UserAttachments userAttachments) {
 		
-		userAttachRep.save(
+		/*userAttachRep.save(
 				UserAttachments.builder()
 				.user(userAttachments.getUser())
 				.userAttachmentsFileSubject(userAttachments.getUserAttachmentsFileSubject())
 				.userAttachmentsFileName(userAttachments.getUserAttachmentsFileName())
 				.build()
 
-				);
+				);*/
+		userAttachRep.save(userAttachments);
 	}
 
 	@Override
@@ -59,6 +61,13 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	public List<UserAttachments> selectAll(Users user) {
 		
 		return userAttachRep.selectById(user);
+		
+	}
+	
+	@Override
+	public UserAttachments selectByNo(Long userAttachmentsFileNo) {
+		//UserAttachments s =
+		return  userAttachRep.findById(userAttachmentsFileNo).orElse(null);
 		
 	}
 

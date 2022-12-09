@@ -3,7 +3,7 @@
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
@@ -37,8 +37,10 @@
 	
 		$(function(){
 			
-			$("#email").keyup(function(){
-				$(".email-validate-error").html("미인증");	
+$("#email").keyup(function(){
+				
+				$("#sendEmail").html("이메일 인증");
+				
 		
 			})
 			
@@ -112,7 +114,7 @@
 				
 				if($("#code").val()==$("#checkEmail").val()){
 					alert("성공");
-					$(".email-validate-error").html("인증완료");
+					$("#sendEmail").html("인증완료");
 					$(".modal-wrap").hide();
 					
 				}else{
@@ -183,7 +185,7 @@
 					else if($("#check-pw").val()!=$("#pw").val()){
 						$("#comparePwd").html("비밀번호 불일치");
 					}else{
-						$("#comparePwd").html("비밀번호 일치");
+						$("#comparePwd").html("");
 						
 					}
 				}else{
@@ -194,13 +196,14 @@
 					else if($("#check-pw").val()!=$("#pw").val()){
 						$("#comparePwd").html("비밀번호 불일치");
 					}else{
-						$("#comparePwd").html("비밀번호 일치");
+						$("#comparePwd").html("");
 						
 					}
 					
 				}
 				
 			})
+			
 			
 			
 			$("#check-pw").keyup(function(){
@@ -210,7 +213,7 @@
 				else if($("#check-pw").val()!=$("#pw").val()){
 					$("#comparePwd").html("비밀번호 불일치");
 				}else{
-					$("#comparePwd").html("비밀번호 일치");
+					$("#comparePwd").html("");
 					
 				}
 			})
@@ -323,7 +326,7 @@
 			
 			$(".email-select").change(function(){
 				$(".email-input").attr("readonly",false);
-				$(".email-validate-error").html("미인증");
+				$("#sendEmail").html("이메일 인증");
 			})
 			
 			$("form").on("submit",function(){
@@ -336,7 +339,7 @@
 				}
 			
 		
-				let inval_Arr = new Array(7).fill(false);
+				let inval_Arr = new Array(10).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
 					
@@ -359,7 +362,7 @@
 				}
 				
 				// 비밀번호가 같은 경우 && 비밀번호 정규식
-				if ($("#comparePwd").html()=="비밀번호 일치") {
+				if ($("#comparePwd").html() == "" && $("#pw").val() != "" && $("#check-pw").val() != "" ) {
 					inval_Arr[2] = true;
 					
 				} else {
@@ -396,7 +399,7 @@
 				
 				} else {
 					inval_Arr[5] = false;
-					alert("휴대폰 번호를 확인하세요.");
+					alert("사업자등록번호를 확인하세요.");
 					return false;
 				} 
 				
@@ -418,6 +421,37 @@
 					}else{
 						inval_Arr[7] = true;
 					}
+				
+					//우편번호
+					if ( $("#zip").val().length >0 ) {
+						
+						inval_Arr[8] = true;
+					
+					} else {
+						inval_Arr[8] = false;
+						alert("우편번호를 입력해주세요.");
+						return false;
+					} 
+					//도로명주소
+					if ($("#address").val()!="") {
+						
+						inval_Arr[9] = true;
+					
+					} else {
+						inval_Arr[9] = false;
+						alert("주소를 확인해주세요.");
+						return false;
+					} 
+					
+					if ($("#address-detail").val() != "") {
+						
+						inval_Arr[10] = true;
+					
+					} else {
+						inval_Arr[10] = false;
+						alert("주소를 확인해주세요.");
+						return false;
+					} 
 				
 				//전체 유효성 검사
 				let validAll = true;
@@ -573,25 +607,25 @@
               </select>
               <input class="email-input" id="etc"/>
               <button class="sign-up-form-button" type="button" id="sendEmail" >이메일 인증</button>
-              <span class="email-validate-error">미인증</span>
+           
           
             </div>
-          </div class="sign-up-form-item">
+          </div >
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="zip">우편번호</label>
             <div class="zip-input-wrap">
               <input class="sign-up-form-input" id="zip" name="userPostCode"/>
               <button class="sign-up-form-button" type="button" onclick="execPostCode();">우편번호 찾기</button>
             </div>
-          </div class="sign-up-form-item">
+          </div>
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="address">주소</label>
             <input class="sign-up-form-input" id="address" name="userAddr"/>
-          </div class="sign-up-form-item">
+          </div>
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="address-detail">상세주소</label>
             <input class="sign-up-form-input" id="address-detail" name="userAddrDetail" />
-          </div class="sign-up-form-item">
+          </div>
           
           <div class="sign-up-form-item" id="certAdd" style="display: block">
             <label class="sign-up-form-label" for="certificate">증명서</label><p>

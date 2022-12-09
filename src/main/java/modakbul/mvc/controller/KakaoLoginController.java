@@ -36,7 +36,7 @@ public class KakaoLoginController {
 		
 		if(id==null) {
 			model.addAttribute("userInfo", userInfo);
-			return "user/joinFormForIndiv";
+			return "joinFormForIndiv";
 		}
 	
 		return "redirect:/";

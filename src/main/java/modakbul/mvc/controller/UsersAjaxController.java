@@ -1,13 +1,25 @@
 package modakbul.mvc.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.service.UserAttachmentsService;
 import modakbul.mvc.service.UsersService;
 
 @RestController
@@ -15,6 +27,10 @@ import modakbul.mvc.service.UsersService;
 public class UsersAjaxController {
 	
 	private final UsersService usersService;
+	
+	private final UserAttachmentsService userAttachService;
+	
+	private final AuthenticationManager authenticationManager;
 	
 	@RequestMapping("selectUserId")
 	public String selectUserId(HttpServletRequest request) {
@@ -82,6 +98,63 @@ public class UsersAjaxController {
 			return "이미 사용중인 닉네임";
 		}
 
+	}
+	
+	@RequestMapping("update")
+	public String update(Users user,  HttpSession session, @RequestParam(value = "newFilesList[]" , required =false ) List<MultipartFile> filesList
+			 , @RequestParam(value = "newFileSubject[]", required = false) List<String> userAttachmentsFileSubject) {
+		
+	    
+		UserAttachments userAttach = new UserAttachments();
+		System.out.println("왓냥 user = " + user);
+		
+		
+		
+		Users dbUser = usersService.selectById(user.getUserId());
+		System.out.println("userid = " + user.getUserId());
+		
+		user.setUserNo(dbUser.getUserNo());
+		usersService.update(user);
+		System.out.println("햇어 ?");
+		
+		/*변경된 세션 등록 */
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(dbUser.getUserId(), dbUser.getUserpwd()));
+                
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+ 
+		String saveDir = session.getServletContext().getRealPath("/save");
+		
+		if(filesList!=null) {
+			for(int i = 0; i< filesList.size(); i++) {
+				
+				MultipartFile file = filesList.get(i);
+				String originalFileName = file.getOriginalFilename();
+				 String subject = userAttachmentsFileSubject.get(i);
+				
+				 System.out.println("파일 = "+ originalFileName+"/");
+				 System.out.println("제목 = " + subject);
+				 try { 
+					 file.transferTo(new File(saveDir + "/" + originalFileName)); 
+				 }
+				 catch (Exception e) {
+					 
+					 e.getStackTrace();
+				 }
+				 
+				
+				 
+				 userAttach.setUser(Users.builder().userNo(dbUser.getUserNo()).build());
+				 userAttach.setUserAttachmentsFileSubject(subject);
+				 userAttach.setUserAttachmentsFileName(originalFileName);
+				 userAttachService.insert(userAttach);
+			}
+			
+		}
+		 
+		
+
+		return "ok";
 	}
 	
 
