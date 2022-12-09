@@ -1,0 +1,27 @@
+.admin-page-wrap {
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+}
+
+#side-bar {
+	width: 200px;
+	margin: 30px 50px 0 0;
+	background-color: rgb(243, 156, 18);
+}
+
+#side1, #side2, #side3, #side4 {
+	margin: 30px 20px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#side1 a, #side2 a, #side3 a, #side4 a {
+	text-decoration: none;
+	color: black;
+}
+
+.cont-wrap {
+    width: 950px;
+    padding-top: 30px;
+}

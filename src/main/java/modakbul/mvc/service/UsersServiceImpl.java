@@ -68,6 +68,11 @@ public class UsersServiceImpl implements UsersService {
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
 	
+	@Override
+	public List<Users> selectAll() {
+		
+		return usersRep.findAll();
+	}
 
 	@Override
 	public void insert(Users user) {
@@ -94,28 +99,21 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 	
-	/*
-	 * @Override public String checkCode(String code) throws Exception {
-	 * 
-	 * return null; }
-	 */
-
 	@Override
-	public Page<Users> selectAll(Pageable pageable, String job) {
+	public Page<Users> selectUsers(Pageable pageable, String job, String keyword) {
 		QUsers users = QUsers.users;
 		
 		int nowPage=4;
 		pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
 		
-		//Page<Users> list = usersRep.findAll(page);
-		
-		//int temp = (nowPage-1)%BLOCK_COUNT;
-		
-		//int startPage = nowPage-temp;
 		
 		BooleanBuilder builder = new BooleanBuilder();
 		if(job != null) {
 			builder.and(users.userJob.eq(job));
+		}
+		
+		else if(keyword !=null) {
+			builder.and(users.userName.contains(keyword));
 		}
 		
 		List<Users> list = queryFactory
