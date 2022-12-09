@@ -24,7 +24,7 @@ import modakbul.mvc.service.ParticipantService;
 @Transactional
 @Commit
 public class ParticipantTest {
-	Users user = new Users(6L);
+	Users user = new Users(1L);
 	Gather gather = new Gather(51L);
 	
 	private QParticipant participant;
@@ -37,7 +37,7 @@ public class ParticipantTest {
 	
 	@Test
 	void insertParticipant() {
-		Participant participant = new Participant(0L, gather, user, "참가승인");
+		Participant participant = new Participant(0L, gather, user, "신청대기");
 		participantService.insertParticipant(participant);
 	}
 	
@@ -50,7 +50,9 @@ public class ParticipantTest {
 	
 	@Test
 	void updateApplicationState() {
+		
 		participantService.updateApplicationState(user.getUserNo(), gather.getGatherNo(), "참가승인");
+
 	}
 	
 	

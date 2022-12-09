@@ -1,6 +1,9 @@
 package modakbul.mvc.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.domain.UserReview;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherReviewService;
 import modakbul.mvc.service.UserReviewService;
+import modakbul.mvc.service.UsersService;
 
 @Controller
 public class KyuTestController {
@@ -27,6 +32,9 @@ public class KyuTestController {
 	
 	@Autowired
 	private UserReviewService userReviewService;
+	
+	@Autowired
+	private UsersService userSerivce;
 	
 	private final static int PAGE_COUNT=3;
 	private final static int BLOCK_COUNT=4;	
@@ -75,26 +83,44 @@ public class KyuTestController {
 	 */
 	@RequestMapping("/kyuTest/kyuTest/gr")
 	@ResponseBody
-	public String selectAllByRegularGatherNo(@RequestParam long regularGatherNo,Model model, @RequestParam(defaultValue ="0") int nowPage) { 
+	public Map<String, Object>  selectAllByRegularGatherNo( Long regularGatherNo, @RequestParam(defaultValue ="0") int nowPage) { 
 	
-		System.out.println("asdasdasdasdasdas");
-		ModelAndView mv= new ModelAndView();
+		//System.out.println("asdasdasdasdasdas");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
 	  
 	  Pageable pageable = PageRequest.of(nowPage, PAGE_COUNT);
 	  Page<GatherReview> page = gatherReviewService.selectAllByRegularGatherNo(regularGatherNo,pageable);
-	 List<GatherReview> pageList=page.getContent();
+	  //System.out.println(page.review);
+	  List<GatherReview> pageList=page.getContent();
+	  
+	 System.out.println(pageList.size());
+	List<String> nameList = new ArrayList<String>();
+	 for(GatherReview r:pageList) {
+			
+		 	Users user = r.getWriterUser(); 
+			 Users dbUser = userSerivce.selectById(user.getUserNo());
+			 String userName = dbUser.getUserName();
+			 nameList.add(userName);
+			 
+	
+	 }
 	 
 	 int temp= (nowPage -1)%BLOCK_COUNT; int startPage= nowPage-temp;
 	 
-	 // mv.setViewName("/kyuTest/kyuTest"); 
-	 mv.setViewName("/kyuTest/kyuTest"); 
-	 mv.addObject("pageList", pageList);
-	 mv.addObject("blockCount", BLOCK_COUNT); 
-	 mv.addObject("startPage",startPage); 
-	 mv.addObject("nowPage", nowPage);
+	
+	 map.put("pageList", pageList);
+	 map.put("blockCount", BLOCK_COUNT); 
+	 map.put("startPage",startPage); 
+	 map.put("nowPage", nowPage);
+	 map.put("nameList", nameList);
 	  
 	  System.out.println("Asdasda");
-	  return "ok";
+	  
+	  pageList.forEach(b->System.out.println(b.getGatherReviewContent())); //여기까지 옴
+	  
+	 
+	  return map;
 	  }
 	
 }

@@ -18,6 +18,8 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,14 +42,18 @@ public class GatherReview {
 	@NonNull
 	private Long gatherReviewNo;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "regularGather_no")
 	private RegularGather regularGather;
 	
+
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writerUser_no")
 	private Users writerUser;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hostUser_no")
 	private Users hostUser;
@@ -61,6 +67,7 @@ public class GatherReview {
 	@CreationTimestamp
 	private LocalDateTime reviewRegisDate;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "gatherReview", cascade=CascadeType.ALL)
 	private List<GatherReviewReply> gatherReviewReplyList;
 

@@ -47,10 +47,10 @@ public class AlarmServiceImpl implements AlarmService{
 	 */
 	@Override
 	public Alarm insertAlarm(Alarm alarm) {
-		alarmRep.save(alarm);
+		Alarm a = alarmRep.save(alarm);
+		System.out.println("알람 저장후 알람번호 : " + a.getAlarmNo());
 		
-		
-		return alarm;
+		return a;
 	}
 	
 	/**
@@ -64,14 +64,15 @@ public class AlarmServiceImpl implements AlarmService{
 	 */
 	@Override
 	public void insertReceiverAll(List<Users> userList, Alarm alarm) {
-		insertAlarm(alarm);
+		System.out.println("등록전" + alarm.getAlarmNo());
+		Alarm a = insertAlarm(alarm);
 		
 		List<AlarmReceiver> alarmReceiverList = new ArrayList<AlarmReceiver>();
 		
 		for(Users user:userList) {
-			 alarmReceiverList.add(new AlarmReceiver(0L, user, alarm , "안읽음"));
+			 alarmReceiverList.add(new AlarmReceiver(0L, user, a , "안읽음"));
 		}
-		
+		System.out.println("등록후 = " + alarm.getAlarmNo());
 		receiverRep.saveAll(alarmReceiverList);
 		
 		
@@ -82,9 +83,9 @@ public class AlarmServiceImpl implements AlarmService{
 	 */
 	@Override
 	public void insertReceiverOne(Users user, Alarm alarm) {
-		insertAlarm(alarm);
+		Alarm a = insertAlarm(alarm);
 		
-		AlarmReceiver ar = new AlarmReceiver(0L, user, alarm , "안읽음");
+		AlarmReceiver ar = new AlarmReceiver(0L, user, a , "안읽음");
 		
 		receiverRep.save(ar);
 	}

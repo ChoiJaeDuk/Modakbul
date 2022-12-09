@@ -25,6 +25,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.controller.ExampleController;
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
@@ -64,8 +65,12 @@ public class GatherServiceImpl implements GatherService {
 	@Autowired
 	private ParticipantService participantService;
 	
+	@Autowired
 	private AlarmService alarmService;
 
+	@Autowired
+	private ExampleController exampleController;
+	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 
@@ -85,8 +90,8 @@ public class GatherServiceImpl implements GatherService {
 	
 	
 	@Override
-	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
-	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
+	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {		
 		
 		/////////////////////////////////
@@ -116,7 +121,8 @@ public class GatherServiceImpl implements GatherService {
 					
 					String alarmSubject = gather.getGatherName()+"모임 상태알림";
 					String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
-					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, completeDate);
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+					
 					alarmService.insertReceiverAll(usersList, alarm);
 					
 					//정기모임 재등록
@@ -138,7 +144,8 @@ public class GatherServiceImpl implements GatherService {
 					
 					String alarmSubject = gather.getGatherName()+"모임 상태알림";
 					String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
-					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, completeDate);
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+					System.out.println("usersList = "+usersList.size());
 					alarmService.insertReceiverAll(usersList, alarm);
 				}
 			} else if (ldt.isEqual(gather.getGatherDate())) {

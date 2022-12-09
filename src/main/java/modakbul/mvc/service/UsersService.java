@@ -104,5 +104,7 @@ public interface UsersService {
 	 * @return
 	 */
 	List<Users> selectByKeyword(String keyword);
+	
+	Users selectById(Long userNo);
 
 }
