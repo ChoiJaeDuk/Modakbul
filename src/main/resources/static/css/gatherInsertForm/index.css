@@ -1,9 +1,9 @@
 .create-group-wrap {
-  width: 700px;
+  width: 800px;
 }
 .create-group-top {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .create-group-wrap-image {
   text-align: center;
@@ -33,7 +33,7 @@
 
 /* 인풋 */
 .create-group-form-input {
-  width: 100%;
+  width: 95%;
   height: 40px;
   padding: 6px 12px;
   outline: 0;
@@ -160,7 +160,8 @@
     display: flex;
     align-items: center;
     gap: 0 8px;
-    padding: 0 8px;
+    padding: 4px 8px;
+    
 }
 .create-group-half-wrap {
   flex: 1;
@@ -253,6 +254,19 @@
 .sign-up-add-image {
   display: none;
 }
+
+.certificate-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(190, 190, 190);
+  cursor: pointer;
+  font-size: 25px;
+  border-radius: 4px;
+}
+
 
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}

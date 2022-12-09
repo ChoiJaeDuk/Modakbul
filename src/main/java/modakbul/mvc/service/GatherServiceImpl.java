@@ -25,13 +25,15 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
-import modakbul.mvc.domain.GatherAttachments;
+import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
@@ -60,6 +62,8 @@ public class GatherServiceImpl implements GatherService {
 
 	@Autowired
 	private ParticipantService participantService;
+	
+	private AlarmService alarmService;
 
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -69,6 +73,9 @@ public class GatherServiceImpl implements GatherService {
 	private final GatherAttachmentsRepository gatherAttachementsRep;
 	
 	private final RegularGatherRepository regularGatherRep;
+	
+	
+	
 	@Override
 	public void insertGather(Gather gather) {
 		
@@ -89,7 +96,7 @@ public class GatherServiceImpl implements GatherService {
 		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중")).fetch();
 		
 		System.out.println("검색결과 수 : "+gatherList.size());
-		
+	
 		for (Gather gather : gatherList) {
 			System.out.println(gather.getGatherNo());
 			
@@ -104,6 +111,10 @@ public class GatherServiceImpl implements GatherService {
 				if ( i < gather.getGatherMinUsers() ) {
 					gather.setGatherState("모임취소");
 					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
+					List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
+					
+		
+					
 					if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 						//다음 날짜를 계산
 						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
@@ -141,6 +152,15 @@ public class GatherServiceImpl implements GatherService {
 			}
 		} // for문
 
+	}
+	
+	private List<Users> gatherStateAlarmList(String state, Long gatherNo){
+		List<Users> userList = queryFactory.select(p.user)
+				.from(p)
+				.where(p.applicationState.eq(state)
+						.and(p.gather.gatherNo.eq(gatherNo)))
+				.fetch();
+		return userList;
 	}
 	
 	

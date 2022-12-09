@@ -31,10 +31,10 @@ public class GatherAttachmentsServiceImpl implements GatherAttachmentsService {
 	QGatherAttachments ga = QGatherAttachments.gatherAttachments;
 	
 	@Override
-	public void insertGatherAttachments(List<GatherAttachments> gatherAttachments) {
-		for(GatherAttachments ga : gatherAttachments) {
-			gatherAttachmentsRep.save(ga);
-		}
+	public void insertGatherAttachments(GatherAttachments gatherAttachments) {
+		
+		gatherAttachmentsRep.save(gatherAttachments);
+
 	}
 
 	@Override

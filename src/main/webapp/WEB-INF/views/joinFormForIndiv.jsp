@@ -296,8 +296,7 @@
 					
 					}
 			})
-			
-			
+		
 			$(document).on("change", ".sign-up-add-image", function(){ //주황색
 					
 					alert(1)
@@ -308,7 +307,7 @@
 			        $(this).prev().val(filename);
 			          //$(this).attr("name","test");
 			          
-			         console.log($(this))
+			        console.log($(this))
 			        // $(this).prev().find("input").val(filename);
 
 			      

@@ -176,6 +176,46 @@
 			
 		});
 		
+		
+		var count = 1;
+		$(document).on("click",".certificate-add-button", function(){
+			
+			var $div = $(".certificate-input-wrap").eq(0).clone();	
+			$div.find("input").val("");
+			
+			var $div='<div class="certificate-input-wrap">';
+			$div+='파일제목 <input class="create-group-form-input-medium" name=gatherAttachmentsFileSubject[] ';
+			$div+='id="gatherAttachmentsFileSubject"/>'
+			$div+='<input class="create-group-form-input-medium" name="gatherAttachmentsFileName" readonly="readonly"/>';
+			$div+='<input id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>';
+			$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" >파일 첨부</label>'
+			$div+='<div class="certificate-add-button">+</div>'
+			count++;
+	
+				if(count <=5){
+	
+					alert($div)
+					$(".plus").append($div);
+				
+				}
+		})
+		
+		$(document).on("change", ".sign-up-add-image", function(){ //주황색
+			
+			alert(1)
+	        console.log($(this))
+	       var filename = $(this).val().split('/').pop().split('\\').pop();
+	          //console.log(filename)
+	          
+	        $(this).prev().val(filename);
+	          //$(this).attr("name","test");
+	          
+	         console.log($(this))
+	        // $(this).prev().find("input").val(filename);
+
+	      
+		})  
+		
 	})        
   	
 	
@@ -258,7 +298,8 @@
                 </div>
               </div>
               <div class="create-group-half-wrap">
-                <div class="create-group-info-table-item-label"> <input type="checkbox" style="width:20px; height:20px;" id="ageLimit" >연령 제한</div>
+              	<div><input type="checkbox" style="width:20px; height:20px;" id="ageLimit" ></div>
+                <div class="create-group-info-table-item-label">연령 제한</div>
                 <div class="create-group-info-table-item-content">
                   <div class="create-group-form-age-wrap">
                     <input class="create-group-form-input-small" disabled="disabled" name="gatherMinAge" id="gatherMinAge"/>
@@ -268,6 +309,7 @@
                 </div>
               </div>
             </div>
+            
             <div class="create-group-info-table-item">
               <div class="create-group-half-wrap">
                 <div class="create-group-info-table-item-label">모임 주기</div>
@@ -313,7 +355,9 @@
             </div>
            
             <div class="create-group-info-table-item">
-              <div class="create-group-info-table-item-label">모임 장소</div>
+              <div class="create-group-info-table-item-label">
+              	모임 장소
+              </div>
               <div class="create-group-info-table-item-content">
               	<div>
               		모임주소 <input class="create-group-form-input-medium" readonly="readonly" name="gatherPlace" id="gatherPlace" style="width:400px;">
@@ -566,15 +610,19 @@
                 <textarea class="create-group-form-textarea" name="gatherComment" id="gatherComment"></textarea>
               </div>
             </div>
-            <div class="create-group-info-table-item">
+            <div class="create-group-info-table-item" id="certAdd">
               <div class="create-group-info-table-item-label">파일 첨부</div>
+			  <div class="plus">             
               <div class="certificate-input-wrap">
-                <input class="create-group-form-input-medium"/>
-                <input id="sign-up-add-file" class="sign-up-add-image" type="file" name="filesList[]"/>
+              	파일제목 <input class="create-group-form-input-medium" name=gatherAttachmentsFileSubject[] id="gatherAttachmentsFileSubject"/>
+                <input class="create-group-form-input-medium" name="gatherAttachmentsFileName" readonly="readonly"/>
+                <input id="sign-up-add-file" class="sign-up-add-image" type="file" name="filesList[]" id="fileName"/>
 	               <label for="sign-up-add-file" class="certificate-file-button" >
 	                  파일 첨부
 	              </label>
+	              <div class="certificate-add-button">+</div>
               </div>
+            </div>
             </div>
           </div>
           <div class="create-group-button-wrap">
