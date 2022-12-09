@@ -72,12 +72,14 @@ public class GatherTest {
 	@Test
 	void gatherInsert() {
 		RegularGather regularGather = new RegularGather(1L);
-		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 21, 0);
-		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 6, 21, 3);
+		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 9, 16, 34);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 9, 16, 50);
 		
-		Gather gather = new Gather(51L, category, user, regularGather, "참가자들 상태확인테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
-		gatherRep.save(gather);
-		//gatherService.insertGather(gather);
+		Gather gather = new Gather(13L, category, user, regularGather, "알람테스트 입니다.", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
+		//em.merge(gather);
+		gatherService.insertGather(gather);
+		
+		//gatherRep.save(gather);
 	}
 	
 	@Test
