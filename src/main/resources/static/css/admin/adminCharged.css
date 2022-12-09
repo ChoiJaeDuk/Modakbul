@@ -1,0 +1,46 @@
+.modakbul-charged-grid-row {
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 2fr 8fr 1fr;
+  align-items: center;
+  height: 150px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+.modakbul-charged-grid-col {
+  padding: 10px;
+}
+.modakbul-charged-grid-img {
+}
+.modakbul-charged-grid-title {
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+.modakbul-charged-grid-director {
+  width: 50%;
+}
+
+.modakbul-charged-grid-director-info {
+  font-size: 20px;
+}
+.modakbul-charged-grid-director-info span {
+  font-size: 16px;
+}
+
+.modakbul-button {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.button-detail {
+  background: brown;
+  color: white;
+}
+
+.button-agree {
+  background: rgb(243, 156, 18);
+  color: white;
+  margin-bottom: 10px;
+}

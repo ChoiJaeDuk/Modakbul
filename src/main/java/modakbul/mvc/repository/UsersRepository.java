@@ -36,7 +36,13 @@ public interface UsersRepository extends JpaRepository<Users, Long>, QuerydslPre
 	@Query("select u from Users u where u.userNick=?1")
 	Users nickCheck(String userNick);
 	
-	
+	/**
+	 * 검색어에 따라
+	 * @param keyword
+	 * @return
+	 */
 	List<Users> findByUserNickContaining(String keyword);
 	
+	@Query("select u from Users u where u.userJob=?1")
+	List<Users> findByUserJob(String userJob);
 }

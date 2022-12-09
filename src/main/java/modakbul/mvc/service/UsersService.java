@@ -16,6 +16,11 @@ import modakbul.mvc.domain.Users;
 public interface UsersService {
 	
 	/**
+	 * 전체 회원수
+	 * @return
+	 */
+	List<Users> selectAll();
+	/**
 	 * 회원가입
 	 * @param user
 	 */
@@ -35,7 +40,7 @@ public interface UsersService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Users> selectAll(Pageable pageable, String job);
+	Page<Users> selectUsers(Pageable pageable, String job, String keyword);
 	
 	/**
 	 * 카카오로그인

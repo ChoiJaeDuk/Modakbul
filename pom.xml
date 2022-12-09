@@ -115,11 +115,11 @@
        <!-- 알림 문자 보내기 -->
    <!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
 
-	<dependency>
-	    <groupId>net.nurigo</groupId>
-	    <artifactId>sdk</artifactId>
-	    <version>4.2.7</version>
-	</dependency>
+   <dependency>
+       <groupId>net.nurigo</groupId>
+       <artifactId>sdk</artifactId>
+       <version>4.2.7</version>
+   </dependency>
       
       
       <!-- 파일업로드 -->

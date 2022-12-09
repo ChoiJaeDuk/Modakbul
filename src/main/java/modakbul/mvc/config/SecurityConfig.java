@@ -28,12 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.authorizeRequests()  //  security-context  <security:intercept-url
 		.antMatchers("/user/login") //     pattern="/member/main" 
-		.hasRole("USER")            //      access="isAuthenticated()"
+		.hasAnyRole("USER", "ADMIN")          //      access="isAuthenticated()"
 		.antMatchers("/user/**")
 		//.hasRole("USER")
 		.authenticated()
-		.antMatchers("/admin/**")
-		.hasRole("USER")
+		//.antMatchers("/admin/**")
+		//.hasRole("ADMIN")
 		.and()
 		//.csrf().disable() // <security:csrf disabled="true"/>
 		.formLogin()
