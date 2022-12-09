@@ -63,8 +63,6 @@ public class AlarmController {
 				.alarmContent("주최자가 신청을 승인했습니다.")
 				.build();
 		
-		alarmService.insertReceiver(null, alarm);
-		
 		
 		return "redirect:/alarm/myAlarmuserNo=";
 	}

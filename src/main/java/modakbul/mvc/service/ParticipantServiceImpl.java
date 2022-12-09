@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.controller.ExampleController;
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Participant;
@@ -42,6 +43,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 	private final GatherRepository gatherRep;
 	private final UsersRepository usersRep;
 	
+	@Autowired
+	private AlarmService alarmService;
+	@Autowired
+	private ExampleController exampleController;
 	//시간나면 유효성검사를 해보자
 	@Override
 	public void insertParticipant(Participant participant) {
@@ -70,16 +75,26 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		Gather gather = gatherRep.findById(gatherNo).orElse(null);
 		Users user = usersRep.findById(userNo).orElse(null);
+		
+	
 		if(state.equals("참가승인")) {
 			String alarmSubject = gather.getGatherName()+"모임 상태알림";
 			String alarmContent = "신청하신 " + gather.getGatherName() + "모임 참가가 승인되었습니다.";
-			Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, "안읽음");
+			Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
 			alarmService.insertReceiverOne(user, alarm);
+			String str = user.getUserPhone();
+			str = str.replaceAll("-", "");
+			System.out.println(str);
+			exampleController.sendOne(str, alarmContent);
 		}else if(state.equals("참가거절")) {
 			String alarmSubject = gather.getGatherName()+"모임 상태알림";
 			String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
-			Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, "안읽음");
+			Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
 			alarmService.insertReceiverOne(user, alarm);
+			String str = user.getUserPhone();
+			str = str.replaceAll("-", "");
+			System.out.println(str);
+			exampleController.sendOne(str, alarmContent);
 		}
 		
 	}
