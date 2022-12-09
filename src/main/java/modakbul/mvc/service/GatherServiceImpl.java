@@ -25,6 +25,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Participant;
@@ -108,13 +109,17 @@ public class GatherServiceImpl implements GatherService {
 			//System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
 			//System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
 			if (ldt.isEqual(gather.getGatherDeadline())) {
+				List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
 				if ( i < gather.getGatherMinUsers() ) {
 					gather.setGatherState("모임취소");
 					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
-					List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
 					
-		
+					String alarmSubject = gather.getGatherName()+"모임 상태알림";
+					String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, completeDate);
+					alarmService.insertReceiverAll(usersList, alarm);
 					
+					//정기모임 재등록
 					if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 						//다음 날짜를 계산
 						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
@@ -130,6 +135,11 @@ public class GatherServiceImpl implements GatherService {
 				} else {
 					gather.setGatherState("모집마감");
 					autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
+					
+					String alarmSubject = gather.getGatherName()+"모임 상태알림";
+					String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, completeDate);
+					alarmService.insertReceiverAll(usersList, alarm);
 				}
 			} else if (ldt.isEqual(gather.getGatherDate())) {
 				gather.setGatherState("진행중");
