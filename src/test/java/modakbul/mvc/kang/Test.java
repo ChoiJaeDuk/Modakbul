@@ -25,6 +25,8 @@ public class Test {
 
 	Gather gather = new Gather(7L);
 
+	Users userTest = new Users().builder().userNo(2L).build();
+	
 	@Autowired
 	private AdminService adminService;
 	@Autowired
@@ -36,7 +38,7 @@ public class Test {
 	@Autowired
 	private UsersRepository users;
 	
-	Users userTest = new Users().builder().userNo(2L).build();
+	
 	/**
 	 * 스케줄러
 	 * */
@@ -89,11 +91,23 @@ public class Test {
 	}
 	
 	/**
-	 * 전체검색 
+	 * 전체검색 selectUsersList
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectAll() {
 		List<Advertisement> list = advertisementRep.findAll();
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+	}
+	
+	/**
+	 * 유저 전체검색 
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectUsersList() {
+		List<Users> list = adminService.selectUsersList();
 		/*for(Advertisement b :list) {
 			System.out.println(b);
 		}*/
@@ -148,12 +162,25 @@ public class Test {
 		
 	}
 	
+	/**
+	 * 월별 광고 매출 리스트
+	 * */
 	@org.junit.jupiter.api.Test
 	public void selectAdTotalPrice() {
 
 		List<AdvertisementGroupBy> test = adminService.selectAdTotalPrice(null);
 		for(AdvertisementGroupBy t: test) {
-			System.out.println(t.getMonth() + "월 / "+ t.getTotalPrice() +"원" + " / 갯수: " + t.getAdCount());
+			System.out.println(t.getMonth() + "월 / "+ t.getTotalPrice() +"원" + " / 개수: " + t.getAdCount());
 		}
 	}
+	
+	/**
+	 * 광고 상태 변경
+	 * */
+	@org.junit.jupiter.api.Test
+	void updateGathWer() {
+			Gather gather = gatherRepository.findById(69L).orElse(null);
+			adminService.updateGather(gather);
+			
+		}
 }

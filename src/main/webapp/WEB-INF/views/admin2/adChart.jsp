@@ -16,8 +16,7 @@
 	src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <canvas id="myChart" width="700" height="400"></canvas>
 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
 
 $(function(){

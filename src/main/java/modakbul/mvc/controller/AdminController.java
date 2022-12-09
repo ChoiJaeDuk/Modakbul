@@ -1,7 +1,12 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Follow;
@@ -32,10 +39,14 @@ public class AdminController {
 	private FollowService followService;
 
 
-	private final static int PAGE_COUNT=5;//상수//한 페이지당 5개
+	private final static int PAGE_COUNT=10;//상수//한 페이지당 10개
 
 	private final static int BLOCK_COUNT=4;
+	
+	Gather gather = new Gather(7L);
 
+	Users userTest = new Users().builder().userNo(2L).build();
+	
 	/**
 	 * 유저 페이지
 	 * */
@@ -80,7 +91,7 @@ public class AdminController {
 
 		//모임 리스트
 		List<Gather> gatherList = adminService.selectGatherList();
-
+		
 		model.addAttribute("gatherList", gatherList);
 		//회원 리스트
 		List<Users> usersList = adminService.selectUsersList();
@@ -145,7 +156,46 @@ public class AdminController {
 		model.addAttribute("nowPage", nowPage);
 
 	}
+	
+	/**
+	 * 광고 등록폼
+	 * */
+	@RequestMapping("/adUploadForm")
+	public void adUploadForm() {}
+	
+	/**
+	 * 광고 파일 등록
+	 * */
+	@RequestMapping("/fileInsert")
+	public String fileinsert(HttpServletRequest request, @RequestPart MultipartFile files) throws Exception{
+		
+		Advertisement file = new Advertisement();
+		
+		String sourceFileName = files.getOriginalFilename(); 
+        		String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase(); 
+        		File destinationFile = null; 
+        		String destinationFileName = null;
+        		String fileUrl = "C:/Edu/Spring/springWork/Modakbul/src/main/resources/static/img";
+		// mung-1은 자기 프로젝트이름으로 체인지!!
 
+        
+        		destinationFile.getParentFile().mkdirs(); 
+        		files.transferTo(destinationFile);
+        		
+        		
+        		file.setAdvertisementNo(0L);
+        		file.setAdApproveDate(LocalDateTime.now());
+        		file.setAdRegisDate(LocalDateTime.now());
+        		file.setAdStatus(fileUrl);
+        		file.setDeadLine(LocalDateTime.now());
+        		file.setGather(gather);
+        		file.setUser(userTest);
+        		file.setAdFileName(sourceFileName);
+        		file.setAdPrice(10000);
+
+        		adminService.save(file);
+			return "redirect:/index";
+	}
 	/**
 	 * 광고 등록
 	 * */
@@ -154,7 +204,7 @@ public class AdminController {
 
 		adminService.advertisementInsert(advertisement);
 
-		return "";
+		return "index";
 	}
 
 	/**

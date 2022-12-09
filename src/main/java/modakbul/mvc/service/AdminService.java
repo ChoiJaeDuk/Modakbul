@@ -98,5 +98,14 @@ public interface AdminService {
 	 * 카테고리별 모임 개수
 	 * */
 	List<GatherGroupBy> selectCategoryCount(Gather gather);
-
+	
+	/**
+	 * 광고 파일 등록
+	 * */
+	void save(Advertisement files);
+	
+	/**
+	 * 유료모임 승인
+	 * */
+	void updateGather(Gather gather);
 }

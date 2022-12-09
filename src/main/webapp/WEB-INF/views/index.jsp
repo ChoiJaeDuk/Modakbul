@@ -62,6 +62,7 @@
 <a href="${pageContext.request.contextPath}/admin2/adChart">광고 월별 매출 차트</a><p>
 <a href="${pageContext.request.contextPath}/admin2/userChart">유저 월별 증가 차트</a><p>
 <a href="${pageContext.request.contextPath}/admin2/categoryGatherChart">카테고리별 모임 개수 차트</a><p>
+<a href="${pageContext.request.contextPath}/admin2/adUploadForm">광고 업로드 폼</a><p>
 </body>
 </html>
 

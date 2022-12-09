@@ -17,6 +17,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
+import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
 import modakbul.mvc.groupby.GatherGroupBy;
@@ -29,7 +30,7 @@ import modakbul.mvc.repository.UsersRepository;
 @Transactional
 @EnableScheduling
 public class AdminServiceImpl implements AdminService {
-
+	
 	@Autowired
 	private AdminRepository adminRep;
 	@Autowired
@@ -41,6 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	private JPAQueryFactory queryFactory;
 	
 	QAdvertisement ad = QAdvertisement.advertisement;
+	
+	QGather qGather = QGather.gather;
 	
 	/**
 	 * 광고 종료 스케줄러 
@@ -211,13 +214,30 @@ public class AdminServiceImpl implements AdminService {
 		return categoryCount;
 	}
 
+	/**
+	 * 광고 업로드 폼
+	 * */
+	@Override
+	public void save(Advertisement files) {
+		Advertisement f = new Advertisement();
+		f.setAdFileName(files.getAdFileName());
+		
+		adminRep.save(f);
+	}
 
+	@Override
+	public void updateGather(Gather gather) {
+		List<Gather> gatherList = queryFactory.selectFrom(qGather).where(qGather.gatherState.eq("신청대기")).fetch();
+		
+		if(gather.getGatherState().equals("신청대기")) {
+			gather.setGatherState("모집중");
+			
+		}
+		
+	}
+		
 	
-
-	
-
-
-
-
-
 }
+
+
+	

@@ -202,7 +202,7 @@ img{width:200px; height:350px}
 	<c:set var="doneLoop" value="false"/>
 		
 		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  --> <!--양수가 나오면 이전이 있다-->
-		      <a class="pagination-newer" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${startPage-1}">PREV</a>
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/admin2/gatherList?nowPage=${startPage-1}">PREV</a>
 		  </c:if>
 		  
 		<span class="pagination-inner"> 
@@ -213,14 +213,14 @@ img{width:200px; height:350px}
 			    </c:if> 
 		    
 		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${i}">${i}</a> 
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/admin2/gatherList?nowPage=${i}">${i}</a> 
 		  </c:if>
 		   
 		</c:forEach>
 		</span> 
 				
 		 <c:if test="${(startPage+blockCount)<=pageList.getTotalPages()}">
-		     <a class="pagination-older" href="${pageContext.request.contextPath}/admin2/main2?nowPage=${startPage+blockCount}">NEXT</a>
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/admin2/gatherList?nowPage=${startPage+blockCount}">NEXT</a>
 		 </c:if>
 				 
 			
