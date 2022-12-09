@@ -15,7 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +35,6 @@ import lombok.ToString;
 @Getter
 @Builder
 @RequiredArgsConstructor
-@ToString
 public class Gather {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_no_seq")
@@ -64,7 +65,9 @@ public class Gather {
 	private int gatherMaxAge;
 	
 	@Column(nullable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm")
 	private LocalDateTime gatherDate;
+	@DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm")
 	@Column(nullable = false)
 	private LocalDateTime gatherDeadline;
 	private int gatherTime;
@@ -81,9 +84,11 @@ public class Gather {
 	@CreationTimestamp
 	private LocalDateTime gatherRegisDate;
 	
+	@ColumnDefault("0")
 	private int gatherBid;
 	private String gatherImg;
 	
+	@ColumnDefault("0")
 	private int likeCount;
 	
 

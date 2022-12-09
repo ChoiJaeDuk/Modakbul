@@ -32,8 +32,9 @@ public class GatherAttachmentsServiceImpl implements GatherAttachmentsService {
 	
 	@Override
 	public void insertGatherAttachments(GatherAttachments gatherAttachments) {
-		gatherAttachmentsRep.save(gatherAttachments);
 		
+		gatherAttachmentsRep.save(gatherAttachments);
+
 	}
 
 	@Override

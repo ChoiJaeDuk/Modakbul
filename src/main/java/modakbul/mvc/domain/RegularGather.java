@@ -39,9 +39,6 @@ public class RegularGather {
 	
 	private int regularGatherCycle;
 	
-	@Column(nullable = false)
-	private String regularGatherDay;//정기모임요일
-	
 	@ColumnDefault("50")
 	private double gatherTemper;
 	
@@ -49,7 +46,7 @@ public class RegularGather {
 	private int gatherTemperCount;
 	
 	@Column(nullable = false)
-	private String regularGatehrState;
+	private String regularGatherState;
 	
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
