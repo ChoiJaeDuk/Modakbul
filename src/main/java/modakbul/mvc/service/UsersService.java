@@ -67,7 +67,7 @@ public interface UsersService {
 	 * @param user
 	 * @return
 	 */
-	Users update(Users user);
+	void update(Users user);
 	
 	
 	/**
