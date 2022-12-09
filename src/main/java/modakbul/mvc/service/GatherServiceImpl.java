@@ -334,9 +334,9 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectBidGatherappliList(Pageable pageable) {
+	public Page<Gather> selectGatherappliList(Pageable pageable) {
 
-		Page<Gather> result = gatherRep.selectBidGatherappliList(pageable);
+		Page<Gather> result = gatherRep.selectGatherappliList(pageable);
 
 		//return new PageImpl<Gather>(result, pageable, result.size());
 		return result;
@@ -374,6 +374,20 @@ public class GatherServiceImpl implements GatherService {
 				.where(builder).fetch();
 		
 		return new PageImpl<Gather>(result, pageable, result.size());
+	}
+
+
+	@Override
+	public Page<Gather> selectGatherappliListByUserNo(Pageable pageable, Long userNo) {
+
+		List<Gather> gatherList = queryFactory.selectFrom(g)
+				.where(g.gatherState.eq("신청대기").and(g.user.userNo.eq(userNo)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+				
+		
+		return new PageImpl<Gather>(gatherList, pageable, gatherList.size());
 	}
 
 }

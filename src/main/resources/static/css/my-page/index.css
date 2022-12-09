@@ -270,7 +270,14 @@ element.style {
   border: 1px solid #d0d0d0;
   border-radius: 8px;
   overflow: hidden;
+  display: none;
 }
+.table-wrap.selected{
+ 
+  display: inherit;
+}
+
+
 .filter-wrap {
   display: flex;
   justify-content: space-between;
@@ -280,6 +287,11 @@ element.style {
 .filter-list-wrap {
   display: flex;
   gap: 0 4px;
+  display: none;
+}
+
+.filter-list-wrap.selected {
+  display: inherit;
 }
 .filter-list-item {
   display: flex;
@@ -303,6 +315,7 @@ element.style {
   background-color: white;
   border: 1px solid rgb(243, 156, 18);
   color: black;
+ 
 }
 .filter-type-wrap {
   display: flex;
@@ -319,10 +332,10 @@ element.style {
 .custom-checkbox {
   display: flex;
 }
-input[type="checkbox"] {
+input[type="radio"] {
   display: none;
 }
-input[type="checkbox"] + label {
+input[type="radio"] + label {
   display: inline-block;
   width: 15px;
   height: 15px;
@@ -331,7 +344,7 @@ input[type="checkbox"] + label {
   cursor: pointer;
   box-sizing: border-box;
 }
-input[type="checkbox"]:checked + label {
+input[type="radio"]:checked + label {
   background-color: rgb(243, 156, 18);
   border: 0;
 }

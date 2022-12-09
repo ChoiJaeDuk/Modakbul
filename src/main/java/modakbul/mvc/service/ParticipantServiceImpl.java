@@ -106,7 +106,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 		.on(participant.gather.gatherNo.eq(gather.gatherNo))
 		.where(participant.user.userNo.eq(userNo)
 				.and(participant.applicationState.eq(state)))
+		.offset(pageable.getOffset())
+		.limit(pageable.getPageSize())
 		.fetch();
+		
 		return new PageImpl<Gather>(result, pageable, result.size());
 	}
 
