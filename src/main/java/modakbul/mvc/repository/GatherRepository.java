@@ -34,5 +34,5 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 	
 	
 	@Query(value ="select g from Gather g where g.gatherState='신청대기'")
-	Page<Gather> selectBidGatherappliList(Pageable pageable);
+	Page<Gather> selectGatherappliList(Pageable pageable);
 }

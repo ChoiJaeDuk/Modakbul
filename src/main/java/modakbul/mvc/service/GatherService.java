@@ -93,7 +93,7 @@ public interface GatherService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Gather> selectBidGatherappliList(Pageable pageable);
+	Page<Gather> selectGatherappliList(Pageable pageable);
 	
 	
 	/**
@@ -113,9 +113,31 @@ public interface GatherService {
 	void updateGatherState(Long gaherNo, String state);
 	
 	
+	
+	/**
+	 * 리뷰를 안쓴 모임리스트
+	 * @param userNo
+	 * @param state
+	 * @param pageable
+	 * @return
+	 */
 	Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable);
 	
 	
+	/**
+	 * 참가자들의 상태를 자동업데이트 해준다.
+	 * @param gatherNo
+	 * @param state
+	 * @param dbState
+	 */
 	void autoUpdateParticipantState(Long gatherNo, String state, String dbState);
 	
+	
+	/**
+	 * 내가 주최하는 모임중 신청대기상태 모임 검색
+	 * @param pageable
+	 * @param userNo
+	 * @return
+	 */
+	Page<Gather> selectGatherappliListByUserNo(Pageable pageable, Long userNo);
 }
