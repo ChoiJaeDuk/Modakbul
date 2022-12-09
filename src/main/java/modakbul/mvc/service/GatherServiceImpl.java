@@ -25,16 +25,21 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.controller.ExampleController;
+import modakbul.mvc.domain.Alarm;
+import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
-import modakbul.mvc.domain.GatherAttachments;
+import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherAttachmentsRepository;
 import modakbul.mvc.repository.GatherRepository;
+import modakbul.mvc.repository.RegularGatherRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +64,13 @@ public class GatherServiceImpl implements GatherService {
 
 	@Autowired
 	private ParticipantService participantService;
+	
+	@Autowired
+	private AlarmService alarmService;
 
+	@Autowired
+	private ExampleController exampleController;
+	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 
@@ -67,17 +78,20 @@ public class GatherServiceImpl implements GatherService {
 	
 	private final GatherAttachmentsRepository gatherAttachementsRep;
 	
+	private final RegularGatherRepository regularGatherRep;
+	
+	
+	
 	@Override
-	public void insertGather(Gather gather, GatherAttachments gatherAttachments) {
+	public void insertGather(Gather gather) {
+		
 		gatherRep.save(gather);
-		gatherAttachementsRep.save(gatherAttachments);
-
 	}
 	
 	
 	@Override
-	@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
-	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
+	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {		
 		
 		/////////////////////////////////
@@ -88,7 +102,7 @@ public class GatherServiceImpl implements GatherService {
 		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중")).fetch();
 		
 		System.out.println("검색결과 수 : "+gatherList.size());
-		
+	
 		for (Gather gather : gatherList) {
 			System.out.println(gather.getGatherNo());
 			
@@ -100,10 +114,19 @@ public class GatherServiceImpl implements GatherService {
 			//System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
 			//System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
 			if (ldt.isEqual(gather.getGatherDeadline())) {
+				List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
 				if ( i < gather.getGatherMinUsers() ) {
 					gather.setGatherState("모임취소");
 					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
-					if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+					
+					String alarmSubject = gather.getGatherName()+"모임 상태알림";
+					String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+					
+					alarmService.insertReceiverAll(usersList, alarm);
+					
+					//정기모임 재등록
+					if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 						//다음 날짜를 계산
 						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
 						//다음 마감시간을 계산
@@ -118,6 +141,12 @@ public class GatherServiceImpl implements GatherService {
 				} else {
 					gather.setGatherState("모집마감");
 					autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
+					
+					String alarmSubject = gather.getGatherName()+"모임 상태알림";
+					String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
+					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+					System.out.println("usersList = "+usersList.size());
+					alarmService.insertReceiverAll(usersList, alarm);
 				}
 			} else if (ldt.isEqual(gather.getGatherDate())) {
 				gather.setGatherState("진행중");
@@ -125,7 +154,7 @@ public class GatherServiceImpl implements GatherService {
 			} else if (ldt.isEqual(completeDate)) {
 				gather.setGatherState("진행완료");
 				autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
-				if(gather.getRegularGather().getRegularGatehrState().equals("진행중")) {
+				if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 					//다음 날짜를 계산
 					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
 					//다음 마감시간을 계산
@@ -140,6 +169,15 @@ public class GatherServiceImpl implements GatherService {
 			}
 		} // for문
 
+	}
+	
+	private List<Users> gatherStateAlarmList(String state, Long gatherNo){
+		List<Users> userList = queryFactory.select(p.user)
+				.from(p)
+				.where(p.applicationState.eq(state)
+						.and(p.gather.gatherNo.eq(gatherNo)))
+				.fetch();
+		return userList;
 	}
 	
 	

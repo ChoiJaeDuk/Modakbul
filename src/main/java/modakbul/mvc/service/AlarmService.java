@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
+import modakbul.mvc.domain.Users;
 
 public interface AlarmService {
 	
@@ -18,7 +19,7 @@ public interface AlarmService {
 	/**
 	 * 알람 등록
 	 */
-	void insertAlarm(Alarm alarm);
+	Alarm insertAlarm(Alarm alarm);
 	
 	/**
 	 * 알람 삭제
@@ -26,9 +27,14 @@ public interface AlarmService {
 	void deleteAlarm(Long alarmNo);
 	
 	/**
-	 * 알람 리시버 등록
+	 * 알람 리시버 등록(다수)
 	 */
-	void insertReceiver(AlarmReceiver receiver);
+	void insertReceiverAll(List<Users> userList, Alarm alarm);
+	
+	/**
+	 * 알람 리시버 등록(개인)
+	 */
+	void insertReceiverOne(Users user, Alarm alarm);
 	
 	/**
 	 * 알람 리시버 삭제

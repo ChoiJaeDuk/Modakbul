@@ -31,8 +31,10 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 	private final RegularGatherRepository regularGatherRep;
 	
 	@Override
-	public void insertRegularGather(RegularGather regularGather) {
-		regularGatherRep.save(regularGather);		
+	public RegularGather insertRegularGather(RegularGather regularGather) {
+		RegularGather rg = regularGatherRep.save(regularGather);
+		
+		return rg;
 	}
 
 	@Override
@@ -44,7 +46,7 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 	@Override
 	public void updateRegularGatherState(Long RegularGatherNo, String state) {
 		RegularGather regularGather = regularGatherRep.findById(RegularGatherNo).orElse(null);
-		regularGather.setRegularGatehrState(state);
+		regularGather.setRegularGatherState(state);
 	}
 	
 

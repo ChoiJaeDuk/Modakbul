@@ -10,7 +10,7 @@ import modakbul.mvc.domain.GatherReview;
 
 public interface GatherReviewRepository extends JpaRepository<GatherReview, Long>, QuerydslPredicateExecutor<GatherReview>{
 
-	@Query(value = "select * from gather_review where regular_gather_no= ?1", nativeQuery = true) 
+	@Query(value = "select * from gather_review  where regular_gather_no= ?1", nativeQuery = true) 
 	Page<GatherReview> selectAllByRegularGatherNo(Long regularGatherNo, Pageable pageable);
 	
  }

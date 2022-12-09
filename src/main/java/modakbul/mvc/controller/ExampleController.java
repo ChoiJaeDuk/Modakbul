@@ -1,5 +1,19 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
 import net.nurigo.sdk.message.model.Balance;
@@ -11,26 +25,6 @@ import net.nurigo.sdk.message.response.MessageListResponse;
 import net.nurigo.sdk.message.response.MultipleDetailMessageSentResponse;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-
-import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
-import org.springframework.boot.context.TypeExcludeFilter;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
 @RestController
 //@ComponentScan(basePackages = {"modakbul.mvc","net.nurigo"})
 public class ExampleController {
@@ -100,14 +94,14 @@ public class ExampleController {
      * 단일 메시지 발송 예제
      */
     @PostMapping("/send-one")
-    public SingleMessageSentResponse sendOne(String from, String to, String content) {
-        System.out.println("보내는 번호 = " + from);
-        System.out.println("받는 번호 = " + to);
-        System.out.println("내용 = " + content);
+    public SingleMessageSentResponse sendOne(String to, String content) {
+        //System.out.println("보내는 번호 = " + from);
+        //System.out.println("받는 번호 = " + to);
+        //System.out.println("내용 = " + content);
     	
     	Message message = new Message();
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom(from);
+        message.setFrom("01050058762");
         message.setTo(to);
         message.setText(content);
         

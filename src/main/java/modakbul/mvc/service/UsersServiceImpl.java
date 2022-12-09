@@ -449,4 +449,11 @@ public class UsersServiceImpl implements UsersService {
 		return null;
 	}
 
+	@Override
+	public Users selectById(Long userNo) {
+		
+		return usersRep.findById(userNo).orElse(null);
+	}
+	
+
 }
