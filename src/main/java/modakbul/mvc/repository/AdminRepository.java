@@ -14,8 +14,10 @@ import modakbul.mvc.groupby.GatherGroupBy;
 public interface AdminRepository extends JpaRepository<Advertisement, Long>, QuerydslPredicateExecutor<Advertisement> {
 	
 	/**
-	 * 
+	 * 유료모임 신청대기 리스트
 	 * */
+	@Query(value = "select * from gather where gather_state = '신청대기'",nativeQuery = true)
+	List<Gather> selectGatherState();
 	
 	/**
 	 * 유료광고중인 모임 추천 모임에 뿌리기

@@ -122,10 +122,9 @@ public class AdminServiceImpl implements AdminService {
 	 * 광고 등록
 	 * */
 	@Override
-	public Advertisement advertisementInsert(Advertisement advertisement) {
+	public void advertisementInsert(Advertisement advertisement) {
 
-		Advertisement resultAdvertisement = adminRep.save(advertisement);
-		return resultAdvertisement;
+		adminRep.save(advertisement);
 
 	}
 
@@ -224,16 +223,28 @@ public class AdminServiceImpl implements AdminService {
 		
 		adminRep.save(f);
 	}
-
+	
+	/**
+	 * 유료모임 신청 승인 업데이트 
+	 * */
 	@Override
 	public void updateGather(Gather gather) {
-		List<Gather> gatherList = queryFactory.selectFrom(qGather).where(qGather.gatherState.eq("신청대기")).fetch();
 		
 		if(gather.getGatherState().equals("신청대기")) {
 			gather.setGatherState("모집중");
 			
 		}
 		
+	}
+	
+	/**
+	 * 유료모임 신청 리스트
+	 * */
+	@Override
+	public List<Gather> selectGatherState() {
+		List<Gather> gatherList = queryFactory.selectFrom(qGather).where(qGather.gatherState.eq("신청대기")).fetch();
+		
+		return gatherList;
 	}
 		
 	

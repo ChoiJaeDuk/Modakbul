@@ -183,4 +183,30 @@ public class Test {
 			adminService.updateGather(gather);
 			
 		}
+	
+	/**
+	 * 유료모임 신청 리스트
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectGatherState() {
+		List<Gather> list = advertisementRep.selectGatherState();
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+	}
+	
+	/**
+	 * 모임 리스트
+	 * */
+	@org.junit.jupiter.api.Test
+	public void selectGatherList() {
+		List<Gather> list = adminService.selectGatherList();
+		/*for(Advertisement b :list) {
+			System.out.println(b);
+		}*/
+		list.forEach(b->System.out.println(b));
+}
+
+
 }

@@ -8,16 +8,21 @@
 </head>
 <body>
 
-	<h2>파일업로드</h2>
+<h2>광고 신청 폼</h2>
+모임 대표사진<p>
+모임 제목<p>
 
-	<div class="container">
-		<form action="/fileInsert" method="post"
-			enctype="multipart/form-data">
-			<input type="file" name="files"> 
-			<!-- 여기서 files는 controller에 @RequestPart MultipartFile files -->
 
-			<button type="submit" class="btn btn-dark">업로드</button>
-		</form>
-	</div>
+<div>
+<form action="${pageContext.request.contextPath}/admin2/advertisementInsert" method="post" enctype="multipart/form-data">
+	
+	파일 첨부 : <input type="file" name="file"/><p>
+	가격 : <input type="text" name="adPrice"><p>
+	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	<input type="submit" value="전송"/>
+</form>
+</div>
+
 </body>
 </html>

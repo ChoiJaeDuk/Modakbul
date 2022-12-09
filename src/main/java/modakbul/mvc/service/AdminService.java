@@ -22,7 +22,7 @@ public interface AdminService {
 	/**
 	 * 광고 등록
 	 * */
-	Advertisement advertisementInsert(Advertisement advertisement);
+	void advertisementInsert(Advertisement advertisement);
 
 	/**
 	 * 광고 수정하기
@@ -108,4 +108,9 @@ public interface AdminService {
 	 * 유료모임 승인
 	 * */
 	void updateGather(Gather gather);
+	
+	/**
+	 * 모임 신청대기 리스트
+	 * */
+	List<Gather> selectGatherState();
 }
