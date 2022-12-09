@@ -1,3 +1,7 @@
+
+element.style {
+    width: 600px;
+}
 .my-page-wrap {
   width: 1200px;
 }
@@ -170,10 +174,10 @@
 }
 .certificate-add-button {
   display: flex;
-  align-items: center;
+  align-items: self-start;
   justify-content: center;
   width: 30px;
-  height: 30px;
+  height: 40px;
   background-color: rgb(190, 190, 190);
   cursor: pointer;
   font-size: 25px;
@@ -181,10 +185,10 @@
 }
 .certificate-delete-button {
   display: flex;
-  align-items: center;
+  align-items: self-start;
   justify-content: center;
   width: 30px;
-  height: 30px;
+  height: 40px;
   background-color: rgb(190, 190, 190);
   cursor: pointer;
   font-size: 25px;
@@ -217,10 +221,12 @@
   display: flex;
   align-items: center;
   gap: 0 4px;
+  width:600px
 }
 .my-profile-certificate-input {
   flex: 1;
   height: 40px;
+  width: 100%;
   padding: 6px 12px;
   border: 0;
   outline: 0;
