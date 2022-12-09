@@ -233,6 +233,24 @@
 .certificate-add-button:active {
   background-color: rgb(114, 114, 114);
 }
+
+.certificate-delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(190, 190, 190);
+  cursor: pointer;
+  font-size: 25px;
+  border-radius: 4px;
+}
+.certificate-delete-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.certificate-delete-button:active {
+  background-color: rgb(114, 114, 114);
+}
 .certificate-file-button {
   display: flex;
   align-items: center;

@@ -40,15 +40,19 @@
 	
 		$(function(){
 			
+			
 			$("#email").keyup(function(){
-				$(".email-validate-error").html("미인증");	
+				$(".email-validate-error").html("미인증");
+				
 		
 			})
 			
 			$("#id").keyup(function(){
 				$("#checkId").html(" id 중복체크 ");
-	
+				
+				
 			})
+			
 			
 			$("#sendEmail").click(function(){
 				
@@ -99,6 +103,8 @@
 	
 						 console.log(data);
 						 $("#sendCode").html(data);	
+						 
+						
 
 					},//function
 					error:function(error){
@@ -135,7 +141,7 @@
 				}
 				
 				else if( !idJ.test( uid ) ){
-					alert("아이디는 영소문자로 시작하는 4~20자 영문자 또는 숫자이어야 합니다.");
+					alert("아이디는 영소문자로 시작하는 5~20자 영문자 또는 숫자이어야 합니다.");
 					$("#id").val("");
 					return;
 		         }
@@ -205,6 +211,11 @@
 				
 			})
 			
+			$("input[name='userGender']").click(function(){
+					$("input[name='userGender']").attr("checked", false);
+					$(this).attr("checked", true);
+					
+			})
 			
 			$("#check-pw").keyup(function(){
 				if($("#check-pw").val().length==0){
@@ -222,10 +233,6 @@
 			$("#RRN1").keyup(function(){
 				if($("#RRN1").val().length == 6){
 					$("#RRN2").focus();
-					 /* var data = "<input type='hidden' name='userValidateNo' value='" + $("#RRN1").val() + "-" + $("#RRN2").val() +"'>"
-					console.log(data)
-					$("#validateNo").prepend(data);
-					  */
 				
 				}
 			})
@@ -235,7 +242,7 @@
 			})
 			
 			$("#checkNick").click(function(){
-				
+				console.log($("#ff").val());
 				
 				$.ajax({
 					type:"POST",
@@ -258,8 +265,7 @@
 							
 							
 						}
-						
-						
+
 
 					},//function
 					error:function(error){
@@ -272,11 +278,10 @@
 			var count = 1;
 			$(document).on("click",".certificate-add-button", function(){
 				
-			
 				var $div = $(".certificate-input-wrap").eq(0).clone();	
 				$div.find("input").val("");
 				
-				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject"/>';
+				var $div=' <div class="certificate-input-wrap" ><input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>';
 				$div+='<input class="sign-up-form-input" name="userAttachmentsFileName" />';
 				$div+='<input  id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>'
 				$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" > 파일 첨부 </label>';
@@ -305,11 +310,10 @@
 			          
 			         console.log($(this))
 			        // $(this).prev().find("input").val(filename);
-			       
-				
+
 			      
 				})   
-				
+					
 					 function readImage(input) {
 						  
 						// 인풋 태그에 파일이 있는 경우
@@ -334,7 +338,7 @@
 					inputImage.addEventListener("change", e => {
 					    readImage(e.target)
 					})
-	
+				
 			
 			$(".email-select").change(function(){
 				$(".email-input").attr("readonly",false);
@@ -342,16 +346,15 @@
 			})
 			
 			$("form").on("submit",function(){
-				
-				 if($(".sign-up-add-image").html()==""){
+				if($(".sign-up-add-image").html()==""){
 					
-					var data = "<input type='hidden' name='userProfileImg' value='"+$(".sign-up-image").attr("src")+"'>"
 					
-					$(".sign-up-image-wrap").prepend(data);
+					$("input[name='userProfileImg']").val($(".sign-up-image").attr("src"));
 					
 				}
+				
+				let inval_Arr = new Array(9).fill(false);
 		
-				let inval_Arr = new Array(8).fill(false);
 				//이름확인
 				if (nameJ.test($("#name").val())) {
 					
@@ -389,7 +392,7 @@
 				
 				}else{
 					inval_Arr[3] = false;
-					alert("닉네임을 다시 입력해주세요.")
+					alert("닉네임을 중복체크를 해주세요.")
 					return false;
 				}
 				
@@ -424,7 +427,42 @@
 					alert("email 인증을 진행해주세요.");
 					return false;
 				} 
+						
+				//성별 
+				if($('input:radio[name=userGender]').is(':checked')==true){
+					inval_Arr[7] = true;
+					
+				}else{
+					inval_Arr[7] = false;
+					alert("성별을 체크해주세요");
+					return false;
+				}
+				var data = $("#RRN2").val();
 				
+				//주민번호와 성별확인
+				if( (data.charAt(0)==1 || 3)  &&  ($("input[name='userGender']:checked").val()=="남자") ){
+					inval_Arr[8] = true;
+					
+				}else if((data.charAt(0)==2 || 4)  &&  ($("input[name='userGender']:checked").val()=="여자")){
+					inval_Arr[8] = true;
+					
+				}else{
+					inval_Arr[8] = false;
+					alert("주민등록번호, 성별을 확인해주세요.");
+					return false;
+				}
+				//파일첨부
+				if($("input[name='userAttachmentsFileSubject[]']").val()=="" && $("input[name='userAttachmentsFileName']").val() != "" ){
+					inval_Arr[9] = false;
+					alert("파일이름을 입력해주세요.");
+					return false;
+
+				}else{
+					inval_Arr[9] = true;
+				}
+				
+				
+
 				//전체 유효성 검사
 				let validAll = true;
 				for (let i = 0; i < inval_Arr.length; i++) {
@@ -440,10 +478,16 @@
 					alert("정보를 다시 확인하세요.")
 				} 
 			});
-
+			
+			
+ 
 	    });
+			
+		
 		var count = 1;
+		
 
+		
 		function execPostCode() {
 		new daum.Postcode({
 			oncomplete : function(data) {
@@ -491,12 +535,16 @@
   <body>
     <div class="wrap">
       <div class="sign-up-wrap">
-          <form action="${pageContext.request.contextPath }/user/insert" method="post" enctype="multipart/form-data">
+          <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+         	<input type="hidden" name="userJob" value="개인"> 
+         	<input type="hidden" name="state" value="ROLE_USER">
           <div class="sign-up-image-area">
             <div class="sign-up-form-image ">
               <div class="sign-up-image-wrap">
-             
+              <c:choose>
+              <c:when test="${empty requestScope.userInfo }">
+              
               <img
                   class="sign-up-image"
                   id="sign-up-image"
@@ -504,8 +552,22 @@
                   width="100%"
                   height="100%"
                 />
-         
+              
+              </c:when>
+              <c:otherwise>
+              	<img
+                  class="sign-up-image"
+                  id="sign-up-image"
+                  src="${userInfo.get("profileImage")}"
+                  width="100%"
+                  height="100%"
+                />
+              
+              </c:otherwise>
+              </c:choose>
+                 
               </div>
+              <input type="hidden" name="userProfileImg">
               <input id="sign-up-add-image" class="sign-up-add-image" type="file" name="file" accept="image/*" />
               
              <!--  파일 첨부 : <input type="file" name="file"/>
@@ -519,7 +581,7 @@
             </div>
           </div>
           <div class="sign-up-form-item">
-            <label class="sign-up-form-label" for="name">기관명</label>
+            <label class="sign-up-form-label" for="name">이름</label>
             <input class="sign-up-form-input-medium" id="name" name="userName" />
            <span class="input-validate-error"></span>
           </div class="sign-up-form-item">
@@ -553,17 +615,41 @@
             <input class="sign-up-form-input-medium" id="phone" name="userPhone" />
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" id=validateNo>
-            <label class="sign-up-form-label" for="RRN">사업자등록번호</label>
+            <label class="sign-up-form-label" for="RRN">주민등록번호</label>
             <div class="rrn-input-wrap" name="userValidateNo">
               <input class="rrn-input" id="RRN1" name="userValidateNo"/>-
               <input type="password" class="rrn-input" id="RRN2"/>
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item" name="userEmail" id="userEmail">
-          	<input type="hidden" name="userEmail">
+          	
             <label class="sign-up-form-label" for="email">E-mail</label>
             <div class="email-input-wrap">
-      
+			<c:choose>
+   			 <c:when test="${!empty requestScope.userInfo}">
+   			 <input id="ff" type="hidden" name="userEmail" value=${userInfo.get("userEmail")} />
+   			  <input class="email-input" id="email" value="${fn:split(userInfo.get('userEmail'),'@')[0] }" readonly="readonly"/>
+              <div>@</div>
+              <select class="email-select" disabled="disabled"> 
+              <option value="free">직접입력</option>
+              <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'gmail.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'nate.com'}">
+              	<option value="free" selected="selected" >직접입력</option>
+              	</c:if>
+                <option value="naver.com" <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'naver.com' }">selected="selected"</c:if> >naver.com</option>
+                <option value="daum.net"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'daum.net' }">selected="selected"</c:if> >daum.net</option>
+                <option value="gmail.com"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'gmail.com' }">selected="selected"</c:if> >gmail.com</option>
+              	<option value="nate.com"<c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] eq 'nate.com' }">selected="selected"</c:if> >nate.com</option>
+              </select>
+           
+              <c:if test="${fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'naver.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'gmail.com' and fn:split(userInfo.get('userEmail'),'@')[1] ne 'nate.com'}">
+                <input class="email-input" id="etc" value="${fn:split(userInfo.get('userEmail'),'@')[1] }" readonly="readonly"/>
+                </c:if>
+                <input class="email-input" id="etc" value=""  readonly="readonly"/>
+              	<button class="sign-up-form-button" type="button" id="sendEmail" disabled="disabled">이메일 인증</button>
+             	<span class="email-validate-error">인증완료</span>
+             </c:when>
+              <c:otherwise>
+              <input type="hidden" name="userEmail">
                <input class="email-input" id="email"/>
               <div>@</div>
               <select class="email-select"> 
@@ -575,7 +661,8 @@
               <input class="email-input" id="etc"/>
               <button class="sign-up-form-button" type="button" id="sendEmail" >이메일 인증</button>
               <span class="email-validate-error">미인증</span>
-          
+              </c:otherwise>
+              </c:choose>
             </div>
           </div class="sign-up-form-item">
           <div class="sign-up-form-item">
@@ -593,11 +680,56 @@
             <label class="sign-up-form-label" for="address-detail">상세주소</label>
             <input class="sign-up-form-input" id="address-detail" name="userAddrDetail" />
           </div class="sign-up-form-item">
-          
+          <div class="sign-up-form-item" id="userGender">
+            <label class="sign-up-form-label" >성별</label>
+            <div class="sign-up-gender-area">
+            <c:choose>
+            	<c:when test="${empty requestScope.userInfo}">
+            		<div class="sign-up-gender-item">
+                <label>
+                  남자
+                  
+                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="남자"/>
+                  <span class="sign-up-gender-checkmark"></span>
+                </label>
+              </div>
+              <div class="sign-up-gender-item">
+                <label>
+                  여자
+                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="여자" />
+                  <span class="sign-up-gender-checkmark"></span>
+                </label>
+              </div>
+            	</c:when>
+            	<c:otherwise>
+            		
+            			<div class="sign-up-gender-item">
+			                <label>
+			                  남자
+			                  <c:if test="${userInfo.get('gender')=='male' }">
+			                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="남자" checked="checked"/>
+			                  </c:if>
+			                  <span class="sign-up-gender-checkmark"></span>
+			                </label>
+			              </div>
+			              <div class="sign-up-gender-item">
+			                <label>
+			                  여자
+			                   <c:if test="${userInfo.get('gender')=='female' }">
+			                  <input class="sign-up-gender-radio" name="userGender" type="radio" value="여자" checked="checked"/>
+			                  </c:if>
+			                  <span class="sign-up-gender-checkmark"></span>
+			                </label>
+            			 </div>
+            	</c:otherwise>
+            </c:choose>
+              
+            </div>
+          </div class="sign-up-form-item">
           <div class="sign-up-form-item" id="certAdd" style="display: block">
             <label class="sign-up-form-label" for="certificate">증명서</label><p>
             <div class="certificate-input-wrap" >
-              <input class="sign-up-form-input" name="userAttachmentsFileSubject"/>
+              <input class="sign-up-form-input" name="userAttachmentsFileSubject[]"/>
               <input class="sign-up-form-input" name="userAttachmentsFileName" />
               <input
               id="sign-up-add-file"
@@ -609,11 +741,11 @@
             <label for="sign-up-add-file" class="certificate-file-button" >
               파일 첨부
             </label>
-              <div class="certificate-add-button" >+</div>
+              <div class="certificate-add-button">+</div>
              
             </div>
          
-          </div>
+          </div class="sign-up-form-item">
           
           <div class="form-button-wrap">
             <button class="sign-up-cancel-button" type="button">취소</button>

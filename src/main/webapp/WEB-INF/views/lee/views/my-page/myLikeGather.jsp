@@ -12,7 +12,6 @@
 		//alert(11111111);	
 		// 토글
 		$(document).on('click', 'button[type=button]',function(){
-			alert(1)
 			if($(this).text() == "♥"){
 				alert(22222);
 				$.ajax({

@@ -3,8 +3,11 @@ package modakbul.mvc.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import modakbul.mvc.domain.Follow;
@@ -68,7 +71,7 @@ public class FollowController {
 	/**
 	 *  팔로잉 팔로워 수
 	 * 	 */
-	@RequestMapping("/myindex")
+	/*@RequestMapping("/myindex")
 	public ModelAndView myindex(Long userNo) {
 
 		List<Follow> follower = followService.myFollower(7L);
@@ -77,7 +80,24 @@ public class FollowController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("follower", follower.size());
 		mv.addObject("following", following.size());
-		mv.setViewName("my-page/index");
+		mv.setViewName("lee/views/my-page/index");
+		
+		return mv;
+	}*/
+	
+	/**
+	 *  팔로잉 팔로워 수
+	 * 	 */
+	@RequestMapping("/myindex/{userNo}")
+	public ModelAndView jieun(@PathVariable Long userNo) {
+		System.out.println("DURL");
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("follower", follower.size());
+		mv.addObject("following", following.size());
+		mv.setViewName("lee/views/my-page/index");
 		
 		return mv;
 	}

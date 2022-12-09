@@ -104,7 +104,7 @@ public class LikeGatherController {
 		
 		likeGatherService.delete(gatherNo, userNo);
 
-		return "redirect:/likeGather/gatherList";
+		return "ok";
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ public class LikeGatherController {
 
 		
 		////// 페이징처리////////////////////////
-		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "gatherNo");
+		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "GATHER_NO");
 		Page<Gather> pageList = gs.selectGatherList(true, null, null, null, null, page);
 
 		int temp = (nowPage - 1) % BLOCK_COUNT;
