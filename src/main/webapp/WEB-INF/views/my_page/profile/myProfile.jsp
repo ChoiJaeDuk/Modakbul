@@ -63,6 +63,7 @@
    					$("#addr").attr("readonly", false);
    					$("#addrDetail").attr("readonly", false);
    					$("#attachSubject").attr("readonly", false);
+   					$("button").attr("disabled", false)
    					
    					return;
    					
@@ -248,7 +249,7 @@
     </script>
   </head>
   <body>
-  <jsp:include page="../layout/header.jsp" />
+  <jsp:include page="../../layout/header.jsp" />
     <div class="wrap">
       <div class="my-page-wrap">
         <div class="my-page-header">
@@ -267,13 +268,9 @@
            		 />
            		 
 				</c:if>
-		
-			
-			
+
 			</c:forEach>
-	
-	
-		
+
 		<c:if test="${state1 ne state2}">
 			<img
               class="sign-up-image"
@@ -292,7 +289,7 @@
           
               <div>${user.userName }님</div>
              
-              <button class="my-page-button" type="button">프로필 편집</button>
+              
             </div>
             <div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
             <div class="my-page-user-follow-wrap">
@@ -314,7 +311,7 @@
             <ul>
                 <li class="my-page-nav-item selected">프로필정보</li>
                 <li class="my-page-nav-item">알림함</li>
-                <li class="my-page-nav-item">모임조회</li>
+                <li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
                 <li class="my-page-nav-item">관심모임</li>
                 <li class="my-page-nav-item">후기조회</li>
                 <li class="my-page-nav-item">문의조회</li>
@@ -426,6 +423,7 @@
         </div>
         </div>
     </div>
-    <jsp:include page="../layout/footer.jsp" />
+  
+   <jsp:include page="../../layout/footer.jsp" />
   </body>
 </html>
