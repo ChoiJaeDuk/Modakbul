@@ -29,7 +29,7 @@ import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 
 @Controller
-@RequestMapping("/admin2")
+@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
@@ -278,5 +278,11 @@ public class AdminController {
 	@RequestMapping("/myPage-ad/myPageAd")
 	public void myPageAd() {}
 	
+
+	
+	@RequestMapping("/{url}")
+	public void url() {
+		
+	}
 
 }

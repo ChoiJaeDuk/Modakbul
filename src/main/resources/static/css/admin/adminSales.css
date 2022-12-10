@@ -1,0 +1,34 @@
+.modakbul-sales-data {
+  width: 50%;
+  padding: 20px;
+}
+
+.modakbul-sales-data-graph {
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  background: lightgreen;
+}
+
+.modakbul-sales-data-table {
+  border: 0;
+  margin: 20px auto;
+}
+
+.modakbul-sales-data-table td {
+  width: 100px;
+  padding: 5px 0;
+}
+
+.table-header {
+  text-align: center;
+  background: lightgray;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr td:first-child {
+  text-align: center;
+}

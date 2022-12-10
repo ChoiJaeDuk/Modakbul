@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
@@ -27,9 +28,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.controller.ExampleController;
 import modakbul.mvc.domain.Alarm;
-import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
-import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
@@ -117,7 +116,7 @@ public class GatherServiceImpl implements GatherService {
 				List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
 				if ( i < gather.getGatherMinUsers() ) {
 					gather.setGatherState("모임취소");
-					autoUpdateParticipantState(gather.getGatherNo(), "인원미달", "참가승인");
+					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
 					
 					String alarmSubject = gather.getGatherName()+"모임 상태알림";
 					String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
@@ -233,11 +232,15 @@ public class GatherServiceImpl implements GatherService {
 			builder.and(g.gatherPlace.contains(place));
 		}
 
-		List<Gather> result = queryFactory.selectFrom(g).where(builder)
-				.orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new)).offset(pageable.getOffset())
-				.limit(pageable.getPageSize()).fetch();// 카테고리 체크박스
-
-		return new PageImpl<Gather>(result, pageable, result.size());
+		
+		QueryResults<Gather> result = queryFactory.selectFrom(g).where(builder)
+				.orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetchResults();// 카테고리 체크박스
+		
+		System.out.println("result.getTotal() = " + result.getTotal());
+		
+		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 	}
 
 	@Override
@@ -318,8 +321,11 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public Page<Gather> selectGatherOrderByRegisDate(Pageable pageable) {
 
-		List<Gather> result = queryFactory.selectFrom(g).where(g.gatherState.eq("모집중")).orderBy(g.gatherRegisDate.asc())
-				.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();// 카테고리 체크박스
+		List<Gather> result = queryFactory.selectFrom(g)
+				.where(g.gatherState.eq("모집중"))
+				.orderBy(g.gatherRegisDate.asc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetch();// 카테고리 체크박스
 		System.out.println("result = " + result);
 
 		return new PageImpl<Gather>(result, pageable, result.size());
@@ -334,9 +340,9 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectBidGatherappliList(Pageable pageable) {
+	public Page<Gather> selectGatherappliList(Pageable pageable) {
 
-		Page<Gather> result = gatherRep.selectBidGatherappliList(pageable);
+		Page<Gather> result = gatherRep.selectGatherappliList(pageable);
 
 		//return new PageImpl<Gather>(result, pageable, result.size());
 		return result;
@@ -374,6 +380,29 @@ public class GatherServiceImpl implements GatherService {
 				.where(builder).fetch();
 		
 		return new PageImpl<Gather>(result, pageable, result.size());
+	}
+
+
+	@Override
+	public Page<Gather> selectGatherStateByUserNo(Pageable pageable, Long userNo, String state) {
+		List<Gather> gatherList = new ArrayList<Gather>();
+		if(state.equals("진행완료")) {
+			gatherList = queryFactory.selectFrom(g)
+					.where(g.gatherState.in(state,"승인거절","모임취소")
+							.and(g.user.userNo.eq(userNo)))
+					.offset(pageable.getOffset())
+					.limit(pageable.getPageSize())
+					.fetch();
+		}else {
+			gatherList = queryFactory.selectFrom(g)
+					.where(g.gatherState.eq(state)
+							.and(g.user.userNo.eq(userNo)))
+					.offset(pageable.getOffset())
+					.limit(pageable.getPageSize())
+					.fetch();
+		}
+		System.out.println("gatherList길이: " + gatherList.size());
+		return new PageImpl<Gather>(gatherList, pageable, gatherList.size());
 	}
 
 }

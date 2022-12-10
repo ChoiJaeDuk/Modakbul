@@ -1,5 +1,6 @@
 package modakbul.mvc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -101,13 +103,29 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public Page<Gather> selectApplicationStateByUserNo(Long userNo, String state, Pageable pageable) {
-		List<Gather> result = queryFactory.select(gather)
-		.from(participant).join(gather)
-		.on(participant.gather.gatherNo.eq(gather.gatherNo))
-		.where(participant.user.userNo.eq(userNo)
-				.and(participant.applicationState.eq(state)))
-		.fetch();
-		return new PageImpl<Gather>(result, pageable, result.size());
+		QueryResults<Gather> result; 
+		if(state.equals("참가완료")) {
+			result = queryFactory.select(gather)
+				.from(participant).join(gather)
+				.on(participant.gather.gatherNo.eq(gather.gatherNo))
+				.where(participant.user.userNo.eq(userNo)
+						.and(participant.applicationState.in(state,"참가취소")))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetchResults();
+				System.out.println("참가취소쪽 나오니?");
+		}else {
+			 result = queryFactory.select(gather)
+				.from(participant).join(gather)
+				.on(participant.gather.gatherNo.eq(gather.gatherNo))
+				.where(participant.user.userNo.eq(userNo)
+						.and(participant.applicationState.eq(state)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetchResults();
+		}
+		System.out.println("참가취소 result.size() = " + result.getTotal());
+		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 	}
 
 	@Override

@@ -25,5 +25,17 @@ public interface UserAttachmentsService {
 	 */
 	List<UserAttachments> delete(Long userAttachmentsFileNo);
 	
+	/**
+	 * 해당유저에 모든 증명서
+	 * @param user
+	 * @return
+	 */
 	List<UserAttachments> selectAll(Users user);
+	
+	/**
+	 * 파일번호에 해당하는 증명서
+	 * @param userAttachmentsFileNo
+	 * @return
+	 */
+	UserAttachments selectByNo(Long userAttachmentsFileNo);
 }

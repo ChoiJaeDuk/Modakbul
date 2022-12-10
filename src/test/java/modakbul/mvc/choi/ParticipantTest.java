@@ -24,8 +24,8 @@ import modakbul.mvc.service.ParticipantService;
 @Transactional
 @Commit
 public class ParticipantTest {
-	Users user = new Users(1L);
-	Gather gather = new Gather(51L);
+	Users user = new Users(6L);
+	Gather gather = new Gather(72L);
 	
 	private QParticipant participant;
 	

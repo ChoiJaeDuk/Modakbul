@@ -12,10 +12,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,13 +34,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
 import modakbul.mvc.domain.QUsers;
-//import modakbul.mvc.domain.QUsers;
-import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
 
@@ -68,6 +65,11 @@ public class UsersServiceImpl implements UsersService {
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
 	
+	@Override
+	public List<Users> selectAll() {
+		
+		return usersRep.findAll();
+	}
 
 	@Override
 	public void insert(Users user) {
@@ -94,42 +96,40 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 	
-	/*
-	 * @Override public String checkCode(String code) throws Exception {
-	 * 
-	 * return null; }
-	 */
-
 	@Override
-	public Page<Users> selectAll(Pageable pageable, String job) {
+	public Page<Users> selectUsers(Pageable pageable, String job, String keyword) {
 		QUsers users = QUsers.users;
-		
-		int nowPage=4;
-		pageable = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
-		
-		//Page<Users> list = usersRep.findAll(page);
-		
-		//int temp = (nowPage-1)%BLOCK_COUNT;
-		
-		//int startPage = nowPage-temp;
-		
+
 		BooleanBuilder builder = new BooleanBuilder();
 		if(job != null) {
 			builder.and(users.userJob.eq(job));
 		}
 		
+		else if(keyword !=null) {
+			builder.and(users.userName.contains(keyword));
+		}
+	
 		List<Users> list = queryFactory
 				.select(users)
 				.from(users)
 				.where(builder)
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
+				.orderBy(users.userNo.desc())
 				.fetch();
-
+		//Page<Users> list = usersRep.findAll(pageable);
+		
+		 System.out.println("hie = " + list.size());
+		 
+		 JPAQuery<Users> countQuery = queryFactory
+		            .select(users)
+		            .from(users)
+		            .where(builder);
+		            
 		//return usersRep.findAll(pageable); 
-		//findall
-		return new PageImpl<Users>(list, pageable, list.size());
-		//return null;
+		
+		//return new PageImpl<Users>(list, pageable, );
+		return PageableExecutionUtils.getPage(list, pageable, ()->countQuery.fetch().size());
 	}
 
 	
@@ -151,30 +151,24 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	@org.springframework.transaction.annotation.Transactional(readOnly = false)
-	public Users update(Users user) {
-		Users dbUser = usersRep.selectById(user.getUserId());
-
-		if (dbUser == null)
-			throw new RuntimeException("해당 아이디에 대한 오류로 수정할 수 없습니다.");
-
-		if (user.getUserpwd() != null) {
-
+	@org.springframework.transaction.annotation.Transactional
+	public void update(Users user) {
+		System.out.println("update하자!");
+		Users dbU = usersRep.findById(user.getUserNo()).orElse(null);
+		
+		System.out.println("userpwd =" + user.getUserpwd() );
+		if(user.getUserpwd().length() > 0) {
+			System.out.println("여기에 갓니 ?");
 			String encodedPassword = passwordEncoder.encode(user.getUserpwd());
-
 			user.setUserpwd(encodedPassword);
+			dbU.setUserpwd(user.getUserpwd());
 		}
 
 		
-		  dbUser.setUserPhone(user.getUserPhone());
-		  dbUser.setUserPostCode(user.getUserPostCode());
-		  dbUser.setUserAddr(user.getUserAddr());
-		  dbUser.setUserAddrDetail(user.getUserAddrDetail());
-		  dbUser.setUserProfileImg(user.getUserProfileImg());
-		 
-		em.merge(user);
+		dbU.setUserPostCode(user.getUserPostCode());
+		dbU.setUserAddr(user.getUserAddr());
+		dbU.setUserAddrDetail(user.getUserAddrDetail());
 
-		return dbUser;
 	}
 
 	@Override
@@ -196,11 +190,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public boolean selectUserPwd(String userId, String userEmail) throws Exception{
 		System.out.println("시작 = " + userId);
-		
-		
-		//if (!user.getUserEmail().equals(userEmail))
-			//throw new RuntimeException("해당 정보에 맞는 회원이 없습니다.");
-		
+	
 		if (usersRep.selectById(userId)==null) {
 			System.out.println("1번");
 			return false;
@@ -373,59 +363,8 @@ public class UsersServiceImpl implements UsersService {
 			e.printStackTrace();
 			return null;
 		}
-			//ObjectMapper objectMapper = new ObjectMapper();
-			//KakaoOAuthToken oauthTokenKakao = objectMapper.readValue(response.getBody(), KakaoOAuthToken.class);
-			//System.out.println("토큰 = " + oauthTokenKakao);
-			//return oauthTokenKakao;
-		
-		
-		
-		/*String kakaoURL = "https://kauth.kakao.com/oauth";
-		String access_token = "";
-		String refresh_token = "";
-		try {
-			URL url = new URL(kakaoURL);
-			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setDoOutput(true);
-			
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-			sb.append("&clinet_id="+KAKAO_REST_API_KEY);
-			sb.append("&redirect_uri=http://localhost:9000/auth/kakao/callback");
-			sb.append("&code="+code);
-			
-			bw.write(sb.toString());
-			bw.flush();
-			
-			int responseCode = connection.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		
-			String line = "";
-			
-			String result = "";
-			
-			while( (line = br.readLine()) != null) {
-				result += line;
-			}
-			
-		
-			System.out.println("response body = " + result);
-			
-			JSONObject object = parseJSON(result);
-			
-			access_token = (String) object.get("access_token");
-			refresh_token = (String) object.get("refresh_token");
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return access_token;*/
 	}
-	
+			
 	private JSONObject parseJSON(String response) throws ParseException {
 		
 			System.out.println("여기로는 오나 ?");

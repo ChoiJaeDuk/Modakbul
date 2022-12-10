@@ -93,7 +93,7 @@ public class UsersTest {
 
 		System.out.println("blockCount = " + BLOCK_COUNT + "/" + "startPage = " + startPage + "/" + "nowPage = " + nowPage);
 		//list.forEach(b->System.out.println(b));
-		Page<Users> pageList = service.selectAll(page, null);
+		Page<Users> pageList = service.selectUsers(page, null, null);
 		pageList.forEach(b->System.out.println(b));
 	}
 	
