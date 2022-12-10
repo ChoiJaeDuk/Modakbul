@@ -21,7 +21,7 @@ import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin2")
 public class AdminController {
 
 	@Autowired
