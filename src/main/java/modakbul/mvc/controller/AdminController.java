@@ -210,8 +210,5 @@ public class AdminController {
 
 	}
 	
-	@RequestMapping("/{url}")
-	public void url() {
-		
-	}
+	
 }

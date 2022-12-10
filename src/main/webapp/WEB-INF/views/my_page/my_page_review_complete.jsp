@@ -65,7 +65,7 @@
                 <div class="filter-wrap">
                     <div class="filter-list-wrap">
                         <div id= "r" class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${userNo}'">후기쓰기</div>
-                        <div id= "rc" class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${userNo}'">작성완료</div>
+                        <div id= "rc" class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${userNo}'"> 작성완료 </div>
                     </div>
                 </div>
                 <div class="table-wrap selected" id="tab-1">
@@ -87,10 +87,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                       <c:choose>
-					
-						<c:when test="${!empty requestScope.reviewStatusList}">		
-							<c:forEach var="review" items="${requestScope.reviewStatusList.content}" varStatus="status">
+
+							<c:forEach var="review" items="${requestScope.reviewStatusCompleteList.content}" varStatus="status">
 	                            <tr class="table-body">
 	                                <td>${status.index}</td>
 	                                <td>
@@ -105,11 +103,7 @@
 	                                </td>
 	                            </tr>                        
 	                        </c:forEach>
-	                        </c:when>
-						<c:otherwise>
-							<td colspan="5">작성할 후기가 없습니다</td>
-						</c:otherwise>
-					</c:choose> 
+	                        
 					</tbody>
                     </table>
                 </div>

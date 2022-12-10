@@ -59,6 +59,9 @@ public class InquiryServiceImpl implements InquiryService {
 	 * */
 	public Page<SelectReplyState> selectReplyState(Long userNo,Pageable pageable){
 		List<SelectReplyState> l=inquiryRep.selectReplyState(userNo);
+		
+		
+		System.out.println(l.size());
 		//List<SelectReplyState> l=inquiryRep.selectReplyState(userNo,pageRequest);
 		final int start = (int)pageable.getOffset();
 		final int end = Math.min((start + pageable.getPageSize()), l.size());
