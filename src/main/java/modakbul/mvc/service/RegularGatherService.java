@@ -12,6 +12,12 @@ public interface RegularGatherService {
 	RegularGather insertRegularGather(RegularGather regularGather);
 	
 	
+	
+	/**
+	 * 신청대기상태에서 취소를 누르면 정기모임이 삭제된다.
+	 */
+	void deleteRegularGather(Long regulrGatherNo);
+	
 	/**
 	 * 정기모임 정보를 수정하는 메소드
 	 * @param regularGather

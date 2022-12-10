@@ -46,10 +46,18 @@ public class AdminController {
 	Gather gather = new Gather(7L);
 
 	Users userTest = new Users().builder().userNo(2L).build();
+	
+
+	/**
+	 * 모임 페이지
+	 * */
+	@RequestMapping("/main2")
+	public void gatherList1(Model model , 
+			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
 
 	LocalDateTime date = LocalDateTime.now();
 	LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 18, 15);
-
+	}
 	/**
 	 * 유저 페이지
 	 */

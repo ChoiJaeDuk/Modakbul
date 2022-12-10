@@ -89,6 +89,12 @@ public class GatherServiceImpl implements GatherService {
 	
 	
 	@Override
+	public void deleteGather(Long gatherNo) {
+		gatherRep.deleteById(gatherNo);
+	}
+	
+	
+	@Override
 	//@Scheduled(cron = "0 0,30 * * * *")//매시간 0분 30분마다 실행된다.
 	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {		
@@ -350,10 +356,13 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	public Page<Gather> selectNoneADGatherList(Long userNo, Pageable pageable) {
-		List<Gather> result = queryFactory.select(g).from(g).leftJoin(a).on(g.gatherNo.eq(a.gather.gatherNo))
-				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo))).offset(pageable.getOffset())
-				.limit(pageable.getPageSize()).fetch();
-		return new PageImpl<Gather>(result, pageable, result.size());
+		QueryResults<Gather> result = queryFactory.select(g)
+				.from(g).leftJoin(a).on(g.gatherNo.eq(a.gather.gatherNo))
+				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetchResults();
+		
+		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 	}
 
 	@Override
@@ -361,6 +370,19 @@ public class GatherServiceImpl implements GatherService {
 		Gather gather = gatherRep.findById(gaherNo).orElse(null);
 
 		gather.setGatherState(state);
+		
+		if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+			//다음 날짜를 계산
+			LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+			//다음 마감시간을 계산
+			LocalDateTime newDeadline = newGatherDate.minusHours(3);
+			//새로운 모임을 insert
+			Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
+					, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+					, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
+					, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+			gatherRep.save(newGather);
+		}
 	}
 
 	@Override
@@ -368,18 +390,23 @@ public class GatherServiceImpl implements GatherService {
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		builder.and(p.user.userNo.eq(userNo));
-		builder.and(p.applicationState.eq("참가확정"));
+		builder.and(p.applicationState.eq("참가완료"));
 		if(state) {//true이면 후기를 남긴 Gather를 리턴한다.
 			builder.and(ur.writerUser.userNo.isNotNull());
 		}else {//false이면 후기를 안남긴 Gather를 리턴한다.
 			builder.and(ur.writerUser.userNo.isNull());
 		}
 		
-		List<Gather> result = queryFactory.select(p.gather)
-				.from(p).leftJoin(ur).on(p.user.userNo.eq(ur.writerUser.userNo))
-				.where(builder).fetch();
 		
-		return new PageImpl<Gather>(result, pageable, result.size());
+		QueryResults<Gather> result = queryFactory.select(p.gather)
+				.from(p).leftJoin(ur).on(p.user.userNo.eq(ur.writerUser.userNo))
+				.where(builder)
+				.limit(pageable.getPageSize())
+				.offset(pageable.getOffset())
+				.fetchResults();
+		System.out.println(result.getTotal());
+		
+		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 	}
 
 
@@ -388,7 +415,7 @@ public class GatherServiceImpl implements GatherService {
 		List<Gather> gatherList = new ArrayList<Gather>();
 		if(state.equals("진행완료")) {
 			gatherList = queryFactory.selectFrom(g)
-					.where(g.gatherState.in(state,"승인거절","모임취소")
+					.where(g.gatherState.in(state,"승인거절","모임취소","모집마감")
 							.and(g.user.userNo.eq(userNo)))
 					.offset(pageable.getOffset())
 					.limit(pageable.getPageSize())
@@ -404,5 +431,19 @@ public class GatherServiceImpl implements GatherService {
 		System.out.println("gatherList길이: " + gatherList.size());
 		return new PageImpl<Gather>(gatherList, pageable, gatherList.size());
 	}
+
+
+	@Override
+	public Page<GatherGroupBy> selectRecruitingList(Pageable pageable, Long userNo) {
+		List<GatherGroupBy> result = gatherRep.selectRecruitingList(userNo);
+		
+		final int start = (int)pageable.getOffset();
+		final int end = Math.min((start + pageable.getPageSize()), result.size());
+
+		return new PageImpl<GatherGroupBy>(result.subList(start, end), pageable, result.size());
+	}
+
+
+	
 
 }

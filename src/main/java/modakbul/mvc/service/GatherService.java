@@ -20,6 +20,11 @@ public interface GatherService {
 	
 	
 	/**
+	 * 모임신청에서 신청을 취소하면 삭제된다.
+	 */
+	void deleteGather(Long gatherNo);
+	
+	/**
 	 * 시간이 지남에 따라 상태를 업데이트한다.
 	 * (모집중 -> 모집마감 -> 진행중 -> 진행완료)
 	 * @param state
@@ -140,4 +145,12 @@ public interface GatherService {
 	 * @return
 	 */
 	Page<Gather> selectGatherStateByUserNo(Pageable pageable, Long userNo, String state);
+	
+	/**
+	 * 마이페이지 모집중 값 리턴
+	 * @param pageable
+	 * @param userNo
+	 * @return
+	 */
+	Page<GatherGroupBy> selectRecruitingList(Pageable pageable, Long userNo);
 }

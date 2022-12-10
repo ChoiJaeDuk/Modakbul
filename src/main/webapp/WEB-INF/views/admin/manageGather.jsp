@@ -17,11 +17,11 @@
  </head>
    <body>
     <div id="modakbul-outer-wrapper">
-      <jsp:include page="./header.jsp" />
+<jsp:include page="../layout/header.jsp" />	
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu">
-           <p onclick="location.href='${pageContext.request.contextPath}/admin/manageUser'">운영현황</p>
+           <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAll'">운영현황</p>
           </div>
           <div class="modakbul-navigation-menu navigation-selected">
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageGather'">유료계정 / 승인</p>
@@ -30,7 +30,7 @@
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageSales'">매출현황</p>
           </div>
           <div class="modakbul-navigation-menu">
-             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdv'">광고관리</p>
+             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
           </div>
         </nav>
         
@@ -69,5 +69,8 @@
           <!-- 여기까지 content -->
         </div>
       </div>
+
+     <jsp:include page="../layout/footer.jsp" />
+
   </body>
 </html>

@@ -55,8 +55,13 @@ public class UsersController {
 		
 	}
 	
+	@RequestMapping("/layout/myProfileLayout")
+	public void url2() {
+			
+	}
 	
-	@RequestMapping("/user/mypageIndex/{userNo}")
+	
+	@RequestMapping("/my_page/profile/myProfile/{userNo}")
 	public String mypage(@PathVariable Long userNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
@@ -73,7 +78,7 @@ public class UsersController {
 		model.addAttribute("attachList", attachList);
 		model.addAttribute("fileNames", fileNames);
 		
-		return "user/mypageIndex";
+		return "my_page/profile/myProfile";
 		
 	}
 
@@ -156,7 +161,7 @@ public class UsersController {
 		return "loginForm";
 	}
 	
-	@RequestMapping("/admin/manageUser")
+	@RequestMapping("/admin/{url}")
 	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model){
 		System.out.println("왔어 ?");
 		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "userNo");
@@ -177,6 +182,7 @@ public class UsersController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
+		
 		model.addAttribute("count", userList.getTotalElements());
 		model.addAttribute("countIdiv", indivList.getTotalElements());
 		model.addAttribute("countCom", comList.getTotalElements());

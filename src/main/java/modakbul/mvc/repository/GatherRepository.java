@@ -35,4 +35,23 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 	
 	@Query(value ="select g from Gather g where g.gatherState='신청대기'")
 	Page<Gather> selectGatherappliList(Pageable pageable);
+	
+	
+	@Query(value = "select g.gather_no as gatherNo\r\n"
+			+ ", gather_img as gatherImg\r\n"
+			+ ", gather_name as gatherName\r\n"
+			+ ", gather_deadline as gatherDeadline\r\n"
+			+ ", gather_max_users as gatherMaxUsers\r\n"
+			+ ", NVL(pcount,0) as PCount\r\n"
+			+ ", NVL(l.like_count,0) as likeCount \r\n"
+			+ ", regular_gather_no as regularGatherNo\r\n"
+			+ "from gather g left outer join \r\n"
+			+ "(select gather_no, count(gather_no)as pcount from participant group by gather_no) p \r\n"
+			+ "on g.gather_no=p.gather_no \r\n"
+			+ "left outer join (select gather_no, count(gather_no) as like_count from like_gather group by gather_no) l\r\n"
+			+ "on g.gather_no= l.gather_no\r\n"
+			+ "where g.user_no=?1 and g.gather_state='모집중'", nativeQuery = true)
+	List<GatherGroupBy> selectRecruitingList(Long userNo);
 }
+
+

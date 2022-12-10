@@ -328,6 +328,22 @@ public class GatherTest {
 			
 			gatherRep.save(newGather);
 		}
+		
+		@Test
+		public void selectRecruitingList() {
+			Pageable pageable = PageRequest.of(0, 5);
+			
+			Page<GatherGroupBy> page = gatherService.selectRecruitingList(pageable, 6L);
+			List<GatherGroupBy> gatherList = page.getContent();
+			
+			gatherList.forEach(b -> System.out.println(b.getGatherMaxUsers()));
+		}
+		
+		
+		@Test
+		public void deleteGather() {
+			gatherService.deleteGather(53L);
+		}
 }
 
 

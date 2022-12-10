@@ -51,4 +51,14 @@ public class RegularGatherTest {
 		regularGatherService.updateGatherTemper(1L, 50);
 	}
 	
+	@Test 
+	void deleteRegularGather(){
+		regularGatherService.deleteRegularGather(43L);
+	}
+	
+	
+	@Test
+	void updateRegularGatherState() {
+		regularGatherService.updateRegularGatherState(61L, "모임종료");
+	}
 }
