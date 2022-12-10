@@ -140,4 +140,12 @@ public interface GatherService {
 	 * @return
 	 */
 	Page<Gather> selectGatherStateByUserNo(Pageable pageable, Long userNo, String state);
+	
+	/**
+	 * 마이페이지 모집중 값 리턴
+	 * @param pageable
+	 * @param userNo
+	 * @return
+	 */
+	Page<GatherGroupBy> selectRecruitingList(Pageable pageable, Long userNo);
 }

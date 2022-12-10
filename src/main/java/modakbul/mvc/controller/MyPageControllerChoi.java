@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.service.GatherAttachmentsService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.ParticipantService;
@@ -30,38 +31,134 @@ public class MyPageControllerChoi {
 	private final GatherAttachmentsService gatherAttachmentsService;
 	private final ParticipantService participantService;
 	
-	private final static int PAGE_COUNT=1;
+	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	
-	@RequestMapping("/myPage-gatherSelect")
-	public void selectGather(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	@RequestMapping("/gatherSelect/applicationList")
+	public void selectApplicationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
 	
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
 		Page<Gather> applicationList = participantService.selectApplicationStateByUserNo(userNo, "신청대기", pageable);
 		
-		Page<Gather> upcomingList = participantService.selectApplicationStateByUserNo(userNo, "참가승인", pageable);
 		
-		Page<Gather> participationList = participantService.selectApplicationStateByUserNo(userNo, "참가완료", pageable);
-		
-		Page<Gather> recruitmentList = gatherService.selectGatherStateByUserNo(pageable, userNo, "신청대기");
-		
-	
-		
-		Page<Gather> completionList = gatherService.selectGatherStateByUserNo(pageable, userNo, "진행완료");
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-		model.addAttribute("completionList", completionList);
-		model.addAttribute("recruitmentList", recruitmentList);
-		model.addAttribute("participationList", participationList);
-		model.addAttribute("upcomingList", upcomingList);
+;
 		model.addAttribute("applicationList", applicationList);
 		model.addAttribute("blcokCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
 	}
+	
+	@RequestMapping("/gatherSelect/upcomingList")
+	public void selectUpcomingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+	
+		
+		Page<Gather> upcomingList = participantService.selectApplicationStateByUserNo(userNo, "참가승인", pageable);
+
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+	
+		model.addAttribute("upcomingList", upcomingList);
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
+	
+	@RequestMapping("/gatherSelect/participationList")
+	public void selectparticipationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+	
+		
+		
+		Page<Gather> participationList = participantService.selectApplicationStateByUserNo(userNo, "참가완료", pageable);
+	
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+
+		model.addAttribute("participationList", participationList);
+
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
+	
+	@RequestMapping("/gatherSelect/waitingList")
+	public void selectWaitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		
+		Page<Gather> waitingList = gatherService.selectGatherStateByUserNo(pageable, userNo, "신청대기");
+		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+
+		model.addAttribute("waitingList", waitingList);
+
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
+	
+	@RequestMapping("/gatherSelect/recruitingList")
+	public void selectRecruitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+		Page<GatherGroupBy> recruitingList = gatherService.selectRecruitingList(pageable, userNo);
+		
+		model.addAttribute("recruitingList", recruitingList);
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
+	
+	@RequestMapping("/gatherSelect/completionList")
+	public void selectCompletionList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+
+		Page<Gather> completionList = gatherService.selectGatherStateByUserNo(pageable, userNo, "진행완료");
+		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+		model.addAttribute("completionList", completionList);
+
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+
+	}
+	
+	
+
+	
+	
+
+	
+	
 }

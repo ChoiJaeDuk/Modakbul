@@ -388,7 +388,7 @@ public class GatherServiceImpl implements GatherService {
 		List<Gather> gatherList = new ArrayList<Gather>();
 		if(state.equals("진행완료")) {
 			gatherList = queryFactory.selectFrom(g)
-					.where(g.gatherState.in(state,"승인거절","모임취소")
+					.where(g.gatherState.in(state,"승인거절","모임취소","모집마감")
 							.and(g.user.userNo.eq(userNo)))
 					.offset(pageable.getOffset())
 					.limit(pageable.getPageSize())
@@ -403,6 +403,17 @@ public class GatherServiceImpl implements GatherService {
 		}
 		System.out.println("gatherList길이: " + gatherList.size());
 		return new PageImpl<Gather>(gatherList, pageable, gatherList.size());
+	}
+
+
+	@Override
+	public Page<GatherGroupBy> selectRecruitingList(Pageable pageable, Long userNo) {
+		List<GatherGroupBy> result = gatherRep.selectRecruitingList(userNo);
+		
+		final int start = (int)pageable.getOffset();
+		final int end = Math.min((start + pageable.getPageSize()), result.size());
+
+		return new PageImpl<GatherGroupBy>(result.subList(start, end), pageable, result.size());
 	}
 
 }
