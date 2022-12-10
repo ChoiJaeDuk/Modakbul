@@ -27,9 +27,47 @@
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo=6";
 			})
 		})
+		
+		
+	 $("[name='cancel']").click(function() {
+			$("#confirm").val($(this).val())
+			$("#regularGatherNo").val($(this).attr("id"))
+			$("#modal").show()
+		})
+		
+		$("#modalCancel").click(function() {
+			$("#modal").hide();
+			$("#modal-2").hide();
+
+		})
+		$("#modalCancel2").click(function() {
+			$("#modal").hide();
+			$("#modal-2").hide();
+			
+		})
+		
+		$("#confirm").click(function() {
+			if(!$("#regularGatherNo").val()){			
+				
+				location.href="${pageContext.request.contextPath}/my_page/gatherSelect/cancelGather?userNo=6&regularGatherState=1&gatherNo="+$("#confirm").val();
+			}else{
+				$("#modal-2").show()
+			}
+			
+		})
+		/
+		$("#yes").click(function() {
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/cancelGather?userNo=6&regularGatherState=0&gatherNo="+$("#confirm").val();
+		})
+		$("#no").click(function() {
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/cancelGather?userNo=6&regularGatherState=1&gatherNo="+$("#confirm").val();
+		})
+		 
+		
   });
   </script>
   <body>
+  <input type="" id="regularGatherNo" hidden="">
     <div class="wrap">
       <div class="my-page-wrap">
         <div class="my-page-header">
@@ -69,7 +107,6 @@
             </ul>
           </nav>
           <section class="my-page-main-content">
-            <div class="class-search">
                 <div class="filter-wrap">
                     <div class="filter-list-wrap" id="guest">
                     	<div class="filter-list-item selected" data-tab="tab-1" id="applicationList" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=6';">신청목록</div>
@@ -127,7 +164,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${recruitingList.getGatherImg()}" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${recruitingList.getGatherImg()}" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${recruitingList.getGatherName()}</td>
@@ -142,17 +179,41 @@
                                     </div>
                                 </td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button">확인하기</button>
+                                    <button class="my-page-button" name="gatherDetail" id="${recruitingList.getGatherNo()}">확인하기</button>
                               	
-                                    <button class="my-page-button">취소하기</button>
+                                    <button class="my-page-button" name="cancel" id="${recruitingList.getRegularGatherNo()}" value="${recruitingList.getGatherNo()}">취소하기</button>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
-                   
           </section>
+          <div class="modal-wrap" hidden="" id="modal">
+            <div class="modal-title">
+                내용
+            </div>
+           <div class="modal-text-wrap">정말 모임모집을 취소하시겠습니까?</div>
+            <div class="modal-button-wrap" >
+                <button type="button" class="modal-button cancel-button" id="modalCancel">취소</button>
+                <button type="button" class="modal-button search-id-button" id="confirm">확인</button>
+            </div>
+          </div>
+          
+          <div class="modal-wrap" hidden="" id="modal-2">
+            <div class="modal-title">
+                내용
+            </div>
+           <div class="modal-text-wrap">해당 모임은 정기모임입니다. <br>정기모임도 종료할까요?</div>
+            <div class="modal-button-wrap" >
+            <div>
+             	<button type="button" class="modal-button search-id-button" id="yes">예</button>
+                <button type="button" class="modal-button search-id-button" id="no">아니요</button>
+            </div>   
+                <button type="button" class="modal-button cancel-button" id="modalCancel2">취소</button>
+               
+            </div>
+          </div>
         </div>
       </div>
     </div>

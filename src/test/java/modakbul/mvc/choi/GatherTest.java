@@ -338,6 +338,12 @@ public class GatherTest {
 			
 			gatherList.forEach(b -> System.out.println(b.getGatherMaxUsers()));
 		}
+		
+		
+		@Test
+		public void deleteGather() {
+			gatherService.deleteGather(53L);
+		}
 }
 
 

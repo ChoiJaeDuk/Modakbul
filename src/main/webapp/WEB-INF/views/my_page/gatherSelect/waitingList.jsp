@@ -28,9 +28,26 @@
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo=6";
 			})
 		})
+	
+		
+		$(".my-page-button").click(function() {
+			$("#regularGatherNo").val($(this).attr("id"))
+			$("#confirm").val($(this).val())
+			$("#modal").show()
+		})
+		
+		$("#modalCancel").click(function() {
+
+			$("#modal").hide()
+		})
+		
+		$("#confirm").click(function() {
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteGather?userNo=6&gatherNo="+ $(this).val() + "&regularGatherNo="+ $("#regularGatherNo").val();
+		})
   });
   </script>
   <body>
+  	<input type="text" hidden="" id="regularGatherNo">
     <div class="wrap">
       <div class="my-page-wrap">
         <div class="my-page-header">
@@ -122,6 +139,7 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${requestScope.waitingList.content}" var="waitingList" varStatus="status">
+                    
                             <tr class="table-body">
                                 <td>${status.index+1}</td>
                                 <td>
@@ -132,7 +150,7 @@
                                 <td>${waitingList.gatherName}</td>
                                 <td>${waitingList.gatherRegisDate}</td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button">취소하기</button>
+                                    <button class="my-page-button" id="${waitingList.regularGather.regularGatherNo}" value="${waitingList.gatherNo}">취소하기</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -141,6 +159,16 @@
                 </div>
              </div>
           </section>
+           <div class="modal-wrap" hidden="" id="modal">
+            <div class="modal-title">
+                내용
+            </div>
+           <div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
+            <div class="modal-button-wrap" >
+                <button type="button" class="modal-button cancel-button" id="modalCancel">취소</button>
+                <button type="button" class="modal-button search-id-button" id="confirm">확인</button>
+            </div>
+        </div>
         </div>
       </div>
     </div>

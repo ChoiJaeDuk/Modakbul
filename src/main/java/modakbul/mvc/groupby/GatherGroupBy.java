@@ -13,4 +13,5 @@ public interface GatherGroupBy {
 	Integer getGatherMaxUsers();
 	Integer getPCount();
 	Integer getLikeCount();
+	Long getRegularGatherNo();
 }

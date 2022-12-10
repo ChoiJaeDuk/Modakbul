@@ -1,16 +1,14 @@
 package modakbul.mvc.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
@@ -154,11 +152,43 @@ public class MyPageControllerChoi {
 
 	}
 	
+	@RequestMapping("/gatherSelect/deleteParticipant")
+	public String deleteParticipant(Long userNo, Long gatherNo, String url, RedirectAttributes redirect) {
+		participantService.deleteParticipant(userNo, gatherNo);
+		
+		redirect.addAttribute("userNo", userNo);
+		return "redirect:/my_page/gatherSelect/"+url;
+		
+	}
 	
-
+	@RequestMapping("/gatherSelect/deleteGather")
+	public String deleteGather(Long gatherNo, Long regularGatherNo, Long userNo, RedirectAttributes redirect) {
+		
+		System.out.println("regularGatherNo = " + regularGatherNo);
 	
+		gatherService.deleteGather(gatherNo);
+		
+		if(regularGatherNo!=null) {
+			regularGatherService.deleteRegularGather(regularGatherNo);
+		}
+		
+		redirect.addAttribute("userNo", userNo);
+		
+		
+		return "redirect:/my_page/gatherSelect/waitingList";
+	}
 	
-
-	
+	@RequestMapping("/gatherSelect/cancelGather")
+	public String cancelGather(Long userNo, Long gatherNo, int regularGatherState ,RedirectAttributes redirect) {
+		
+		if(regularGatherState == 0) {
+			regularGatherService.updateRegularGatherState(gatherNo, "모임종료");
+		}
+		
+		gatherService.updateGatherState(gatherNo, "모임취소");
+		
+		redirect.addAttribute("userNo", userNo);
+		return "redirect:/my_page/gatherSelect/recruitingList";
+	}
 	
 }

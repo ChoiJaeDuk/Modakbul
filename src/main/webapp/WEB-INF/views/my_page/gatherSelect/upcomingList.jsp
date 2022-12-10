@@ -26,6 +26,19 @@
 			$('#check2').change(function(){
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo=6";
 			})
+		});
+	  
+	  $(".my-page-button").click(function() {
+			$("#confirm").val($(this).val())
+			$("#modal").show()
+		})
+		
+		$("#modalCancel").click(function() {
+			$("#modal").hide()
+		})
+		
+		$("#confirm").click(function() {
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo=6&url=upcomingList&gatherNo="+$(this).val();
 		})
   });
   </script>
@@ -132,7 +145,7 @@
                                 <td>${upcomingList.user.userNick}</td>
                                 <td>${upcomingList.gatherDate}</td>
                                 <td>
-                                    <button class="my-page-button">취소</button>
+                                    <button class="my-page-button" value="${upcomingList.gatherNo}">취소</button>
                                 </td>
                             </tr>
                             </c:forEach>
@@ -141,6 +154,16 @@
                 </div>
              </div>
           </section>
+          <div class="modal-wrap" hidden="" id="modal">
+            <div class="modal-title">
+                내용
+            </div>
+           <div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
+            <div class="modal-button-wrap" >
+                <button type="button" class="modal-button cancel-button" id="modalCancel">취소</button>
+                <button type="button" class="modal-button search-id-button" id="confirm">확인</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

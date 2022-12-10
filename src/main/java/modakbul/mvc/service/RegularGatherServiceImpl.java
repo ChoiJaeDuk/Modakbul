@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QRegularGather;
 import modakbul.mvc.domain.RegularGather;
+import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.RegularGatherRepository;
 
 
@@ -29,6 +31,7 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 	private JPAQueryFactory queryFactory;
 	
 	private final RegularGatherRepository regularGatherRep;
+	private final GatherRepository gatherRep;
 	
 	@Override
 	public RegularGather insertRegularGather(RegularGather regularGather) {
@@ -37,6 +40,13 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 		return rg;
 	}
 
+	
+	@Override
+	public void deleteRegularGather(Long regulrGatherNo) {
+		regularGatherRep.deleteById(regulrGatherNo);
+	}
+	
+	
 	@Override
 	public void updateRegularGather(RegularGather regularGather) {
 		em.merge(regularGather);
@@ -44,8 +54,10 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 	
 	
 	@Override
-	public void updateRegularGatherState(Long RegularGatherNo, String state) {
-		RegularGather regularGather = regularGatherRep.findById(RegularGatherNo).orElse(null);
+	public void updateRegularGatherState(Long gatherNo, String state) {
+		Gather gather = gatherRep.findById(gatherNo).orElse(null);
+		Long regularGatherNo = gather.getRegularGather().getRegularGatherNo();
+		RegularGather regularGather = regularGatherRep.findById(regularGatherNo).orElse(null);
 		regularGather.setRegularGatherState(state);
 	}
 	
@@ -58,6 +70,9 @@ public class RegularGatherServiceImpl implements RegularGatherService {
 		regularGather.setGatherTemper(newTemper);
 		regularGather.setGatherTemperCount(regularGather.getGatherTemperCount()+1);
 	}
+
+
+	
 
 	
 

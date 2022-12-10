@@ -66,8 +66,17 @@
 			})
 			
 			
-		$("cancel").onclick(function() {
-			
+		$(".my-page-button").click(function() {
+			$("#confirm").val($(this).val())
+			$("#modal").show()
+		})
+		
+		$("#modalCancel").click(function() {
+			$("#modal").hide()
+		})
+		
+		$("#confirm").click(function() {
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo=6&url=applicationList&gatherNo="+$(this).val();
 		})
   });
   </script>
@@ -174,7 +183,7 @@
                                 <td>${applicationList.user.userNick}</td>
                                 <td>${applicationList.gatherDate}</td>
                                 <td>
-                                    <button class="my-page-button" id="cancel">취소</button>
+                                    <button class="my-page-button" id="cancel" value="${applicationList.gatherNo}">취소</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -183,7 +192,7 @@
                 </div> 
              </div> 
           </section>
-          <div class="modal-wrap">
+          <div class="modal-wrap" hidden="" id="modal">
             <div class="modal-title">
                 내용
             </div>

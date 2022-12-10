@@ -20,6 +20,11 @@ public interface GatherService {
 	
 	
 	/**
+	 * 모임신청에서 신청을 취소하면 삭제된다.
+	 */
+	void deleteGather(Long gatherNo);
+	
+	/**
 	 * 시간이 지남에 따라 상태를 업데이트한다.
 	 * (모집중 -> 모집마감 -> 진행중 -> 진행완료)
 	 * @param state

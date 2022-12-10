@@ -41,11 +41,6 @@ public class RegularGather {
 	
 	private int regularGatherCycle;
 	
-
-	@Column(nullable = false)
-	@JsonProperty("regularGatherDay")
-	private String regularGatherDay;//정기모임요일
-	
 	@ColumnDefault("50")
 	private double gatherTemper;
 	
