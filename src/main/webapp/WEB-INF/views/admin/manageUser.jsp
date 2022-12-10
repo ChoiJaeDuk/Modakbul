@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="kr">
   <head>
@@ -9,6 +10,7 @@
     <title>MODAKBUL</title>
 	 <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
      <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
+     <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
   <body>
     <div id="modakbul-outer-wrapper">
      <jsp:include page="./header.jsp" />
@@ -68,18 +70,36 @@
 						<th>구분</th>
 						<th>팔로워 수</th>
 					</tr>
-					<tr>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-					</tr>
+					
+					<c:choose>
+					
+					<c:when test="${!empty requestScope.indivList}">
+						<c:forEach var="indiv" items="${indivList.content}">
+						<tr>
+							<td>${indiv.userNo}</td>
+							<td>${indiv.userId }</td>
+							<td>${indiv.userNick }</td>
+							<td>${indiv.userGender }</td>
+							<td>111</td>
+							<td>${indiv.userEmail }</td>
+							<td>${indiv.userJob }</td>
+							<td>${indiv.followerList.size() }</td>
+							</tr>
+						</c:forEach> 
+						</c:when>
+						<c:otherwise>
+						
+							<td>111</td>
+						</c:otherwise>
+					
+					
+					</c:choose>
+					
+					
 					
 				</table>
+				
+				  
 			</div>
 			
 			<div id="comUser" class="content">
@@ -93,15 +113,28 @@
 						<th>구분</th>
 						<th>팔로워 수</th>
 					</tr>
-					<tr>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-						<td>111</td>
-					</tr>
+					<c:choose>
+					
+					<c:when test="${!empty requestScope.comList}">
+						<c:forEach var="com" items="${comList.content}">
+						<tr>
+							<td>${com.userNo}</td>
+							<td>${com.userId }</td>
+							<td>${com.userNick }</td>
+							<td>${com.userValidateNo.substring(0,3) }-${com.userValidateNo.substring(3,5) }-${com.userValidateNo.substring(5) }</td>
+							<td>${com.userEmail }</td>
+							<td>${com.userJob }</td>
+							<td>${com.followerList.size() }</td>
+							</tr>
+						</c:forEach> 
+						</c:when>
+						<c:otherwise>
+						
+							<td>111</td>
+						</c:otherwise>
+					
+					
+					</c:choose>
 					
 				</table>
 			</div>
@@ -135,6 +168,40 @@
 	
         </div>
       </div>
+     <nav class="pagination-container">
+	<div class="pagination">
+	<c:set var="doneLoop" value="false"/>
+		
+		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/admin/manageUser?nowPage=${startPage-1}">PREV</a>
+		  </c:if>
+		  
+		<span class="pagination-inner"> 
+		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+		  
+			    <c:if test="${(i-1)>=userList.getTotalPages()}">
+			       <c:set var="doneLoop" value="true"/>
+			    </c:if> 
+		    
+		  <c:if test="${not doneLoop}" >
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/admin/manageUser?nowPage=${i}">${i}</a> 
+		  </c:if>
+		   
+		</c:forEach>
+		</span> 
+				
+		 <c:if test="${(startPage+blockCount)<=userList.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/admin/manageUser?nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if> 
+				 
+			
+		
+		</div>
+	</nav>
+      
     </div>
+    
+ 
+    
   </body>
 </html>
