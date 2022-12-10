@@ -191,4 +191,32 @@ public class MyPageControllerChoi {
 		return "redirect:/my_page/gatherSelect/recruitingList";
 	}
 	
+	
+	
+	@RequestMapping("/gatherAD/adApplication")
+	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+
+		Page<Gather> adApplicationList = gatherService.selectNoneADGatherList(userNo, pageable);
+		
+		model.addAttribute("adApplicationList", adApplicationList);
+		
+		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+	}
+	
+	
+	@RequestMapping("/gatherAD/adWaiting")
+	public void adWaiting() {
+		
+	}
+	
+	@RequestMapping("/gatherAD/adStatus")
+	public void adStatus() {
+		
+	}
 }

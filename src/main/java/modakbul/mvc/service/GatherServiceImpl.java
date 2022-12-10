@@ -356,10 +356,13 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	public Page<Gather> selectNoneADGatherList(Long userNo, Pageable pageable) {
-		List<Gather> result = queryFactory.select(g).from(g).leftJoin(a).on(g.gatherNo.eq(a.gather.gatherNo))
-				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo))).offset(pageable.getOffset())
-				.limit(pageable.getPageSize()).fetch();
-		return new PageImpl<Gather>(result, pageable, result.size());
+		QueryResults<Gather> result = queryFactory.select(g)
+				.from(g).leftJoin(a).on(g.gatherNo.eq(a.gather.gatherNo))
+				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetchResults();
+		
+		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 	}
 
 	@Override
