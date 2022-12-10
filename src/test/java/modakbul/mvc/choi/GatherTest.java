@@ -212,10 +212,10 @@ public class GatherTest {
 		
 		@Test
 		public void selectGatherList2() {
-			boolean gatherType = false; //true이면 정기모임, false이면 일일모임
+			boolean gatherType = true; //true이면 정기모임, false이면 일일모임
 			String place = null;
 			List<Long> categoryList= null;//java.util.Arrays.asList(1L);
-			String sort = "userTemper";
+			String sort = "gatherDeadline";
 		
 			Pageable pageable = PageRequest.of(0, 5 , Direction.ASC, sort);
 		
@@ -224,8 +224,8 @@ public class GatherTest {
 			Page<Gather> page = gatherService.selectGatherList(gatherType, categoryList, place, sort, "",pageable);
 			
 			List<Gather> gatherList = page.getContent();
-			gatherList.forEach(b->System.out.println(b));
-			
+			gatherList.forEach(b->System.out.println(b.getGatherDeadline()));
+			System.out.println("page = " + page);
 		}
 		
 		@Test
@@ -271,7 +271,7 @@ public class GatherTest {
 		public void selectBidGatherappliList() {
 			Pageable pageable = PageRequest.of(0, 5);
 			
-			Page<Gather> gather = gatherService.selectBidGatherappliList(pageable);
+			Page<Gather> gather = gatherService.selectGatherappliList(pageable);
 			
 			System.out.println(gather);
 		}

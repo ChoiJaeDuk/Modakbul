@@ -139,5 +139,5 @@ public interface GatherService {
 	 * @param userNo
 	 * @return
 	 */
-	Page<Gather> selectGatherappliListByUserNo(Pageable pageable, Long userNo);
+	Page<Gather> selectGatherStateByUserNo(Pageable pageable, Long userNo, String state);
 }

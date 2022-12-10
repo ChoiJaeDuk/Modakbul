@@ -31,10 +31,10 @@ public class RegularGatherTest {
 	
 	@Test
 	void insertRegularGather() {
-		RegularGather regularGather =new RegularGather(3L, 2, 50, 0, "진행중", null,null,null);
-		RegularGather dbregularGather = regularGatherRep.save(regularGather);
+		//RegularGather regularGather =new RegularGather(3L, 2, 50, 0, "진행중", null,null,null);
+		//RegularGather dbregularGather = regularGatherRep.save(regularGather);
 		
-		System.out.println(dbregularGather.getRegularGatherNo());
+		//System.out.println(dbregularGather.getRegularGatherNo());
 		
 	}
 	

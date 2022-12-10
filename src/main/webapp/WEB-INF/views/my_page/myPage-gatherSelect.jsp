@@ -101,11 +101,11 @@
                     <div class="filter-list-wrap selected" id="guest">
                     	<div class="filter-list-item selected" data-tab="tab-1" id="applicationList">신청목록</div>
                         <div class="filter-list-item" data-tab="tab-2" id="upcomingList">예정목록</div>        
-                        <div class="filter-list-item" data-tab="tab-3" id="ParticipationList">참가목록</div>                
+                        <div class="filter-list-item" data-tab="tab-3" id="participationList">참가목록</div>                
                     </div>
 	                <div class="filter-list-wrap" id="host">
-                        <div class="filter-list-item selected" data-tab="tab-4" id="recruitmentList">모집중</div>
-                        <div class="filter-list-item" data-tab="tab-5" id="waitingList">신청대기</div>
+                        <div class="filter-list-item selected" data-tab="tab-4" id="recruitmentList">신청목록</div>
+                        <div class="filter-list-item" data-tab="tab-5" id="waitingList">모집중</div>
                         <div class="filter-list-item" data-tab="tab-6" id="completionList">모집완료</div>
 	                </div>
                     <div class="filter-type-wrap">
@@ -147,17 +147,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.waitList.content}" var="waitList" varStatus="index">
+                        <c:forEach items="${requestScope.applicationList.content}" var="applicationList" varStatus="status">
                         	<tr class="table-body">
-                                <td>index</td>
+                                <td>${status.index+1}</td>
                                 <td>
                                 <div class="table-small-image-wrap">
-                                        <img src="${waitList.gatherImg}" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" alt="이미지"/>
                                     </div>
                                 </td>
-                                <td>${waitList.gatherName}</td>
-                                <td>${waitList.user.userNick}</td>
-                                <td>${waitList.gatherDate}</td>
+                                <td>${applicationList.gatherName}</td>
+                                <td>${applicationList.user.userNick}</td>
+                                <td>${applicationList.gatherDate}</td>
                                 <td>
                                     <button class="my-page-button">취소</button>
                                 </td>
@@ -165,7 +165,41 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                                <div style="text-align: center">
+		<!--  블럭당  -->
+				 <nav class="pagination-container">
+					<div class="pagination">
+					<c:set var="doneLoop" value="false"/>
+						
+						 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+						      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/myPage-gatherSelect?nowPage=${startPage-1}&userNo=6">PREV</a>
+						  </c:if> 
+						  
+						<span class="pagination-inner"> 
+						  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+						  
+							    <c:if test="${(i-1)>=applicationList.getTotalPages()}">
+							       <c:set var="doneLoop" value="true"/>
+							    </c:if> 
+						    
+						  <c:if test="${not doneLoop}" >
+						         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/myPage-gatherSelect?nowPage=${i}&userNo=6">${i}</a> 
+						  </c:if>
+						   
+						</c:forEach>
+						</span> 
+								
+						 <c:if test="${(startPage+blockCount)<=applicationList.getTotalPages()}">
+						     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/myPage-gatherSelect?nowPage=${startPage+blockCount}&userNo=6">NEXT</a>
+						 </c:if>
+								 
+							
+						
+						</div>
+					</nav>  
+				</div>
                 </div>
+    
                <!-- 신청목록 테이블 -->
                 <div class="table-wrap" id="tab-2">
                     <table class="table">
@@ -183,35 +217,27 @@
                             <th>사진</th>
                             <th>모임</th>
                             <th>주최자</th>
-                            <th>신청날짜</th>
+                            <th>모임날짜</th>
                             <th>취소</th>
                             </tr>
                         </thead>
                         <tbody>
+                        	<c:forEach items="${requestScope.upcomingList.content}" var="upcomingList" varStatus="status">
                             <tr class="table-body">
-                                <td>1</td>
+                                <td>${status.index+1}</td>
                                 <td>
                                 <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${upcomingList.gatherImg}" class="gather-img" alt="이미지"/>
                                     </div>
                                 </td>
-                                <td>참가신청</td>
-                                <td>최재덕</td>
-                                <td>2022.11.22</td>
+                                <td>${upcomingList.gatherName}</td>
+                                <td>${upcomingList.user.userNick}</td>
+                                <td>${upcomingList.gatherDate}</td>
                                 <td>
                                     <button class="my-page-button">취소</button>
                                 </td>
                             </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>축구모임</td>
-                                <td>참가신청</td>
-                                <td>최제덕</td>
-                                <td>2022.11.22</td>
-                                <td>
-                                    <button class="my-page-button">취소</button>
-                                </td>
-                            </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -237,26 +263,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach items="${requestScope.participationList.content}" var="participationList" varStatus="status">
                             <tr class="table-body">
-                                <td>1</td>
+                                <td>${status.index+1}</td>
                                 <td>
 									<div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${participationList.gatherImg}" class="gather-img" alt="이미지"/>
                                     </div>			
 								</td>
-                                <td></td>   
-                                <td>최재덕</td>
-                                <td>2022.11.22</td>
-                                <td>2022.11.22</td>
+                                <td>${participationList.gatherName}</td>   
+                                <td>${participationList.user.userNick}</td>
+                                <td>${participationList.gatherState}</td>
+                                <td>${participationList.gatherDate}</td>
                             </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>축구모임</td>
-                                <td>참가신청</td>
-                                <td>최제덕</td>
-                                <td>2022.11.22</td>
-                                <td>2022.11.22</td>
-                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -264,8 +284,46 @@
             <div class="class-search">
             <!-- 주최자 -->
                 
-                <!-- 모집 중 -->
                 <div class="table-wrap" id="tab-4">
+                    <table class="table">
+                        <colgroup>
+                            <col width="8%" />
+                            <col width="37%" />
+                            <col width="18%" />
+                            <col width="24%" />
+                            <col width="15%" />
+                        </colgroup>
+                        <thead>
+                            <tr class="table-header">
+                            <th>번호</th>
+                            <th>사진</th>
+                            <th>모임</th>
+                            <th>신청날짜</th>
+                            <th>신청취소</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${requestScope.recruitmentList.content}" var="recruitmentList" varStatus="status">
+                            <tr class="table-body">
+                                <td>${status.index+1}</td>
+                                <td>
+                                    <div class="table-small-image-wrap">
+                                        <img src="${pageContext.request.contextPath}/save/${recruitmentList.gatherImg}" alt="이미지" class="gather-img"/>
+                                    </div>
+                                </td>
+                                <td>${recruitmentList.gatherName}</td>
+                                <td>${recruitmentList.gatherRegisDate}</td>
+                                <td class="inquiry-replied">
+                                    <button class="my-page-button">취소하기</button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 모집 중 -->
+                <div class="table-wrap" id="tab-5">
                     <table class="table">
                         <colgroup>
                             <col width="8%" />
@@ -292,7 +350,7 @@
                                 <td>1</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>핸드드립</td>
@@ -314,7 +372,7 @@
                                 <td>2</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>커피</td>
@@ -335,54 +393,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table-wrap" id="tab-5">
-                    <table class="table">
-                        <colgroup>
-                            <col width="8%" />
-                            <col width="37%" />
-                            <col width="18%" />
-                            <col width="24%" />
-                            <col width="15%" />
-                        </colgroup>
-                        <thead>
-                            <tr class="table-header">
-                            <th>번호</th>
-                            <th>사진</th>
-                            <th>모임</th>
-                            <th>신청날짜</th>
-                            <th>신청취소</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="table-body">
-                                <td>1</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
-                                    </div>
-                                </td>
-                                <td>모임</td>
-                                <td>2011.22.22</td>
-                                <td class="inquiry-replied">
-                                    <button class="my-page-button">취소하기</button>
-                                </td>
-                            </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
-                                    </div>
-                                </td>
-                                <td>모임</td>
-                                <td>2011.22.22</td>
-                                <td class="inquiry-replied">
-                                    <button class="my-page-button">취소하기</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
                 <div class="table-wrap" id="tab-6">
                     <table class="table">
                         <colgroup>
@@ -397,34 +407,25 @@
                             <th>번호</th>
                             <th>사진</th>
                             <th>모임</th>
-                            <th>종료날짜</th>
+                            <th>모임날짜</th>
                             <th>모임상태</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach items="${requestScope.completionList.content}" var="completionList" varStatus="status">
                             <tr class="table-body">
-                                <td>1</td>
+                                <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}"" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
-                                <td>라떼</td>
-                                <td>2020.13.13</td>
-                                <td>승인 거절</td>
+                                <td>${completionList.gatherName}</td>
+                               
+                                <td>${completionList.gatherDate}</td>
+                                <td>${completionList.gatherState}</td>
                             </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
-                                    </div>
-                                </td>
-                                <td>라떼</td>
-                                <td>2020.13.13</td>
-                                <td>모집 완료</td>
-                            </tr>
-                        </tbody>
+                       	</c:forEach>
                     </table>
                 </div>
             </div>     
