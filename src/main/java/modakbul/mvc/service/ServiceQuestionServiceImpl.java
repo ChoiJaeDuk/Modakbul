@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.QServiceQuestion;
 import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.repository.ServiceQuestionRepository;
@@ -24,6 +25,9 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	
 	@Autowired
 	private JPAQueryFactory queryFactory;
+	
+	@Autowired
+	private AlarmService alarmService;
 	
 	@Override
 		public Page<ServiceQuestion> selectAll(Pageable pageable) {
@@ -80,6 +84,13 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 		
 		dbServiceQuestion.setServiceQuestionReply(serviceQuestion.getServiceQuestionReply());
 		
+		
+		String alarmSubject = "문의 답변 완료";
+		String alarmContent = "관리자가 답변을 남겼습니다.";
+		Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+		
+		
+		alarmService.insertReceiverOne(dbServiceQuestion.getUser(), alarm);
 		//serviceQuestionRep.updateServiceQuestionReply(serviceQuestionReply,serviceQuestionNo);
 		
 	}

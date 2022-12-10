@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.InquiryRepository;
@@ -24,6 +25,9 @@ public class InquiryServiceImpl implements InquiryService {
 
 	@Autowired
 	private InquiryRepository inquiryRep;
+	
+	@Autowired
+	private AlarmService alarmService;
 	
 	@Override
 	public Page<Inquiry> InquiryListByGatherNo(Long gatherNo,Pageable pageable) {
@@ -43,6 +47,13 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public void insertInquiry(Inquiry inquiry) {
 		inquiryRep.save(inquiry);
+		
+		String alarmSubject = "새로운 문의가 있습니다.";
+		String alarmContent = inquiry.getGather().getGatherName()+"모임에 " + inquiry.getUser().getUserName() +"님께서 질문을 남겼습니다.";
+		Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+		
+		
+		alarmService.insertReceiverOne(inquiry.getGather().getUser(), alarm);
 	}
 
 	@Override
@@ -59,6 +70,9 @@ public class InquiryServiceImpl implements InquiryService {
 	 * */
 	public Page<SelectReplyState> selectReplyState(Long userNo,Pageable pageable){
 		List<SelectReplyState> l=inquiryRep.selectReplyState(userNo);
+		
+		
+		System.out.println(l.size());
 		//List<SelectReplyState> l=inquiryRep.selectReplyState(userNo,pageRequest);
 		final int start = (int)pageable.getOffset();
 		final int end = Math.min((start + pageable.getPageSize()), l.size());

@@ -156,7 +156,7 @@ public class UsersController {
 		return "loginForm";
 	}
 	
-	@RequestMapping("/admin/manageUser")
+	@RequestMapping("/admin/{url}")
 	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model){
 		System.out.println("왔어 ?");
 		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "userNo");
@@ -177,6 +177,7 @@ public class UsersController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
+		
 		model.addAttribute("count", userList.getTotalElements());
 		model.addAttribute("countIdiv", indivList.getTotalElements());
 		model.addAttribute("countCom", comList.getTotalElements());
