@@ -157,30 +157,30 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/admin/manageUser")
-	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, @RequestParam(required = false) String job,
-			@RequestParam(required = false) String keyword, Model model){
+	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model){
 		System.out.println("왔어 ?");
-		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "userNo");
+		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "userNo");
+		
+		Page<Users> userList = usersService.selectUsers(page, null, null);
+		Page<Users> indivList = usersService.selectUsers(page, "개인", null);
+		Page<Users> comList = usersService.selectUsers(page, "기관", null);
 		
 		int temp = (nowPage-1)%BLOCK_COUNT;
 		
 		int startPage = nowPage-temp;
-		
-		System.out.println("job, keyword = " + job + keyword);
-		
-		Page<Users> userList = usersService.selectUsers(page, job, keyword);
-	
-		List<Users> list = usersService.selectAll();
-	
+		System.out.println("startPage = " + startPage);
 	
 		model.addAttribute("userList", userList);
+		model.addAttribute("indivList", indivList);
+		model.addAttribute("comList", comList);
 		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("count", list.size());
-		
-		
+		model.addAttribute("count", userList.getTotalElements());
+		model.addAttribute("countIdiv", indivList.getTotalElements());
+		model.addAttribute("countCom", comList.getTotalElements());
+
 	}
 	
 	
