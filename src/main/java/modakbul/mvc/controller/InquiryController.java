@@ -24,7 +24,7 @@ public class InquiryController {
 	private InquiryService inqService;
 
 	@Autowired
-	private  static int PAGE_COUNT=3;//상수//한 페이지당 5개
+	private  static int PAGE_COUNT=5;//상수//한 페이지당 5개
 	@Autowired
 	private  static int BLOCK_COUNT=4;
 	
@@ -32,9 +32,9 @@ public class InquiryController {
 	public ModelAndView main(Long userNo,@RequestParam(defaultValue = "1") int nowPage) {
 		ModelAndView mv= new ModelAndView();
 		
-		Pageable pageable = PageRequest.of(0, PAGE_COUNT);//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
 		//PageRequest pageRequest = PageRequest.of(0, 5);
-		Page<SelectReplyState> list=inqService.selectReplyState(1L, pageable);
+		Page<SelectReplyState> list=inqService.selectReplyState(userNo, pageable);
 		List<SelectReplyState> resultList1 = list.getContent();
 		Long totalWaiting=list.getTotalElements();
 
@@ -53,6 +53,26 @@ public class InquiryController {
 		
 		
 		return mv;
+	}
+	
+	@RequestMapping("my_page/my_page_inquiry")
+	public void inquiryStatus(Long userNo,Model model, @RequestParam(defaultValue = "1") int nowPage) {
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
+		
+		
+		Page<SelectReplyState> page= inqService.selectReplyState(userNo, pageable);
+		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		 
+		model.addAttribute("inquiryList", page);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+		
+		
+		
 	}
 
 }
