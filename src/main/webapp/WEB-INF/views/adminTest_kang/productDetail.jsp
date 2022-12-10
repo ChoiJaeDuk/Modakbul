@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -522,4 +521,3 @@
 
 </body>
 </html>
-<jsp:include page="../common/footer.jsp" />

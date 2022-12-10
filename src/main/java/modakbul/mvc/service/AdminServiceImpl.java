@@ -8,10 +8,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Advertisement;
@@ -111,13 +114,39 @@ public class AdminServiceImpl implements AdminService {
 
 	/**
 	 * 광고 페이징
-	 * */
+	 * *
 	@Override
 	public Page<Advertisement> selectAll(Pageable pageable) {
 
 		return adminRep.findAll(pageable);
+	}*/
+	
+	/**
+	 * 광고 페이징
+	 * */
+	@Override
+	public Page<Advertisement> selectAd(Pageable pageable, String adStatus) {
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		if(adStatus!=null) {
+			builder.and(ad.adStatus.eq(adStatus));
+		}
+		List<Advertisement> list = queryFactory
+				.select(ad)
+				.from(ad)
+				.where(builder)
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.orderBy(ad.advertisementNo.desc())
+				.fetch();
+		
+		 JPAQuery<Advertisement> countQuery = queryFactory
+		            .select(ad)
+		            .from(ad)
+		            .where(builder);
+		 
+		return PageableExecutionUtils.getPage(list, pageable, ()->countQuery.fetch().size());
 	}
-
 	/**
 	 * 광고 등록
 	 * */
@@ -168,37 +197,23 @@ public class AdminServiceImpl implements AdminService {
 	 * */
 	@Override
 	public List<Advertisement> selectByStatus1() {
-		List<Advertisement> advertisementList = queryFactory.selectFrom(ad).where(ad.adStatus.eq("광고중")).fetch();
-		return advertisementList;
-	}
-	@Override
-	public Page<Advertisement> selectByStatus1(Pageable pageable) {
-		return null;
+		return adminRep.selectByStatus1();
 	}
 
-	
 	/**
 	 * 광고 상태 출력(신청대기)
 	 * */
 	@Override
-	public List<Advertisement> selectByStatus2(Advertisement advertisement) {
-		return adminRep.selectByStatus2(advertisement);
-	}
-	@Override
-	public Page<Advertisement> selectByStatus2(Pageable pageable) {
-		return null;
+	public List<Advertisement> selectByStatus2() {
+		return adminRep.selectByStatus2();
 	}
 	
 	/**
 	 * 광고 상태 출력(광고 종료)
 	 * */
 	@Override
-	public List<Advertisement> selectByStatus3(Advertisement advertisement) {
-		return adminRep.selectByStatus3(advertisement);
-	}
-	@Override
-	public Page<Advertisement> selectByStatus3(Pageable pageable) {
-		return null;
+	public List<Advertisement> selectByStatus3() {
+		return adminRep.selectByStatus3();
 	}
 
 	/**
@@ -248,10 +263,10 @@ public class AdminServiceImpl implements AdminService {
 	 * 유료모임 신청 승인 업데이트 
 	 * */
 	@Override
-	public void updateGather(Gather gather) {
-			queryFactory.update(qGather).set(qGather.gatherState, "모집중").where(qGather.gatherNo.eq(gather.getGatherNo())
-					.and(qGather.gatherState.eq("신청대기"))).execute();
-
+	public void updateGather(Gather gather, Long gatherNo) {
+			/*queryFactory.update(qGather).set(qGather.gatherState, "모집중").where(qGather.gatherNo.eq(gather.getGatherNo())
+					.and(qGather.gatherState.eq("신청대기"))).execute();*/
+		adminRep.updateGather(gatherNo);
 		
 	}
 	

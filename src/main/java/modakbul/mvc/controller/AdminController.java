@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,8 +40,7 @@ public class AdminController {
 	@Autowired
 	private AdminRepository adminRepository;
 
-	private final static int PAGE_COUNT = 10;// 상수//한 페이지당 10개
-
+	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
 
 	Gather gather = new Gather(7L);
@@ -48,16 +48,7 @@ public class AdminController {
 	Users userTest = new Users().builder().userNo(2L).build();
 	
 
-	/**
-	 * 모임 페이지
-	 * */
-	@RequestMapping("/main2")
-	public void gatherList1(Model model , 
-			@RequestParam(defaultValue = "1") int nowPage) {//model : view로 전달 // nowPage 페이지 넘버 받기
-
-	LocalDateTime date = LocalDateTime.now();
-	LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 18, 15);
-	}
+	
 	/**
 	 * 유저 페이지
 	 */
@@ -130,44 +121,37 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/manageAdv")
-	public void list(Gather gather, Advertisement advertisement, Model model,
-			@RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달 // nowPage 페이지 넘버 받기
-
-		// 광고 리스트
-		List<Advertisement> advertisementList = adminService.selectAll();
-
-		model.addAttribute("advertisementList", advertisementList); // list.jsp랑 이름 맞춤 -freeList
-		// 광고 상태 리스트(광고중)
-		List<Advertisement> adStatusList1 = adminService.selectByStatus1();
-
-		model.addAttribute("adStatusList1", adStatusList1);
-		// 광고 상태 리스트(신청대기)
-		List<Advertisement> adStatusList2 = adminService.selectByStatus2(advertisement);
-
-		model.addAttribute("adStatusList2", adStatusList2);
-		// 광고 상태 리스트(광고종료)
-		List<Advertisement> adStatusList3 = adminService.selectByStatus3(advertisement);
-
-		model.addAttribute("adStatusList3", adStatusList3);
-
-		///// 전체 페이징 처리/////
-		Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");// 0부터 시작,
-																										// PAGE_COUNT(10)개씩
-																										// 뿌림, 정렬,
-																										// 기준=bno
-		Page<Advertisement> pageList = adminService.selectAll(pageable);
-
-		int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
-
-		int startPage = nowPage - temp; // 6 - 1 = 5
-
-		model.addAttribute("pageList", pageList);
+	@RequestMapping("/manageAdvAll")
+	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model) {// model : view로 전달 // nowPage 페이지 넘버 받기
+		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "advertisementNo");
+		
+		Page<Advertisement> advAll = adminService.selectAd(page, null);
+		Page<Advertisement> advRegis = adminService.selectAd(page, "신청대기");
+		Page<Advertisement> advIng = adminService.selectAd(page, "광고중");
+		Page<Advertisement> advEnd = adminService.selectAd(page, "광고종료");
+		List<Advertisement> selectByStatus1 = adminService.selectByStatus1();
+		List<Advertisement> selectByStatus2 = adminService.selectByStatus2();
+		List<Advertisement> selectByStatus3 = adminService.selectByStatus3();
+		
+		int temp = (nowPage-1)%BLOCK_COUNT;
+		int startPage = nowPage-temp;
+		
+		model.addAttribute("advAll", advAll);
+		model.addAttribute("advRegis", advRegis);
+		model.addAttribute("advIng", advIng);
+		model.addAttribute("advEnd", advEnd);
+		model.addAttribute("selectByStatus1", selectByStatus1);
+		model.addAttribute("selectByStatus2", selectByStatus2);
+		model.addAttribute("selectByStatus3", selectByStatus3);
+		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
 		
-		
+		model.addAttribute("countAdvAll", advAll.getTotalElements());
+		model.addAttribute("countAdvRegis", advRegis.getTotalElements());
+		model.addAttribute("countAdvIng", advIng.getTotalElements());
+		model.addAttribute("countAdvEnd", advEnd.getTotalElements());
 
 	}
 	
@@ -186,9 +170,10 @@ public class AdminController {
 	 * 유료모임 승인 업데이트
 	 * */
 	@RequestMapping("/updateGather")
-	public String updateGather(Gather gather) {
+	public String updateGather(Long gatherNo, Gather gather) {
 		
-		adminService.updateGather(gather);
+		adminService.updateGather(gather, gatherNo);
+		gather.setGatherState("모집중");
 		return "admin/manageGather";
 	}
 
@@ -310,11 +295,5 @@ public class AdminController {
 	@RequestMapping("/myPage-ad/myPageAd")
 	public void myPageAd() {}
 	
-
-	
-	@RequestMapping("/{url}")
-	public void url() {
-		
-	}
 
 }

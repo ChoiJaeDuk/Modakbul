@@ -3,6 +3,7 @@ package modakbul.mvc.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
@@ -21,8 +22,9 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	/**
 	 * 유료모임 신청 승인
 	 * */
-	@Query(value = "UPDATE gather SET gather.gather_state = '신청대기' WHERE gather.gather_no = ?1;", nativeQuery = true)
-	void updateGather();
+	@Query(value = "UPDATE gather g SET g.gather_state = '모집중' WHERE g.gather_no = ?1", nativeQuery = true)
+	@Modifying
+	void updateGather(Long gatherNo);
 	/**
 	 * 유료광고중인 모임 추천 모임에 뿌리기
 	 * */
@@ -35,17 +37,17 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * 광고 상태 출력
 	 */ 
 	@Query(value = "select * from advertisement where ad_status = '광고중'",nativeQuery = true)
-	List<Advertisement> selectByStatus1(Advertisement advertisement);
+	List<Advertisement> selectByStatus1();
 	/**
 	 * 광고 상태 출력
 	 */ 
 	@Query(value = "select * from advertisement where ad_status = '신청대기'",nativeQuery = true)
-	List<Advertisement> selectByStatus2(Advertisement advertisement);
+	List<Advertisement> selectByStatus2();
 	/**
 	 * 광고 상태 출력
 	 */ 
 	@Query(value = "select * from advertisement where ad_status = '광고종료'",nativeQuery = true)
-	List<Advertisement> selectByStatus3(Advertisement advertisement);
+	List<Advertisement> selectByStatus3();
 	
 	/**
 	 * 1월 광고중

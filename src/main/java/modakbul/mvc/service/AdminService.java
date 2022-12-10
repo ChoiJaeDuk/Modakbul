@@ -36,31 +36,16 @@ public interface AdminService {
 
 	/**
 	 * 광고 상태 출력(광고중)
-	 * @return 
 	 * */
 	List<Advertisement> selectByStatus1();
 	/**
-	 * 광고 상태 출력(광고중) - Page처리
-	 * */
-	Page<Advertisement> selectByStatus1(Pageable pageable);
-	
-	/**
 	 * 광고 상태 출력(신청대기)
 	 * */
-	List<Advertisement> selectByStatus2(Advertisement advertisement);
-	/**
-	 * 광고 상태 출력(신청대기) - Page처리
-	 * */
-	Page<Advertisement> selectByStatus2(Pageable pageable);
-	
+	List<Advertisement> selectByStatus2();
 	/**
 	 * 광고 상태 출력(광고 종료)
 	 * */
-	List<Advertisement> selectByStatus3(Advertisement advertisement);
-	/**
-	 * 광고 상태 출력(광고 종료) - Page처리
-	 * */
-	Page<Advertisement> selectByStatus3(Pageable pageable);
+	List<Advertisement> selectByStatus3();
 	
 	/**
 	 * 삭제하기
@@ -95,7 +80,7 @@ public interface AdminService {
 	/**
 	 * 광고 조회 - Page처리
 	 * */
-	Page<Advertisement> selectAll(Pageable pageable);
+	Page<Advertisement> selectAd(Pageable pageable, String adStatus);
 
 	/**
 	 * 광고 매출 차트
@@ -120,7 +105,7 @@ public interface AdminService {
 	/**
 	 * 유료모임 승인
 	 * */
-	void updateGather(Gather gather);
+	void updateGather(Gather gather, Long gatherNo);
 	
 	/**
 	 * 모임 신청대기 리스트
