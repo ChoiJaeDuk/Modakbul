@@ -165,7 +165,6 @@ public class AdminController {
 	 */
 	@RequestMapping("/adUploadForm")
 	public void adUploadForm() {
-		System.out.println("광고 등록 폼");
 	}
 
 	/**
@@ -272,5 +271,12 @@ public class AdminController {
 		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
 
 	}
+	
+	/**
+	 * 마이페이지2 광고 
+	 * */
+	@RequestMapping("/myPage-ad/myPageAd")
+	public void myPageAd() {}
+	
 
 }

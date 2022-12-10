@@ -15,7 +15,7 @@
 
 <div>
 <form action="${pageContext.request.contextPath}/admin2/advertisementInsert" method="post" enctype="multipart/form-data">
-	
+	광고 진행 날짜 : <input type="date" name=""> ~ <input type="date" name=""><p>
 	파일 첨부 : <input type="file" name="file"/><p>
 	가격 : <input type="text" name="adPrice"><p>
 	
