@@ -55,8 +55,13 @@ public class UsersController {
 		
 	}
 	
+	@RequestMapping("/layout/myProfileLayout")
+	public void url2() {
+			
+	}
 	
-	@RequestMapping("/user/mypageIndex/{userNo}")
+	
+	@RequestMapping("/my_page/profile/myProfile/{userNo}")
 	public String mypage(@PathVariable Long userNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
@@ -73,7 +78,7 @@ public class UsersController {
 		model.addAttribute("attachList", attachList);
 		model.addAttribute("fileNames", fileNames);
 		
-		return "user/mypageIndex";
+		return "my_page/profile/myProfile";
 		
 	}
 

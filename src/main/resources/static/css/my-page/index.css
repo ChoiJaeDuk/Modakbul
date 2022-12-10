@@ -1,14 +1,22 @@
-
 element.style {
     width: 600px;
 }
 .my-page-wrap {
+
   width: 1200px;
 }
 .my-page-header {
   display: flex;
   gap: 0 12px;
+  margin: 60px;
+  margin-left: 260px;
+ 
 }
+nav{
+	padding-left: 23%
+}
+
+
 .my-page-image-wrap {
   width: 150px;
   height: 150px;
@@ -17,6 +25,7 @@ element.style {
 }
 .my-page-user-info-wrap {
   width: 200px;
+  padding-left: 50px;
 }
 .my-page-user-name {
   width: 100%;
@@ -133,16 +142,22 @@ element.style {
 }
 /* 프로필 정보 */
 .my-page-profile-info {
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 36px;
+    border: 1px solid #f1a634;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 36px;
+    position: absolute;
+    margin: -150px 0px 0px -200px;
+    top: 30%;
+    left: 39%;
+    width: 800px;
 }
+
 .my-page-form-wrap {
   width: 300px;
 }
 .my-profile-form-item + .my-profile-form-item {
-  margin-top: 8px;
+  margin-top: 15px;
 }
 .my-profile-form-input-wrap {
   width: 100%;
@@ -174,7 +189,7 @@ element.style {
 }
 .certificate-add-button {
   display: flex;
-  align-items: self-start;
+  align-items: inherit;
   justify-content: center;
   width: 30px;
   height: 40px;
@@ -193,6 +208,7 @@ element.style {
   cursor: pointer;
   font-size: 25px;
   border-radius: 4px;
+
 }
 .certificate-file-button {
   display: flex;
@@ -207,6 +223,7 @@ element.style {
   border: 0;
   cursor: pointer;
   box-sizing: border-box;
+  font-family: auto;
 }
 .certificate-file-button:hover {
   background-color: rgb(251, 174, 51);
@@ -226,7 +243,7 @@ element.style {
 .my-profile-certificate-input {
   flex: 1;
   height: 40px;
-  width: 100%;
+  width: 230px;
   padding: 6px 12px;
   border: 0;
   outline: 0;
@@ -238,6 +255,7 @@ element.style {
   display: flex;
   justify-content: center;
   gap: 0 8px;
+  width: 700px
 }
 /* 알림함 */
 .alert {
@@ -413,7 +431,7 @@ input[type="radio"]:checked + label {
 }
 
 img{
-	
+	padding:25px;
     width: 100%;
     height: 100%;
 }

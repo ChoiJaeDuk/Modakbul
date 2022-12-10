@@ -13,7 +13,7 @@
      <link href="${pageContext.request.contextPath}/css/admin/footer.css" rel="stylesheet" />
   <body>
     <div id="modakbul-outer-wrapper">
-      <jsp:include page="./header.jsp" />
+     <jsp:include page="../layout/header.jsp" />
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu">
@@ -80,6 +80,6 @@
         </div>
       </div>
     </div>
-    <jsp:include page="./footer.jsp" />
+    <jsp:include page="../layout/footer.jsp" />
   </body>
 </html>

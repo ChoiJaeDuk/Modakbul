@@ -27,7 +27,7 @@
     ${pageContext.request.userPrincipal.name}´Ô<p>
     <sec:authentication property="principal.userName"/>´Ô<p>
     
-	<a href="${pageContext.request.contextPath }/user/mypageIndex/<sec:authentication property='principal.userNo'/>">ÇÁ·ÎÇÊ</a> 
+	<a href="${pageContext.request.contextPath }/my_page/profile/myProfile/<sec:authentication property='principal.userNo'/>">ÇÁ·ÎÇÊ</a> 
     </sec:authorize>
 
    <form action="${pageContext.request.contextPath}/logout" method="post">
