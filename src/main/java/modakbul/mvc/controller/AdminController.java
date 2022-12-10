@@ -21,7 +21,7 @@ import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 
 @Controller
-@RequestMapping("/admin2")
+@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
@@ -208,5 +208,10 @@ public class AdminController {
 	public void chart(String gatherBid, Model model) {
 
 
+	}
+	
+	@RequestMapping("/{url}")
+	public void url() {
+		
 	}
 }

@@ -30,23 +30,35 @@ public class MyPageControllerChoi {
 	private final GatherAttachmentsService gatherAttachmentsService;
 	private final ParticipantService participantService;
 	
-	private final static int PAGE_COUNT=5;
+	private final static int PAGE_COUNT=1;
 	private final static int BLOCK_COUNT=4;
 	
 	@RequestMapping("/myPage-gatherSelect")
 	public void selectGather(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
 	
 		System.out.println("nowPage = " + nowPage );
-		Pageable pageable = PageRequest.of(nowPage-1,PAGE_COUNT);
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
-		Page<Gather> waitList = participantService.selectApplicationStateByUserNo(userNo, "신청대기", pageable);
+		Page<Gather> applicationList = participantService.selectApplicationStateByUserNo(userNo, "신청대기", pageable);
+		
+		Page<Gather> upcomingList = participantService.selectApplicationStateByUserNo(userNo, "참가승인", pageable);
+		
+		Page<Gather> participationList = participantService.selectApplicationStateByUserNo(userNo, "참가완료", pageable);
+		
+		Page<Gather> recruitmentList = gatherService.selectGatherStateByUserNo(pageable, userNo, "신청대기");
 		
 	
+		
+		Page<Gather> completionList = gatherService.selectGatherStateByUserNo(pageable, userNo, "진행완료");
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-		model.addAttribute("waitList", waitList);
+		model.addAttribute("completionList", completionList);
+		model.addAttribute("recruitmentList", recruitmentList);
+		model.addAttribute("participationList", participationList);
+		model.addAttribute("upcomingList", upcomingList);
+		model.addAttribute("applicationList", applicationList);
 		model.addAttribute("blcokCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);

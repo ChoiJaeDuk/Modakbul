@@ -6,8 +6,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.repository.UsersRepository;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.UserAttachmentsService;
 import modakbul.mvc.service.UsersService;
@@ -39,12 +46,16 @@ public class UsersController {
 	@Autowired
 	private UserAttachmentsService attachService;
 	
+	private final static int PAGE_COUNT = 5;
+	private final static int BLOCK_COUNT=4;
+	
 	
 	@RequestMapping("/{url}")
 	public void url() {
 		
 	}
-
+	
+	
 	@RequestMapping("/user/mypageIndex/{userNo}")
 	public String mypage(@PathVariable Long userNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
@@ -143,6 +154,33 @@ public class UsersController {
 		
 	
 		return "loginForm";
+	}
+	
+	@RequestMapping("/admin/manageUser")
+	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model){
+		System.out.println("왔어 ?");
+		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "userNo");
+		
+		Page<Users> userList = usersService.selectUsers(page, null, null);
+		Page<Users> indivList = usersService.selectUsers(page, "개인", null);
+		Page<Users> comList = usersService.selectUsers(page, "기관", null);
+		
+		int temp = (nowPage-1)%BLOCK_COUNT;
+		
+		int startPage = nowPage-temp;
+		System.out.println("startPage = " + startPage);
+	
+		model.addAttribute("userList", userList);
+		model.addAttribute("indivList", indivList);
+		model.addAttribute("comList", comList);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("count", userList.getTotalElements());
+		model.addAttribute("countIdiv", indivList.getTotalElements());
+		model.addAttribute("countCom", comList.getTotalElements());
+
 	}
 	
 	
