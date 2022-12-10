@@ -101,15 +101,19 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	public void insertUserReview() {
-		for (int i = 1; i <= 2; i++) {
+		/*for (int i = 1; i <= 2; i++) {
 			userReviewRep.save(UserReview.builder().writerUser(new Users(2L)).hostUser(new Users(4L)).userTemper(50)
 					.userReviewContent("테스트re" + i).build());
-		}
+		}*/
+		UserReview userReview = UserReview.builder().writerUser(new Users(2L)).hostUser(new Users(4L)).userTemper(50)
+		.userReviewContent("회원에게 후기 남기기 들어가니?").build();
+		
+		userReviewSer.insert(userReview);
 	}
 
 	@org.junit.jupiter.api.Test
 	public void selectUserReview() {
-Pageable pageable = PageRequest.of(0, 5);
+		Pageable pageable = PageRequest.of(0, 5);
 		
 		Page<UserReview> list = userReviewSer.selectAllByUserReviewNo(1L,pageable);
 		List<UserReview> review = list.getContent();
@@ -165,10 +169,15 @@ Pageable pageable = PageRequest.of(0, 5);
 	/////////////////////// servicequestion
 	@org.junit.jupiter.api.Test
 	void insertServiceQuestion() {
-		for (int i = 2; i <= 5; i++) {
+		/*for (int i = 2; i <= 5; i++) {
 			serviceQuestionRep.save(ServiceQuestion.builder().user(new Users(4L)).serviceQuestionContent("공지사항 내용" + i)
 					.serviceQuestionSubject("공지사항 제목테스틍" + i).serviceQuestionPwd("admin").build());
-		}
+		}*/
+		ServiceQuestion serviceQuestion = ServiceQuestion.builder().user(new Users(3L)).serviceQuestionContent("1:1문의 테스트")
+				.serviceQuestionSubject("1:1문의 테스트").serviceQuestionPwd("admin").build();
+		
+		sqservice.insertServiceQustion(serviceQuestion);
+	
 	}
 
 	@org.junit.jupiter.api.Test
@@ -228,7 +237,7 @@ Pageable pageable = PageRequest.of(0, 5);
 	@org.junit.jupiter.api.Test
 	void updateServiceQuestionReply() {
 		sqservice.updateServiceQuestionReply(
-				ServiceQuestion.builder().serviceQuestionNo(7L).serviceQuestionReply("아나").build());
+				ServiceQuestion.builder().serviceQuestionNo(61L).serviceQuestionReply("알람테스트").build());
 		// serviceQuestionRep.updateServiceQuestionReply("댓글 테22",9L);
 	}
 
