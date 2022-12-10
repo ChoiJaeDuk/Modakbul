@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+    
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -28,79 +33,41 @@
              <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdv'">광고관리</p>
           </div>
         </nav>
+        
         <div class="modakbul-content">
           <!-- 여기에 내용 넣으면 됨. -->
+          
+          <c:forEach items="${requestScope.selectGatherState}" var="data">
             <div class="modakbul-charged-grid-row">
               <div class="modakbul-charged-grid-col">
                 <img src="" alt="modakbul-charged-img" />
               </div>
               <div class="modakbul-charged-grid-col">
                 <p class="modakbul-charged-grid-title">
-                  이니셜 담은 카드지갑 원데이 클래스
+                  ${data.getGatherName()} ${data.getGatherNo()}
                 </p>
                 <div class="modakbul-charged-grid-director flex">
                   <p class="modakbul-charged-grid-director-info">
-                    <span>주최자</span> 장희정 쌤
+                    <span>주최자</span> ${data.user.getUserName()}
                   </p>
-                  <button class="modakbul-button button-detail">
+                  <button class="modakbul-button button-detail" type="button" onclick="location.href='${pageContext.request.contextPath}/a/b/${data.gatherNo}'">
                     모임 상세보기
                   </button>
                 </div>
               </div>
               <div class="modakbul-charged-grid-col">
-                <button class="modakbul-button button-agree">승인하기</button>
-                <button class="modakbul-button button-deny">거절하기</button>
+              <form action="${pageContext.request.contextPath}/admin/updateGather" method="post">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button class="modakbul-button button-agree" type="submit">승인하기</button>
+                <button class="modakbul-button button-deny" type="reset">거절하기</button>
+              </form>
               </div>
             </div>
-            <div class="modakbul-charged-grid-row">
-              <div class="modakbul-charged-grid-col">
-                <img src="" alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                <p class="modakbul-charged-grid-title">
-                  이니셜 담은 카드지갑 원데이 클래스
-                </p>
-                <div class="modakbul-charged-grid-director flex">
-                  <p class="modakbul-charged-grid-director-info">
-                    <span>주최자</span> 장희정 쌤
-                  </p>
-                  <button class="modakbul-button button-detail">
-                    모임 상세보기
-                  </button>
-                </div>
-              </div>
-              <div class="modakbul-charged-grid-col">
-                <button class="modakbul-button button-agree">승인하기</button>
-                <button class="modakbul-button button-deny">거절하기</button>
-              </div>
-            </div>
-            <div class="modakbul-charged-grid-row">
-              <div class="modakbul-charged-grid-col">
-                <img src="" alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                <p class="modakbul-charged-grid-title">
-                  이니셜 담은 카드지갑 원데이 클래스
-                </p>
-                <div class="modakbul-charged-grid-director flex">
-                  <p class="modakbul-charged-grid-director-info">
-                    <span>주최자</span> 장희정 쌤
-                  </p>
-                  <button class="modakbul-button button-detail">
-                    모임 상세보기
-                  </button>
-                </div>
-              </div>
-              <div class="modakbul-charged-grid-col">
-                <button class="modakbul-button button-agree">승인하기</button>
-                <button class="modakbul-button button-deny">거절하기</button>
-              </div>
-            </div>
+            </c:forEach>
             
           </div>
           <!-- 여기까지 content -->
         </div>
       </div>
-    </div>
   </body>
 </html>

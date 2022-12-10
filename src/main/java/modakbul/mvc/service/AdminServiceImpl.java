@@ -162,23 +162,43 @@ public class AdminServiceImpl implements AdminService {
 		.execute();
 
 	}
-
+	
+	/**
+	 * 광고 상태 출력(광고중)
+	 * */
 	@Override
-	public List<Advertisement> selectByStatus1(Advertisement advertisement) {
-
-		return adminRep.selectByStatus1(advertisement);
+	public List<Advertisement> selectByStatus1() {
+		List<Advertisement> advertisementList = queryFactory.selectFrom(ad).where(ad.adStatus.eq("광고중")).fetch();
+		return advertisementList;
+	}
+	@Override
+	public Page<Advertisement> selectByStatus1(Pageable pageable) {
+		return null;
 	}
 
+	
+	/**
+	 * 광고 상태 출력(신청대기)
+	 * */
 	@Override
 	public List<Advertisement> selectByStatus2(Advertisement advertisement) {
-		// TODO Auto-generated method stub
 		return adminRep.selectByStatus2(advertisement);
 	}
-
+	@Override
+	public Page<Advertisement> selectByStatus2(Pageable pageable) {
+		return null;
+	}
+	
+	/**
+	 * 광고 상태 출력(광고 종료)
+	 * */
 	@Override
 	public List<Advertisement> selectByStatus3(Advertisement advertisement) {
-		// TODO Auto-generated method stub
 		return adminRep.selectByStatus3(advertisement);
+	}
+	@Override
+	public Page<Advertisement> selectByStatus3(Pageable pageable) {
+		return null;
 	}
 
 	/**
@@ -229,11 +249,9 @@ public class AdminServiceImpl implements AdminService {
 	 * */
 	@Override
 	public void updateGather(Gather gather) {
-		
-		if(gather.getGatherState().equals("신청대기")) {
-			gather.setGatherState("모집중");
-			
-		}
+			queryFactory.update(qGather).set(qGather.gatherState, "모집중").where(qGather.gatherNo.eq(gather.getGatherNo())
+					.and(qGather.gatherState.eq("신청대기"))).execute();
+
 		
 	}
 	
@@ -246,6 +264,14 @@ public class AdminServiceImpl implements AdminService {
 		
 		return gatherList;
 	}
+
+
+
+
+
+
+
+
 		
 	
 }

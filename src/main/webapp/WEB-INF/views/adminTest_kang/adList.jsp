@@ -212,10 +212,9 @@ img{width:200px; height:350px}
     
     
 </table>
-<h3>
-<a href="${pageContext.request.contextPath}/chart">chart</a>
-</h3>
+
 <hr>
+
 <%-- ${pageList.hasPrevious()}  /  ${pageList.hasNext()} --%>
 <div style="text-align: center">
 		<!--  블럭당  -->

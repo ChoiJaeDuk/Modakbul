@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.AdvertisementGroupBy;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
+import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 
@@ -36,6 +36,8 @@ public class AdminController {
 	private AdminService adminService;
 	@Autowired
 	private FollowService followService;
+	@Autowired
+	private AdminRepository adminRepository;
 
 	private final static int PAGE_COUNT = 10;// 상수//한 페이지당 10개
 
@@ -120,7 +122,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/adList")
+	@RequestMapping("/manageAdv")
 	public void list(Gather gather, Advertisement advertisement, Model model,
 			@RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달 // nowPage 페이지 넘버 받기
 
@@ -129,7 +131,7 @@ public class AdminController {
 
 		model.addAttribute("advertisementList", advertisementList); // list.jsp랑 이름 맞춤 -freeList
 		// 광고 상태 리스트(광고중)
-		List<Advertisement> adStatusList1 = adminService.selectByStatus1(advertisement);
+		List<Advertisement> adStatusList1 = adminService.selectByStatus1();
 
 		model.addAttribute("adStatusList1", adStatusList1);
 		// 광고 상태 리스트(신청대기)
@@ -141,12 +143,11 @@ public class AdminController {
 
 		model.addAttribute("adStatusList3", adStatusList3);
 
-		///// 페이징 처리/////
+		///// 전체 페이징 처리/////
 		Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");// 0부터 시작,
 																										// PAGE_COUNT(10)개씩
 																										// 뿌림, 정렬,
 																										// 기준=bno
-
 		Page<Advertisement> pageList = adminService.selectAll(pageable);
 
 		int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
@@ -157,7 +158,30 @@ public class AdminController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
+		
+		
 
+	}
+	
+	/**
+	 * 유료모임 승인 리스트
+	 * */
+	@RequestMapping("/manageGather")
+	public void selectGatherState(Model model) {
+		// 광고 리스트
+				List<Gather> selectGatherState = adminService.selectGatherState();
+
+				model.addAttribute("selectGatherState", selectGatherState);
+	}
+	
+	/**
+	 * 유료모임 승인 업데이트
+	 * */
+	@RequestMapping("/updateGather")
+	public String updateGather(Gather gather) {
+		
+		adminService.updateGather(gather);
+		return "admin/manageGather";
 	}
 
 	/**
@@ -263,7 +287,7 @@ public class AdminController {
 	/**
 	 * 광고 매출 차트
 	 */
-	@RequestMapping("/adChart")
+	@RequestMapping("/manageSales")
 	public void chart(Advertisement advertisement, Model model) {
 
 		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);

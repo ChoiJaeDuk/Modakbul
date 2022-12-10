@@ -16,14 +16,18 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	/**
 	 * 유료모임 신청대기 리스트
 	 * */
-	@Query(value = "select * from gather where gather_state = '신청대기'",nativeQuery = true)
+	@Query(value = "select * from gather left join regular_gather on gather.regular_gather_no = regular_gather.regular_gather_no where gather_state = '신청대기' or regular_gather.regular_gather_state = '신청대기' ORDER by gather_no asc", nativeQuery = true)
 	List<Gather> selectGatherState();
-	
+	/**
+	 * 유료모임 신청 승인
+	 * */
+	@Query(value = "UPDATE gather SET gather.gather_state = '신청대기' WHERE gather.gather_no = ?1;", nativeQuery = true)
+	void updateGather();
 	/**
 	 * 유료광고중인 모임 추천 모임에 뿌리기
 	 * */
 	
-	@Query(value = "select * from gather left join advertisement on advertisement.gather_no = gather.gather_no where ad_status = '광고중' and gather.gather_state = '모집중' ORDER by advertisement.gather_no asc",nativeQuery = true)
+	@Query(value = "select * from gather left join advertisement on advertisement.gather_no = gather.gather_no where ad_status = '광고중' and gather.gather_state = '모집중' ORDER by advertisement.gather_no asc", nativeQuery = true)
 	List<Advertisement> selectAdGather();
 	
 	
@@ -55,7 +59,9 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	@Query(value ="select sum(gather_bid) from gather where to_char(gather_date , 'YYYY-MM') = '2022-12'", nativeQuery = true)
 	String selectGatherBid1(String gatherBid);
 	
-	
+	/**
+	 * 광고 차트
+	 * */
 	@Query(value = "select distinct TO_CHAR(ad_regis_date,'mm') as month, sum(ad_price)as totalPrice, count(advertisement_no) as adCount\r\n"
 			+ "from advertisement group by TO_CHAR(ad_regis_date,'mm') order by TO_CHAR(ad_regis_date,'mm')", nativeQuery = true)
 	List<AdvertisementGroupBy> selectAdTotalPrice();

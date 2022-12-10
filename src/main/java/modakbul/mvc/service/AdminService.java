@@ -36,18 +36,31 @@ public interface AdminService {
 
 	/**
 	 * 광고 상태 출력(광고중)
+	 * @return 
 	 * */
-	List<Advertisement> selectByStatus1(Advertisement advertisement);
+	List<Advertisement> selectByStatus1();
+	/**
+	 * 광고 상태 출력(광고중) - Page처리
+	 * */
+	Page<Advertisement> selectByStatus1(Pageable pageable);
 	
 	/**
 	 * 광고 상태 출력(신청대기)
 	 * */
 	List<Advertisement> selectByStatus2(Advertisement advertisement);
+	/**
+	 * 광고 상태 출력(신청대기) - Page처리
+	 * */
+	Page<Advertisement> selectByStatus2(Pageable pageable);
 	
 	/**
 	 * 광고 상태 출력(광고 종료)
 	 * */
 	List<Advertisement> selectByStatus3(Advertisement advertisement);
+	/**
+	 * 광고 상태 출력(광고 종료) - Page처리
+	 * */
+	Page<Advertisement> selectByStatus3(Pageable pageable);
 	
 	/**
 	 * 삭제하기
