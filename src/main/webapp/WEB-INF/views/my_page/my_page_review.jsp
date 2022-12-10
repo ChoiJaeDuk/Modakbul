@@ -12,20 +12,38 @@
     <title>Document</title>
      <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
+    $(function() {
     $(document).ready(function(){
     	
-    	$('filter-wrap').click(function(){
+    	$('.filter-list-wrap div').click(function(){
     		var tab_id = $(this).attr('data-tab');
+    		
     		console.log(tab_id)
+    		
 
-    		$('.filter-list-wrap div').removeClass('selected');
-    		$('.filter-wrap').removeClass('selected');
+    		$('.filter-list-wrap div').removeClass('selected'); 
+    		$('.table-wrap').removeClass('selected');  ///* 테이블 감싸는거  */
 
     		$(this).addClass('selected');
+    		
     		$("#"+tab_id).addClass('selected');
+    		
     	})
 
     })
+    $(document).ready(function(){	
+    	
+		$('#rc').change(function(){
+    		
+			$('.filter-list-wrap div').removeClass('selected'); 
+			$('.table-wrap').removeClass('selected')
+			
+			$(".filter-list-wrap div").addClass('selected'); 
+			$("#tab-1").addClass('selected');
+		})
+
+	})
+});
     </script>
   </head>
   <body>
@@ -71,12 +89,12 @@
           <section class="my-page-main-content">
             <div class="class-search">
                 <div class="filter-wrap">
-                    <div class="filter-wrap">
-                        <div class="filter-list-item selected">후기쓰기</div>
-                        <div class="filter-list-item">작성완료</div>
+                    <div class="filter-list-wrap">
+                        <div data-tab="tab-1" id= "r" class="filter-list-item selected">후기쓰기</div>
+                        <div data-tab="tab-2" id= "rc" class="filter-list-item">작성완료</div>
                     </div>
                 </div>
-                <div class="review" id="">
+                <div class="table-wrap selected" id="tab-1">
                     <table class="table">
                         <colgroup>
                             <col width="8%" />
@@ -124,7 +142,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="review-complete">
+                <div class="table-wrap" id="tab-2">
                     <table class="table">
                         <colgroup>
                             <col width="8%" />

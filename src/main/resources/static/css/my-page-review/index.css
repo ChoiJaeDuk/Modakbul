@@ -66,7 +66,6 @@
   flex-grow: 0;
   width: 1000px;
 }
-/* 버튼 */
 .my-page-button {
   height: 40px;
   padding: 4px 8px;
@@ -99,7 +98,6 @@
 .my-page-button-gray:active {
   background-color: rgb(114, 114, 114);
 }
-/* 인풋 */
 .my-page-form-input {
   width: 100%;
   height: 40px;
@@ -112,7 +110,6 @@
 .my-page-form-input:focus {
   border: 1px solid rgb(243, 156, 18);
 }
-/* 프로필 */
 .my-page-profile {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -143,7 +140,6 @@
   font-size: 14px;
   font-weight: 700;
 }
-/* 프로필 정보 */
 .my-page-profile-info {
   border: 1px solid #d0d0d0;
   border-radius: 8px;
@@ -238,7 +234,6 @@
   justify-content: center;
   gap: 0 8px;
 }
-/* 알림함 */
 .alert {
 }
 .table {
@@ -262,7 +257,6 @@
 .table-body + .table-body {
   border-top: 1px solid #d0d0d0;
 }
-/* 모임조회 */
 .class-search {
 }
 .table-wrap {
@@ -270,11 +264,19 @@
   border-radius: 8px;
   overflow: hidden;
 }
+
+.table-wrap.selected{
+ 
+  display: inherit;
+}
 .filter-wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+}
+.filter-list-wrap.selected {
+  display: inherit;
 }
 .filter-list-wrap {
   display: flex;
@@ -390,7 +392,6 @@ input[type="checkbox"]:checked + label {
   background-color: rgb(214, 132, 0);
 }
 
-/* 추가된 내용 */
 .inquiry-replied {
   color: rgb(46, 204, 113);
 }
@@ -411,9 +412,7 @@ input[type="checkbox"]:checked + label {
   background: url("https://dummyimage.com/25x25/ff2bb5/fff") no-repeat
     center/cover;
 }
-/* 추가된 내용 */
 
-/* 추가된 모달 */
 .commercial-modal-wrap {
   width: 650px;
   position: absolute;
@@ -537,4 +536,3 @@ input[type="checkbox"]:checked + label {
 .commercial-modal-label {
   margin-top: 10px;
 }
-/* 추가된 모달 */
