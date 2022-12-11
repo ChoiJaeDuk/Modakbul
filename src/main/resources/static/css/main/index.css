@@ -1,0 +1,226 @@
+.wrap {
+  margin: 0 auto;
+  width: 1200px;
+  overflow: auto;
+}
+header {
+  padding: 24px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightblue;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+}
+.header-title {
+  font-weight: bold;
+  font-size: 30px;
+  color: rgb(243, 156, 18);
+}
+.nav-wrap {
+  display: flex;
+  gap: 0 80px;
+  font-weight: bold;
+  font-size: 30px;
+}
+.icon-button-wrap {
+  display: flex;
+  gap: 8px;
+}
+.icon-button {
+  cursor: pointer;
+}
+.main-banner-wrap {
+  height: 210px;
+  background-color: indianred;
+}
+.featured-list-wrap {
+  margin-top: 64px;
+}
+.list-header {
+  display: flex;
+}
+.list-title {
+  font-weight: bold;
+  font-size: 32px;
+}
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  gap: 32px 48px;
+}
+.list-card {
+  width: 264px;
+}
+.list-image-wrap {
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+  background-color: red;
+}
+.list-card-like {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.list-card-title {
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.new-list-wrap {
+  margin-top: 80px;
+}
+
+/* 검색 결과 */
+
+.search-list {
+  margin-top: 32px;
+}
+.search-list-top {
+  padding-left: 200px;
+}
+.search-list-main-filter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+.search-list-main-filter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0 12px;
+}
+.search-list-main-filter-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-weight: bold;
+  font-size: 24px;
+  color: rgb(127, 127, 127);
+}
+.search-list-main-filter-item.selected {
+  color: black;
+}
+.search-list-title {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.search-list-body {
+  display: flex;
+  gap: 40px;
+  margin-top: 12px;
+}
+.search-list-sub-filter {
+  flex-shrink: 0;
+  width: 160px;
+}
+.search-list-sub-filter > * + * {
+  margin-top: 24px;
+}
+/* .search-list-filter-type {
+  padding: 12px;
+}
+.search-list-filter-categpry {
+ 
+} */
+.search-list-filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgb(243, 156, 18);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.search-list-filter-item:hover {
+  background-color: rgb(251, 174, 51);
+}
+.search-list-filter-item:active {
+  background-color: rgb(214, 132, 0);
+}
+.search-list-filter-item.selected {
+  background-color: rgb(243, 156, 18);
+  color: white;
+  font-weight: 700;
+}
+.search-list-filter-item + .search-list-filter-item {
+  margin-top: 4px;
+}
+
+.search-list-result-wrap > article + article {
+  margin-top: 18px;
+}
+.search-list-result-item {
+  display: flex;
+  height: 200px;
+  background-color: rgb(215, 215, 215);
+}
+.search-list-result-item-info {
+  padding: 18px 24px;
+}
+.search-list-result-item-info > * + * {
+  margin-top: 8px;
+}
+.search-list-result-item-image-wrap {
+  flex-shrink: 0;
+  width: 165px;
+  height: 100%;
+  background-color: red;
+}
+.search-list-result-item-title {
+  height: 72px;
+  font-size: 30px;
+  font-weight: bold;
+}
+.search-list-result-item-text {
+  font-size: 18px;
+}
+.search-list-result-item-date {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 사람 검색 */
+.search-member-list-result-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 56px;
+}
+.search-member-list-result-item {
+  background-color: white;
+}
+.search-member-list-result-item-image-wrap {
+  width: 120px;
+  height: 120px;
+  background-color: red;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.search-member-list-result-item-member-name {
+  margin-top: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+/* select */
+.select-small {
+  width: 150px;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.select-small:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
