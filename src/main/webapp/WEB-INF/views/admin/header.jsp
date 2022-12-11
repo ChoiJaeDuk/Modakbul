@@ -14,13 +14,13 @@
 	<header id="modakbul-header" class="flex">
         <div class="modakbul-header-left flex">
           <img src="${pageContext.request.contextPath}/css/icon.png" alt="modakbul-icon" />
-          <h1 class="modakbul-title">MODAKBUL</h1>
+          <p class="modakbul-title">MODAKBUL</p>
         </div>
         <div class="modakbul-header-center flex">
-          <p class="modakbul-header-menu header-selected">메뉴</p>
-          <p class="modakbul-header-menu">메뉴</p>
-          <p class="modakbul-header-menu">메뉴</p>
-          <p class="modakbul-header-menu">메뉴</p>
+          <p class="modakbul-header-menu header-selected">정기</p>
+          <p class="modakbul-header-menu">일일</p>
+          <p class="modakbul-header-menu">기관</p>
+          <p class="modakbul-header-menu">공지사항</p>
         </div>
         <div class="modakbul-header-right">
           <h3>관리자 모드</h3>
