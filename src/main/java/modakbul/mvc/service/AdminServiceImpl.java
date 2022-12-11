@@ -215,6 +215,24 @@ public class AdminServiceImpl implements AdminService {
 	public List<Advertisement> selectByStatus3() {
 		return adminRep.selectByStatus3();
 	}
+	
+	/**
+	 * 광고 승인날짜 리스트
+	 * */
+	@Override
+	public String selectApproveDate(Advertisement advertisement) {
+		// TODO Auto-generated method stub
+		return adminRep.selectApproveDate(advertisement);
+	}
+
+	/**
+	 * 광고 데드라인 리스트
+	 * */
+	@Override
+	public String selectDeadLine(Advertisement advertisement) {
+		// TODO Auto-generated method stub
+		return adminRep.selectDeadLine(advertisement);
+	}
 
 	/**
 	 * 광고 매출 차트
@@ -279,6 +297,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		return gatherList;
 	}
+
+	
 
 
 

@@ -68,7 +68,7 @@
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
-							<td>예정</td>
+							<td>${adv.adRegisDate.month}</td>
 							<td>${adv.adStatus}</td>
 							</tr>
 						</c:forEach> 

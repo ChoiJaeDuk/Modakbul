@@ -69,7 +69,11 @@
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
 							<td>${adv.adRegisDate}</td>
-							<td>${adv.adStatus}</td>
+							<td><select>
+								<option>선택</option>
+        						<option value="1">승인</option>
+        						<option value="2">거절</option>
+    						</select></td>
 							</tr>
 						</c:forEach> 
 						</c:when>

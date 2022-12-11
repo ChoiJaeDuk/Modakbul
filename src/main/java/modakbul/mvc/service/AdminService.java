@@ -48,6 +48,16 @@ public interface AdminService {
 	List<Advertisement> selectByStatus3();
 	
 	/**
+	 * 광고 승인날짜 리스트
+	 * */
+	String selectApproveDate(Advertisement advertisement);
+	
+	/**
+	 * 광고 데드라인 리스트
+	 * */
+	String selectDeadLine(Advertisement advertisement);
+	
+	/**
 	 * 삭제하기
 	 * */
 	void delete(Advertisement advertisement);

@@ -119,7 +119,7 @@ public class AdminController {
 	 * 광고 페이지
 	 */
 	@RequestMapping("/admin/manageAdvAll")
-	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model) {// model : view로 전달 // nowPage 페이지
+	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
 
@@ -130,7 +130,9 @@ public class AdminController {
 		List<Advertisement> selectByStatus1 = adminService.selectByStatus1();
 		List<Advertisement> selectByStatus2 = adminService.selectByStatus2();
 		List<Advertisement> selectByStatus3 = adminService.selectByStatus3();
-
+		
+		
+		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 		int startPage = nowPage - temp;
 
@@ -141,6 +143,7 @@ public class AdminController {
 		model.addAttribute("selectByStatus1", selectByStatus1);
 		model.addAttribute("selectByStatus2", selectByStatus2);
 		model.addAttribute("selectByStatus3", selectByStatus3);
+
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);

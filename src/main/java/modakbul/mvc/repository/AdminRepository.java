@@ -73,4 +73,16 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * */
 	@Query(value = "select distinct category_no as category , count(gather_no) as gatherCount from gather group by category_no order by category_no", nativeQuery = true)
 	List<GatherGroupBy> selectCategoryCount();
+	
+	/**
+	 * 광고 승인날짜 리스트
+	 * */
+	@Query(value = "select TO_CHAR(ad_approve_date,'mm') as month from advertisement order by TO_CHAR(ad_approve_date,'mm')", nativeQuery = true)
+	String selectApproveDate(Advertisement advertisement);
+	
+	/**
+	 * 광고 데드라인 리스트
+	 * */
+	@Query(value = "select TO_CHAR(dead_line,'mm') as month from advertisement order by TO_CHAR(dead_line,'mm')", nativeQuery = true)
+	String selectDeadLine(Advertisement advertisement);
 }

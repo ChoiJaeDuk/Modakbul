@@ -135,7 +135,6 @@ $(function(){
 		</tr><!-- 첫번째 줄 끝 -->
 	</c:forEach>
 	</table>
-	
           </div>
           <!-- 여기까지 Content -->
         </div>
