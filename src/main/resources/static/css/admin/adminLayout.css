@@ -64,6 +64,7 @@ p{
   padding-left: 20px;
   font-size: 18px;
   font-weight: bold;
+ 
 }
 p{
 	width:100%;
@@ -73,12 +74,21 @@ p{
   color: rgb(243, 156, 18);
 
 }
+.modakbul-navigation-menu.navigation-selected:hover {
+  background: white;
+}
+
+.modakbul-navigation-menu:hover{
+	background-color: rgb(251, 174, 51);
+}
 
 .modakbul-content {
   width: 80%;
   padding: 30px;
   height: 95%;
 }
+
+
 
 /**
  * Swiper 7.4.1

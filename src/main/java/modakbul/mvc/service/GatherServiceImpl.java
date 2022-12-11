@@ -349,8 +349,12 @@ public class GatherServiceImpl implements GatherService {
 	public Page<Gather> selectGatherappliList(Pageable pageable) {
 
 		Page<Gather> result = gatherRep.selectGatherappliList(pageable);
-
-		//return new PageImpl<Gather>(result, pageable, result.size());
+//		QueryResults<Gather> result = queryFactory.selectFrom(g)
+//				.where(g.gatherState.eq("신청대기"))
+//				.offset(pageable.getOffset())
+//				.limit(pageable.getPageSize())
+//				.fetchResults();
+//		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
 		return result;
 	}
 
@@ -366,22 +370,26 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public void updateGatherState(Long gaherNo, String state) {
-		Gather gather = gatherRep.findById(gaherNo).orElse(null);
+	public void updateGatherState(Long gatherNo, String state) {
+		System.out.println("gatherNo = " + gatherNo);
+		Gather gather = gatherRep.findById(gatherNo).orElse(null);
 
 		gather.setGatherState(state);
-		
-		if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
-			//다음 날짜를 계산
-			LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
-			//다음 마감시간을 계산
-			LocalDateTime newDeadline = newGatherDate.minusHours(3);
-			//새로운 모임을 insert
-			Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
-					, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
-					, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
-					, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
-			gatherRep.save(newGather);
+		if(state.equals("모임취소")) {
+			if(gather.getRegularGather().getRegularGatherState()!=null) {
+				if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+					//다음 날짜를 계산
+					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+					//다음 마감시간을 계산
+					LocalDateTime newDeadline = newGatherDate.minusHours(3);
+					//새로운 모임을 insert
+					Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
+							, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+							, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
+							, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+					gatherRep.save(newGather);
+				}
+			}
 		}
 	}
 
