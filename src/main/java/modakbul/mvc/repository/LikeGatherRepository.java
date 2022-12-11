@@ -2,6 +2,8 @@ package modakbul.mvc.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -19,7 +21,7 @@ public interface LikeGatherRepository extends JpaRepository<LikeGather, Long>,Qu
 	 * userId에 해당하는 관심모임 출력
 	 */ 
 	@Query(value = "select * from like_gather where user_no =?1",nativeQuery = true)
-	List<LikeGather> selectByUserId(Long userNo);
+	Page<LikeGather> selectByUserId(Long userNo, Pageable page);
 	 
 	
 	/**

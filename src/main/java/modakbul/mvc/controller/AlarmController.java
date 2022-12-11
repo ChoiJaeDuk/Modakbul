@@ -24,7 +24,7 @@ public class AlarmController {
 	@Autowired
 	private AlarmService alarmService;
 	
-	private final static int PAGE_COUNT=10;
+	private final static int PAGE_COUNT=3;
 	private final static int BLOCK_COUNT=4;
 	
 	/**
@@ -42,8 +42,9 @@ public class AlarmController {
 		int startPage = nowPage - temp;
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("lee/views/my-page/alarmList");
+		mv.setViewName("my_page/alarm/myPage-alarm");
 		mv.addObject("pageList", pageList);
+		mv.addObject("userNo", userNo);
 
 		mv.addObject("blockCount", BLOCK_COUNT);
 		mv.addObject("startPage", startPage);
@@ -71,10 +72,10 @@ public class AlarmController {
 	 * 알람리시버 삭제
 	 */
 	@RequestMapping("/delete")
-	public String delete(Long receiverNo) {
+	public String delete(Long receiverNo, Long userNo) {
 		alarmService.deleteReceiver(receiverNo);
 		
-		return "redirect:/alarm/myAlarm?userNo=";
+		return "redirect:/alarm/myAlarm?userNo="+userNo;
 	}
 	
 	/**
