@@ -39,6 +39,7 @@ import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.LikeGatherRepository;
 import modakbul.mvc.service.GatherService;
+import oracle.net.aso.b;
 
 @SpringBootTest
 @Transactional
@@ -269,11 +270,14 @@ public class GatherTest {
 		
 		@Test
 		public void selectBidGatherappliList() {
-			Pageable pageable = PageRequest.of(0, 5);
+			Pageable pageable = PageRequest.of(2, 5);
 			
 			Page<Gather> gather = gatherService.selectGatherappliList(pageable);
 			
 			System.out.println(gather);
+			List<Gather> list = gather.getContent();
+			
+			list.forEach(b -> System.out.println(b.getGatherNo()));
 		}
 		
 		@Test

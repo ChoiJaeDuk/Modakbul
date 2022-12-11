@@ -155,17 +155,17 @@ public class AdminController {
 
 	}
 	
-	/**
-	 * 유료모임 승인 리스트
-	 * */
-	@RequestMapping("/manageGather")
-	public void selectGatherState(Model model) {
-		// 광고 리스트
-				List<Gather> selectGatherState = adminService.selectGatherState();
-
-				model.addAttribute("selectGatherState", selectGatherState);
-	}
-	
+//	/**
+//	 * 유료모임 승인 리스트
+//	 * */
+//	@RequestMapping("/manageGather")
+//	public void selectGatherState(Model model) {
+//		// 광고 리스트
+//				List<Gather> selectGatherState = adminService.selectGatherState();
+//
+//				model.addAttribute("selectGatherState", selectGatherState);
+//	}
+//	
 	/**
 	 * 유료모임 승인 업데이트
 	 * */

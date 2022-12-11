@@ -39,8 +39,21 @@
   color: white;
 }
 
+.button-detail:hover {
+  background: #CD5C5C;
+}
+
+
 .button-agree {
   background: rgb(243, 156, 18);
   color: white;
   margin-bottom: 10px;
+}
+.button-agree:hover{
+	background-color: rgb(251, 174, 51);
+}
+
+.button-deny:hover{
+	background: lightgray;
+	
 }
