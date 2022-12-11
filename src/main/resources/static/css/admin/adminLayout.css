@@ -11,6 +11,17 @@ p{
     font-style: normal;
 }
 
+.madakbul-banner{
+	width: 90%;
+	height:200px;
+}
+.bannerSection{
+	margin:auto;
+	
+	width : 90%;
+	height:200px;
+}
+
 @import url('https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css');
 
 #modakbul-outer-wrapper {
