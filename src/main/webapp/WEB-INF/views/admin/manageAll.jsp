@@ -44,8 +44,8 @@
 			<div class="content current" >
 				<table>
 					<tr class="table-header">
-						<th>진행중인 모닥불 : </th>
-						<th>모닥불 회원 : ${count }명</th>
+						<th class = "count">진행중인 모닥불 : </th>
+						<th class="count">모닥불 회원 : ${count }명</th>
 					</tr>
 					<tr>
 						<td>

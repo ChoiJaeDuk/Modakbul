@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +27,7 @@ import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
+import modakbul.mvc.service.UsersService;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,6 +39,7 @@ public class AdminController {
 	private FollowService followService;
 	@Autowired
 	private AdminRepository adminRepository;
+
 
 	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
@@ -154,6 +155,8 @@ public class AdminController {
 		model.addAttribute("countAdvEnd", advEnd.getTotalElements());
 
 	}
+	
+	
 	
 //	/**
 //	 * 유료모임 승인 리스트
@@ -294,6 +297,11 @@ public class AdminController {
 	 * */
 	@RequestMapping("/myPage-ad/myPageAd")
 	public void myPageAd() {}
+	
+	
+	
+
+
 	
 
 }
