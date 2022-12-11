@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,6 +128,33 @@ $(document).ready(function(){
 		아작스테스트
 	</button>
 	
+
+dsad
+asdasd<br>
+asdasd<br>
+s<br>
+s<br>
+s<br>
+sv<br>
+<br>
+s<br>
+s<br><br>
+s<br>
+ss<br><br>
+s<br>
+s<br>
+s<br>
+
+s 푸터 자리 확인용 글 
+s<br>
+s<br>
+s<br>
+
+s
+s<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>v
+s
+s
+s
 
 	
 	
