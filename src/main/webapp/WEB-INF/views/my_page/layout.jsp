@@ -80,7 +80,7 @@
 						<li class="my-page-nav-item selected">프로필정보</li>
 						<li class="my-page-nav-item">알림함</li>
 						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList/'${user.userNo}">모임조회</li>
 						<li class="my-page-nav-item">관심모임</li>
 						<li class="my-page-nav-item">후기조회</li>
 						<li class="my-page-nav-item">문의조회</li>
