@@ -1,25 +1,25 @@
 .modakbul-sales-data {
   width: 50%;
+  height: 100%;
 
 }
 
 
-
 .modakbul-sales-data-graph {
   width: 600px;
-  height: 400px;
+  height: 500px;
   margin: auto;
   background: #f7f7f7;
 }
 
 .modakbul-sales-data-table {
-  border: 0;
-  margin: 20px auto;
+    border: 0;
+    margin: 50px auto;
+    width: 600px;
 }
-
 .modakbul-sales-data-table td {
   width: 100px;
-  padding: 5px 0;
+  padding: 15px 0;
 }
 
 .table-header {

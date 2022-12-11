@@ -93,7 +93,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 			<h3>관리자 모드</h3>
 		</div>
 	</header>
-	 <%-- <div class="bannerSection">
+ <div class="bannerSection">
 	 
 		    <img src="${pageContext.request.contextPath}/css/banner3.png"
 			alt="modakbul-icon" class="modakbul-banner" onclick="" /> 
@@ -108,8 +108,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 			alt="modakbul-icon" class="modakbul-banner" />
 			
 			<img src="${pageContext.request.contextPath}/css/banner7.png"
-			alt="modakbul-icon" class="modakbul-banner" />  --%>
-
+			alt="modakbul-icon" class="modakbul-banner" /> 
 			
 
 	
@@ -121,7 +120,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
             <li> <input type="button" value="버튼4"></li>
             <li> <input type="button" value="버튼5"></li>
         </ul> -->
-<!-- 	</div> -->
+ 	</div>
 	
 
 </body>

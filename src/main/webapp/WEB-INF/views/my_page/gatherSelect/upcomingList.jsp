@@ -154,6 +154,9 @@
                 </div>
              </div>
           </section>
+          
+  
+          
           <div class="modal-wrap" hidden="" id="modal">
             <div class="modal-title">
                 내용
@@ -165,6 +168,39 @@
             </div>
           </div>
         </div>
+                <div style="text-align: center">
+		<!--  블럭당  -->
+ <nav class="pagination-container">
+	<div class="pagination">
+	<c:set var="doneLoop" value="false"/>
+		
+		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=6&nowPage=${startPage-1}">PREV</a>
+		  </c:if> 
+		  
+		<span class="pagination-inner"> 
+		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+		  
+			    <c:if test="${(i-1)>=upcomingList.getTotalPages()}">
+			       <c:set var="doneLoop" value="true"/>
+			    </c:if> 
+		    
+		  <c:if test="${not doneLoop}" >
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=6&nowPage=${i}">${i}</a> 
+		  </c:if>
+		   
+		</c:forEach>
+		</span> 
+				
+		 <c:if test="${(startPage+blockCount)<=upcomingList.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=6&nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if>
+				 
+			
+		
+		</div>
+	</nav>  
+</div>
       </div>
     </div>
   </body>

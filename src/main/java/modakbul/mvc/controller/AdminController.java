@@ -27,6 +27,7 @@ import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
+import modakbul.mvc.service.UsersService;
 
 @Controller
 //@RequestMapping("/admin")
@@ -38,6 +39,7 @@ public class AdminController {
 	private FollowService followService;
 	@Autowired
 	private AdminRepository adminRepository;
+
 
 	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
@@ -172,6 +174,8 @@ public class AdminController {
 				 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
 				 * return "admin/manageGather"; }
 				 */
+	
+	
 	
 //	/**
 //	 * 유료모임 승인 리스트

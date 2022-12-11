@@ -62,7 +62,7 @@
           <div class="modakbul-sales-data">
             <div class="modakbul-sales-data-graph">
             <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-			<canvas id="myChart" width="400" height="300"></canvas>
+			<canvas id="myChart" width="600" height="500"></canvas>
             <script type="text/javascript">
 $(function(){
 	
@@ -96,7 +96,8 @@ $(function(){
           label: "광고수",
           borderColor: "#f37c1b",
           fill: true,
-          backgroundColor: "f37c1b",         
+          backgroundColor:"f37c1b",
+         
           borderWidth: 3
         }, {
         type: 'line',
@@ -122,6 +123,7 @@ $(function(){
 </div>
 
 	<table class="modakbul-sales-data-table">
+	
         <tr class="table-header">
            	<td>월</td>
             <td>광고수</td>
@@ -131,9 +133,10 @@ $(function(){
 		<tr align="center"><!-- 첫번째 줄 시작 -->
 	    	<td>${data.getMonth()}</td>
 	    	<td>${data.getAdCount()}개</td>
-	    	<td>${data.getTotalPrice()}원</td>
+	    	<td><fmt:formatNumber type="number" value="${data.getTotalPrice()}" maxFractionDigits="3"/>원</td>
 		</tr><!-- 첫번째 줄 끝 -->
 	</c:forEach>
+
 	</table>
 	
           </div>

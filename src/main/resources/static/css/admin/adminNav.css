@@ -4,6 +4,7 @@
     flex-direction: row;
     align-items: flex-end;
     border-bottom: 1px solid #7f7f7f;
+    margin-top: 5px;
 }
 
 #nav1, #nav2, #nav3, #nav4 {
@@ -27,6 +28,7 @@
 .content table {
 	width: 100%;
 	border-spacing: 0;
+	
 }
 
 .content table tr {
@@ -36,6 +38,7 @@
 .content table td{
 	text-align: center;
 	height: 50px;
+	padding: 30px 0px;
 }
 
 .table-header {
