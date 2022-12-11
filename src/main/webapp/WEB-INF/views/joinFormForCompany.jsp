@@ -517,7 +517,7 @@ $("#email").keyup(function(){
 	</script>
   </head>
   <body>
-					
+<jsp:include page="layout/header.jsp" />	
     <div class="wrap">
       <div class="sign-up-wrap">
           <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
@@ -675,5 +675,6 @@ $("#email").keyup(function(){
         </div>
       </div>
     </div>
+    <jsp:include page="layout/footer.jsp" />
   </body>
 </html>

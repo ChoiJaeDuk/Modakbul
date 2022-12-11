@@ -98,6 +98,7 @@
     
   </head>
   <body>
+  <jsp:include page="layout/header.jsp" />
     <div id="wrap">
       <main class="login-wrap">
         <div class="login-logo-wrap">
@@ -191,5 +192,6 @@
         </div>
       </div>
     </div>
+      <jsp:include page="layout/footer.jsp" />
   </body>
 </html>

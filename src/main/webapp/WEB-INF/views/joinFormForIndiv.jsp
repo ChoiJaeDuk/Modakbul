@@ -565,6 +565,7 @@
 	</script>
   </head>
   <body>
+  <jsp:include page="layout/header.jsp" />
     <div class="wrap">
       <div class="sign-up-wrap">
           <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
@@ -808,5 +809,6 @@
         </div>
       </div>
     </div>
+    <jsp:include page="layout/footer.jsp" />
   </body>
 </html>
