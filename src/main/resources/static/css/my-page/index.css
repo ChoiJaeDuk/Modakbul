@@ -18,8 +18,8 @@ nav{
 
 
 .my-page-image-wrap {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -150,7 +150,8 @@ nav{
     margin: -1px 0px 0px 85px;
     top: 30%;
     left: 39%;
-    width: 800px;
+    width: 900px;
+    height: 1200px;
 }
 
 .my-page-form-wrap {
@@ -198,6 +199,8 @@ nav{
   font-size: 25px;
   border-radius: 4px;
 }
+
+
 .certificate-delete-button {
   display: flex;
   align-items: self-start;
@@ -232,6 +235,28 @@ nav{
   background-color: rgb(214, 132, 0);
 }
 .certificate-file-input {
+  display: none;
+}
+
+
+.sign-up-add-image-Btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 4px 8px;
+    background-color: rgb(243, 156, 18);
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: auto;
+    width: 70px;
+    margin: 10px 50px;
+}
+.sign-up-add-image {
   display: none;
 }
 .my-profile-certificate-wrap {

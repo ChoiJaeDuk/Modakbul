@@ -25,7 +25,7 @@
    		
    			var data = $("#follower").val();
    			
-   		 function readImage(input) {
+   		/*  function readImage(input) {
 			  
 				// 인풋 태그에 파일이 있는 경우
 			    if(input.files && input.files[0]) {
@@ -49,7 +49,51 @@
 			inputImage.addEventListener("load", e => {
 			    readImage(e.target)
 			})
+			 */
 			
+			 $(document).on("change", "#sign-up-add-image2", function(){ //주황색
+					
+					alert(1)
+			        console.log($(this))
+			        	var filename = $(this).val().split('/').pop().split('\\').pop();
+			          //console.log(filename)
+			          
+			        $(this).prev().val(filename);
+			          //$(this).attr("name","test");
+			          
+			        console.log($(this))
+			        // $(this).prev().find("input").val(filename);
+
+			      
+				})   
+					
+					 function readImage(input) {
+						  
+						// 인풋 태그에 파일이 있는 경우
+					    if(input.files && input.files[0]) {
+					        // 이미지 파일인지 검사 (생략)
+					        // FileReader 인스턴스 생성
+					        const reader = new FileReader()
+					        // 이미지가 로드가 된 경우
+					        reader.onload = e => {
+					            const previewImage = document.getElementById("sign-up-image2")
+					          
+					            previewImage.src = e.target.result
+					          
+					        }
+					        // reader가 이미지 읽도록 하기
+					        reader.readAsDataURL(input.files[0])
+					    }
+					}
+					// input file에 change 이벤트 부여
+					const inputImage = document.getElementById("sign-up-add-image2")
+					
+					inputImage.addEventListener("change", e => {
+					    readImage(e.target)
+					})
+				
+					 
+				
 			
    			$(document).on("click", "#updateBtn", function(){
    				alert($("#updateBtn").html());
@@ -84,6 +128,7 @@
 										alert("프로필정보가 수정되었습니다.");
 					   			
 										$("#myPage").load(location.href + " #myPage");
+										$("#orginal").load(location.href + " #orginal");
 											
 
 									},//function
@@ -108,6 +153,7 @@
 								alert("프로필정보가 수정되었습니다.");
 			   			
 								$("#myPage").load(location.href + " #myPage");
+								$("#original").load(location.href + " #original");
 								 $("#updateBtn").html("수정하기");
 									
 
@@ -255,8 +301,8 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<div class="wrap">
 		<div class="my-page-wrap">
-			<div class="my-page-header">
-				<div class="my-page-image-wrap">
+			<div class="my-page-header" >
+				<div class="my-page-image-wrap" id="original">
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication var="user" property="principal" />
 						<c:set value="${user.userProfileImg}" var="img" />
@@ -281,7 +327,7 @@
 							type="file" name="file" accept="image/*" />
 					</sec:authorize>
 				</div>
-				<div class="my-page-user-info-wrap">
+				<div class="my-page-user-info-wrap" >
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication var="user" property="principal" />
 						<div class="my-page-user-name">
@@ -328,8 +374,37 @@
 								id="userInfo" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}">
+									
 								<sec:authorize access="isAuthenticated()">
 									<sec:authentication var="user" property="principal" />
+									<div class="my-profile-form-item">
+									<div class="my-page-image-wrap">
+										<c:set value="${user.userProfileImg}" var="img" />
+										<c:set value="true" var="state1" />
+										<c:forEach items="${fileNames }" var="file">
+											<c:if test="${file eq img }">
+												<c:set value="true" var="state2" />
+												<img class="sign-up-image" id="sign-up-image2"
+													src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+													alt="img" />
+
+											</c:if>
+
+										</c:forEach>
+
+										<c:if test="${state1 ne state2}">
+											<img class="sign-up-image" id="sign-up-image2" src="${user.userProfileImg }"
+												alt="img" />
+										</c:if>
+
+									</div>
+									<input type="hidden" name="userProfileImg">
+									<input id="sign-up-add-image2" class="sign-up-add-image"
+											type="file" name="file" accept="image/*" />
+										<label for="sign-up-add-image2" class="sign-up-add-image-Btn"> 사진 편집 </label>
+									
+									</div>
+									
 									<div class="my-profile-form-item">
 										<label for="id" class="my-profile-form-label">아이디</label>
 										<div class="my-profile-form-input-wrap">

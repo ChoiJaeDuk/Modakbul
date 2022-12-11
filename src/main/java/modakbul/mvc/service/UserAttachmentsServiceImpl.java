@@ -26,14 +26,7 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	@Override
 	public void insert(UserAttachments userAttachments) {
 		
-		/*userAttachRep.save(
-				UserAttachments.builder()
-				.user(userAttachments.getUser())
-				.userAttachmentsFileSubject(userAttachments.getUserAttachmentsFileSubject())
-				.userAttachmentsFileName(userAttachments.getUserAttachmentsFileName())
-				.build()
-
-				);*/
+		
 		userAttachRep.save(userAttachments);
 	}
 

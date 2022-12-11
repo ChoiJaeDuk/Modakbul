@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.jni.File;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -117,7 +118,7 @@ public class UsersServiceImpl implements UsersService {
 				.limit(pageable.getPageSize())
 				.orderBy(users.userNo.desc())
 				.fetch();
-		//Page<Users> list = usersRep.findAll(pageable);
+		
 		
 		 System.out.println("hie = " + list.size());
 		 
@@ -126,9 +127,7 @@ public class UsersServiceImpl implements UsersService {
 		            .from(users)
 		            .where(builder);
 		            
-		//return usersRep.findAll(pageable); 
-		
-		//return new PageImpl<Users>(list, pageable, );
+	
 		return PageableExecutionUtils.getPage(list, pageable, ()->countQuery.fetch().size());
 	}
 
@@ -162,6 +161,11 @@ public class UsersServiceImpl implements UsersService {
 			String encodedPassword = passwordEncoder.encode(user.getUserpwd());
 			user.setUserpwd(encodedPassword);
 			dbU.setUserpwd(user.getUserpwd());
+		}
+		
+		if(user.getUserProfileImg().length()>0) {
+			
+			dbU.setUserProfileImg(user.getUserProfileImg());
 		}
 
 		
