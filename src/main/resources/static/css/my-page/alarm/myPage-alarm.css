@@ -1,0 +1,378 @@
+.my-page-wrap {
+  width: 1200px;
+}
+.my-page-header {
+  display: flex;
+  gap: 0 12px;
+}
+.my-page-image-wrap {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.my-page-user-info-wrap {
+  width: 200px;
+}
+.my-page-user-name {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+}
+.my-page-user-temperature {
+  margin-top: 8px;
+  color: rgb(243, 156, 18);
+  font-size: 24px;
+  font-weight: 600;
+}
+.my-page-user-follow-wrap {
+  margin-top: 12px;
+  display: flex;
+  gap: 0 24px;
+  font-size: 16px;
+}
+.my-page-content-wrap {
+  margin-top: 36px;
+  display: flex;
+  justify-content: space-between;
+}
+.my-page-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  border: 1px solid rgb(243, 156, 18);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.my-page-nav-item:hover {
+  background-color: rgb(251, 174, 51);
+}
+.my-page-nav-item:active {
+  background-color: rgb(214, 132, 0);
+}
+.my-page-nav-item.selected {
+  background-color: rgb(243, 156, 18);
+  color: white;
+  font-weight: 700;
+}
+.my-page-nav-item + .my-page-nav-item {
+  margin-top: 4px;
+}
+.my-page-main-content {
+  flex-grow: 0;
+  width: 1000px;
+}
+/* 버튼 */
+.my-page-button {
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.my-page-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.my-page-button:active {
+  background-color: rgb(214, 132, 0);
+}
+/* 인풋 */
+.my-page-form-input {
+  width: 100%;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.my-page-form-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+/* 프로필 */
+.my-page-profile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.my-page-profile-card {
+  height: 300px;
+}
+.my-page-profile-card-count {
+  color: rgb(243, 156, 18);
+  font-weight: 700;
+}
+.my-page-profile-card-count-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 230px;
+  font-size: 48px;
+  background-color: #eaeaea;
+}
+.my-page-profile-card-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  font-size: 14px;
+  font-weight: 700;
+}
+/* 프로필 정보 */
+.my-page-profile-info {
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 36px;
+}
+.my-page-form-wrap {
+  width: 300px;
+}
+.my-profile-form-item + .my-profile-form-item {
+  margin-top: 8px;
+}
+.my-profile-form-input-wrap {
+  width: 100%;
+  margin-top: 4px;
+}
+.my-profile-form-input-wrap > * + * {
+  margin-top: 8px;
+}
+.my-profile-form-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+.my-page-search-address-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.my-page-search-address-input {
+  width: 200px;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.my-page-search-address-input:focus {
+  border: 1px solid rgb(243, 156, 18);
+}
+.certificate-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(190, 190, 190);
+  cursor: pointer;
+  font-size: 25px;
+  border-radius: 4px;
+}
+.certificate-file-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.certificate-file-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.certificate-file-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.certificate-file-input {
+  display: none;
+}
+.my-profile-certificate-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+}
+.my-profile-certificate-input {
+  flex: 1;
+  height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.my-profile-button-wrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 0 8px;
+}
+/* 알림함 */
+.alert {
+}
+.table {
+  width: 100%;
+  vertical-align: middle;
+  border-collapse: collapse;
+}
+.table td,
+.table th {
+  text-align: center;
+  height: 70px;
+}
+.table-header {
+  background-color: #eaeaea;
+  color: rgb(243, 156, 18);
+  border-bottom: 1px solid #d0d0d0;
+}
+.table-body {
+  font-size: 13px;
+}
+.table-body + .table-body {
+  border-top: 1px solid #d0d0d0;
+}
+/* 모임조회 */
+.class-search {
+}
+.table-wrap {
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.filter-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.filter-list-wrap {
+  display: flex;
+  gap: 0 4px;
+}
+.filter-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  background-color: rgb(243, 156, 18);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.filter-list-item:hover {
+  background-color: rgb(251, 174, 51);
+}
+.filter-list-item:active {
+  background-color: rgb(214, 132, 0);
+}
+.filter-list-item.selected {
+  background-color: white;
+  border: 1px solid rgb(243, 156, 18);
+  color: black;
+}
+.filter-type-wrap {
+  display: flex;
+  gap: 0 30px;
+}
+.filter-type-item {
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+}
+.filter-type-label {
+  font-size: 13px;
+}
+.custom-checkbox {
+  display: flex;
+}
+input[type="checkbox"] {
+  display: none;
+}
+input[type="checkbox"] + label {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #d0d0d0;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+input[type="checkbox"]:checked + label {
+  background-color: rgb(243, 156, 18);
+  border: 0;
+}
+.modal-wrap {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: rgb(0 0 0 / 23%) 3px 3px 8px 0px;
+  z-index: 5;
+  border-radius: 4px;
+}
+.modal-button {
+  height: 45px;
+  padding: 0 16px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+
+.modal-text-wrap {
+  margin-top: 24px;
+  font-size: 14px;
+  color: rgb(158, 158, 158);
+}
+.modal-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+.modal-button-wrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 0 8px;
+}
+.cancel-button {
+  color: rgb(0, 0, 0);
+  background-color: rgb(190, 190, 190);
+}
+.search-id-button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(243, 156, 18);
+}
+.cancel-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+.search-id-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.cancel-button:active {
+  background-color: rgb(114, 114, 114);
+}
+.search-id-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.modal-button-wrap {
+}

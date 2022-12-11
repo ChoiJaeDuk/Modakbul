@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import modakbul.mvc.domain.AlarmReceiver;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.domain.Users;
@@ -37,17 +38,17 @@ public class LikeGatherController {
 	private GatherService gs;
 	
 
-	private final static int PAGE_COUNT=10;
+	private final static int PAGE_COUNT=3;
 	private final static int BLOCK_COUNT=4;
 
 	/**
 	 * 유저별 관심모임 목록
 	 */
 	@RequestMapping("/myLikeGather")
-	public ModelAndView myLike(Long userNo) {
+	public ModelAndView myLike(Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
 		System.out.println("누구의 관심목록 ? " + userNo);
 
-		List<LikeGather> like = likeGatherService.selectById(userNo);
+		/*List<LikeGather> like = likeGatherService.selectById(userNo);
 
 		if (like.isEmpty() || like.size() == 0) {
 			System.out.println("비었거나 팔로잉이 없다.");
@@ -55,8 +56,23 @@ public class LikeGatherController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("myList", like);
 		mv.addObject("userNo", userNo);
-		mv.setViewName("my-page/myLikeGather");
+		mv.setViewName("my_page/likeGather/myPage-likeGather");*/
+		
+		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ATTENTION_NO");
+		Page<LikeGather> pageList = likeGatherService.selectById(userNo, page);
 
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+		int startPage = nowPage - temp;
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("my_page/likeGather/myPage-likeGather");
+		mv.addObject("pageList", pageList);
+		mv.addObject("userNo", userNo);
+
+		mv.addObject("blockCount", BLOCK_COUNT);
+		mv.addObject("startPage", startPage);
+		mv.addObject("nowPage", nowPage);
+		
 		return mv;
 	}
 
@@ -91,7 +107,7 @@ public class LikeGatherController {
 	}
 
 	/**
-	 * 삭제
+	 * 삭제 - 토글
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
@@ -105,6 +121,20 @@ public class LikeGatherController {
 		likeGatherService.delete(gatherNo, userNo);
 
 		return "ok";
+	}
+	
+	/**
+	 * 삭제 - 버튼
+	 */
+	@RequestMapping("/deleteButton")
+	@ResponseBody
+	public String delete(Long gatherNo, Long userNo) {
+		//long userNo = (long)Integer.parseInt((String) result.get("userNo"));		  
+		//long gatherNo = (long)Integer.parseInt((String) result.get("gatherNo"));
+		
+		likeGatherService.delete(gatherNo, userNo);
+
+		return "redirect:/likeGather/myLikeGather?userNo="+userNo;
 	}
 
 	///////////////////////////////////////////////////////////////

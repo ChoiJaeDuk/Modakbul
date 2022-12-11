@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -28,9 +30,9 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	}
 	
 	@Override
-	public List<LikeGather> selectById(Long userNo) {
+	public Page<LikeGather> selectById(Long userNo, Pageable page) {
 		
-		return likeGatherRep.selectByUserId(userNo);
+		return likeGatherRep.selectByUserId(userNo, page);
 	}
 
 	@Override
