@@ -81,6 +81,7 @@
   });
   </script>
   <body>
+  <%-- <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="my-page-wrap">
         <div class="my-page-header">
@@ -118,9 +119,14 @@
                 <li class="my-page-nav-item">문의조회</li>
                 <li class="my-page-nav-item">광고신청</li>
             </ul>
-          </nav>
+          </nav> --%>
+         
+      <%--     <jsp:include page="/WEB-INF/views/my_page/layout.jsp"/> --%>
+       
           <section class="my-page-main-content">
+          
             <div class="class-search">
+           
                 <div class="filter-wrap">
                     <div class="filter-list-wrap selected" id="guest">
                     	<div class="filter-list-item selected" data-tab="tab-1" id="applicationList" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=6';">신청목록</div>
@@ -189,21 +195,26 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                </div> 
-             </div> 
+            </div>
+            </div>
+              
           </section>
-          <div class="modal-wrap" hidden="" id="modal">
-            <div class="modal-title">
-                내용
-            </div>
-           <div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
-            <div class="modal-button-wrap" >
-                <button type="button" class="modal-button cancel-button" id="modalCancel">취소</button>
-                <button type="button" class="modal-button search-id-button" id="confirm">확인</button>
-            </div>
-        </div>
-        </div>
-      </div>
-    </div>
+          
+   
+       
+
+	<div class="modal-wrap" hidden="" id="modal">
+		<div class="modal-title">내용</div>
+		<div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
+		<div class="modal-button-wrap">
+			<button type="button" class="modal-button cancel-button"
+				id="modalCancel">취소</button>
+			<button type="button" class="modal-button search-id-button"
+				id="confirm">확인</button>
+		</div>
+	</div>
+		
+	<!--</div>
+    </div> -->
   </body>
 </html>

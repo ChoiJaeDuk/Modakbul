@@ -1,11 +1,13 @@
 .modakbul-sales-data {
   width: 50%;
-  padding: 20px;
+
 }
 
+
+
 .modakbul-sales-data-graph {
-  width: 400px;
-  height: 300px;
+  width: 600px;
+  height: 400px;
   margin: auto;
   background: #f7f7f7;
 }
