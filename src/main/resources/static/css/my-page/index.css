@@ -146,8 +146,8 @@ nav{
     border-radius: 8px;
     overflow: hidden;
     padding: 36px;
-    position: absolute;
-    margin: -150px 0px 0px -200px;
+    /* position: absolute; */
+    margin: -1px 0px 0px 85px;
     top: 30%;
     left: 39%;
     width: 800px;

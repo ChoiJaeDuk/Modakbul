@@ -1,5 +1,5 @@
 html,
-body,
+
 p{
   margin: 0;
   font-family: Arial, KOTRA_BOLD-Bold, sans-serif;
@@ -9,6 +9,17 @@ p{
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.1/KOTRA_BOLD-Bold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+}
+
+.madakbul-banner{
+	width: 90%;
+	height:200px;
+}
+.bannerSection{
+	margin:auto;
+	
+	width : 90%;
+	height:200px;
 }
 
 @import url('https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css');

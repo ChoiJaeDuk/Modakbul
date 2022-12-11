@@ -663,6 +663,13 @@ span.badge{
 	color: #6a82ec;
     border: 0.3px solid #6a82ec;
 }
+footer{
+  /* height: 823.08px;
+  position : relative;
+  transform : translateY(-100%); */
+  bottom: 0
+}
+
 .main-footer{
 	padding-top: 50px;
 	padding-bottom:15px;
@@ -689,6 +696,7 @@ span.badge{
     background-repeat: no-repeat;
     background-position: left;
     background-size: 300px auto;
+   
 }
 .main-footer .box {
 	padding: 2px 0;
@@ -6138,7 +6146,9 @@ hr.main {
 }
 
 #wrapper {
-  margin: 0 auto;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 823.08px;
 }
 
 #classCurriculumArea {
