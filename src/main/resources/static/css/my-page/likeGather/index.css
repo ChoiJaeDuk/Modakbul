@@ -1,22 +1,10 @@
-element.style {
-    width: 600px;
-}
 .my-page-wrap {
-
   width: 1200px;
 }
 .my-page-header {
   display: flex;
   gap: 0 12px;
-  margin: 60px;
-  margin-left: 260px;
- 
 }
-nav{
-	padding-left: 23%
-}
-
-
 .my-page-image-wrap {
   width: 150px;
   height: 150px;
@@ -25,7 +13,6 @@ nav{
 }
 .my-page-user-info-wrap {
   width: 200px;
-  padding-left: 50px;
 }
 .my-page-user-name {
   width: 100%;
@@ -142,22 +129,16 @@ nav{
 }
 /* 프로필 정보 */
 .my-page-profile-info {
-    border: 1px solid #f1a634;
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 36px;
-    /* position: absolute; */
-    margin: -1px 0px 0px 85px;
-    top: 30%;
-    left: 39%;
-    width: 800px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 36px;
 }
-
 .my-page-form-wrap {
   width: 300px;
 }
 .my-profile-form-item + .my-profile-form-item {
-  margin-top: 15px;
+  margin-top: 8px;
 }
 .my-profile-form-input-wrap {
   width: 100%;
@@ -189,26 +170,14 @@ nav{
 }
 .certificate-add-button {
   display: flex;
-  align-items: inherit;
+  align-items: center;
   justify-content: center;
   width: 30px;
-  height: 40px;
+  height: 30px;
   background-color: rgb(190, 190, 190);
   cursor: pointer;
   font-size: 25px;
   border-radius: 4px;
-}
-.certificate-delete-button {
-  display: flex;
-  align-items: self-start;
-  justify-content: center;
-  width: 30px;
-  height: 40px;
-  background-color: rgb(190, 190, 190);
-  cursor: pointer;
-  font-size: 25px;
-  border-radius: 4px;
-
 }
 .certificate-file-button {
   display: flex;
@@ -223,7 +192,6 @@ nav{
   border: 0;
   cursor: pointer;
   box-sizing: border-box;
-  font-family: auto;
 }
 .certificate-file-button:hover {
   background-color: rgb(251, 174, 51);
@@ -238,12 +206,10 @@ nav{
   display: flex;
   align-items: center;
   gap: 0 4px;
-  width:600px
 }
 .my-profile-certificate-input {
   flex: 1;
   height: 40px;
-  width: 230px;
   padding: 6px 12px;
   border: 0;
   outline: 0;
@@ -255,7 +221,6 @@ nav{
   display: flex;
   justify-content: center;
   gap: 0 8px;
-  width: 700px
 }
 /* 알림함 */
 .alert {
@@ -288,14 +253,7 @@ nav{
   border: 1px solid #d0d0d0;
   border-radius: 8px;
   overflow: hidden;
-  display: none;
 }
-.table-wrap.selected{
- 
-  display: inherit;
-}
-
-
 .filter-wrap {
   display: flex;
   justify-content: space-between;
@@ -305,11 +263,6 @@ nav{
 .filter-list-wrap {
   display: flex;
   gap: 0 4px;
-  display: none;
-}
-
-.filter-list-wrap.selected {
-  display: inherit;
 }
 .filter-list-item {
   display: flex;
@@ -333,7 +286,6 @@ nav{
   background-color: white;
   border: 1px solid rgb(243, 156, 18);
   color: black;
- 
 }
 .filter-type-wrap {
   display: flex;
@@ -350,10 +302,10 @@ nav{
 .custom-checkbox {
   display: flex;
 }
-input[type="radio"] {
+input[type="checkbox"] {
   display: none;
 }
-input[type="radio"] + label {
+input[type="checkbox"] + label {
   display: inline-block;
   width: 15px;
   height: 15px;
@@ -362,7 +314,7 @@ input[type="radio"] + label {
   cursor: pointer;
   box-sizing: border-box;
 }
-input[type="radio"]:checked + label {
+input[type="checkbox"]:checked + label {
   background-color: rgb(243, 156, 18);
   border: 0;
 }
@@ -424,138 +376,3 @@ input[type="radio"]:checked + label {
 }
 .modal-button-wrap {
 }
-.gather-img{
-	display: inline-block;
-	width:120px;
-	height: 120px;
-}
-
-img{
-	padding:25px;
-    width: 100%;
-    height: 100%;
-}
-/* 추가된 모달 */
-.commercial-modal-wrap {
-  width: 650px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 40px;
-  background-color: rgb(250, 250, 250);
-  box-shadow: rgb(0 0 0 / 23%) 3px 3px 8px 0px;
-  z-index: 5;
-  border-radius: 4px;
-}
-.create-commercial-wrap {
-  margin-top: 24px;
-}
-.create-commercial-value-required {
-  color: red;
-}
-.create-commercial-class-name {
-  font-weight: bold;
-  font-size: 24px;
-}
-.create-commercial-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-}
-.create-commercial-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.create-commercial-item + .create-commercial-item {
-  margin-top: 12px;
-}
-.create-commercial-value-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0 16px;
-}
-.create-commercial-image-wrap {
-  width: 150px;
-  height: 120px;
-}
-.commercial-modal-title {
-  font-weight: bold;
-  font-size: 24px;
-}
-.create-commercial-input {
-  height: 40px;
-  padding: 6px 12px;
-  border: 0;
-  outline: 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.create-commercial-input-wrap {
-  display: flex;
-  justify-content: space-between;
-  gap: 0 16px;
-}
-.create-commercial-input:focus {
-  border: 1px solid rgb(243, 156, 18);
-}
-.create-commercial-input-tip {
-  margin-top: 12px;
-  font-size: 13px;
-  color: rgb(127, 127, 127);
-}
-.create-commercial-warning {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.modify-commercial-current-image-text {
-  font-size: 16px;
-  color: rgb(127, 127, 127);
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-.modify-commercial-current-image-wrap {
-  width: 100%;
-  background-color: lightblue;
-  height: 100px;
-  overflow: hidden;
-}
-.modify-commercial-change-image-wrap {
-  margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
-}
-.modify-commercial-change-image-value-wrap {
-  display: flex;
-  gap: 0 8px;
-}
-.commercial-image-input {
-  display: none;
-}
-.commercial-file-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 4px 8px;
-  background-color: rgb(243, 156, 18);
-  font-size: 12px;
-  color: rgb(255, 255, 255);
-  border-radius: 4px;
-  border: 0;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-.commercial-file-button:hover {
-  background-color: rgb(251, 174, 51);
-}
-.commercial-file-button:active {
-  background-color: rgb(214, 132, 0);
-}
-.commercial-modal-label {
-  margin-top: 10px;
-}
-/* 추가된 모달 */

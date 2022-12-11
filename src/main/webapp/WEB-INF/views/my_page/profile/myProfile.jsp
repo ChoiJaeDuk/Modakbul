@@ -1,23 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>      
+	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="${pageContext.request.contextPath}/css/my-page/index.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/my-page/reset.css" rel="stylesheet" />
-    <title>Document</title>
-    <!-- daum 도로명주소 찾기 api -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/jquery.form.min.js"></script>
-    <script type="text/javascript">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="${pageContext.request.contextPath}/css/my-page/index.css"
+	rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/my-page/reset.css"
+	rel="stylesheet" />
+<title>Document</title>
+<!-- daum 도로명주소 찾기 api -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.form.min.js"></script>
+<script type="text/javascript">
    		$(function(){
    		
    			var data = $("#follower").val();
@@ -247,183 +250,205 @@
 		}
    		
     </script>
-  </head>
-  <body>
-  <jsp:include page="../../layout/header.jsp" />
-    <div class="wrap">
-      <div class="my-page-wrap">
-        <div class="my-page-header">
-          <div class="my-page-image-wrap">
-          <sec:authorize access="isAuthenticated()">
-			<sec:authentication var="user" property="principal" /> 
-			<c:set value="${user.userProfileImg}" var="img"/>
-			<c:set value="true" var="state1"/>
-			<c:forEach items="${fileNames }" var="file">
-				<c:if test="${file eq img }">
-					<c:set value="true" var="state2"/>
-				<img
-              class="sign-up-image"
-              src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-              alt="img"
-           		 />
-           		 
-				</c:if>
+</head>
+<body>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+	<div class="wrap">
+		<div class="my-page-wrap">
+			<div class="my-page-header">
+				<div class="my-page-image-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+									alt="img" />
 
-			</c:forEach>
+							</c:if>
 
-		<c:if test="${state1 ne state2}">
-			<img
-              class="sign-up-image"
-              src="${user.userProfileImg }"
-              alt="img"
-           		 />
-          </c:if>
-		
-         	<input id="sign-up-add-image" class="sign-up-add-image" type="file" name="file" accept="image/*" />
-            </sec:authorize>
-          </div>
-          <div class="my-page-user-info-wrap">
-            <sec:authorize access="isAuthenticated()">
-			<sec:authentication var="user" property="principal" /> 
-            <div class="my-page-user-name">
-          
-              <div>${user.userName }님</div>
-             
-              
-            </div>
-            <div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
-            <div class="my-page-user-follow-wrap">
-                <div>
-                    <div>팔로워</div>
-                    <div>&nbsp;&nbsp;&nbsp;${follower}</div>
-                </div>
-                <div>
-                    <div>팔로잉</div>
-                    <%-- <div>&nbsp;&nbsp;&nbsp;${following}</div> --%>
-                   	<div><a href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a></div>
-                </div>
-            </div>
-             </sec:authorize>
-          </div>
-        </div>
-        <div class="my-page-content-wrap">
-          <nav>
-            <ul>
-                <li class="my-page-nav-item selected">프로필정보</li>
-                <li class="my-page-nav-item">알림함</li>
-                <li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
-                <li class="my-page-nav-item">관심모임</li>
-                <li class="my-page-nav-item">후기조회</li>
-                <li class="my-page-nav-item">문의조회</li>
-                <li class="my-page-nav-item">광고신청</li>
-            </ul>
-          </nav>
-           <section class="my-page-main-content">
-            <div class="my-page-profile-info">
-                <div class="my-page-form-wrap" id="myPage">
-                    <form action="${pageContext.request.contextPath }/update" id="userInfo" method="post" enctype="multipart/form-data" >
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-                    <sec:authorize access="isAuthenticated()">
-			<sec:authentication var="user" property="principal" /> 
-                        <div class="my-profile-form-item">
-                            <label for="id" class="my-profile-form-label">아이디</label>
-                            <div class="my-profile-form-input-wrap">
-                                <input id="id" class="my-page-form-input" name="userId" value="${user.userId }" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item">
-                            <label for="id" class="my-profile-form-label">이름</label>
-                            <div class="my-profile-form-input-wrap">
-                                <input id="name" class="my-page-form-input" name="userName" value="${user.userName }" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item">
-                            <label for="password" class="my-profile-form-label">비밀번호</label>
-                            <div class="my-profile-form-input-wrap">
-                                <input type="password" id="pwd" name="userpwd" class="my-page-form-input" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item">
-                            <label for="" class="my-profile-form-label">전화번호</label>
-                            <div class="my-profile-form-input-wrap">
-                                <input id="phone" name="userPhone" class="my-page-form-input" value="${user.userPhone}" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item">
-                            <label for="id" class="my-profile-form-label">주소</label>
-                            <div class="my-profile-form-input-wrap">
-                                <div class="my-page-search-address-wrap ">
-                                    <input id="postCode" name="userPostCode" class="my-page-search-address-input" value="${user.userPostCode }" readonly="readonly"/>
-                                    <button type="button" class="my-page-button" onclick="execPostCode();" disabled="disabled">우편번호 검색</button>
-                                </div>
-                                <input id="addr" name="userAddr" class="my-page-form-input" value="${user.userAddr }" readonly="readonly"/>
-                                <input id="addrDetail" name="userAddrDetail" class="my-page-form-input" value="${user.userAddrDetail }" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item">
-                            <label for="id" class="my-profile-form-label">이메일</label>
-                            <div class="my-profile-form-input-wrap">
-                                <input id="email" name="userEmail" class="my-page-form-input" value="${user.userEmail }" readonly="readonly"/>
-                            </div>
-                        </div>
-                        <div class="my-profile-form-item" id=userAttach>
-                        
-                            <label class="my-profile-form-label">증명서</label>
-                            <c:choose>
-	                           <c:when test="${empty requestScope.attachList }">
+						</c:forEach>
 
-		                            <div class="my-profile-form-input-wrap" id="certAdd">
-		                                <div class="my-profile-certificate-wrap">
-		                                    <input id="attachSubject" class="my-profile-certificate-input" name="newFileSubject[]" readonly="readonly"/>
-		                                    <input id="attachFile" class="my-profile-certificate-input" name="userAttachmentsFileName" readonly="readonly"/>
-		                                    <label for="certificate-add-file" class="certificate-file-button">
-		                                        파일 첨부
-		                                      </label>
-		                                    <input id="certificate-add-file" class="certificate-file-input" name="newFilesList[]" type="file"/>
-		                                    <div class="certificate-add-button">+</div>
-		                                    <button type="button" class="certificate-delete-button" >-</button>
-		                                </div>
-		                            </div>
-	                            </c:when>
-	                            <c:otherwise>
-	                            <div class="my-profile-form-input-wrap" id="certAdd">
-	                            	<c:forEach var="attach" items="${attachList}">
-									    
-			                                <div class="my-profile-certificate-wrap">
-			                               		<input id="id" class="my-profile-certificate-input" value="${attach.userAttachmentsFileSubject}" name="fileSubject[]" readonly="readonly"/>
-			                                    <a href="${pageContext.request.contextPath}/down?fileName=${attach.userAttachmentsFileName}">
-			                                    <input id="id" class="my-profile-certificate-input" src="${attach.userAttachmentsFileName}" value="${attach.userAttachmentsFileName}" name="userAttachmentsFileName" readonly="readonly"/>
-			        							</a>
-			                                    <label for="certificate-add-file" class="certificate-file-button">
-			                                        파일 첨부
-			                                      </label>
-			                                    <input id="certificate-add-file" class="certificate-file-input" type="file" name="filesList[]"/>
-			                                    <div class="certificate-add-button">+</div>
-			                                    <button type="button" class="certificate-delete-button"  id=${attach.userAttachmentsFileNo} >-</button>
-			                                </div>
-		                            	
-		                            	
-									</c:forEach>
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img" />
+						</c:if>
+
+						<input id="sign-up-add-image" class="sign-up-add-image"
+							type="file" name="file" accept="image/*" />
+					</sec:authorize>
+				</div>
+				<div class="my-page-user-info-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<div class="my-page-user-name">
+
+							<div>${user.userName }님</div>
+
+
+						</div>
+						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
+						<div class="my-page-user-follow-wrap">
+							<div>
+								<div>팔로워</div>
+								<div>&nbsp;&nbsp;&nbsp;${follower}</div>
+							</div>
+							<div>
+								<div>팔로잉</div>
+								<%-- <div>&nbsp;&nbsp;&nbsp;${following}</div> --%>
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a>
+								</div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="my-page-content-wrap">
+				<nav>
+					<ul>
+						<li class="my-page-nav-item selected">프로필정보</li>
+						<li class="my-page-nav-item">알림함</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+						<li class="my-page-nav-item">관심모임</li>
+						<li class="my-page-nav-item">후기조회</li>
+						<li class="my-page-nav-item">문의조회</li>
+						<li class="my-page-nav-item">광고신청</li>
+					</ul>
+				</nav>
+				<section class="my-page-main-content">
+					<div class="my-page-profile-info">
+						<div class="my-page-form-wrap" id="myPage">
+							<form action="${pageContext.request.contextPath }/update"
+								id="userInfo" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}">
+								<sec:authorize access="isAuthenticated()">
+									<sec:authentication var="user" property="principal" />
+									<div class="my-profile-form-item">
+										<label for="id" class="my-profile-form-label">아이디</label>
+										<div class="my-profile-form-input-wrap">
+											<input id="id" class="my-page-form-input" name="userId"
+												value="${user.userId }" readonly="readonly" />
+										</div>
 									</div>
-      
-                           	 	</c:otherwise>
-                           	 </c:choose>	
-                            
-                            
-                        </div>
-                        <div class="my-profile-button-wrap">
-                            <button type="button" id="updateBtn" class="my-page-button">수정하기</button>
-                        </div>
-                        </sec:authorize>
-                    </form>
-                </div>
-            </div>
-            
-          </section>
-        </div>
-        </div>
-    </div>
-  
-   <jsp:include page="../../layout/footer.jsp" />
-  </body>
+									<div class="my-profile-form-item">
+										<label for="id" class="my-profile-form-label">이름</label>
+										<div class="my-profile-form-input-wrap">
+											<input id="name" class="my-page-form-input" name="userName"
+												value="${user.userName }" readonly="readonly" />
+										</div>
+									</div>
+									<div class="my-profile-form-item">
+										<label for="password" class="my-profile-form-label">비밀번호</label>
+										<div class="my-profile-form-input-wrap">
+											<input type="password" id="pwd" name="userpwd"
+												class="my-page-form-input" readonly="readonly" />
+										</div>
+									</div>
+									<div class="my-profile-form-item">
+										<label for="" class="my-profile-form-label">전화번호</label>
+										<div class="my-profile-form-input-wrap">
+											<input id="phone" name="userPhone" class="my-page-form-input"
+												value="${user.userPhone}" readonly="readonly" />
+										</div>
+									</div>
+									<div class="my-profile-form-item">
+										<label for="id" class="my-profile-form-label">주소</label>
+										<div class="my-profile-form-input-wrap">
+											<div class="my-page-search-address-wrap ">
+												<input id="postCode" name="userPostCode"
+													class="my-page-search-address-input"
+													value="${user.userPostCode }" readonly="readonly" />
+												<button type="button" class="my-page-button"
+													onclick="execPostCode();" disabled="disabled">우편번호
+													검색</button>
+											</div>
+											<input id="addr" name="userAddr" class="my-page-form-input"
+												value="${user.userAddr }" readonly="readonly" /> <input
+												id="addrDetail" name="userAddrDetail"
+												class="my-page-form-input" value="${user.userAddrDetail }"
+												readonly="readonly" />
+										</div>
+									</div>
+									<div class="my-profile-form-item">
+										<label for="id" class="my-profile-form-label">이메일</label>
+										<div class="my-profile-form-input-wrap">
+											<input id="email" name="userEmail" class="my-page-form-input"
+												value="${user.userEmail }" readonly="readonly" />
+										</div>
+									</div>
+									<div class="my-profile-form-item" id=userAttach>
+
+										<label class="my-profile-form-label">증명서</label>
+										<c:choose>
+											<c:when test="${empty requestScope.attachList }">
+
+												<div class="my-profile-form-input-wrap" id="certAdd">
+													<div class="my-profile-certificate-wrap">
+														<input id="attachSubject"
+															class="my-profile-certificate-input"
+															name="newFileSubject[]" readonly="readonly" /> <input
+															id="attachFile" class="my-profile-certificate-input"
+															name="userAttachmentsFileName" readonly="readonly" /> <label
+															for="certificate-add-file"
+															class="certificate-file-button"> 파일 첨부 </label> <input
+															id="certificate-add-file" class="certificate-file-input"
+															name="newFilesList[]" type="file" />
+														<div class="certificate-add-button">+</div>
+														<button type="button" class="certificate-delete-button">-</button>
+													</div>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div class="my-profile-form-input-wrap" id="certAdd">
+													<c:forEach var="attach" items="${attachList}">
+
+														<div class="my-profile-certificate-wrap">
+															<input id="id" class="my-profile-certificate-input"
+																value="${attach.userAttachmentsFileSubject}"
+																name="fileSubject[]" readonly="readonly" /> <a
+																href="${pageContext.request.contextPath}/down?fileName=${attach.userAttachmentsFileName}">
+																<input id="id" class="my-profile-certificate-input"
+																src="${attach.userAttachmentsFileName}"
+																value="${attach.userAttachmentsFileName}"
+																name="userAttachmentsFileName" readonly="readonly" />
+															</a> <label for="certificate-add-file"
+																class="certificate-file-button"> 파일 첨부 </label> <input
+																id="certificate-add-file" class="certificate-file-input"
+																type="file" name="filesList[]" />
+															<div class="certificate-add-button">+</div>
+															<button type="button" class="certificate-delete-button"
+																id=${attach.userAttachmentsFileNo} >-</button>
+														</div>
+
+
+													</c:forEach>
+												</div>
+
+											</c:otherwise>
+										</c:choose>
+
+
+									</div>
+									<div class="my-profile-button-wrap">
+										<button type="button" id="updateBtn" class="my-page-button">수정하기</button>
+									</div>
+								</sec:authorize>
+							</form>
+						</div>
+					</div>
+
+				</section>
+			</div>
+		</div>
+	</div>
+
+	 <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+</body>
 </html>

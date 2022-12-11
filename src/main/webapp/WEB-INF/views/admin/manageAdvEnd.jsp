@@ -15,8 +15,9 @@
      <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
      <link href="${pageContext.request.contextPath}/css/admin/footer.css" rel="stylesheet" />
   <body>
+   <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
-     <jsp:include page="../layout/header.jsp" />
+    
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu">

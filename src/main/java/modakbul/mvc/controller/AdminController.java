@@ -172,6 +172,28 @@ public class AdminController {
 				 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
 				 * return "admin/manageGather"; }
 				 */
+	
+//	/**
+//	 * 유료모임 승인 리스트
+//	 * */
+//	@RequestMapping("/manageGather")
+//	public void selectGatherState(Model model) {
+//		// 광고 리스트
+//				List<Gather> selectGatherState = adminService.selectGatherState();
+//
+//				model.addAttribute("selectGatherState", selectGatherState);
+//	}
+//	
+	/**
+	 * 유료모임 승인 업데이트
+	 * */
+	@RequestMapping("/updateGather")
+	public String updateGather(Long gatherNo, Gather gather) {
+		
+		adminService.updateGather(gather, gatherNo);
+		gather.setGatherState("모집중");
+		return "admin/manageGather";
+	}
 
 	/**
 	 * 광고 등록폼

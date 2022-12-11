@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="kr">
   <head>
@@ -13,8 +14,9 @@
      <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
     
   <body>
+  <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
-    <jsp:include page="../layout/header.jsp" />
+    
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu navigation-selected">
@@ -58,12 +60,16 @@
 					
 					<c:when test="${!empty requestScope.indivList}">
 						<c:forEach var="indiv" items="${indivList.content}">
+						<jsp:useBean id="now" class="java.util.Date"/>
+						<fmt:formatDate value="${now }" pattern="yyyy" var="year"/>
+						<fmt:formatDate value="${userValidateNo }" pattern="yyyy-mm-dd" var="birth"/>
 						<tr>
 							<td>${indiv.userNo}</td>
 							<td>${indiv.userId }</td>
 							<td>${indiv.userNick }</td>
 							<td>${indiv.userGender }</td>
-							<td>111</td>
+		<%-- 	- ${} --%>
+							<td>${birth} </td>
 							<td>${indiv.userEmail }</td>
 							<td>${indiv.userJob }</td>
 							<td>${indiv.followerList.size() }</td>

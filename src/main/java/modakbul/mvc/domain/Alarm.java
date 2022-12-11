@@ -39,5 +39,5 @@ public class Alarm {
 	private String alarmContent;
 	@CreationTimestamp
 	private LocalDateTime issueDate;
-	
+	                                                                                                                                                                                                                                                                                                                                                            
 }
