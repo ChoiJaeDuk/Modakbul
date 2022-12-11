@@ -30,7 +30,7 @@ import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.UsersService;
 
 @Controller
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
@@ -47,13 +47,11 @@ public class AdminController {
 	Gather gather = new Gather(7L);
 
 	Users userTest = new Users().builder().userNo(2L).build();
-	
 
-	
 	/**
 	 * 유저 페이지
 	 */
-	@RequestMapping("/userList")
+	@RequestMapping("/admin/userList")
 	public void userList(Long userNo, Model model, @RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달
 																									// // nowPage 페이지 넘버
 																									// 받기
@@ -122,10 +120,11 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/manageAdvAll")
-	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model) {// model : view로 전달 // nowPage 페이지 넘버 받기
-		Pageable page = PageRequest.of(nowPage-1, PAGE_COUNT, Direction.ASC, "advertisementNo");
-		
+	@RequestMapping("/admin/manageAdvAll")
+	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model) {// model : view로 전달 // nowPage 페이지
+																					// 넘버 받기
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
+
 		Page<Advertisement> advAll = adminService.selectAd(page, null);
 		Page<Advertisement> advRegis = adminService.selectAd(page, "신청대기");
 		Page<Advertisement> advIng = adminService.selectAd(page, "광고중");
@@ -133,10 +132,10 @@ public class AdminController {
 		List<Advertisement> selectByStatus1 = adminService.selectByStatus1();
 		List<Advertisement> selectByStatus2 = adminService.selectByStatus2();
 		List<Advertisement> selectByStatus3 = adminService.selectByStatus3();
-		
-		int temp = (nowPage-1)%BLOCK_COUNT;
-		int startPage = nowPage-temp;
-		
+
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+		int startPage = nowPage - temp;
+
 		model.addAttribute("advAll", advAll);
 		model.addAttribute("advRegis", advRegis);
 		model.addAttribute("advIng", advIng);
@@ -144,17 +143,37 @@ public class AdminController {
 		model.addAttribute("selectByStatus1", selectByStatus1);
 		model.addAttribute("selectByStatus2", selectByStatus2);
 		model.addAttribute("selectByStatus3", selectByStatus3);
-		
+
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-		
+
 		model.addAttribute("countAdvAll", advAll.getTotalElements());
 		model.addAttribute("countAdvRegis", advRegis.getTotalElements());
 		model.addAttribute("countAdvIng", advIng.getTotalElements());
 		model.addAttribute("countAdvEnd", advEnd.getTotalElements());
 
 	}
+
+	/*	*//**
+			 * 유료모임 승인 리스트
+			 *//*
+				 * @RequestMapping("/admin/manageGather") public void selectGatherState(Model
+				 * model) { // 광고 리스트 List<Gather> selectGatherState =
+				 * adminService.selectGatherState();
+				 * 
+				 * model.addAttribute("selectGatherState", selectGatherState); }
+				 */
+
+	/*	*//**
+			 * 유료모임 승인 업데이트
+			 *//*
+				 * @RequestMapping("/admin/updateGather") public String updateGather(Long
+				 * gatherNo, Gather gather) {
+				 * 
+				 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
+				 * return "admin/manageGather"; }
+				 */
 	
 	
 	
@@ -183,44 +202,42 @@ public class AdminController {
 	/**
 	 * 광고 등록폼
 	 */
-	@RequestMapping("/adUploadForm")
+	@RequestMapping("/admin/adUploadForm")
 	public void adUploadForm() {
 	}
 
 	/**
 	 * 업로드
 	 */
-	@RequestMapping("/advertisementInsert")
+	@RequestMapping("/admin/advertisementInsert")
 	public String advertisementInsert(Advertisement advertisement, HttpSession session, MultipartFile file) {
-		
+
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
 
-		
 		try {
 			file.transferTo(new File(saveDir + "/" + originalFileName));
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-		
+
 		advertisement.setAdvertisementNo(0L);
 		advertisement.setAdApproveDate(advertisement.getAdApproveDate());
 		advertisement.setAdRegisDate(LocalDateTime.now());
 		advertisement.setAdStatus("광고신청");
-		advertisement.setGather(gather); 
+		advertisement.setGather(gather);
 		advertisement.setUser(userTest);
 		advertisement.setAdFileName(originalFileName);
 
 		adminService.advertisementInsert(advertisement);
-		
+
 		return "index";
 	}
-
 
 	/**
 	 * 광고 등록
 	 */
-	@RequestMapping("/insert")
+	@RequestMapping("/admin/insert")
 	public String advertisementInsert(Advertisement advertisement) {
 
 		adminService.advertisementInsert(advertisement);
@@ -231,7 +248,7 @@ public class AdminController {
 	/**
 	 * 광고 상태 변경
 	 */
-	@RequestMapping("/statusUpdate")
+	@RequestMapping("/admin/statusUpdate")
 	public String statusUpdate(Advertisement advertisement) {
 
 		adminService.statusUpdate(advertisement);
@@ -261,7 +278,7 @@ public class AdminController {
 	/**
 	 * 월별 유저 증가수 차트
 	 */
-	@RequestMapping("/userChart")
+	@RequestMapping("/admin/userChart")
 	public void selectMonthCountUser(Users users, Model model) {
 
 		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
@@ -272,7 +289,7 @@ public class AdminController {
 	/**
 	 * 카테고리별 모임 개수 차트
 	 */
-	@RequestMapping("/categoryGatherChart")
+	@RequestMapping("/admin/categoryGatherChart")
 	public void selectCategoryCount(Gather gather, Model model) {
 
 		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
@@ -283,7 +300,7 @@ public class AdminController {
 	/**
 	 * 광고 매출 차트
 	 */
-	@RequestMapping("/manageSales")
+	@RequestMapping("/admin/manageSales")
 	public void chart(Advertisement advertisement, Model model) {
 
 		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
@@ -291,17 +308,11 @@ public class AdminController {
 		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
 
 	}
-	
+
 	/**
-	 * 마이페이지2 광고 
-	 * */
-	@RequestMapping("/myPage-ad/myPageAd")
-	public void myPageAd() {}
-	
-	
-	
-
-
-	
-
+	 * 마이페이지2 광고
+	 */
+	//@RequestMapping("/my_page/gatherAD/adApplication")
+	public void adApplication() {
+	}
 }
