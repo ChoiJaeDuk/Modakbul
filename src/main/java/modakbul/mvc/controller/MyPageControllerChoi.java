@@ -29,7 +29,7 @@ public class MyPageControllerChoi {
 	private final GatherAttachmentsService gatherAttachmentsService;
 	private final ParticipantService participantService;
 	
-	private final static int PAGE_COUNT=5;
+	private final static int PAGE_COUNT=2;
 	private final static int BLOCK_COUNT=4;
 	
 	@RequestMapping("/gatherAD/{url}")
@@ -50,7 +50,7 @@ public class MyPageControllerChoi {
 		
 ;
 		model.addAttribute("applicationList", applicationList);
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -69,7 +69,7 @@ public class MyPageControllerChoi {
 		int startPage= nowPage-temp;
 	
 		model.addAttribute("upcomingList", upcomingList);
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -91,7 +91,7 @@ public class MyPageControllerChoi {
 
 		model.addAttribute("participationList", participationList);
 
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -111,7 +111,7 @@ public class MyPageControllerChoi {
 
 		model.addAttribute("waitingList", waitingList);
 
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -129,7 +129,7 @@ public class MyPageControllerChoi {
 		Page<GatherGroupBy> recruitingList = gatherService.selectRecruitingList(pageable, userNo);
 		
 		model.addAttribute("recruitingList", recruitingList);
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -149,7 +149,7 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("completionList", completionList);
 
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 
@@ -207,7 +207,7 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("adApplicationList", adApplicationList);
 		
-		model.addAttribute("blcokCount", BLOCK_COUNT);
+		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 	}
