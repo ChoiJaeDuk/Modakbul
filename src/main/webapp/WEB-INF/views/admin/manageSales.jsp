@@ -18,8 +18,9 @@
    	<link href="${pageContext.request.contextPath}/css/admin/adminSales.css" rel="stylesheet" />
   </head>
   <body>
+  <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
-     <jsp:include page="../layout/header.jsp" />
+     
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu">
@@ -93,8 +94,9 @@ $(function(){
       datasets: [{ 
           data: adCount,
           label: "광고수",
-          borderColor: "#3e95cd",
-          fill: false,
+          borderColor: "#f37c1b",
+          fill: true,
+          backgroundColor: "f37c1b",         
           borderWidth: 3
         }, {
         type: 'line',

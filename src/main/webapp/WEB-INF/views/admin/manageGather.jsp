@@ -188,10 +188,12 @@
  </head>
  
    <body>
+
  
    <jsp:include page="../layout/header.jsp" /> 
     <div id="modakbul-outer-wrapper">
     
+
       <div id="modakbul-inner-wrapper" class="flex">
         <nav class="modakbul-navigation">
           <div class="modakbul-navigation-menu">

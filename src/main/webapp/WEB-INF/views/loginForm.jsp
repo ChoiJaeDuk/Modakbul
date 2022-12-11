@@ -11,8 +11,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/loginForm/index.css" rel="stylesheet" />
-   
+     <link href="${pageContext.request.contextPath}/css/loginForm/index.css" rel="stylesheet" />
+ 
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript">
@@ -99,9 +99,10 @@
     
   </head>
   <body>
-  <div>
-  <jsp:include page="layout/header.jsp" />
-  </div>
+
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+
+  
     <div id="wrap">
       <main class="login-wrap">
         <div class="login-logo-wrap">
@@ -195,6 +196,6 @@
         </div>
       </div>
     </div>
- <jsp:include page="layout/footer.jsp" />
+ <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>
