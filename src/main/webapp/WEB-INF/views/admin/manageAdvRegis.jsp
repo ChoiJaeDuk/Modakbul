@@ -14,6 +14,64 @@
     <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+  <script type="text/javascript">
+  	$(function(){
+  		$(".button-agree").click(function(){
+  			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/admin/updateAdGather",
+				dataType:"text",
+				data: "${_csrf.parameterName}=${_csrf.token}&status=광고중&advertisementNo="+$(this).attr("id")			
+				success:function(result){
+					alert(result);
+					console.log(result)
+					
+						$("#advRegis").load(location.href + " #advRegis");
+						$("#count").load(location.href + " #count");
+						
+						
+	   					
+				
+				},//function
+				error:function(error){
+					console.log(error)
+				}
+				
+			});//ajax
+  		})
+  		
+  		
+  		$(".button-deny").click(function(){
+  			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/admin/updateAdGather",
+				dataType:"text",
+				data: "${_csrf.parameterName}=${_csrf.token}&status=승인거절&advertisementNo="+$(this).attr("id")				
+				success:function(result){
+					alert(result)
+					console.log(result)
+					
+						$("#advRegis").load(location.href + " #advRegis");
+						$("#count").load(location.href + " #count");
+						
+						
+	   					
+				
+				},//function
+				error:function(error){
+					console.log(error)
+				}
+				
+			});//ajax
+  		})
+  	})
+  	
+  	
+  	
+  
+  
+  </script>
   <body>
     <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
@@ -33,14 +91,14 @@
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
           </div>
         </nav>
-        <div class="modakbul-content">
+        <div class="modakbul-content" id="count">
           <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
-			<div class="ad-wrap">
-				<div class="ad">현재 진행중 광고 : 1</div>
+			<%-- <div class="ad-wrap">
+				<div class="ad">현재 진행중 광고 : ${fn:length(selectByStatus1)}</div>
 				<div class="ad">현재 신청대기 광고 : 1</div>
 				<div class="ad">종료된 광고 : 1</div>
-			</div>
+			</div> --%>
 	
 			<div class="nav-wrap">
 				<div id="nav1"><a href="${pageContext.request.contextPath}/admin/manageAdvAll">전체</a></div>
@@ -71,14 +129,14 @@
 							<td>${adv.user.userJob}</td>
 							<td>${fn:substring(adv.adRegisDate,0,10)}</td>
 							<td>
-							<form action="${pageContext.request.contextPath}/admin/updateAdGather" method="post">
+							<%-- <form action="${pageContext.request.contextPath}/admin/updateAdGather" method="post"> --%>
                 			<div class="modakbul-charged-grid-col">
-                			<button type="submit" class="modakbul-button button-agree" id="${adv.gather.gatherNo}" name="${adv.gather.gatherNo}">승인하기</button>
-                			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							<input type="hidden" name="${adv.gather.gatherNo}" value="${adv.gather.gatherNo}"/>
-                			<button class="modakbul-button button-deny" value="승인거절">거절하기</button>
+                			<button type="button" class="modakbul-button button-agree" id="${adv.advertisementNo}" name="${adv.gather.gatherNo}">승인하기</button>
+                		<%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<input type="hidden" name="${adv.gather.gatherNo}" value="${adv.gather.gatherNo}"/> --%>
+                			<button class="modakbul-button button-deny" id="${adv.advertisementNo}" >거절하기</button>
               				</div>
-                			</form>
+                			<!-- </form> -->
               				</td>
 							</tr>
 						</c:forEach> 

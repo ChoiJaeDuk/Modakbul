@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import modakbul.mvc.domain.Advertisement;
@@ -122,7 +123,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/{url}")
+	@RequestMapping("/admin/manageAdvRegis")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -160,13 +161,15 @@ public class AdminController {
 
 	}
 	/**
-	 * 광고 승인하기
+	 * 광고 상태변경
 	 * */
+	@ResponseBody
 	@RequestMapping("/admin/updateAdGather")
-	public String updateAdGather(Advertisement advertisement) {
+	public String updateAdGather(Long advertisementNo, String status) {
 		System.out.println("광고 승인");
-		adminService.updateAdGather(advertisement);
-		return "redirect:/admin/manageAdvRegis";
+		adminService.updateAdGather(advertisementNo, status);
+		//return "redirect:/admin/manageAdvRegis";
+		return "광고진행상태가 변경되었습니다.";
 	}
 
 	/*	*//**

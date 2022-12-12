@@ -281,13 +281,15 @@ public class AdminServiceImpl implements AdminService {
 	 * 광고 신청 승인 업데이트 
 	 * */
 	@Override
-	public void updateAdGather(Advertisement advertisement) {
+	public void updateAdGather(Long advertisementNo, String status) {
 		LocalDateTime date = LocalDateTime.now();
 		
-			queryFactory.update(ad).set(ad.adStatus, "광고중").set(ad.adApproveDate, date)
+			//queryFactory.update(ad).set(ad.adStatus, "광고중").set(ad.adApproveDate, date)
 			//.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo()))
-			.where(ad.advertisementNo.eq(advertisement.getAdvertisementNo()))
-			.execute();
+			//.where(ad.advertisementNo.eq(advertisement.getAdvertisementNo()))
+			//.execute();
+		Advertisement dbAdv = adminRep.findById(advertisementNo).orElse(null);
+		dbAdv.setAdStatus(status);
 	}
 	
 	/**

@@ -115,7 +115,7 @@ public interface AdminService {
 	/**
 	 * 광고 승인
 	 * */
-	void updateAdGather(Advertisement advertisement);
+	void updateAdGather(Long advertisementNo, String status);
 	
 	/**
 	 * 모임 신청대기 리스트
