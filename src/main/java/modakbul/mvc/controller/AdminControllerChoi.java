@@ -1,5 +1,7 @@
 package modakbul.mvc.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.UsersGroupBy;
+import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.RegularGatherService;
 import modakbul.mvc.service.UsersService;
@@ -28,6 +33,7 @@ public class AdminControllerChoi {
 	
 	private final UsersService usersService;
 	
+	private final AdminService adminService;
 	
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
@@ -61,19 +67,25 @@ public class AdminControllerChoi {
 	 * */
 
 	@RequestMapping("/manageAll")
-	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model) {
+	public void selectUser(@RequestParam(defaultValue = "1") int nowPage, Model model,Gather gather,Users users) {
 		
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 		Page<Users> userList = usersService.selectUsers(page, null, null);
-	
+		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
+		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
+		List<Gather> gatherList = adminService.selectGatherList();
 
+				
+		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 
 		int startPage = nowPage - temp;
 		
+		model.addAttribute("gatherList", gatherList);
+		model.addAttribute("selectMonthCountUser", selectMonthCountUser);
+		model.addAttribute("selectCategoryCount", selectCategoryCount);
 		model.addAttribute("userList", userList);
-	
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);

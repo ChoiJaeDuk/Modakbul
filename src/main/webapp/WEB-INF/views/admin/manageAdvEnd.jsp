@@ -68,13 +68,13 @@
 						<c:forEach var="adv" items="${advEnd.content}">
 						<tr>
 							<td>${adv.advertisementNo}</td>
-							<td>${adv.gather.gatherImg}</td>
+							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
-							<td>${adv.adApproveDate}</td>
-							<td>${adv.deadLine}</td>
-							<td>예정</td>
+							<td>${fn:substring(adv.adApproveDate,0,10)}</td>
+							<td>${fn:substring(adv.deadLine,0,10)}</td>
+							<td>${fn:substring(adv.deadLine,5,7)-fn:substring(adv.adApproveDate,5,7)}개월</td>
 							<td>${adv.adStatus}</td>
 							</tr>
 						</c:forEach> 
@@ -88,6 +88,11 @@
       </div>
     </div>
     
+    <c:choose>
+	<c:when test="${empty requestScope.advEnd}">
+
+	</c:when>
+	<c:otherwise>
      <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
@@ -114,6 +119,9 @@
 		 </c:if> 
 		</div>
 	</nav>
+	</c:otherwise>
+</c:choose>	
+	
     <jsp:include page="../layout/footer.jsp" />
   </body>
 </html>

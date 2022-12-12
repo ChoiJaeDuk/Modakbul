@@ -215,6 +215,24 @@ public class AdminServiceImpl implements AdminService {
 	public List<Advertisement> selectByStatus3() {
 		return adminRep.selectByStatus3();
 	}
+	
+	/**
+	 * 광고 승인날짜 리스트
+	 * */
+	@Override
+	public String selectApproveDate(Advertisement advertisement) {
+		// TODO Auto-generated method stub
+		return adminRep.selectApproveDate(advertisement);
+	}
+
+	/**
+	 * 광고 데드라인 리스트
+	 * */
+	@Override
+	public String selectDeadLine(Advertisement advertisement) {
+		// TODO Auto-generated method stub
+		return adminRep.selectDeadLine(advertisement);
+	}
 
 	/**
 	 * 광고 매출 차트
@@ -260,14 +278,16 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	/**
-	 * 유료모임 신청 승인 업데이트 
+	 * 광고 신청 승인 업데이트 
 	 * */
 	@Override
-	public void updateGather(Gather gather, Long gatherNo) {
-			/*queryFactory.update(qGather).set(qGather.gatherState, "모집중").where(qGather.gatherNo.eq(gather.getGatherNo())
-					.and(qGather.gatherState.eq("신청대기"))).execute();*/
-		adminRep.updateGather(gatherNo);
+	public void updateAdGather(Advertisement advertisement) {
+		LocalDateTime date = LocalDateTime.now();
 		
+			queryFactory.update(ad).set(ad.adStatus, "광고중").set(ad.adApproveDate, date)
+			//.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo()))
+			.where(ad.advertisementNo.eq(advertisement.getAdvertisementNo()))
+			.execute();
 	}
 	
 	/**
@@ -279,6 +299,20 @@ public class AdminServiceImpl implements AdminService {
 		
 		return gatherList;
 	}
+	
+	/**
+	 * 유료광고 모임 뿌리기
+	 * */
+	@Override
+	public List<Advertisement> selectAdGather() {
+		List<Advertisement> gatherList = queryFactory.selectFrom(ad)
+				.where(ad.gather.gatherState.eq("모집중").and(ad.adStatus.eq("광고중")))
+				.fetch();
+				
+		return gatherList;
+	}
+
+	
 
 
 

@@ -23,7 +23,7 @@ import modakbul.mvc.service.AdminService;
 @Commit
 public class Test {
 
-	Gather gather = new Gather(7L);
+	Gather gather = new Gather(6L);
 
 	Users userTest = new Users().builder().userNo(2L).build();
 	
@@ -55,7 +55,7 @@ public class Test {
 		LocalDateTime date = LocalDateTime.now();
 		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 6, 18, 15);
 		
-		Advertisement advertisement = new Advertisement(141L,userTest,gather,"광고중",date,null,deadLine,"test7.jpg",50000);
+		Advertisement advertisement = new Advertisement(0L,userTest,gather,"신청대기",date,null,deadLine,"test7.jpg",50000);
 		advertisementRep.save(advertisement);
 
 	}
@@ -142,7 +142,7 @@ public class Test {
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectAdGather() {
-		List<Advertisement> list = advertisementRep.selectAdGather();
+		List<Advertisement> list = adminService.selectAdGather();
 		/*for(Advertisement b :list) {
 			System.out.println(b);
 		}*/

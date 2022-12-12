@@ -30,7 +30,7 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * */
 	
 	@Query(value = "select * from gather left join advertisement on advertisement.gather_no = gather.gather_no where ad_status = '광고중' and gather.gather_state = '모집중' ORDER by advertisement.gather_no asc", nativeQuery = true)
-	List<Advertisement> selectAdGather();
+	List<Gather> selectAdGather();
 	
 	
 	/**
@@ -73,4 +73,16 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * */
 	@Query(value = "select distinct category_no as category , count(gather_no) as gatherCount from gather group by category_no order by category_no", nativeQuery = true)
 	List<GatherGroupBy> selectCategoryCount();
+	
+	/**
+	 * 광고 승인날짜 리스트
+	 * */
+	@Query(value = "select TO_CHAR(ad_approve_date,'mm') as month from advertisement order by TO_CHAR(ad_approve_date,'mm')", nativeQuery = true)
+	String selectApproveDate(Advertisement advertisement);
+	
+	/**
+	 * 광고 데드라인 리스트
+	 * */
+	@Query(value = "select TO_CHAR(dead_line,'mm') as month from advertisement order by TO_CHAR(dead_line,'mm')", nativeQuery = true)
+	String selectDeadLine(Advertisement advertisement);
 }

@@ -27,6 +27,7 @@ import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
+import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.UsersService;
 
 @Controller
@@ -39,7 +40,8 @@ public class AdminController {
 	private FollowService followService;
 	@Autowired
 	private AdminRepository adminRepository;
-
+	@Autowired
+	private GatherService gatherService;
 
 	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
@@ -120,8 +122,8 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/manageAdvAll")
-	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model) {// model : view로 전달 // nowPage 페이지
+	@RequestMapping("/admin/{url}")
+	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
 
@@ -132,7 +134,9 @@ public class AdminController {
 		List<Advertisement> selectByStatus1 = adminService.selectByStatus1();
 		List<Advertisement> selectByStatus2 = adminService.selectByStatus2();
 		List<Advertisement> selectByStatus3 = adminService.selectByStatus3();
-
+		
+		
+		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 		int startPage = nowPage - temp;
 
@@ -144,6 +148,7 @@ public class AdminController {
 		model.addAttribute("selectByStatus2", selectByStatus2);
 		model.addAttribute("selectByStatus3", selectByStatus3);
 
+
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
@@ -153,6 +158,15 @@ public class AdminController {
 		model.addAttribute("countAdvIng", advIng.getTotalElements());
 		model.addAttribute("countAdvEnd", advEnd.getTotalElements());
 
+	}
+	/**
+	 * 광고 승인하기
+	 * */
+	@RequestMapping("/admin/updateAdGather")
+	public String updateAdGather(Advertisement advertisement) {
+		System.out.println("광고 승인");
+		adminService.updateAdGather(advertisement);
+		return "redirect:/admin/manageAdvRegis";
 	}
 
 	/*	*//**
@@ -191,13 +205,13 @@ public class AdminController {
 	/**
 	 * 유료모임 승인 업데이트
 	 * */
-	@RequestMapping("/updateGather")
-	public String updateGather(Long gatherNo, Gather gather) {
-		
-		adminService.updateGather(gather, gatherNo);
-		gather.setGatherState("모집중");
-		return "admin/manageGather";
-	}
+	/*
+	 * @RequestMapping("/updateGather") public String updateGather(Long gatherNo,
+	 * Gather gather) {
+	 * 
+	 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
+	 * return "admin/manageGather"; }
+	 */
 
 	/**
 	 * 광고 등록폼
@@ -289,7 +303,7 @@ public class AdminController {
 	/**
 	 * 카테고리별 모임 개수 차트
 	 */
-	@RequestMapping("/admin/categoryGatherChart")
+	@RequestMapping("/admin/manageAll2")
 	public void selectCategoryCount(Gather gather, Model model) {
 
 		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
@@ -298,14 +312,16 @@ public class AdminController {
 	}
 
 	/**
-	 * 광고 매출 차트
+	 * 모임 ,광고 매출 차트
 	 */
 	@RequestMapping("/admin/manageSales")
 	public void chart(Advertisement advertisement, Model model) {
 
 		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
-
+		List<GatherGroupBy> selectBidTotal = gatherService.selectBidTotal("2022");
+		
 		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
+		model.addAttribute("selectBidTotal", selectBidTotal);
 
 	}
 

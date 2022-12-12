@@ -40,29 +40,78 @@
           <!-- 여기에 내용 넣으면 됨. -->
 
           <div class="modakbul-sales-data">
-            <div class="modakbul-sales-data-graph"></div>
+            <div class="modakbul-sales-data-graph">
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+			<canvas id="myChart" width="600" height="500"></canvas>
+            <script type="text/javascript">
+            
+            $(function(){
+            	
+            	let getGatherMonth = [];
+        		let getTotal = [];
+        		
+        		<c:forEach items="${selectBidTotal}" var="list">
+					var month = '${list.getGatherMonth()}';
+					var Total = '${list.getTotal()}';
+                   
+                   
+					getGatherMonth.push(month);
+					getTotal.push(Total);
+                   
+                   
+               </c:forEach>
+        		var context = document
+                .getElementById('myChart')
+                .getContext('2d');
+        		
+        		var myChart = new Chart(context,{
+            type: 'bar',
+            data: {
+              labels: getGatherMonth,
+              datasets: [{ 
+                  data: getTotal,
+                  label: "모임 수익",
+                  borderColor: "#3e95cd",
+                  fill: false,
+                  borderWidth: 3
+                }
+              ]
+            },
+            options: {
+            responsive: false,
+              title: {
+                display: true,
+                text: 'World population per region (in millions)',
+              }
+            }
+          })
+
+
+        })
+            
+            </script>
+            
+            </div>
             <table class="modakbul-sales-data-table">
               <tr class="table-header">
                 <td>월</td>
                 <td>매출</td>
                 <td>수수료(수익)</td>
               </tr>
-              <tr>
-                <td>1</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td></td>
-                <td></td>
-              </tr>
+			<c:forEach items="${requestScope.selectBidTotal}" var="data">
+				<tr align="center"><!-- 첫번째 줄 시작 -->
+	    			<td>${data.getGatherMonth()}</td>
+	    			<td><fmt:formatNumber type="number" value="${data.getTotal()}" maxFractionDigits="3"/>원</td>
+	    			<td><fmt:formatNumber type="number" value="${data.getTotal()/10}" maxFractionDigits="3"/>원</td>
+				</tr><!-- 첫번째 줄 끝 -->
+			</c:forEach>
             </table>
           </div>
           <div class="modakbul-sales-data">
             <div class="modakbul-sales-data-graph">
             <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-			<canvas id="myChart" width="600" height="500"></canvas>
+			<canvas id="myChart2" width="600" height="500"></canvas>
             <script type="text/javascript">
 $(function(){
 	
@@ -84,7 +133,7 @@ $(function(){
 		
 		
 		var context = document
-        .getElementById('myChart')
+        .getElementById('myChart2')
         .getContext('2d');
 		
 		var myChart = new Chart(context,{
@@ -138,7 +187,6 @@ $(function(){
 	</c:forEach>
 
 	</table>
-	
           </div>
           <!-- 여기까지 Content -->
         </div>
