@@ -35,6 +35,10 @@ public class MyPageControllerChoi {
 	
 	private final static int PAGE_COUNT=2;
 	private final static int BLOCK_COUNT=4;
+	@RequestMapping("/{url}")
+	public void aa() {
+		
+	}
 	
 	@RequestMapping("/gatherAD/{url}")
 	public void url() {}
