@@ -15,7 +15,7 @@ $(document).ready(function(){
 		// 토글
 		$(document).ajaxSend(function(e,xht,op){
          xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
-      });
+      	});
 		
 		$(document).on('click', 'button[type=button]',function(){
 			

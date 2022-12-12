@@ -24,6 +24,7 @@ import modakbul.mvc.repository.AlarmReceiverRepository;
 import modakbul.mvc.repository.AlarmRepository;
 import modakbul.mvc.repository.FollowRepository;
 import modakbul.mvc.repository.LikeGatherRepository;
+import modakbul.mvc.service.LikeGatherService;
 
 @SpringBootTest
 @Commit
@@ -39,6 +40,9 @@ public class Test {
 
 	@Autowired
 	private LikeGatherRepository like;
+	
+	@Autowired
+	private LikeGatherService lgService;
 
 	@org.junit.jupiter.api.Test
 	public void insertFollow() {
@@ -86,8 +90,15 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	public void inserLike() {
-		for (Long i = 5L; i <= 6L; i++) {
-			like.save(LikeGather.builder().gather(new Gather(i)).user(new Users(6L)).build());
+		/*for (Long i = 5L; i <= 6L; i++) {
+			like.save(LikeGather.builder().gather(new Gather(i)).user(new Users(9L)).build());
+		}*/
+		LikeGather lg = LikeGather.builder().gather(new Gather(10L)).user(new Users(8L)).build();
+		try {
+			lgService.insert(lg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

@@ -27,15 +27,21 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public void insert(Follow follow) {
+	public String insert(Follow follow) {
 		Follow resultFollow = followRep.save(follow);
 		System.out.println("resultFollow = " + resultFollow);
+		
+		return "ok";
 
 	}
 
 	@Override
-	public void delete(Long followNo) {
-		followRep.deleteById(followNo);
+	public String delete(Long follower, Long follwing) {
+		Follow f = followRep.searchFollowing(follower, follower);
+		
+		followRep.deleteById(f.getFollowNo());
+		
+		return "ok";
 
 	}
 
