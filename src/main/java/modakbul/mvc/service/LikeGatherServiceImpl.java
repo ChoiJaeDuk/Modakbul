@@ -23,6 +23,7 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	
 	private final JPAQueryFactory queryfactory;
 	private final LikeGatherRepository likeGatherRep;
+	private final GatherService gatherService;
 
 	@Override
 	public List<LikeGather> selectAll() {
@@ -42,6 +43,8 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 		if(dbLg != null)return "fail";
 		
 		LikeGather resultLikeGather = likeGatherRep.save(likeGather);
+		
+		gatherService.updateLikeCount(likeGather.getGather().getGatherNo());
 		
 		if(resultLikeGather == null) {
 			System.out.println("인서트 오류");

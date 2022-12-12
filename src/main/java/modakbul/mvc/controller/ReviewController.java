@@ -1,6 +1,9 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,9 +46,13 @@ public class ReviewController {
 	private FollowService followService;
 	
 	@RequestMapping("/my_page/my_page_review")
-	public ModelAndView reviewStatus(Long userNo,@RequestParam(defaultValue = "1") int nowPage) {
-		ModelAndView mv= new ModelAndView();
-		 
+	public ModelAndView reviewStatus(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
+		  ModelAndView mv= new ModelAndView();
+		  String path = session.getServletContext().getRealPath("/save");
+			File file = new File(path);
+
+			String fileNames [] = file.list();
+		  
 		  Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, false,pageable);
 		  List <Gather> confrimSize=page.getContent();
@@ -66,15 +73,20 @@ public class ReviewController {
 		  mv.addObject("blockCount", BLOCK_COUNT); 
 		  mv.addObject("startPage", startPage);
 		  mv.addObject("nowPage", nowPage);
+		  mv.addObject("fileNames", fileNames);
 		 
 		  
 		  System.out.println(page.getSize());
 		  return mv; 
 		  }
 	@RequestMapping("/my_page/my_page_review/complete")
-	public ModelAndView reviewStatusComplete(Long userNo,@RequestParam(defaultValue = "1") int nowPage) {
+	public ModelAndView reviewStatusComplete(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		ModelAndView mv= new ModelAndView();
-		 
+		 String path = session.getServletContext().getRealPath("/save");
+			File file = new File(path);
+
+			String fileNames [] = file.list();
+		  
 		  Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, true,pageable);
 		  List <Gather> confrimSize=page.getContent();
@@ -93,7 +105,7 @@ public class ReviewController {
 		  mv.addObject("follower", follower.size());
 		  mv.addObject("following", following.size());
 		  
-		  
+		  mv.addObject("fileNames", fileNames);
 		  mv.addObject("blockCount", BLOCK_COUNT); 
 		  mv.addObject("startPage", startPage);
 		  mv.addObject("nowPage", nowPage);

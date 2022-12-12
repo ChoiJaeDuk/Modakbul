@@ -28,7 +28,7 @@ import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.LikeGatherService;
 
 @Controller
-@RequestMapping("/likeGather")
+//@RequestMapping("/likeGather")
 public class LikeGatherController {
 
 	@Autowired
@@ -44,7 +44,7 @@ public class LikeGatherController {
 	/**
 	 * 유저별 관심모임 목록
 	 */
-	@RequestMapping("/myLikeGather")
+	@RequestMapping("/my_page/likeGather/myLikeGather")
 	public ModelAndView myLike(Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
 		System.out.println("누구의 관심목록 ? " + userNo);
 
@@ -79,7 +79,7 @@ public class LikeGatherController {
 	/**
 	 * 등록
 	 */
-	@RequestMapping("/insert")
+	@RequestMapping("/likeGather/insert")
 	@ResponseBody
 	public String insert(@RequestBody Map<String, Object> result) {
 //		System.out.println("온거니?");
@@ -109,7 +109,7 @@ public class LikeGatherController {
 	/**
 	 * 삭제 - 토글
 	 */
-	@RequestMapping("/delete")
+	@RequestMapping("/likeGather/delete")
 	@ResponseBody
 	public String delete(@RequestBody Map<String, Object> result) {
 //		for (String m:result.keySet()) {
@@ -126,7 +126,7 @@ public class LikeGatherController {
 	/**
 	 * 삭제 - 버튼
 	 */
-	@RequestMapping("/deleteButton")
+	@RequestMapping("/likeGather/deleteButton")
 	@ResponseBody
 	public String delete(Long gatherNo, Long userNo) {
 		//long userNo = (long)Integer.parseInt((String) result.get("userNo"));		  
@@ -134,7 +134,7 @@ public class LikeGatherController {
 		
 		likeGatherService.delete(gatherNo, userNo);
 
-		return "redirect:/likeGather/myLikeGather?userNo="+userNo;
+		return "redirect:/my_page/likeGather/myLikeGather?userNo="+userNo;
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ public class LikeGatherController {
 	/**
 	 * GatherList
 	 */
-	@RequestMapping("/gatherList")
+	@RequestMapping("/likeGather/gatherList")
 	public ModelAndView gatherList(@RequestParam(defaultValue = "1") int nowPage) {
 
 		
