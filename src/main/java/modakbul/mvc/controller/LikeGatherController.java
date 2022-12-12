@@ -1,7 +1,10 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,10 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 import modakbul.mvc.domain.AlarmReceiver;
+import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.domain.LikeGather;
+import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.LikeGatherService;
 
@@ -33,6 +38,9 @@ public class LikeGatherController {
 
 	@Autowired
 	private LikeGatherService likeGatherService;
+	
+	@Autowired
+	private FollowService followService;
 
 	@Autowired
 	private GatherService gs;
@@ -45,9 +53,12 @@ public class LikeGatherController {
 	 * 유저별 관심모임 목록
 	 */
 	@RequestMapping("/my_page/likeGather/myLikeGather")
-	public ModelAndView myLike(Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
+	public ModelAndView myLike(Long userNo, @RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		System.out.println("누구의 관심목록 ? " + userNo);
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
 
+		String fileNames [] = file.list();
 		/*List<LikeGather> like = likeGatherService.selectById(userNo);
 
 		if (like.isEmpty() || like.size() == 0) {
@@ -57,6 +68,8 @@ public class LikeGatherController {
 		mv.addObject("myList", like);
 		mv.addObject("userNo", userNo);
 		mv.setViewName("my_page/likeGather/myPage-likeGather");*/
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 		
 		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ATTENTION_NO");
 		Page<LikeGather> pageList = likeGatherService.selectById(userNo, page);
@@ -73,6 +86,9 @@ public class LikeGatherController {
 		mv.addObject("startPage", startPage);
 		mv.addObject("nowPage", nowPage);
 		
+		mv.addObject("follower", follower.size());
+		mv.addObject("following", following.size());
+		mv.addObject("fileNames", fileNames);
 		return mv;
 	}
 
