@@ -14,6 +14,12 @@
     <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
+    <style type="text/css">
+ a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: rgb(243, 156, 18); text-decoration: underline;}
+</style>
+
   </head>
   <body>
     <div class="wrap">
@@ -21,9 +27,9 @@
         <div class="search-list-body">
           <aside class="search-list-sub-filter">
             <ul class="search-list-filter-type">
-              <li class="search-list-filter-item selected">공지사항</li>
-              <li class="search-list-filter-item">Q&A</li>
-              <li class="search-list-filter-item">자주하는 질문</li>
+          <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</li>
+              <li class="search-list-filter-item"  onclick="location.href='${pageContext.request.contextPath}/question/inqueryQnA'">Q&A</li>
+              <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryFAQ'">자주하는 질문</li>
             </ul>
           </aside>
           <main class="search-list-main">
@@ -58,21 +64,55 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-row">
-                      <td>1</td>
-                      <td>제목</td>
-                      <td>작성자</td>
-                      <td>22.11.13</td>
+                    <c:forEach var="notice" items="${noticeList.content}" varStatus="status">
+                   	<c:set var="TextValue" value="${notice.serviceQuestionDate}" />
+                 	  <tr class="table-row">
+                      <td>${status.count}</td>
+                      <td><a href="${pageContext.request.contextPath}/question/noticeDetail?serviceQuestionNo=${notice.serviceQuestionNo}" >${notice.serviceQuestionSubject}</a></td>
+                      <td>${notice.user.userName}</td>
+                       <td>${fn:substring(TextValue,0,10)}</td> 
                     </tr>
-                    <tr class="table-row">
-                      <td>2</td>
-                      <td>제목</td>
-                      <td>작성자</td>
-                      <td>22.11.13</td>
-                    </tr>
+                   </c:forEach>
+                    
                   </tbody>
                 </table>
               </div>
+              
+              <div style="text-align: center">
+							<!--  블럭당  -->
+							<nav class="pagination-container">
+								<div class="pagination">
+									<c:set var="doneLoop" value="false" />
+
+									<c:if test="${(startPage-blockCount) > 0}">
+										<!-- (-2) > 0  -->
+										<a class="pagination-newer"
+											href="${pageContext.request.contextPath}/board/list?nowPage=${startPage-1}">PREV</a>
+									</c:if>
+
+									<span class="pagination-inner"> <c:forEach var='i'
+											begin='${startPage}' end='${(startPage-1)+blockCount}'>
+
+											<c:if test="${(i-1)>=pageList.getTotalPages()}">
+												<c:set var="doneLoop" value="true" />
+											</c:if>
+
+											<c:if test="${not doneLoop}">
+												<a class="${i==nowPage?'pagination-active':page}"
+													href="${pageContext.request.contextPath}/board/list?nowPage=${i}">${i}</a>
+											</c:if>
+
+										</c:forEach>
+									</span>
+
+									<c:if
+										test="${(startPage+blockCount)<=pageList.getTotalPages()}">
+										<a class="pagination-older"
+											href="${pageContext.request.contextPath}/board/list?nowPage=${startPage+blockCount}">NEXT</a>
+									</c:if>
+								</div>
+							</nav>
+						</div>
             </section>
           </main>
         </div>

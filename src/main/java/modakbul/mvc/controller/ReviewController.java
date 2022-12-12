@@ -97,8 +97,10 @@ public class ReviewController {
 		  mv.addObject("blockCount", BLOCK_COUNT); 
 		  mv.addObject("startPage", startPage);
 		  mv.addObject("nowPage", nowPage);
+		  
 		  System.out.println(confrimSize.size());
-		 
+		  System.out.println(page.getSize());
+		  
 		  return mv; 
 		  
 		  }

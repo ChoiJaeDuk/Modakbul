@@ -88,11 +88,6 @@ public class InquiryController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-		
-		
-		
-		
-		
 	}
 
 }
