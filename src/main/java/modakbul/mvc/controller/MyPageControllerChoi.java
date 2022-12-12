@@ -1,5 +1,9 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,24 +35,28 @@ public class MyPageControllerChoi {
 	
 	private final static int PAGE_COUNT=2;
 	private final static int BLOCK_COUNT=4;
+	@RequestMapping("/{url}")
+	public void aa() {
+		
+	}
 	
 	@RequestMapping("/gatherAD/{url}")
 	public void url() {}
 	
 	@RequestMapping("/gatherSelect/applicationList")
-	public void selectApplicationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-	
+	public void selectApplicationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
 		Page<Gather> applicationList = participantService.selectApplicationStateByUserNo(userNo, "신청대기", pageable);
-		
-		
+		File file = new File(path);
+		String fileNames [] = file.list();
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-;
+		model.addAttribute("fileNames", fileNames);
 		model.addAttribute("applicationList", applicationList);
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 

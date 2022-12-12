@@ -72,14 +72,17 @@ public class GatherTest {
 	
 	@Test
 	void gatherInsert() {
-		RegularGather regularGather = new RegularGather(1L);
+		RegularGather regularGather = new RegularGather(0L);
 		LocalDateTime deadLine = LocalDateTime.of(2022, 12, 9, 16, 34);
-		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 9, 16, 50);
+		LocalDateTime gatherDate = LocalDateTime.of(2022, 12, 9, 17, 00);
 		
-		Gather gather = new Gather(13L, category, user, regularGather, "알람테스트 입니다.", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2, "경기도 성남시 오리역", "6층 코스타", "참가자 상태업데이트 테스트", "모집중", null , 5000, null, 0);
-		//em.merge(gather);
-		gatherService.insertGather(gather);
+		Gather gather = new Gather(0L, category, user, null, "수수료 매출 그래프 테스트", 2, 6, "남녀모두", 20, 35, gatherDate, deadLine, 2
+				, "경기도 성남시 오리역", "6층 코스타", "수수료 매출 그래프 테스트", "진행완료", null , 25000, null, 0);
 		
+		
+		for(int i=0;i<5;i++) {
+			gatherService.insertGather(gather);
+		}
 		//gatherRep.save(gather);
 	}
 	
@@ -347,6 +350,17 @@ public class GatherTest {
 		@Test
 		public void deleteGather() {
 			gatherService.deleteGather(53L);
+		}
+		
+		
+		@Test
+		public void selectBidTotal() {
+			List<GatherGroupBy> result = gatherRep.selectBidTotal("2022");
+			
+			result.forEach(b -> System.out.println(
+					"월: " + b.getGatherMonth() + " / 수익: "+b.getTotal()
+				
+			));
 		}
 }
 

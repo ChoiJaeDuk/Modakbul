@@ -101,19 +101,33 @@ public class UsersAjaxController {
 	}
 	
 	@RequestMapping("update")
-	public String update(Users user,  HttpSession session, @RequestParam(value = "filesList[]" , required =false ) List<MultipartFile> filesList
-			 , @RequestParam(value = "newFileSubject[]", required = false) List<String> userAttachmentsFileSubject) {
-		
-	     System.out.println("userAttachmentsFileSubject = " + userAttachmentsFileSubject.size());
+	public String update(Users user,  HttpSession session, @RequestParam(value = "newFilesList[]" , required =false ) List<MultipartFile> filesList
+			 , @RequestParam(value = "newFileSubject[]", required = false) List<String> userAttachmentsFileSubject
+			, MultipartFile file) {
+		System.out.println("왓냥");
+	
+	    
 		UserAttachments userAttach = new UserAttachments();
-		System.out.println("왓냥 user = " + user);
 		
-		System.out.println("userAttachmentsFileSubject = " + userAttachmentsFileSubject);
+		
+		//System.out.println("userAttachmentsFileSubject = " + userAttachmentsFileSubject);
+		
+		String saveDir = session.getServletContext().getRealPath("/save");
 		
 		Users dbUser = usersService.selectById(user.getUserId());
 		System.out.println("userid = " + user.getUserId());
-		System.out.println("filesList = "+ filesList);
-		
+		System.out.println("user.getUserProfileImg() = "+ user.getUserProfileImg());
+		if(user.getUserProfileImg().length() > 0) {
+			new File((saveDir + "/" + dbUser.getUserProfileImg())).delete();
+			
+			System.out.println("여기와썽 ?");
+			String fileName = file.getOriginalFilename();
+			try {
+				file.transferTo(new File(saveDir + "/" + fileName));
+			}catch (Exception e) {
+				e.getStackTrace();
+			}
+		}
 		user.setUserNo(dbUser.getUserNo());
 		usersService.update(user);
 		System.out.println("햇어 ?");
@@ -124,21 +138,19 @@ public class UsersAjaxController {
                 
         SecurityContextHolder.getContext().setAuthentication(authentication);
  
-        //return new ResponseEntity<>("success", HttpStatus.OK);
-		//userAttachService.update()
-		//System.out.println("사이즈 = " + filesList.size());
-		String saveDir = session.getServletContext().getRealPath("/save");
+      
+		
 		if(filesList !=null) {
 			for(int i = 0; i< filesList.size(); i++) {
 				
-				MultipartFile file = filesList.get(i);
-				String originalFileName = file.getOriginalFilename();
+				MultipartFile fileOne = filesList.get(i);
+				String originalFileName = fileOne.getOriginalFilename();
 				 String subject = userAttachmentsFileSubject.get(i);
 				
 				 System.out.println("파일 = "+ originalFileName+"/");
 				 System.out.println("제목 = " + subject);
 				 try { 
-					 file.transferTo(new File(saveDir + "/" + originalFileName)); 
+					 fileOne.transferTo(new File(saveDir + "/" + originalFileName)); 
 				 }
 				 catch (Exception e) {
 					 
@@ -157,39 +169,7 @@ public class UsersAjaxController {
 		 
 		
 	
-		/*
-		 * //if(originalFileName.length() > 0) { System.out.println("일루안와 ?");
-		 * user.setUserProfileImg(originalFileName); usersService.insert(user); }else {
-		 * System.out.println(user.getUserProfileImg()); usersService.insert(user); }
-		 */
-	
-		/*
-		 * System.out.println("성공"); System.out.println("userId= " + user.getUserId());
-		 * System.out.println("userId= " + user.getUserEmail());
-		 * 
-		 * 
-		 * 
-		 * System.out.println("사이즈 + " + filesList.size()); if(filesList.size()>0) {
-		 * for(int i = 0; i<filesList.size(); i++) {
-		 * 
-		 * System.out.println("여기를안와?");
-		 * 
-		 * MultipartFile file = filesList.get(i);
-		 * 
-		 * String subject = userAttachmentsFileSubject.get(i); String originalFileName =
-		 * file.getOriginalFilename();
-		 * 
-		 * if(file.getOriginalFilename().length()>0) { try { System.out.println("업로드");
-		 * file.transferTo(new File(saveDir + "/" + originalFileName)); }catch(Exception
-		 * e) { e.getStackTrace(); System.out.println("안된거야"); }
-		 * 
-		 * userAttach.setUser(Users.builder().userNo(dbUser.getUserNo()).build());
-		 * userAttach.setUserAttachmentsFileSubject(subject);
-		 * userAttach.setUserAttachmentsFileName(originalFileName);
-		 * userAttachService.insert(userAttach);
-		 * 
-		 * } } }
-		 */
+		
 
 		return "ok";
 	}

@@ -120,12 +120,16 @@
                 <li class="my-page-nav-item">광고신청</li>
             </ul>
           </nav> --%>
-         
-      <%--     <jsp:include page="/WEB-INF/views/my_page/layout.jsp"/> --%>
+  
        
           <section class="my-page-main-content">
-          
-            <div class="class-search">
+          <table>
+          <tr>
+          <th>
+           <jsp:include page="/WEB-INF/views/my_page/layout.jsp"/>
+          </th>
+          <th>
+           <div class="class-search">
            
                 <div class="filter-wrap">
                     <div class="filter-list-wrap selected" id="guest">
@@ -197,6 +201,11 @@
                     </table>
             </div>
             </div>
+          </th>
+          </tr>
+          </table>
+          
+           
               
           </section>
          
@@ -213,7 +222,7 @@
 				id="confirm">확인</button>
 		</div>
 	</div>
-		 <div style="text-align: center">
+<div style="text-align: center">
 		<!--  블럭당  -->
  <nav class="pagination-container">
 	<div class="pagination">

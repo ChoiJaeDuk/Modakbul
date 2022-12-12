@@ -15,13 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import modakbul.mvc.domain.Follow;
+import modakbul.mvc.domain.UserAttachments;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.InquiryService;
+import modakbul.mvc.service.UsersService;
 
 @Controller
 public class InquiryController {
 	@Autowired
 	private InquiryService inqService;
+	
+	@Autowired
+	private UsersService usersService;
+	
+	@Autowired
+	private FollowService followService;
 
 	@Autowired
 	private  static int PAGE_COUNT=5;//상수//한 페이지당 5개
@@ -61,15 +72,24 @@ public class InquiryController {
 		
 		
 		Page<SelectReplyState> page= inqService.selectReplyState(userNo, pageable);
+		Users dbUser=usersService.selectById(userNo);
+		List<Follow> following = followService.myFollowing(userNo);	
+		List<Follow> follower = followService.myFollower(userNo);
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		 
 		model.addAttribute("inquiryList", page);
 		
+		model.addAttribute("user", dbUser);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
+		
+		
 		
 		
 		

@@ -15,6 +15,27 @@
     <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    
+    
+    	$(function() {
+    		$(document).ready(function(){
+    			  textchange = false;
+    			  $('.category-btn').click(function(){
+    			    if(textchange){
+    			      textchange = false;
+    			      $(this).addClass("selected")
+    			    }else{
+    			      textchange = true;
+    			      $(this).removeClass("selected")
+    			    }
+    			  })
+    			})
+			
+		})
+	    
+    </script>
   </head>
   <body>
     <div class="wrap">
@@ -33,15 +54,10 @@
         </div>
         <div class="search-list-body">
           <aside class="search-list-sub-filter">
-            <ul class="search-list-filter-type">
-              <li class="search-list-filter-item">정기</li>
-              <li class="search-list-filter-item">일일</li>
-              <li class="search-list-filter-item">기관</li>
-            </ul>
             <ul class="search-list-filter-categpry">
-              <li class="search-list-filter-item">교육</li>
-              <li class="search-list-filter-item">운동</li>
-              <li class="search-list-filter-item">기타</li>
+              <li class="search-list-filter-item category-btn" >스포츠</li>
+              <li class="search-list-filter-item category-btn">클래스</li>
+              <li class="search-list-filter-item category-btn">자유</li>
             </ul>
           </aside>
           <main>

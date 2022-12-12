@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -21,6 +24,8 @@
     </script>
   </head>
   <body>
+    <jsp:include page="../admin/header.jsp" />
+  	<br>  <br>  <br>
     <div class="wrap">
       <div class="my-page-wrap">
         <div class="my-page-header">
@@ -32,18 +37,18 @@
           </div>
           <div class="my-page-user-info-wrap">
             <div class="my-page-user-name">
-              <div>임지은님</div>
+              <div>${user.userName} 님</div>
               <button class="my-page-button" type="button">프로필 편집</button>
             </div>
-            <div class="my-page-user-temperature">모닥불 온도 : 36.5&#8451</div>
+            <div class="my-page-user-temperature">모닥불 온도 : ${user.temper}&#8451</div>
             <div class="my-page-user-follow-wrap">
                 <div>
                     <div>팔로워</div>
-                    <div>320</div>
+                    <div>${follower}</div>
                 </div>
                 <div>
                     <div>팔로잉</div>
-                    <div>11</div>
+                    <div>${following}</div>
                 </div>
             </div>
           </div>
@@ -64,8 +69,8 @@
             <div class="class-search">
                 <div class="filter-wrap">
                     <div class="filter-list-wrap">
-                        <div id= "r" class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${userNo}'">후기쓰기</div>
-                        <div id= "rc" class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${userNo}'"> 작성완료 </div>
+                        <div id= "r" class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기쓰기</div>
+                        <div id= "rc" class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${user.userNo}'"> 작성완료 </div>
                     </div>
                 </div>
                 <div class="table-wrap selected" id="tab-1">
@@ -87,26 +92,70 @@
                             </tr>
                         </thead>
                         <tbody>
-
-							<c:forEach var="review" items="${requestScope.reviewStatusCompleteList.content}" varStatus="status">
+							 
+						<c:choose>	
+						<c:when test="${0 eq requestScope.reviewStatusCompleteList.getTotalPages()}">	
+							<tr>
+								<td colspan="5">
+									작성된 후기가 없어요  🔥
+								</td>	
+							</tr>
+	                    </c:when>
+						<c:otherwise>
+						<c:forEach var="review" items="${requestScope.reviewStatusCompleteList.content}" >
+	                        <c:set var="TextValue" value="${review.gatherDeadline}" />    
 	                            <tr class="table-body">
-	                                <td>${status.index}</td>
+	                                <td>${review.gatherNo}</td>
 	                                <td>
 	                                    <div class="table-small-image-wrap">
 	                                        <img src="" alt="이미지" width="100%"/>
 	                                    </div>
 	                                </td>
 	                                <td>${review.gatherName}</td>
-	                                <td>${review.gatherDeadline}</td>
+	                                <td>${fn:substring(TextValue,0,10)}</td>
 	                                <td class="inquiry-replied">
 	                                    <button class="my-page-button">후기쓰기</button>
 	                                </td>
 	                            </tr>                        
 	                        </c:forEach>
-	                        
+						</c:otherwise>
+					</c:choose> 
 					</tbody>
                     </table>
                 </div>
+                 <div style="text-align: center">
+		<!--  블럭당  -->
+ <nav class="pagination-container">
+	<div class="pagination">
+	<c:set var="doneLoop" value="false"/>
+		
+		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/board/list?nowPage=${startPage-1}">PREV</a>
+		  </c:if>
+		  
+		<span class="pagination-inner"> 
+		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+		  
+			    <c:if test="${(i-1)>=pageList.getTotalPages()}">
+			       <c:set var="doneLoop" value="true"/>
+			    </c:if> 
+		    
+		  <c:if test="${not doneLoop}" >
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/board/list?nowPage=${i}">${i}</a> 
+		  </c:if>
+		   
+		</c:forEach>
+		</span> 
+				
+<c:if test="${(startPage+blockCount)<=pageList.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/board/list?nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if> 
+				 
+			
+		
+		</div>
+	</nav>  
+</div>
                 
             </div>
             
@@ -117,5 +166,6 @@
     
       </div>
     </div>
+    <jsp:include page="../layout/footer.jsp" />
   </body>
 </html>
