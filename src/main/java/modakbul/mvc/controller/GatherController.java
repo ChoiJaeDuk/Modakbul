@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.Category;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherAttachments;
 import modakbul.mvc.domain.RegularGather;
@@ -39,14 +40,14 @@ public class GatherController {
 	@RequestMapping("/gatherInsert")
 	public ModelAndView gatherInsert(Gather gather,Long userNo, String date, RegularGather regularGather
 			,@RequestParam("gatherAttachmentsFileSubject[]") List<String> gatherAttachmentsFileSubject
-			,HttpSession session, MultipartFile file, @RequestParam("filesList[]") List<MultipartFile> filesList ) {
+			,HttpSession session, MultipartFile file, @RequestParam("filesList[]") List<MultipartFile> filesList, Long categoryNo ) {
 		//gatherDate를 Local타입으로 변경
 		
 		LocalDateTime gatherDate = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		//deadLine은 모임 3시간전이므로 gatherDate-3시간
 		LocalDateTime deadLine = gatherDate.minusHours(3);
 		
-	
+		
 		
 		//정기모임이 먼저 등록되어야 한다.
 		if(regularGather.getRegularGatherCycle()!=0) {
@@ -56,12 +57,13 @@ public class GatherController {
 			gather.setRegularGather(null);
 		}
 		Users user = new Users(userNo);
+		Category category = new Category(categoryNo);
 		
 		
 		gather.setGatherDate(gatherDate);
 		gather.setGatherDeadline(deadLine);
 		gather.setUser(user);
-		
+		gather.setCategory(category);
 		//모임 이미지 첨부
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();

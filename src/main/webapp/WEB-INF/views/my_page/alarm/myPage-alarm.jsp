@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -9,6 +10,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/myPage-alarm.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/reset.css" rel="stylesheet" />
+    
+     <style type="text/css">
+    	.pagination-container {
+	margin: 100px auto;
+	text-align: center; 
+}
+
+.pagination {
+	position: relative;
+}
+
+.pagination a {
+	position: relative;
+	display: inline-block;
+	color: #2c3e50;
+	text-decoration: none;
+	font-size: 1.2rem;
+	padding: 8px 16px 10px;
+}
+
+.pagination a:before {
+	z-index: -1;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	content: "";
+	top: 0;
+	left: 0;
+	background-color: #2c3e50;
+	border-radius: 24px;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	transition: all 0.2s;
+}
+
+.pagination a:hover, .pagination a .pagination-active {
+	color: #fff;
+}
+
+.pagination a:hover:before, .pagination a .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination .pagination-active {
+	color: #fff;
+}
+
+.pagination .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination-newer {
+	margin-right: 50px;
+}
+
+.pagination-older {
+	margin-left: 50px;
+}
+    	
+    </style>
+    
     <title>마이페이지-알람함</title>
   </head>
   <body>
@@ -74,10 +138,12 @@
                         <tbody>
                         <c:forEach items="${pageList.content}" var="ar" varStatus="state">
                             <tr class="table-body">
+                            	<c:set var="TextValue" value="${ar.alarm.issueDate}" />
                                 <td>${state.count}</td> 
                                 <td>${ar.alarm.alarmSubject}</td>
                                 <td>${ar.alarm.alarmContent}</td>
-                                <td>${ar.alarm.issueDate}</td>
+                                
+                                <td>${fn:substring(TextValue,0,10)}</td>
                                 <td>
                                     <button class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/alarm/delete?receiverNo=${ar.alarmReceiveNo}&userNo=${userNo}';">삭제</button>
                                 </td>

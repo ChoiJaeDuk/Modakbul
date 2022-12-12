@@ -32,6 +32,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
 import modakbul.mvc.domain.QGatherReview;
+import modakbul.mvc.domain.QLikeGather;
 import modakbul.mvc.domain.QParticipant;
 import modakbul.mvc.domain.QUserReview;
 import modakbul.mvc.domain.Users;
@@ -59,7 +60,7 @@ public class GatherServiceImpl implements GatherService {
 	
 	private QParticipant p = QParticipant.participant;
 	
-	
+	private QLikeGather l = QLikeGather.likeGather;
 
 	@Autowired
 	private ParticipantService participantService;
@@ -104,7 +105,7 @@ public class GatherServiceImpl implements GatherService {
 		LocalDateTime ldt = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(),now.getMinute());
 
 		// boolean result = date1.isEqual(ldt);
-		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중")).fetch();
+		List<Gather> gatherList = queryFactory.selectFrom(g).where(g.gatherState.in("모집중", "모집마감", "진행중","모집보류")).fetch();
 		
 		System.out.println("검색결과 수 : "+gatherList.size());
 	
@@ -118,20 +119,58 @@ public class GatherServiceImpl implements GatherService {
 			
 			//System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
 			//System.out.println("i = " + i +" / " + "최소인원: " + gather.getGatherMinUsers());
-			if (ldt.isEqual(gather.getGatherDeadline())) {
-				List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
-				if ( i < gather.getGatherMinUsers() ) {
-					gather.setGatherState("모임취소");
-					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+			if(!gather.getGatherState().equals("모집보류")) {
+				
+				if (ldt.isEqual(gather.getGatherDeadline())) {
 					
-					String alarmSubject = gather.getGatherName()+"모임 상태알림";
-					String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
-					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+					List<Users> usersList = gatherStateAlarmList("참가승인",gather.getGatherNo());
 					
-					alarmService.insertReceiverAll(usersList, alarm);
 					
-					//정기모임 재등록
+					if ( i < gather.getGatherMinUsers() ) {
+						gather.setGatherState("모임취소");
+						autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+						autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
+						String alarmSubject = gather.getGatherName()+"모임 상태알림";
+						String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
+						Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+						
+						alarmService.insertReceiverAll(usersList, alarm);
+						
+						//정기모임 재등록
+						if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+							//다음 날짜를 계산
+							LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
+							//다음 마감시간을 계산
+							LocalDateTime newDeadline = newGatherDate.minusHours(3);
+							//새로운 모임을 insert
+							Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
+									, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
+									, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
+									, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+							gatherRep.save(newGather);
+						}
+					} else {
+						gather.setGatherState("모집마감");
+						autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
+						
+						String alarmSubject = gather.getGatherName()+"모임 상태알림";
+						String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
+						Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
+						System.out.println("usersList = "+usersList.size());
+						alarmService.insertReceiverAll(usersList, alarm);
+					}
+				} else if (ldt.isEqual(gather.getGatherDate())) {
+					
+					gather.setGatherState("진행중");
+					autoUpdateParticipantState(gather.getGatherNo(), "참가중", "참가확정");
+					
+				} else if (ldt.isEqual(completeDate)) {
+					
+					gather.setGatherState("진행완료");
+					autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
+					
 					if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+						
 						//다음 날짜를 계산
 						LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
 						//다음 마감시간을 계산
@@ -143,38 +182,17 @@ public class GatherServiceImpl implements GatherService {
 								, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
 						gatherRep.save(newGather);
 					}
-				} else {
-					gather.setGatherState("모집마감");
-					autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
-					
-					String alarmSubject = gather.getGatherName()+"모임 상태알림";
-					String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
-					Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
-					System.out.println("usersList = "+usersList.size());
-					alarmService.insertReceiverAll(usersList, alarm);
 				}
-			} else if (ldt.isEqual(gather.getGatherDate())) {
-				gather.setGatherState("진행중");
-				autoUpdateParticipantState(gather.getGatherNo(), "참가중", "참가확정");
-			} else if (ldt.isEqual(completeDate)) {
-				gather.setGatherState("진행완료");
-				autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
-				if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
-					//다음 날짜를 계산
-					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
-					//다음 마감시간을 계산
-					LocalDateTime newDeadline = newGatherDate.minusHours(3);
-					//새로운 모임을 insert
-					Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(), gather.getRegularGather()
-							, gather.getGatherName(), gather.getGatherMinUsers(), gather.getGatherMaxUsers(), gather.getGatherSelectGender()
-							, gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(), gather.getGatherPlace()
-							, gather.getGatherPlaceDetail(), gather.getGatherComment(), "모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
-					gatherRep.save(newGather);
+			} else if(ldt.isEqual(gather.getGatherDeadline())) {
+				if(gather.getGatherState().equals("모집보류")) {
+					gather.setGatherState("모임취소");
+					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
 				}
 			}
-		} // for문
+		}
 
-	}
+	}// for문
 	
 	private List<Users> gatherStateAlarmList(String state, Long gatherNo){
 		List<Users> userList = queryFactory.select(p.user)
@@ -292,9 +310,13 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public void updateLikeCount(Long gatherNo, int likeCount) {
+	public void updateLikeCount(Long gatherNo) {
+		long likeCount = queryFactory.selectFrom(l)
+				.where(l.gather.gatherNo.eq(gatherNo))
+				.fetchCount();
+		
 		Gather gather = gatherRep.findById(gatherNo).orElse(null);
-		gather.setLikeCount(likeCount);
+		gather.setLikeCount((int)likeCount);
 	}
 
 	@Override

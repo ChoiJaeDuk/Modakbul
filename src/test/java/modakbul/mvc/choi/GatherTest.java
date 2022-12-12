@@ -63,6 +63,8 @@ public class GatherTest {
 	@Autowired
 	private LikeGatherRepository likeRep;
 	
+	private QLikeGather l = QLikeGather.likeGather;
+	
 	@Autowired
 	private GatherService gatherService;
 	@Test
@@ -361,6 +363,14 @@ public class GatherTest {
 					"월: " + b.getGatherMonth() + " / 수익: "+b.getTotal()
 				
 			));
+		}
+		
+		@Test
+		void likeCountUpdate() {
+			long likeCount = queryFactory.selectFrom(l)
+					.where(l.gather.gatherNo.eq(5L))
+					.fetchCount();
+			System.out.println((int)likeCount);
 		}
 }
 
