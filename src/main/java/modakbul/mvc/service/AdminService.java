@@ -113,9 +113,9 @@ public interface AdminService {
 	void save(Advertisement files);
 	
 	/**
-	 * 유료모임 승인
+	 * 광고 승인
 	 * */
-	void updateGather(Gather gather, Long gatherNo);
+	void updateAdGather(Advertisement advertisement);
 	
 	/**
 	 * 모임 신청대기 리스트

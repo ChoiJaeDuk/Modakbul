@@ -122,7 +122,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/manageAdvIng")
+	@RequestMapping("/admin/{url}")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -158,6 +158,15 @@ public class AdminController {
 		model.addAttribute("countAdvIng", advIng.getTotalElements());
 		model.addAttribute("countAdvEnd", advEnd.getTotalElements());
 
+	}
+	/**
+	 * 광고 승인하기
+	 * */
+	@RequestMapping("/admin/updateAdGather")
+	public String updateAdGather(Advertisement advertisement) {
+		System.out.println("광고 승인");
+		adminService.updateAdGather(advertisement);
+		return "redirect:/admin/manageAdvRegis";
 	}
 
 	/*	*//**
@@ -196,13 +205,13 @@ public class AdminController {
 	/**
 	 * 유료모임 승인 업데이트
 	 * */
-	@RequestMapping("/updateGather")
-	public String updateGather(Long gatherNo, Gather gather) {
-		
-		adminService.updateGather(gather, gatherNo);
-		gather.setGatherState("모집중");
-		return "admin/manageGather";
-	}
+	/*
+	 * @RequestMapping("/updateGather") public String updateGather(Long gatherNo,
+	 * Gather gather) {
+	 * 
+	 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
+	 * return "admin/manageGather"; }
+	 */
 
 	/**
 	 * 광고 등록폼

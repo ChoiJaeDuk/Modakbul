@@ -10,9 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MODAKBUL</title>
-     <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
-     <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
-     <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
+   	<link href="${pageContext.request.contextPath}/css/admin/adminCharged.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
   <body>
     <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
@@ -64,16 +65,21 @@
 						<c:forEach var="adv" items="${advRegis.content}">
 						<tr>
 							<td>${adv.advertisementNo}</td>
-							<td>${adv.gather.gatherImg}</td>
+							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
-							<td>${adv.adRegisDate}</td>
-							<td><select>
-								<option>선택</option>
-        						<option value="1">승인</option>
-        						<option value="2">거절</option>
-    						</select></td>
+							<td>${fn:substring(adv.adRegisDate,0,10)}</td>
+							<td>
+							<form action="${pageContext.request.contextPath}/admin/updateAdGather" method="post">
+                			<div class="modakbul-charged-grid-col">
+                			<button type="submit" class="modakbul-button button-agree" id="${adv.gather.gatherNo}" name="${adv.gather.gatherNo}">승인하기</button>
+                			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<input type="hidden" name="${adv.gather.gatherNo}" value="${adv.gather.gatherNo}"/>
+                			<button class="modakbul-button button-deny" value="승인거절">거절하기</button>
+              				</div>
+                			</form>
+              				</td>
 							</tr>
 						</c:forEach> 
 						</c:when>
@@ -85,6 +91,9 @@
       </div>
     </div>
     
+    <c:choose>
+	<c:when test="${empty requestScope.advRegis}"></c:when>
+	<c:otherwise>
     <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
@@ -111,6 +120,8 @@
 		 </c:if> 
 		</div>
 	</nav>
+	</c:otherwise>
+</c:choose>
      <jsp:include page="../layout/footer.jsp" />
   </body>
 </html>

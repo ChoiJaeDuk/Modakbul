@@ -278,14 +278,16 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	/**
-	 * 유료모임 신청 승인 업데이트 
+	 * 광고 신청 승인 업데이트 
 	 * */
 	@Override
-	public void updateGather(Gather gather, Long gatherNo) {
-			/*queryFactory.update(qGather).set(qGather.gatherState, "모집중").where(qGather.gatherNo.eq(gather.getGatherNo())
-					.and(qGather.gatherState.eq("신청대기"))).execute();*/
-		adminRep.updateGather(gatherNo);
+	public void updateAdGather(Advertisement advertisement) {
+		LocalDateTime date = LocalDateTime.now();
 		
+			queryFactory.update(ad).set(ad.adStatus, "광고중").set(ad.adApproveDate, date)
+			//.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo()))
+			.where(ad.advertisementNo.eq(advertisement.getAdvertisementNo()))
+			.execute();
 	}
 	
 	/**

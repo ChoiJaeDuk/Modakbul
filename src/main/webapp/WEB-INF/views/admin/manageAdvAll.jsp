@@ -33,7 +33,7 @@
           </div>
         </nav>
         <div class="modakbul-content">
-        
+        <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
 			<div class="ad-wrap">
 				<div class="ad" style="color: orange">현재 진행중 광고 : ${fn:length(selectByStatus1)}</div>
@@ -64,11 +64,11 @@
 						<c:forEach var="adv" items="${advAll.content}">
 						<tr>
 							<td>${adv.advertisementNo}</td>
-							<td>${adv.gather.gatherImg}</td>
+							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
-							<td>예정</td>
+							<td>${fn:substring(adv.deadLine,5,7)-fn:substring(adv.adApproveDate,5,7)}개월</td>
 							<td>${adv.adStatus}</td>
 							</tr>
 						</c:forEach> 
@@ -81,6 +81,8 @@
       </div>
     </div>
     
+     <c:choose>
+	<c:when test="${!empty requestScope.advAll}">
      <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
@@ -107,6 +109,9 @@
 		 </c:if> 
 		</div>
 	</nav>
+	</c:when>
+	</c:choose>
+	
      <jsp:include page="../layout/footer.jsp" />
   </body>
 </html>

@@ -28,7 +28,7 @@
           
           
           <div class="card-list">
-          <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status">
+          <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status" begin="0" end="3">
             <div class="list-card">
               <div class="list-image-wrap">
                 <a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" /></a>
