@@ -79,7 +79,7 @@ nav{
   flex-grow: 0;
   width: 1000px;
 }
-/* 버튼 */
+/* 踰꾪듉 */
 .my-page-button {
   height: 40px;
   padding: 4px 8px;
@@ -96,7 +96,7 @@ nav{
 .my-page-button:active {
   background-color: rgb(214, 132, 0);
 }
-/* 인풋 */
+/* �씤�뭼 */
 .my-page-form-input {
   width: 100%;
   height: 40px;
@@ -109,7 +109,7 @@ nav{
 .my-page-form-input:focus {
   border: 1px solid rgb(243, 156, 18);
 }
-/* 프로필 */
+/* �봽濡쒗븘 */
 .my-page-profile {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -140,7 +140,7 @@ nav{
   font-size: 14px;
   font-weight: 700;
 }
-/* 프로필 정보 */
+/* �봽濡쒗븘 �젙蹂� */
 .my-page-profile-info {
     border: 1px solid #f1a634;
     border-radius: 8px;
@@ -282,7 +282,7 @@ nav{
   gap: 0 8px;
   width: 700px
 }
-/* 알림함 */
+/* �븣由쇳븿 */
 .alert {
 }
 .table {
@@ -306,7 +306,7 @@ nav{
 .table-body + .table-body {
   border-top: 1px solid #d0d0d0;
 }
-/* 모임조회 */
+/* 紐⑥엫議고쉶 */
 .class-search {
 }
 .table-wrap {
@@ -460,7 +460,7 @@ img{
     width: 100%;
     height: 100%;
 }
-/* 추가된 모달 */
+/* 異붽��맂 紐⑤떖 */
 .commercial-modal-wrap {
   width: 650px;
   position: absolute;
@@ -583,7 +583,7 @@ img{
 .commercial-modal-label {
   margin-top: 10px;
 }
-/* 추가된 모달 */
+/* 異붽��맂 紐⑤떖 */
 
 
  a {text-decoration: none}
