@@ -66,7 +66,7 @@ public interface GatherService {
 	 * @param gatherNo
 	 * @param likeCount
 	 */
-	void updateLikeCount(Long gatherNo, int likeCount);
+	void updateLikeCount(Long gatherNo);
 	
 	
 	/**

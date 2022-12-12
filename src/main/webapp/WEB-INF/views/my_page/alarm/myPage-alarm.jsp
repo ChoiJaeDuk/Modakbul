@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -10,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/myPage-alarm.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/reset.css" rel="stylesheet" />
-
     <title>마이페이지-알람함</title>
   </head>
  <body>
@@ -110,10 +111,12 @@
                         <tbody>
                         <c:forEach items="${pageList.content}" var="ar" varStatus="state">
                             <tr class="table-body">
+                            	<c:set var="TextValue" value="${ar.alarm.issueDate}" />
                                 <td>${state.count}</td> 
                                 <td>${ar.alarm.alarmSubject}</td>
                                 <td>${ar.alarm.alarmContent}</td>
-                                <td>${ar.alarm.issueDate}</td>
+                                
+                                <td>${fn:substring(TextValue,0,10)}</td>
                                 <td>
                                     <button class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/alarm/delete?receiverNo=${ar.alarmReceiveNo}&userNo=${userNo}';">삭제</button>
                                 </td>
