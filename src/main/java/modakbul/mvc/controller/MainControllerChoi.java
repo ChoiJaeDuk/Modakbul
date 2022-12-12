@@ -24,7 +24,8 @@ public class MainControllerChoi {
 	
 	@RequestMapping("/main")
 	public void main(Model model) {
-		List<Gather> selectAdGather = adminRepository.selectAdGather();
+		
+		List<Advertisement> selectAdGather = adminService.selectAdGather();
 		
 		model.addAttribute("selectAdGather", selectAdGather);
 	}

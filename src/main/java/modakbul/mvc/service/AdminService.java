@@ -121,4 +121,9 @@ public interface AdminService {
 	 * 모임 신청대기 리스트
 	 * */
 	List<Gather> selectGatherState();
+	
+	/**
+	 * 유료광고 모임 뿌리기
+	 * */
+	List<Advertisement> selectAdGather();
 }

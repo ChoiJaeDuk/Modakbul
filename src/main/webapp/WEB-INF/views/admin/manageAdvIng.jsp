@@ -70,7 +70,7 @@
 							<td>${adv.user.userJob}</td>
 							<td>${adv.adRegisDate.month}</td>
 							<td>${adv.adStatus}</td>
-							</tr>
+						</tr>
 						</c:forEach> 
 						</c:when>
 					</c:choose>		

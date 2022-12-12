@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface GatherGroupBy {
 	Integer getGatherCount();
-	String getGatherMonth();
+	
 	String getCategory();
 	Long getGatherNo();
 	String getGatherImg();
@@ -15,6 +15,6 @@ public interface GatherGroupBy {
 	Integer getLikeCount();
 	Long getRegularGatherNo();
 	
-	String getGatherDate();
+	String getGatherMonth();
 	Integer getTotal();
 }

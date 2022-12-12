@@ -142,7 +142,7 @@ public class Test {
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectAdGather() {
-		List<Advertisement> list = advertisementRep.selectAdGather();
+		List<Advertisement> list = adminService.selectAdGather();
 		/*for(Advertisement b :list) {
 			System.out.println(b);
 		}*/

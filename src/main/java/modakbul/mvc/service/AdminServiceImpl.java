@@ -297,6 +297,18 @@ public class AdminServiceImpl implements AdminService {
 		
 		return gatherList;
 	}
+	
+	/**
+	 * 유료광고 모임 뿌리기
+	 * */
+	@Override
+	public List<Advertisement> selectAdGather() {
+		List<Advertisement> gatherList = queryFactory.selectFrom(ad)
+				.where(ad.gather.gatherState.eq("모집중").and(ad.adStatus.eq("광고중")))
+				.fetch();
+				
+		return gatherList;
+	}
 
 	
 

@@ -27,6 +27,7 @@ import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
+import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.UsersService;
 
 @Controller
@@ -39,7 +40,8 @@ public class AdminController {
 	private FollowService followService;
 	@Autowired
 	private AdminRepository adminRepository;
-
+	@Autowired
+	private GatherService gatherService;
 
 	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
@@ -120,7 +122,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/manageAdvAll")
+	@RequestMapping("/admin/manageAdvIng")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -292,7 +294,7 @@ public class AdminController {
 	/**
 	 * 카테고리별 모임 개수 차트
 	 */
-	@RequestMapping("/admin/manageAll")
+	@RequestMapping("/admin/manageAll2")
 	public void selectCategoryCount(Gather gather, Model model) {
 
 		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
@@ -301,14 +303,16 @@ public class AdminController {
 	}
 
 	/**
-	 * 광고 매출 차트
+	 * 모임 ,광고 매출 차트
 	 */
 	@RequestMapping("/admin/manageSales")
 	public void chart(Advertisement advertisement, Model model) {
 
 		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
-
+		List<GatherGroupBy> selectBidTotal = gatherService.selectBidTotal("2022");
+		
 		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
+		model.addAttribute("selectBidTotal", selectBidTotal);
 
 	}
 

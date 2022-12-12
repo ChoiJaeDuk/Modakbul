@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
-    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -15,6 +13,7 @@
     <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
   </head>
   <body>
     <div class="wrap">
@@ -26,53 +25,23 @@
           <div class="list-header">
             <div class="list-title">추천 모닥불</div>
           </div>
-          <div class="card-list">
           
-          <c:choose>
-					<c:when test="${!empty requestScope.selectAdGather}">
-						<c:forEach var="ad" items="${selectAdGather.content}">
+          
+          <div class="card-list">
+          <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status">
             <div class="list-card">
               <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
+                <a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" /></a>
+                <img class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
               </div>
               <div class="list-card-title">
-            
+            	<a href="dd">${ad.gather.gatherName}</a>
               </div>
             </div>
             </c:forEach> 
-						</c:when>
-					</c:choose>	
-            
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
           </div>
-          <div></div>
+          
+          
         </div>
         <div class="new-list-wrap">
           <div class="list-header">
