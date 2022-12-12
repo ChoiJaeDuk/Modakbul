@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
+import modakbul.mvc.service.RegularGatherService;
 import modakbul.mvc.service.UsersService;
 
 @Controller
@@ -21,6 +23,8 @@ import modakbul.mvc.service.UsersService;
 public class AdminControllerChoi {
 	
 	private final GatherService gatherService;
+	
+	private final RegularGatherService regularGatherService;
 	
 	private final UsersService usersService;
 	
@@ -124,5 +128,47 @@ public class AdminControllerChoi {
 	
 		model.addAttribute("countCom", comList.getTotalElements());
 
+	}
+	
+	@RequestMapping("/manageGroup")
+	public void manageGroup(@RequestParam(defaultValue = "1") int nowPage, Model model) {
+		Pageable pageable = PageRequest.of(nowPage - 1, 8, Direction.ASC, "gatherNo");
+
+		
+		Page<Gather> gatherList = gatherService.selectGatherManagementList(pageable);
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+	
+		model.addAttribute("gatherList", gatherList);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+	}
+	
+	@RequestMapping("/updateGatherState")
+	public String updateGatherState(@RequestParam(defaultValue = "1") int nowPage,Long gatherNo
+			, String state, Long regularGatherNo, RedirectAttributes redirect) {
+		String regularGatherState = "난 아무것도 아니야!";
+		System.out.println("state = " + state);
+		System.out.println("regularGatherNo = " + regularGatherNo);
+		if(regularGatherNo != null) {
+			if(state.equals("모집보류")) {
+				regularGatherState = "진행보류";
+			}else if(state.equals("모집중")) {
+				regularGatherState = "진행중";
+			}else if(state.equals("모임취소")) {
+				regularGatherState = "모임종료";
+			}
+			regularGatherService.updateRegularGatherState(gatherNo, regularGatherState);
+		}
+		System.out.println("regularGatherState = " + regularGatherState);
+		
+		gatherService.updateGatherState(gatherNo, state);
+		System.out.println("나는 실행돼?");
+		redirect.addAttribute("nowPage",nowPage);
+		
+		return "redirect:/admin/manageGroup";
 	}
 }

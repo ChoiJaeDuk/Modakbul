@@ -14,4 +14,7 @@ public interface GatherGroupBy {
 	Integer getPCount();
 	Integer getLikeCount();
 	Long getRegularGatherNo();
+	
+	String getGatherDate();
+	Integer getTotal();
 }

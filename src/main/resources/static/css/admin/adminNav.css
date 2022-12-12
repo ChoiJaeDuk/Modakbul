@@ -21,6 +21,7 @@
     text-decoration: none;
 }
 
+
 .active-nav {
 	background-color: #7f7f7f;
 }
@@ -54,4 +55,27 @@
 	padding-right: 30px;
 	font-size: 20px;
 	font-weight: bold;
+}
+
+.manageGroup-nav{
+	color: white;
+    font-size: 15px;
+    text-decoration: none;
+	width: 90px;
+    background-color: lightgray;
+    border-radius: 10em 10em 0 0;
+    padding: 0 12px;
+    text-align: center;
+    
+}
+
+.manageGroup-nav a{
+	 color: white;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.manageGroup-nav.selected{
+
+    background-color: rgb(120, 120, 120);
 }

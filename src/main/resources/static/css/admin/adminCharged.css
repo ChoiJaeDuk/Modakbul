@@ -60,3 +60,28 @@
 	background: lightgray;
 	
 }
+
+.button-gather-state{
+  background-color: white;
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+  width: 100px;
+}
+
+
+
+.button-gather-cancel {
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+  background: rgb(243, 156, 18);
+  color: white;
+}
+.button-gather-cancel:hover{
+	background-color: rgb(251, 174, 51);
+}

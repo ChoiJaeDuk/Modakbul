@@ -153,4 +153,17 @@ public interface GatherService {
 	 * @return
 	 */
 	Page<GatherGroupBy> selectRecruitingList(Pageable pageable, Long userNo);
+	
+	/**
+	 * 관리자페이지에서 모임관리
+	 * @return
+	 */
+	Page<Gather> selectGatherManagementList(Pageable pageable);
+	
+	/**
+	 * 관리자 페이지 월별 유료모임 매출
+	 * @param year
+	 * @return
+	 */
+	List<GatherGroupBy> selectBidTotal(String year);
 }

@@ -213,7 +213,7 @@
 				id="confirm">확인</button>
 		</div>
 	</div>
-		 <div style="text-align: center">
+<div style="text-align: center">
 		<!--  블럭당  -->
  <nav class="pagination-container">
 	<div class="pagination">
