@@ -104,6 +104,8 @@ public class Users {
 	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
 	private List<UserReview> userReviewList;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<ServiceQuestion> serviceQuestionList;
 	/*
 	 * @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) private
 	 * List<GatherReview> gatherReviewList;

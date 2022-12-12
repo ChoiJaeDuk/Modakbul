@@ -79,8 +79,7 @@ header {
   margin-top: 80px;
 }
 
-/* 검색 결과 */
-
+ 
 .search-list {
   margin-top: 32px;
 }
@@ -186,8 +185,7 @@ header {
   justify-content: space-between;
 }
 
-/* 사람 검색 */
-.search-member-list-result-wrap {
+ .search-member-list-result-wrap {
   display: flex;
   flex-wrap: wrap;
   gap: 56px;
@@ -251,16 +249,18 @@ header {
 }
 .search-inquiry-list-expand-button-title {
   flex: 1;
+  width:800px;
 }
+/*?*/
 .search-inquiry-list-expand-button-question-icon {
-  width: 35px;
-  height: 35px;
-  background-color: lightblue;
+  width: 22px;
+  height: 22px;
+  
 }
 .search-inquiry-list-expand-button-expand-icon {
-  width: 40px;
-  height: 40px;
-  background-color: yellow;
+  width: 28px;
+  height: 28px;
+  margin-right :45px;
 }
 .search-inquiry-reply-wrap {
   display: flex;
@@ -271,11 +271,12 @@ header {
 .search-inquiry-reply {
   width: 845px;
 }
+/*!*/
 .search-inquiry-list-expand-button-result-icon {
   flex-shrink: 0;
-  width: 35px;
-  height: 35px;
-  background-color: pink;
+  width: 30px;
+  height: 30px;
+  
 }
 .table {
   width: 100%;
@@ -341,4 +342,144 @@ header {
 }
 .inquiry-input:focus {
   border: 1px solid rgb(243, 156, 18);
+}
+
+/* paging*/
+
+
+.pagination-container {
+	margin: 100px auto;
+	text-align: center;
+}
+
+.pagination {
+	position: relative;
+}
+
+.pagination a {
+	position: relative;
+	display: inline-block;
+	color: #2c3e50;
+	text-decoration: none;
+	font-size: 1.2rem;
+	padding: 8px 16px 10px;
+}
+
+.pagination a:before {
+	z-index: -1;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	content: "";
+	top: 0;
+	left: 0;
+	background-color:  rgb(214, 132, 0);
+	border-radius: 24px;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	transition: all 0.2s;
+}
+
+.pagination a:hover, .pagination a .pagination-active {
+	color: #fff;
+}
+
+.pagination a:hover:before, .pagination a .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination .pagination-active {
+	color: #fff;
+}
+
+.pagination .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination-newer {
+	margin-right: 50px;
+}
+
+.pagination-older {
+	margin-left: 50px;
+}
+
+/**noticeDetail*/
+.notice-list-title {
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.notice-list-info-wrap{
+	display: flex;
+}
+.notice-list-info{
+	width:130px;
+	font-size: 20px;
+}
+.notice-list-content-wrap{
+	padding-top:30px;
+	
+}
+.notice-list-content{
+	width : 800px;
+	height : 300px;
+	border: solid lightgray 0.5px;
+}
+.modal-button-wrap{
+	padding-top:30px;
+}
+.modal-button-list {
+  flex-shrink: 0;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.modal-button-list:hover {
+  background-color: rgb(251, 174, 51);
+}
+.modal-button-list:active {
+  background-color: rgb(214, 132, 0);
+}
+/*password confirm*/
+.password-wrap{
+	border-bottom: 1px solid #d0d0d0;
+}
+.password-inner-wrap{
+	border-top: 1px solid #d0d0d0;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.password-required-comment{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.password-form{
+	width:200px;
+	height: 30px;	
+}
+.password-form-button{
+	  flex-shrink: 0;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.password-form-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.password-form-button:active {
+  background-color: rgb(214, 132, 0);
 }

@@ -40,7 +40,7 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	}
 
 	@Override
-	public ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo, String serviceQuestionPwd, Long userNo) {
+	public ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo, String serviceQuestionPwd,Long userNo) {
 
 		QServiceQuestion serviceQusetion = QServiceQuestion.serviceQuestion;
 		
@@ -76,6 +76,7 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 		
 		serviceQuestionRep.deleteById(serviceQuestion);
 	}
+	
 	@Override
 	public void updateServiceQuestionReply(ServiceQuestion serviceQuestion) {
 		ServiceQuestion dbServiceQuestion=serviceQuestionRep.findById(serviceQuestion.getServiceQuestionNo()).orElse(null);
@@ -97,12 +98,19 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	
 	
 	@Override
-	public Page<ServiceQuestion> selectByAdminNo(Long userNo, Pageable pageable) {	
-		Page<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo(userNo,pageable);
+	public Page<ServiceQuestion> selectByAdminNo( Pageable pageable) {	
+		Page<ServiceQuestion> adminList=serviceQuestionRep.selectByAdminNo(pageable);
 		
 		return adminList;
 	}
-
+	@Override
+	public ServiceQuestion selectNoticeDetail(Long serviceQuestionNo) {
+		ServiceQuestion dbServiceQuestion=serviceQuestionRep.selectNoticeDetail(serviceQuestionNo);
+		
+		return dbServiceQuestion;
+	}
+	
+	
 	
 
 }
