@@ -17,9 +17,7 @@
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
-    	
-    	var category[] = 
-			    
+
     	$(function() {
     		$(document).ready(function(){
     			  textchange = false;
