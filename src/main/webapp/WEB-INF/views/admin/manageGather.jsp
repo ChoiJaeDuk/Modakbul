@@ -54,6 +54,12 @@
 		});
   	});
   	
+	jQuery.fn.center = function () {
+  	 	 this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+ 	 	 this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+   	 return this;
+	}
+  	
   	var action_popup = {
   		    timer: 500,
   		    confirm: function (txt, callback) {
@@ -88,6 +94,7 @@
   		        $("body").append("<div class='dimLayer'></div>");
   		        $(".dimLayer").css('height', $(document).height()).attr("target", type);
   		        popup.fadeIn(this.timer);
+  		     	popup.center();
   		    },
 
   		    close: function (target) {
