@@ -18,7 +18,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.service.AlarmService;
 
 @Controller
-@RequestMapping("/alarm")
+//@RequestMapping("/alarm")
 public class AlarmController {
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class AlarmController {
 	 * 회원의 알람 리스트 출력
 	 *  - 안읽은 알람 읽음처리
 	 */
-	@RequestMapping("/myAlarm")
+	@RequestMapping("/my_page/alarm/myAlarm")
 	public ModelAndView myAlarm(Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
 		System.out.println("누구의 알람목록 ? " + userNo);
 		
@@ -57,7 +57,7 @@ public class AlarmController {
 	/**
 	 * 알람 & 알람리시버 등록
 	 */
-	@RequestMapping("/insert")
+	@RequestMapping("/alarm/insert")
 	public String insert(Long userNo) {
 		Alarm alarm = Alarm.builder()
 				.alarmSubject("참가 신청이 승인되었습니다.")
@@ -71,7 +71,7 @@ public class AlarmController {
 	/**
 	 * 알람리시버 삭제
 	 */
-	@RequestMapping("/delete")
+	@RequestMapping("/alarm/delete")
 	public String delete(Long receiverNo, Long userNo) {
 		alarmService.deleteReceiver(receiverNo);
 		
@@ -81,7 +81,7 @@ public class AlarmController {
 	/**
 	 * 회원의 안읽은 알람 갯수
 	 */
-	@RequestMapping("/newAlarm")
+	@RequestMapping("/alarm/newAlarm")
 	public ModelAndView countNewAlarm(Long userNo) {
 		
 		int newAlarm = alarmService.countNewAlarm(userNo);
@@ -96,7 +96,7 @@ public class AlarmController {
 	/**
 	 * 안읽은 알람 리스트 & 갯수 
 	 */
-	@RequestMapping("/unreadAlarm")
+	@RequestMapping("/alarm/unreadAlarm")
 	public ModelAndView unreadAlarms(Long userNo) {
 		
 		List<AlarmReceiver> list = alarmService.unreadAlarms(userNo);

@@ -16,12 +16,12 @@ public interface FollowService {
 	/**
 	 * 등록
 	 */
-	void insert(Follow follow);
+	String insert(Follow follow);
 	
 	/**
 	 * 삭제
 	 */
-	void delete(Long followNo);
+	String delete(Long follower, Long follwing);
 	
 	/**
 	 * 나를 팔로우(구독자) 하는 사람들

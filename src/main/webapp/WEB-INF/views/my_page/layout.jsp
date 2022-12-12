@@ -79,6 +79,62 @@
                 return this;
             };
 
+/////////////////////////////////////////////////////////////////////////////
+$(document).ready(function(){
+	$(function(){
+	$(document).ajaxSend(function(e,xht,op){
+         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+      	});
+		
+		$(document).on('click', 'button[type=button]',function(){
+			
+			let target = {"follower":$(this).val() , "following":"${userNo}"}
+			let targetBtn = $(this);
+			
+			if($(this).text() == "팔로잉"){
+				alert("딜리트 반응?");
+				$.ajax({
+					url:"${pageContext.request.contextPath}/follow/delete",
+					type:"post",
+					dataType:"text",
+                    data:JSON.stringify(target),   
+                    contentType:'application/json;charset=utf-8',
+					success:function(result){
+						if(result=="ok"){
+							alert("팔로잉이 해제 되었습니다.")						
+							
+							targetBtn.text("팔로우")
+						}
+					},error:function(err){
+						alert("err : "+err);
+					}
+				});//Delete ajax END
+			}
+			
+			if($(this).text()=="팔로우"){
+				alert("인설트반응?");
+				$.ajax({
+					url:"${pageContext.request.contextPath}/follow/insert",
+					type:"post",
+					dataType:"text",
+                    data:JSON.stringify(target),   
+                    contentType:'application/json;charset=utf-8',
+					success:function(result){
+						if(result=="ok"){
+							alert("팔로우 등록 되었습니다.")						
+							
+							targetBtn.text("팔로잉")
+						}
+						
+					},error:function(err){
+						alert("err : "+err);
+					}
+				});//Insert ajax END
+			}
+		});//click END
+	});
+});
+            
            
 	
 	
@@ -129,14 +185,13 @@
 						<div class="my-page-user-follow-wrap">
 							<div>
 								<div>팔로워</div>
-								<div>&nbsp;&nbsp;&nbsp;${follower}</div>
+								<div>&nbsp;&nbsp;&nbsp;${following}</div>
 							</div>
 							<div>
 								<div id="following">팔로잉</div>
 								<%-- <div>&nbsp;&nbsp;&nbsp;${following}</div> --%>
 								<div>
-									<a
-										href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a>
+									<a href="${pageContext.request.contextPath}/my_page/follow/followingList?userNo=${user.userNo}">&nbsp;&nbsp;&nbsp;${follower}</a>
 								</div>
 							</div>
 						</div>
@@ -172,9 +227,8 @@
 	 		팔로잉
 	 	
 			</th>
-			 <a class="modal_close_btn">X</a>	
+			 <a class="modal_close_btn">X</a>
 			<tr class="user">
-			
 			<td style="width: 40%">
 			사진
 			</td>
@@ -188,7 +242,22 @@
 			<button class="modakbul-button following" id="" value="">팔로우</button>
 			</td>
 			</tr> 	
-	 	
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<td> 
+						<img alt="img" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</td>
+					<td>
+						${f.followerUser.userNick}
+					</td>
+					<td>
+						${f.followerUser.temper}℃
+					</td>
+					<td style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+					</td>
+				</tr>
+			</c:forEach>
 	 	</table>
 	 
            <!--  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita dolore eveniet laborum repellat sit distinctio, ipsa rem dicta alias velit? Repellat doloribus mollitia dolorem
