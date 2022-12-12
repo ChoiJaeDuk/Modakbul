@@ -24,47 +24,79 @@
     </script>
   </head>
   <body>
-    <jsp:include page="../admin/header.jsp" />
-  	<br>  <br>  <br>
-    <div class="wrap">
-      <div class="my-page-wrap">
-        <div class="my-page-header">
-          <div class="my-page-image-wrap">
-            <img
-              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
-              alt="img"
-            />
-          </div>
-          <div class="my-page-user-info-wrap">
-            <div class="my-page-user-name">
-              <div>${user.userName} 님</div>
-              <button class="my-page-button" type="button">프로필 편집</button>
-            </div>
-            <div class="my-page-user-temperature">모닥불 온도 : ${user.temper}&#8451</div>
-            <div class="my-page-user-follow-wrap">
-                <div>
-                    <div>팔로워</div>
-                    <div>${follower}</div>
-                </div>
-                <div>
-                    <div>팔로잉</div>
-                    <div>${following}</div>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="my-page-content-wrap">
-          <nav>
-            <ul>
-                <li class="my-page-nav-item">프로필정보</li>
-                <li class="my-page-nav-item">알림함</li>
-                <li class="my-page-nav-item">모임조회</li>
-                <li class="my-page-nav-item">관심모임</li>
-                <li class="my-page-nav-item selected">후기조회</li>
-                <li class="my-page-nav-item">문의조회</li>
-                <li class="my-page-nav-item">광고신청</li>
-            </ul>
-          </nav>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+	<div class="wrap">
+		<div class="my-page-wrap">
+			<div class="my-page-header" >
+				<div class="my-page-image-wrap" id="original">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+									alt="img" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img" />
+						</c:if>
+
+						<input id="sign-up-add-image" class="sign-up-add-image"
+							type="file" name="file" accept="image/*" />
+					</sec:authorize>
+				</div>
+				<div class="my-page-user-info-wrap" >
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<div class="my-page-user-name">
+
+							<div>${user.userName }님</div>
+
+
+						</div>
+						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
+						<div class="my-page-user-follow-wrap">
+							<div>
+								<div>팔로워</div>
+								<div>&nbsp;&nbsp;&nbsp;${follower}</div> 
+							</div>
+							<div>
+								<div>팔로잉</div>
+							 <div>&nbsp;&nbsp;&nbsp;${following}</div> 
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a>
+								</div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="my-page-content-wrap">
+				<nav>
+					<ul>
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/likeGather/applicationList?userNo=${user.userNo}'">관심모임</li>
+						<li class="my-page-nav-item selected"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
+						<li class="my-page-nav-item">광고신청</li>
+					</ul>
+				</nav>
           <section class="my-page-main-content">
             <div class="class-search">
                 <div class="filter-wrap">

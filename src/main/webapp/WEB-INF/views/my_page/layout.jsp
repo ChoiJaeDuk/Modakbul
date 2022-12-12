@@ -191,9 +191,6 @@
 	 	
 	 	</table>
 	 
-           <!--  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita dolore eveniet laborum repellat sit distinctio, ipsa rem dicta alias velit? Repellat doloribus mollitia dolorem
-            voluptatum ex reiciendis aut in incidunt?
-            <a class="modal_close_btn">X</a> -->
         </div>
 
 
@@ -201,6 +198,6 @@
 	
 	
 
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/layout/footer.jsp" /> --%>
 </body>
 </html>

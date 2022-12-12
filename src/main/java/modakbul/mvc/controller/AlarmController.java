@@ -1,6 +1,9 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +35,12 @@ public class AlarmController {
 	 *  - 안읽은 알람 읽음처리
 	 */
 	@RequestMapping("/myAlarm")
-	public ModelAndView myAlarm(Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
+	public ModelAndView myAlarm(Long userNo, @RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
+		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
 		System.out.println("누구의 알람목록 ? " + userNo);
 		
 		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ALARM_RECEIVE_NO");
@@ -49,6 +57,7 @@ public class AlarmController {
 		mv.addObject("blockCount", BLOCK_COUNT);
 		mv.addObject("startPage", startPage);
 		mv.addObject("nowPage", nowPage);
+		mv.addObject("fileNames", fileNames);
 		
 		return mv;
 

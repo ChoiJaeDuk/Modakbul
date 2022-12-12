@@ -1,7 +1,10 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -67,9 +70,12 @@ public class InquiryController {
 	}
 	
 	@RequestMapping("my_page/my_page_inquiry")
-	public void inquiryStatus(Long userNo,Model model, @RequestParam(defaultValue = "1") int nowPage) {
+	public void inquiryStatus(Long userNo,Model model, @RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
-		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
 		
 		Page<SelectReplyState> page= inqService.selectReplyState(userNo, pageable);
 		Users dbUser=usersService.selectById(userNo);
@@ -88,7 +94,7 @@ public class InquiryController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-		
+		model.addAttribute("fileNames", fileNames);
 		
 		
 		
