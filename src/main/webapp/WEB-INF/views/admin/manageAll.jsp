@@ -49,7 +49,58 @@
 					</tr>
 					<tr>
 						<td>
-							<div id="chart1">차트1</div>
+							<div id="chart1">
+							<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+			<canvas id="myChart" width="600" height="500"></canvas>
+            <script type="text/javascript">
+            $(function(){
+            	
+
+        		
+        		let gatherCount = [];
+        		let gatherCategory = [];
+        		
+        		<c:forEach items="${selectCategoryCount}" var="list">
+                   var count = '${list.getGatherCount()}';
+                   var category = '${list.getCategory()}';
+                   
+                   gatherCount.push(count);
+                   gatherCategory.push(category);
+               </c:forEach>
+        		
+        		
+        		
+        		var context = document
+                .getElementById('myChart')
+                .getContext('2d');
+        		
+        		var myChart = new Chart(context,{
+            type: 'bar',
+            data: {
+              labels: gatherCategory,
+              datasets: [{ 
+                  data: gatherCount,
+                  label: "카테고리별 모임 개수",
+                  borderColor: "#3e95cd",
+                  fill: false,
+                  borderWidth: 3
+                }
+              ]
+            },
+            options: {
+            responsive: false,
+              title: {
+                display: true,
+                text: 'World population per region (in millions)',
+              }
+            }
+          })
+
+
+        })
+            
+            </script>
+							</div>
 							카테고리별 모임수, 전체 모임수 등
 						</td>
 						<td>

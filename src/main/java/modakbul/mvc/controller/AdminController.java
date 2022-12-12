@@ -292,7 +292,7 @@ public class AdminController {
 	/**
 	 * 카테고리별 모임 개수 차트
 	 */
-	@RequestMapping("/admin/categoryGatherChart")
+	@RequestMapping("/admin/manageAll")
 	public void selectCategoryCount(Gather gather, Model model) {
 
 		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);

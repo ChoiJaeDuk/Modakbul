@@ -30,7 +30,7 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * */
 	
 	@Query(value = "select * from gather left join advertisement on advertisement.gather_no = gather.gather_no where ad_status = '광고중' and gather.gather_state = '모집중' ORDER by advertisement.gather_no asc", nativeQuery = true)
-	List<Advertisement> selectAdGather();
+	List<Gather> selectAdGather();
 	
 	
 	/**

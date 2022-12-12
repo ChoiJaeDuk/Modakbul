@@ -27,15 +27,23 @@
             <div class="list-title">추천 모닥불</div>
           </div>
           <div class="card-list">
+          
+          <c:choose>
+					<c:when test="${!empty requestScope.selectAdGather}">
+						<c:forEach var="ad" items="${selectAdGather.content}">
             <div class="list-card">
               <div class="list-image-wrap">
                 <img width="100%" src="" alt="사진" />
                 <img class="list-card-like" alt="하트" />
               </div>
               <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
+            
               </div>
             </div>
+            </c:forEach> 
+						</c:when>
+					</c:choose>	
+            
             <div class="list-card">
               <div class="list-image-wrap">
                 <img width="100%" src="" alt="사진" />
