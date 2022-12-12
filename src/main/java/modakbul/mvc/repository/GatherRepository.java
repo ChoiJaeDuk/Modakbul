@@ -52,6 +52,19 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 			+ "on g.gather_no= l.gather_no\r\n"
 			+ "where g.user_no=?1 and g.gather_state='모집중'", nativeQuery = true)
 	List<GatherGroupBy> selectRecruitingList(Long userNo);
+	
+	
+	@Query(value= "select to_char(gather_date,'mm') as gatherMonth,\r\n"
+			+ "sum(total) as total\r\n"
+			+ "from(select g.gather_no, sum(gather_bid)*participants as total, gather_date\r\n"
+			+ "from gather g left outer join\r\n"
+			+ "(select gather_no, count(gather_no) as participants from participant where application_state='참가완료' group by gather_no) p\r\n"
+			+ "on g.gather_no = p.gather_no\r\n"
+			+ "where gather_bid !=0 and gather_state='진행완료' and to_char(gather_date,'yyyy') = ?1 \r\n"
+			+ "group by g.gather_no, participants, gather_date)\r\n"
+			+ "group by to_char(gather_date,'mm') \r\n"
+			+ "order by gatherMonth", nativeQuery = true)
+	List<GatherGroupBy> selectBidTotal(String year);
 }
 
 

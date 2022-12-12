@@ -371,12 +371,11 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	public void updateGatherState(Long gatherNo, String state) {
-		System.out.println("gatherNo = " + gatherNo);
+	
 		Gather gather = gatherRep.findById(gatherNo).orElse(null);
-
 		gather.setGatherState(state);
 		if(state.equals("모임취소")) {
-			if(gather.getRegularGather().getRegularGatherState()!=null) {
+			if(gather.getRegularGather()!=null) {
 				if(gather.getRegularGather().getRegularGatherState().equals("진행중")) {
 					//다음 날짜를 계산
 					LocalDateTime newGatherDate = gather.getGatherDate().plusDays(gather.getRegularGather().getRegularGatherCycle()*7);
@@ -391,6 +390,7 @@ public class GatherServiceImpl implements GatherService {
 				}
 			}
 		}
+		
 	}
 
 	@Override
@@ -452,6 +452,24 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 
+	public Page<Gather> selectGatherManagementList(Pageable pageable){
+		QueryResults<Gather> result = queryFactory
+				.selectFrom(g)
+				.where(g.gatherState.in("모집보류","모집중"))
+				.orderBy(g.gatherNo.asc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetchResults();
+				
+		
+		return new PageImpl<Gather>(result.getResults(),pageable,result.getTotal());
+	}
 	
+	public List<GatherGroupBy> selectBidTotal(String year){
+		
+		List<GatherGroupBy> list = gatherRep.selectBidTotal(year);
+		
+		return list;
+	}
 
 }

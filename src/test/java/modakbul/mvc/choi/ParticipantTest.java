@@ -37,8 +37,14 @@ public class ParticipantTest {
 	
 	@Test
 	void insertParticipant() {
-		Participant participant = new Participant(0L, gather, user, "신청대기");
-		participantService.insertParticipant(participant);
+		//Participant participant = new Participant(0L, gather, user, "신청대기");
+		
+		
+		for(Long i=110L; i<=194L; i++) {
+			Gather testGather = new Gather(i);
+			Participant participant = new Participant(0L, testGather, user, "참가완료");
+			participantRep.save(participant);
+		}
 	}
 	
 	
