@@ -19,7 +19,7 @@
     <script type="text/javascript">
 		var categoryList =[];
 		var sort="";
-		var gatherType="dayTime";
+		var gatherType="agency";
 		var search="";
 		var place="";
 		var nowPage;

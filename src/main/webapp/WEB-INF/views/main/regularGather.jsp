@@ -139,6 +139,13 @@
 		
     		//////////////////////////////////////
     		
+    		$("#search-btn").click(function() {
+    			nowPage=1;
+			    agoPage=1;
+    			search=$("#search-text").val()
+    			selectGatherList();
+			})
+    		
     		$(document).ready(function(){
     			
     			textchange = true;
@@ -178,6 +185,10 @@
               <li class="search-list-main-filter-item selected">모임검색</li>
               <li class="search-list-main-filter-item">회원검색</li>
             </ul>
+             <div class="search">
+			  <input id="search-text" type="text" placeholder="검색어 입력">
+			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="search-btn">
+			</div>
             <select class="select-small" name="sort" id="sort">
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
