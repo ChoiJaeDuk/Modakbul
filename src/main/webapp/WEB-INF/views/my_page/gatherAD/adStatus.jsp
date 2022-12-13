@@ -40,7 +40,7 @@
                                     alert(result);
                                     $("#adWaiting").load(location.href + " #adWaiting");
                                     
-                                    $("#ADCancel").hide();
+                                    $("#bannerUpdate").hide();
         
                             },//function
                             error:function(error){

@@ -255,11 +255,12 @@ public class AdminController {
 	}
 
 	/**
-	 * 업로드
+	 * 광고 등록
 	 */
 	@RequestMapping("/my_page/gatherAD/insertAd")
-	public String advertisementInsert(Advertisement advertisement, HttpSession session, MultipartFile file) {
-
+	public String advertisementInsert(Advertisement advertisement, HttpSession session, MultipartFile file, HttpServletRequest request) {
+		String gatherNo = request.getParameter("gatherNo");
+		String userNo = request.getParameter("userNo");
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
 
@@ -272,26 +273,14 @@ public class AdminController {
 		advertisement.setAdvertisementNo(0L);
 		advertisement.setAdApproveDate(advertisement.getAdApproveDate());
 		advertisement.setAdRegisDate(LocalDateTime.now());
-		advertisement.setAdStatus("광고신청");
-		advertisement.setGather(gather);
-		advertisement.setUser(userTest);
+		advertisement.setAdStatus("신청대기");
 		advertisement.setAdFileName(originalFileName);
 
-		adminService.advertisementInsert(advertisement);
+		adminService.advertisementInsert(advertisement, Long.parseLong(userNo));
 
 		return "index";
 	}
 
-	/**
-	 * 광고 등록
-	 */
-	@RequestMapping("/admin/insert")
-	public String advertisementInsert(Advertisement advertisement) {
-
-		adminService.advertisementInsert(advertisement);
-
-		return "index";
-	}
 
 	/**
 	 * 광고 상태 변경

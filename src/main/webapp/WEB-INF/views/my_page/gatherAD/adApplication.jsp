@@ -23,11 +23,12 @@
 			var gatherNo = $(this).val();
 			
 			$("#ad-form").show();
-			$("#ad-form img").attr("src","${pageContext.request.contextPath}/save/"+$(this).val())
+			
 			
 			$(".search-id-button").click(function(){
 
                   if($(this).val()=="등록"){
+                	  alert(gatherNo)
                 	  $.ajax({
                           type:"POST",
                           url:"${pageContext.request.contextPath}/my_page/gatherAD/insertAd",
@@ -147,7 +148,7 @@
                                 </c:choose>
                                 </td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherImg}">광고신청</button>
+                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherNo}">광고신청</button>
                                 </td>
                             </tr>
        						</c:forEach>
