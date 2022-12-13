@@ -48,8 +48,8 @@ public class MyPageControllerChoi {
 		
 	}
 	
-	@RequestMapping("/my_page_index")
-	public ModelAndView main(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
+	@RequestMapping("/my_page_index/{userNo}")
+	public ModelAndView main(@PathVariable Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		ModelAndView mv= new ModelAndView();
 		String path = session.getServletContext().getRealPath("/save");
 		
@@ -99,6 +99,9 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
+		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
@@ -107,12 +110,15 @@ public class MyPageControllerChoi {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
 
 	}
 	
 	@RequestMapping("/gatherSelect/upcomingList")
-	public void selectUpcomingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-
+	public void selectUpcomingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 	
@@ -121,18 +127,30 @@ public class MyPageControllerChoi {
 
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 	
 		model.addAttribute("upcomingList", upcomingList);
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+
 
 	}
 	
 	
 	@RequestMapping("/gatherSelect/participationList")
-	public void selectparticipationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-	
+	public void selectparticipationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 	
@@ -142,19 +160,30 @@ public class MyPageControllerChoi {
 	
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 
 		model.addAttribute("participationList", participationList);
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
 
 	}
 	
 	
 	@RequestMapping("/gatherSelect/waitingList")
-	public void selectWaitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-	
+	public void selectWaitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
@@ -162,23 +191,40 @@ public class MyPageControllerChoi {
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 
 		model.addAttribute("waitingList", waitingList);
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
 
 	}
 	
 	
 	@RequestMapping("/gatherSelect/recruitingList")
-	public void selectRecruitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-	
+	public void selectRecruitingList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 		
 		Page<GatherGroupBy> recruitingList = gatherService.selectRecruitingList(pageable, userNo);
 		
@@ -186,13 +232,18 @@ public class MyPageControllerChoi {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
 
 	}
 	
 	
 	@RequestMapping("/gatherSelect/completionList")
-	public void selectCompletionList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
-	
+	public void selectCompletionList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 
@@ -201,11 +252,24 @@ public class MyPageControllerChoi {
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
+		
 		model.addAttribute("completionList", completionList);
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		System.out.println("F = " + following.size());
+
 
 	}
 	
