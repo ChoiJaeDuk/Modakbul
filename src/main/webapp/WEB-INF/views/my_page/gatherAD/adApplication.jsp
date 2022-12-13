@@ -19,8 +19,39 @@
   <script type="text/javascript">
   	$(function() {
 		$("[name=adApplication-btn]").click(function() {
+			
+			var gatherNo = $(this).val();
+			
 			$("#ad-form").show();
 			$("#ad-form img").attr("src","${pageContext.request.contextPath}/save/"+$(this).val())
+			
+			$(".search-id-button").click(function(){
+
+                  if($(this).val()=="등록"){
+                	  $.ajax({
+                          type:"POST",
+                          url:"${pageContext.request.contextPath}/my_page/gatherAD/insertAd",
+                          dataType:"text",
+                          data: "${_csrf.parameterName}=${_csrf.token}&gatherNo="+gatherNo,            
+                          success:function(result){
+                              
+                          
+                                  alert(result);
+                                  $("#adInsert").load(location.href + " #adInsert");
+                                  
+                                  $("#ad-form").hide();
+      
+                          },//function
+                          error:function(error){
+                              console.log(error)
+                          }
+                          
+                      });
+                  }else{
+                      $("#ad-form").hide();
+                  }
+              })
+			
 		})
 		
 		$(".cancel-button").click(function() {
@@ -77,7 +108,7 @@
                         <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=6'">광고진행중</div>
                     </div>
                 </div>
-                <div class="commercial">
+                <div class="commercial" id="adInsert">
                     <table class="table">
                         <colgroup>
                             <col width="8%" />
@@ -175,16 +206,17 @@
                     <div class="commercial-modal-label">광고 진행일자:</div>
                     <div class="create-commercial-value-wrap">
                         <div>2022/10/22~2022/11/22</div>
-                        <button type="button" class="my-page-button">기간 설정</button>
+                        <input type="date" class="my-page-button">~<input type="date" class="my-page-button">
                     </div>
                 </div>
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 배너 이미지 첨부(<span class="create-commercial-value-required">필수</span>)</div>
                     <div class="create-commercial-input-wrap">
                         <div>
-                            <input class="my-page-form-input" readonly/>
-                            <input id="create-image" type="file" class="commercial-image-input"/>
-                            <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
+                         
+                       <input class="my-page-form-input" type="text" id="fileName"  name="fileName" readonly>
+                       <input class="commercial-image-input" type="file" id="create-image" name="file"  onchange="javascript:document.getElementById('fileName').value = this.value">
+                        <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
                         </div>
                         <label for="create-image" class="commercial-file-button">
                             파일 첨부
@@ -202,7 +234,7 @@
             </div>
             <div class="modal-button-wrap">
                 <button type="button" class="modal-button cancel-button">취소</button>
-                <button type="button" class="modal-button search-id-button">
+                <button type="button" class="modal-button search-id-button" value="등록">
                 확인
                 </button>
             </div>

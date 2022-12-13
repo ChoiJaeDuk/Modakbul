@@ -13,35 +13,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
      <link href="${pageContext.request.contextPath}/css/my-page/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/reset.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
     <title>Document</title>
   </head>
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
    
     <script type="text/javascript">
   	$(function(){
-  		
-  		
-			
-			
-  		$(".my-page-button").click(function(){
-  			$("#bannerUpdate").show();
-  			
-  		})
-  		
-  		$(".cancel-button").click(function() {
-			$("#ADCancel").hide();
-		})
-  	})
-  	
-  	function adDelete(adv){
-  		alert(11)
-  		alert($(this).val())
-  		//if($)
-  	}  	
 
-  
-  </script>
-   
+            $(".my-page-button").click(function(){
+                var advNo = $(this).val();
+
+                $("#bannerUpdate").show();
+
+                $(".search-id-button").click(function(){
+
+                    if($(this).val()=="취소"){
+                  	  $.ajax({
+                            type:"POST",
+                            url:"${pageContext.request.contextPath}/my_page/gatherAD/updateMyAdCancel",
+                            dataType:"text",
+                            data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,            
+                            success:function(result){
+                                
+                            
+                                    alert(result);
+                                    $("#adWaiting").load(location.href + " #adWaiting");
+                                    
+                                    $("#ADCancel").hide();
+        
+                            },//function
+                            error:function(error){
+                                console.log(error)
+                            }
+                            
+                        });
+                    }else{
+                        $("#ADCancel").hide();
+                    }
+                })
+                
+            })
+            
+            $(".cancel-button").click(function() {
+              $("#bannerUpdate").hide();
+          })
+          
+          
+            
+        })      
+    
+    </script>
   <body>
     <div class="wrap">
       <div class="my-page-wrap">
@@ -112,18 +134,18 @@
                         </thead>
                         
                         <tbody>
-                        <c:forEach items="${requestScope.selectGatherADIng.content}" var="data">
+                        <c:forEach items="${requestScope.selectGatherADIng.content}" var="data" varStatus="status">
                             <tr class="table-body">
-                                <td>${data.gatherNo}</td>
+                                <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${data.gather.gatherImg}" alt="이미지" width="100%"/>
                                     </div>
                                 </td>
-                                <td>${data.gatherName}</td>
-                                <td>2022/10/17 ~ 2022/11/17</td>
+                                <td>${data.gather.gatherName}</td>
+                                <td>${fn:substring(data.adApproveDate,0,10)} ~ ${fn:substring(data.deadLine,0,10)}</td>
                                 <td class="inquiry-replied">
-                                    <button type="button" class="my-page-button">배너수정</button>
+                                   <button type="button" class="my-page-button" id="${data.advertisementNo}" value="${data.advertisementNo}">배너수정</button>
                                 </td>
                             </tr>
                            </c:forEach>
@@ -224,18 +246,20 @@
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
             </div>
         </div>
-        <div class="commercial-modal-wrap" id="bannerUpdate" style="display: none">
+        <div class="commercial-modal-wrap" style="display: none" id="bannerUpdate">
             <div class="commercial-modal-title">배너 수정하기</div>
             <div class="modify-commercial-current-image-text">현재 배너 이미지</div>
             <div class="modify-commercial-current-image-wrap">
-                <img src="" alt="img"/>
+            
+                <img src="${pageContext.request.contextPath}/save/" alt="img"/>
             </div>
             <div class="modify-commercial-change-image-wrap">
                 <div class="commercial-modal-label">광고 배너 이미지 첨부</div>
                 <div class="modify-commercial-change-image-value-wrap">
                     <div>
-                        <input class="my-page-form-input" readonly/>
-                        <input id="modify-image" type="file" class="commercial-image-input"/>
+                    
+                        <input class="my-page-form-input" type="text" id="fileName"  name="fileName" readonly>
+                       <input class="commercial-image-input" type="file" id="modify-image" name="file"  onchange="javascript:document.getElementById('fileName').value = this.value">
                         <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
                     </div>
                     <label for="modify-image" class="commercial-file-button">

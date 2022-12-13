@@ -189,15 +189,17 @@ public class AdminController {
 	 * 광고 상태변경(광고 신청 취소)
 	 * */
 	@ResponseBody
-	@RequestMapping("/my_page/gatherAD/updateMyAdCancle")
+	@RequestMapping("/my_page/gatherAD/updateMyAdCancel")
 	public String updateMyAdCancle(HttpServletRequest request) {
 		String advertisementNo = request.getParameter("advertisementNo");
 	
 		System.out.println("광고 신청 취소");
-		adminService.updateMyAdCancle(Long.parseLong(advertisementNo));
+		adminService.updateMyAdCancel(Long.parseLong(advertisementNo));
 		
 		return "광고진행상태가 변경되었습니다.";
 	}
+	
+	
 	
 	
 
@@ -255,7 +257,7 @@ public class AdminController {
 	/**
 	 * 업로드
 	 */
-	@RequestMapping("/admin/advertisementInsert")
+	@RequestMapping("/my_page/gatherAD/insertAd")
 	public String advertisementInsert(Advertisement advertisement, HttpSession session, MultipartFile file) {
 
 		String saveDir = session.getServletContext().getRealPath("/save");
@@ -381,14 +383,14 @@ public class AdminController {
 	 * 마이페이지2 광고(광고중)
 	 */
 	@RequestMapping("/my_page/gatherAD/adStatus")
-	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo) {
 		System.out.println("마이페이지 광고중");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
 
-		Page<Gather> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable);
+		Page<Advertisement> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable, advertisementNo);
 		
 		model.addAttribute("selectGatherADIng", selectGatherADIng);
 		

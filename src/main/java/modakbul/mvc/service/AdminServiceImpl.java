@@ -329,14 +329,17 @@ public class AdminServiceImpl implements AdminService {
 				
 		return gatherList;
 	}
-
+	
+	/**
+	 * 마이페이지에서 신청대기 리스트
+	 */
 	@Override
 	public Page<Advertisement> selectADGatherRegis(Long userNo, Pageable pageable, Long advertisementNo) {
 		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
-				.from(ad).join(qGather).on(ad.advertisementNo.eq(advertisementNo))
+				.from(ad).join(qGather).on(ad.gather.gatherNo.eq(qGather.gatherNo))
 				.where(ad.adStatus.eq("신청대기")
 				//.where(qGather.gatherState.eq("신청대기")
-				.and(qGather.user.userNo.eq(userNo)))
+				.and(ad.user.userNo.eq(userNo)))
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize()).fetchResults();
 		
@@ -347,23 +350,23 @@ public class AdminServiceImpl implements AdminService {
 	 * 마이페이지에서 광고중 리스트
 	 */
 	@Override
-	public Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable) {
+	public Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable, Long advertisementNo) {
 		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
-				.from(qGather).join(ad).on(qGather.gatherNo.eq(ad.gather.gatherNo))
+				.from(ad).join(qGather).on(ad.gather.gatherNo.eq(qGather.gatherNo))
 				.where(ad.adStatus.eq("광고중")
 				//.where(qGather.gatherState.eq("신청대기")
-				.and(qGather.user.userNo.eq(userNo)))
+				.and(ad.user.userNo.eq(userNo)))
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize()).fetchResults();
 		
-		return new PageImpl<Gather>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
+		return new PageImpl<Advertisement>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
 	}
 	
 	/**
 	 * 광고 신청 취소하기
 	 * */
 	@Override
-	public void updateMyAdCancle(Long advertisementNo) {
+	public void updateMyAdCancel(Long advertisementNo) {
 		//Advertisement dbAdv = //adminRep.findById(advertisementNo).orElse(null);
 		/*
 		 * queryFactory.delete(ad).where(ad.gather.gatherNo.eq(advertisement.getGather()
@@ -375,6 +378,20 @@ public class AdminServiceImpl implements AdminService {
 				
 		//dbAdv.setAdStatus(status);
 		
+		
+		
+	}
+	
+	/**
+	 * 진행중 광고 종료하기
+	 * */
+	@Override
+	public void updateMyAdCancel(Long advertisementNo, String status) {
+		LocalDateTime now = LocalDateTime.now();
+		
+		Advertisement dbAdv = adminRep.findById(advertisementNo).orElse(null);
+		dbAdv.setAdStatus(status);
+		dbAdv.setDeadLine(now);
 	}
 	
 	

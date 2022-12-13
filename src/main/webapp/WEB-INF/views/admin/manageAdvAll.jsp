@@ -82,7 +82,8 @@
     </div>
     
      <c:choose>
-	<c:when test="${!empty requestScope.advAll}">
+	<c:when test="${empty requestScope.advAll}"></c:when>
+	<c:otherwise>
      <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
@@ -109,7 +110,7 @@
 		 </c:if> 
 		</div>
 	</nav>
-	</c:when>
+	</c:otherwise>
 	</c:choose>
 	
      <jsp:include page="../layout/footer.jsp" />

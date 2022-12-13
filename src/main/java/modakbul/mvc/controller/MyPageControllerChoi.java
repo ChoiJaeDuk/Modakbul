@@ -204,7 +204,7 @@ public class MyPageControllerChoi {
 	
 	
 	
-	@RequestMapping("/gatherAD/adApplication")
+	//@RequestMapping("/gatherAD/adApplication")
 	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
