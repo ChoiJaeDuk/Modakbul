@@ -674,12 +674,13 @@ img{
 
  #my_modal {
                 display: none;
-                width: 600px;
-                height: 800px;
+                width: 500px;
+                height: 600px;
                 padding: 20px 40px;
                 background-color: #fefefe;
                 border: 1px solid #888;
                 border-radius: 4%;
+                /* overflow: scroll; */
             }
 
 #my_modal .modal_close_btn {
@@ -694,6 +695,7 @@ img{
 #my_modal table tr {
 	width: 100%;
     /* border-bottom: 1px solid #7f7f7f; */
+    overflow: scroll;
 }
 .title {
    /*  background-color: #e0e0e0; */
@@ -717,7 +719,7 @@ img{
     margin-bottom: 10px;
 }
 .modakbul-button {
-    padding: 10px 10px;
+    padding: 10px 15px;
     border: 0;
     border-radius: 25px;
     font-size: 16px;

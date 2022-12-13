@@ -218,7 +218,7 @@ $(document).ready(function(){
 	</div>
 	
 	 <div id="my_modal">
-	 	<table id="following" style="width: 520px;">
+	 	<table id="following" style="width: 100%">
 	 		
 	 		<tr class="title">
 	 	
@@ -229,18 +229,18 @@ $(document).ready(function(){
 			</th>
 			 <a class="modal_close_btn">X</a>
 			<tr class="user">
-			<td style="width: 40%">
+			<th style="width: 20%">
 			사진
-			</td>
-			<td>
+			</th>
+			<th style="width: 10%">
 			이름
-			</td>
-			<td style="width: 10%">
+			</th>
+			<th style="width: 10%">
 			온도
-			</td>
-			<td style="width: 20%">
+			</th>
+			<th style="width: 20%">
 			<button class="modakbul-button following" id="" value="">팔로우</button>
-			</td>
+			</th>
 			</tr> 	
 			<c:forEach items="${followingList}" var="f">
 				<tr>

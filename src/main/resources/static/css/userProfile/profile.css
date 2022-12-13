@@ -1,0 +1,316 @@
+.profile-gather-list {
+    margin: 0px 80px;
+    display: grid;
+    grid-template-columns: 2fr 8fr 1fr;
+    align-items: center;
+    height: 240px;
+    border: 1px solid lightgray;
+    /* border-radius: 10px; */
+    width: 87%;
+   
+    border: #F3F0EB 27px solid;
+}
+
+
+.profile-review-list {
+    margin: 20px 80px;
+    display: grid;
+    grid-template-columns: 2fr 8fr 1fr;
+    align-items: center;
+    height: 280px;
+    border: 1px solid lightgray;
+    /* border-radius: 10px; */
+    width: 87%;
+   border: #F3F0EB 27px solid; 
+   background-color: #F3F0EB
+}
+.modakbul-charged-grid-col {
+   	height: 200px;
+   	margin-left: 30px;
+   	width: 300px;
+}
+
+.modakbul-review-grid-col {
+   	height: 300px;
+   	margin: 10px 30px;
+   	width: 300px;
+}
+
+
+.modakbul-charged-grid-title {
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+.modakbul-charged-grid-director {
+  width: 50%;
+}
+.gatherGroup-img{
+	height: 200px;
+	width: 300px;
+}
+.gather-name{
+	font-size: 26px;
+	margin-bottom:100px;
+	margin-top:5px;
+}
+.gahter-date{
+	font-size: 22px;
+	padding:5px;
+}
+
+.modakbul-button {
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+}
+.button-detail {
+    background: brown;
+    color: white;
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.button-detail:hover {
+  background: #CD5C5C;
+}
+
+
+.button-agree {
+  background: rgb(243, 156, 18);
+  color: white;
+  margin-bottom: 10px;
+}
+.button-agree:hover{
+	background-color: rgb(251, 174, 51);
+}
+
+.button-deny:hover{
+	background: lightgray;
+	
+}
+
+.button-gather-state{
+  background-color: white;
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+  width: 100px;
+}
+
+.divi{
+ 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.button-gather-cancel {
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+  background: rgb(243, 156, 18);
+  color: white;
+}
+.button-gather-cancel:hover{
+	background-color: rgb(251, 174, 51);
+}
+
+.profile-content{
+    width: 90%;
+    padding: 50px 40px 50px 50px;
+    height: 100%;
+    margin-left: 35px;
+}
+#profile-inner-wrapper {
+    width: 100%;
+    height: calc(100% - 101px);
+}
+/* div{
+	display: inline-block;
+}
+ */
+.user-content {
+	height: 290px;
+    display: flex;
+    gap: 0 12px;
+    margin: 40px;
+    margin-left: 240px;
+    width: 100%;
+	margin-top:120px;
+   
+
+}
+
+.my-page-image-wrap {
+	margin-top: 10px;
+  	
+	width: 250px;
+    overflow: hidden;
+    margin-left: 60px;
+}
+.sign-up-image{
+	width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+/* .my-page-image-wrap img{
+	height: 200px;
+} */
+#user-outer-wrapper{
+	width:1500px;
+	height: 350px;
+}
+#user-inner-wrapper{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.my-page-info-wrap{
+	top: 22%;
+	position: absolute;
+	left: 30%;
+	/* width: 80%; */
+	/* border-left: 2px solid black; */
+	height: 85%;
+	margin-top: 25px;
+	display: inline-block;
+} 
+.user-info{
+	margin-left: 70px;
+	
+}
+
+.user-name{
+	font-size: 20px;
+	display: inline-block;
+}
+.user-temper{
+	position: absolute;
+	top: 45%;
+	left: 71.5%; 
+}
+/* .user-follow{
+	
+	font-size: 12px;
+	display: inline-block;
+	padding-right: 5px;
+} */
+
+.userNick{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 45%;
+	left: 25%;
+}
+
+
+.plusinfo{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 45%;
+	right: 15%;
+}
+
+.profileImg{
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	transfrom: translate(-50%, -50%);
+	text-align: center;
+
+}
+
+.follower{
+	position: absolute;
+	top: 45%;
+	left: 39%;
+	font-size: 16px;
+	display: inline-block;
+	
+    
+}
+.followBtn{
+	
+	position: absolute;
+	top: 81%;
+	left: 54.5%;
+	
+}
+.profile-button{
+
+    border: 0;
+    font-size: 13px;
+    height: 50px;
+    width: 70px;
+    border-radius: 80%;
+	background: rgb(243, 156, 18);
+    color: white;
+    margin-bottom: 30px;
+}
+.subject-title{
+	margin-left: 120px;
+}
+
+	
+.result-addr{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 60%;
+	right: 12.5%;
+}
+.result-temper{
+	
+	color: orange;
+	position: absolute;
+	top: 60%;
+	left: 71.5%; 
+	
+}
+
+.result-follower{
+	position: absolute;
+	top: 60%;
+	left: 39.5%;
+	font-size: 16px;
+	display: inline-block;
+}
+
+.result-nick{
+	position: absolute;
+	top: 60%;
+	left: 24.5%;
+	font-size: 16px;
+	display: inline-block;
+}
+.checkUserSubject{
+	display: inline-block;
+	width: 10%
+}
+
+.review-user-name{
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+.review-date{
+	font-size: 12px;
+	margin-bottom: 30px;
+}
+.review-content-area{
+	width: 400px;
+	height: 150px;
+	border: none;
+	background: #F3F0EB;
+}
+.review-content{
+	margin-bottom: 10px;	
+}
