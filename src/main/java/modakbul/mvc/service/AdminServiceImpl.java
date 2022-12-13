@@ -346,7 +346,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * 마이페이지에서 광고중 리스트
 	 */
-	@Override
+	/*@Override
 	public Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable) {
 		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
 				.from(qGather).join(ad).on(qGather.gatherNo.eq(ad.gather.gatherNo))
@@ -356,8 +356,8 @@ public class AdminServiceImpl implements AdminService {
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize()).fetchResults();
 		
-		return new PageImpl<Gather>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
-	}
+		return new PageImpl<Advertisement>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
+	}*/
 	
 	/**
 	 * 광고 신청 취소하기
