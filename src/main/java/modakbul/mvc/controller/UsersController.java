@@ -84,6 +84,27 @@ public class UsersController {
 		return "userProfile/profileGather";
 	}
 	
+	@RequestMapping("/userProfile/profileReview/{userNo}")
+	public String profileReview(@PathVariable Long userNo, Model model, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+		
+		Users user = usersService.selectById(userNo);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		
+		
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("user", user);
+		model.addAttribute("fileNames", fileNames);
+		
+		
+		
+		return "userProfile/profileReview";
+	}
+	
 	
 	@RequestMapping("/my_page/profile/myProfile/{userNo}")
 	public String mypage(@PathVariable Long userNo, Model model, HttpSession session) {
