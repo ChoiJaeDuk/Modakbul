@@ -58,7 +58,7 @@ public class GatherReview {
 	@JoinColumn(name = "hostUser_no")
 	private Users hostUser;
 	
-	@Column(nullable = true)
+	@Column(nullable = true) 
 	private double gatherTemper;
 	
 	@Column(nullable = false, length = 3000)
