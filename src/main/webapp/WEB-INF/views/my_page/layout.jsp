@@ -336,10 +336,136 @@
       });//click END*/
    });
    });     
-           
-   
-   
-   </script>
+
+	
+	
+	</script>
+<title>Document</title>
+</head>
+<body>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+	<div class="shadow">
+	<div class="wrap">
+		<div class="my-page-wrap">
+			<div class="my-page-header">
+				<div class="my-page-image-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+									alt="img" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img" />
+						</c:if>
+
+					</sec:authorize>
+				</div>
+				<div class="my-page-user-info-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<div class="my-page-user-name">
+
+							<div>${user.userName }님</div>
+
+
+						</div>
+						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
+						<div class="my-page-user-follow-wrap">
+							<div>
+								<div>팔로워</div>
+								<div>&nbsp;&nbsp;&nbsp;${following}</div>
+							</div>
+							<div>
+								<div id="following">팔로잉</div>
+								<%-- <div>&nbsp;&nbsp;&nbsp;${following}</div> --%>
+								<div>
+									<a href="${pageContext.request.contextPath}/my_page/follow/followingList?userNo=${user.userNo}">&nbsp;&nbsp;&nbsp;${follower}</a>
+								</div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="my-page-content-wrap">
+				<nav>
+					<ul>
+						<li class="my-page-nav-item selected">프로필정보</li>
+						<li class="my-page-nav-item">알림함</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList/'${user.userNo}">모임조회</li>
+						<li class="my-page-nav-item">관심모임</li>
+						<li class="my-page-nav-item">후기조회</li>
+						<li class="my-page-nav-item">문의조회</li>
+						<li class="my-page-nav-item">광고신청</li>
+					</ul>
+				</nav>
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	 <div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			<!-- <tr class="user">
+			<th style="width: 20%">
+			사진
+			</th>
+			<th style="width: 10%">
+			이름
+			</th>
+			<th style="width: 10%">
+			온도
+			</th>
+			<th style="width: 20%">
+			<button class="modakbul-button following" id="" value="">팔로우</button>
+			</th>
+			</tr> 	 -->
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+					</th>
+				</tr>
+			</c:forEach>
+	 	</table>
+	 
+        </div>
+
+
+	</div>
+	
+	
+
 
 <%-- <jsp:include page="/WEB-INF/views/layout/footer.jsp" /> --%>
 </body>

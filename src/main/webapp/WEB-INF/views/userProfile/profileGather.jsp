@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+
 <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
     <title>MODAKBUL</title>
 
 	 <link href="${pageContext.request.contextPath}/css/userProfile/profile.css" rel="stylesheet" />
-	
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 	<style type="text/css">
 		
 	</style>
@@ -29,10 +30,14 @@
    <body>
 
  
+ 
+ 
+
    <jsp:include page="../layout/header.jsp" /> 
    	<div id="user-outer-wrapper">
    		<div id="user-inner-wrapper" class="divi">
    			 <div class="user-content">
+   			 <!-- <i class="fa-solid fa-user"></i> -->
    			 <img src="${pageContext.request.contextPath}/css/pageImg.png"
 			alt="modakbul-icon" class="pageimg" /> 
    			 
@@ -46,16 +51,52 @@
 								<c:set value="true" var="state2" />
 								 --%>
 								 <div class="profileImg">
+								
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
 								<img class="sign-up-image"
-									src="${pageContext.request.contextPath}/save/dong.jpg"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
 									alt="img" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img" />
+						</c:if>
 									</div>
 									
 								 <div class="my-page-info-wrap">
 					   			 	
 						   			
 						   		</div>
-						   		<div class="userNick">
+						   		<div class="user-info-page">
+						   			<table>
+						   				<tr class="user-info-page-title">
+						   					<th class="userNick"> 닉네임 </th>
+						   					<th class="follower"> 팔로워 </th>
+						   					<th class="user-temper"> 온도 </th>
+						   					<th class="plusinfo"> 지역 </th>
+						   				
+						   				</tr>
+						   				<tr class="user-info-page-content">
+						   					<td class="result-nick"> ${user.userNo} </td>
+						   					<td class="result-addr"> ${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]} </td>
+						   					<td class="result-temper"> ${user.temper}&#8451 </td>
+						   					<td class="result-follower">${follower }</td>
+						   				</tr>	
+						   			</table>
+						   		
+						   		
+						   		
+						   		</div>
+						   		
+						   		<!-- <div class="userNick">
 					   			 		닉네임
 					
 						   			</div>
@@ -68,11 +109,12 @@
 									</div>
 								<div class="follower">
 									팔로워
-								</div>
-								<div class="result-nick"> 지으니요 </div>
-								<div class="result-addr"> 경기도 성남시 </div>
-								<div class="result-temper"><p> 80°C </p></div>
-								<div class="result-follower"><p> 126 </p></div>
+								</div> -->
+							
+								<%-- <div class="result-nick"> ${user.userNo} </div>
+								<div class="result-addr">${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]}  </div>
+								<div class="result-temper"><p> ${user.temper}&#8451  </p></div>
+								<div class="result-follower"><p>  </p></div> --%>
 								<div class="followBtn">
 								<button class="profile-button" type="button"><p>팔로우</p></button>	
 								</div>
