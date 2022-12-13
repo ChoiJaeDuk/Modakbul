@@ -85,4 +85,11 @@ public interface AdminRepository extends JpaRepository<Advertisement, Long>, Que
 	 * */
 	@Query(value = "select TO_CHAR(dead_line,'mm') as month from advertisement order by TO_CHAR(dead_line,'mm')", nativeQuery = true)
 	String selectDeadLine(Advertisement advertisement);
+	
+	/**
+	 * selectByNo
+	 */
+	@Query("select ad from Advertisement ad where ad.advertisementNo=?1")
+	Advertisement selectByNo(Long adNo);
+	
 }
