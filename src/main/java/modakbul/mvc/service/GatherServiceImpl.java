@@ -184,11 +184,11 @@ public class GatherServiceImpl implements GatherService {
 					}
 				}
 			} else if(ldt.isEqual(gather.getGatherDeadline())) {
-				if(gather.getGatherState().equals("모집보류")) {
-					gather.setGatherState("모임취소");
-					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
-					autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
-				}
+				
+				gather.setGatherState("모임취소");
+				autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+				autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
+				
 			}
 		}
 

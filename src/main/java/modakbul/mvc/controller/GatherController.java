@@ -3,13 +3,16 @@ package modakbul.mvc.controller;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +33,10 @@ public class GatherController {
 	private final GatherService gatherService;
 	private final RegularGatherService regularGatherService;
 	private final GatherAttachmentsService gatherAttachmentsService;
+	
+	private final static int PAGE_COUNT=5;
+	private final static int BLOCK_COUNT=4;
+	
 	@RequestMapping("/gatherInsertForm")
 	public void gatherInsertForm() {}
 	
@@ -111,8 +118,6 @@ public class GatherController {
 		
 		return new ModelAndView("/gather/success");
 	}
-	
-	
 	
 }
 
