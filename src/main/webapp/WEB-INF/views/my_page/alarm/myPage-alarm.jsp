@@ -13,6 +13,18 @@
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/myPage-alarm.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/alarm/reset.css" rel="stylesheet" />
     <title>마이페이지-알람함</title>
+    
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		console.log("새알람 = " + ${newAlarm});
+    		if(${newAlarm}==0 || ${newAlarm}==null){
+    			$(".nav-counter").hide();
+    		}else{
+    			$(".nav-counter").show();
+    		}
+    	})
+    </script>
   </head>
  <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
@@ -76,7 +88,21 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item selected" onclick="location.href='${pageContext.request.contextPath}/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position:relative;"> 
+							알림함
+							
+							<c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<%-- <c:otherwise>
+									<div class="nav-counter-invi" style="visibility: hidden;" hidden="hidden">
+										<span class="nav-counter-invi"  hidden="hidden"> 0 </span>
+									</div>
+								</c:otherwise> --%>
+							</c:choose>
+							
+						</li>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"
@@ -133,7 +159,7 @@
 	<c:set var="doneLoop" value="false"/>
 		
 		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  --><!-- /alarm/myAlarm?userNo=9 -->
-		      <a class="pagination-newer" href="${pageContext.request.contextPath}/alarm/myAlarm?userNo=${userNo}&nowPage=${startPage-1}">PREV</a>
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}&nowPage=${startPage-1}">PREV</a>
 		  </c:if> 
 		  
 		<span class="pagination-inner"> 
@@ -144,14 +170,14 @@
 			    </c:if> 
 		    
 		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/alarm/myAlarm?userNo=${userNo}&nowPage=${i}">${i}</a> 
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}&nowPage=${i}">${i}</a> 
 		  </c:if>
 		   
 		</c:forEach>
 		</span> 
 				
 		 <c:if test="${(startPage+blockCount)<=pageList.getTotalPages()}">
-		     <a class="pagination-older" href="${pageContext.request.contextPath}/alarm/myAlarm??userNo=${userNo}&nowPage=${startPage+blockCount}">NEXT</a>
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/alarm/myAlarm??userNo=${user.userNo}&nowPage=${startPage+blockCount}">NEXT</a>
 		 </c:if>
 				 
 			
