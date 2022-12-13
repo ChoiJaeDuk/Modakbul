@@ -47,20 +47,20 @@ $("form").on("submit",function() {
         <div class="search-list-body">
           <aside class="search-list-sub-filter">
             <ul class="search-list-filter-type">
-            
+            <sec:authorize access="isAuthenticated()">
             <sec:authentication var="user" property="principal" />
               <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</li>
               <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryQnA '">Q&A</li>
               <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryFAQ'">자주하는 질문</li>
             </ul>
      
-           
+             </sec:authorize>
            
           </aside>
           <main class="search-list-main">
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
-                <h2 class="inquiry-title">문의하기</h2>
+                <h2 class="inquiry-title">공지사항 수정</h2>
                 <div class="inquiry-button-wrap">
                   
                 </div>

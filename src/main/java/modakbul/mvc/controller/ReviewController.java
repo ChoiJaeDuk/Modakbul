@@ -115,9 +115,11 @@ public class ReviewController {
 		  System.out.println(page.getSize());
 		  
 		  return mv; 
-		  
 		  }
-	
+	@RequestMapping("/userReviewInsert")
+	public String userReviewInsert() {
+		return "redirect:/";
+	}
 	
 	
 	}
