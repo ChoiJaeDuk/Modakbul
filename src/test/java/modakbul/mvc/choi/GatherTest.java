@@ -372,6 +372,15 @@ public class GatherTest {
 					.fetchCount();
 			System.out.println((int)likeCount);
 		}
+		
+		@Test
+		void testes() {
+			Pageable pageable = PageRequest.of(0, 5);
+			Page<Gather> page = gatherService.selectGatherStateByUserNo(pageable, 1L, "신청대기");
+			List<Gather> gatherList = page.getContent();
+			
+			System.out.println("길이:" + gatherList.size() );
+		}
 }
 
 

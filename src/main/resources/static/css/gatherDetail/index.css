@@ -441,7 +441,6 @@ header {
   position: relative;
   height: 170px;
   overflow: hidden;
-  background-color: red;
 }
 .list-card-like {
   position: absolute;

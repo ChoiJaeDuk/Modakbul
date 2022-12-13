@@ -60,7 +60,6 @@ header {
   position: relative;
   height: 170px;
   overflow: hidden;
-  background-color: red;
 }
 .list-card-like {
   position: absolute;
@@ -158,10 +157,12 @@ header {
 .search-list-result-item {
   display: flex;
   height: 200px;
+  width: 1000px;
   background-color: rgb(215, 215, 215);
 }
 .search-list-result-item-info {
   padding: 18px 24px;
+  width: 700px;
 }
 .search-list-result-item-info > * + * {
   margin-top: 8px;
@@ -170,7 +171,7 @@ header {
   flex-shrink: 0;
   width: 165px;
   height: 100%;
-  background-color: red;
+
 }
 .search-list-result-item-title {
   height: 72px;

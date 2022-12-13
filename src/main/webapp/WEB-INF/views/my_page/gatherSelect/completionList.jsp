@@ -18,132 +18,147 @@
   </head>
   <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
   <script type="text/javascript">
-  $(function() {
-	  $(document).ready(function(){
-   	   $(function(){
-   	      let $modal ;
-   	       document.getElementById('following').addEventListener('click', function() {
-   	             // 모달창 띄우기
-   	             modal('my_modal');
-   	             
-   	            // alert("dd = " + document.querySelector(".modakbul-button following"))
-   	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
-   	              
-   	              
-   	              
-   	              $(document).on("click", "button[class='modakbul-button following']" , function(){
-   	                
+  $(function(){
+  	console.log("새알람 = " + ${newAlarm});
+  	if(${newAlarm}==0 || ${newAlarm}==null){
+  		$(".nav-counter").hide();
+  	}else{
+  		$(".nav-counter").show();
+  	}
+  	})
+  	
+  $(document).ready(function(){
+  $(function(){
+    let $modal ;
+    
+    $(document).ajaxSend(function(e,xht,op){
+           xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+        	});
+    
+     document.getElementById('following').addEventListener('click', function() {
+           // 모달창 띄우기
+           modal('my_modal');
+           
+          // alert("dd = " + document.querySelector(".modakbul-button following"))
+            $modal = $("button[class='modakbul-button following']");//document.querySelector(".modakbul-button following");
+            
+            let str = "yes"
+            if("${searchFollow}"==str){
+  				$(".profile-button").text("팔로잉");
+  				$(".profile-button").css("background","gray");
+  				
+  			}//searchFollow if END
+            
+            $(document).on("click", "button[class='modakbul-button following']" , function(){
+              
 
-   	                      alert("버튼클릭했음" + " , " + $(this).val());
-   	                      
-   	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
-   	                      console.log("follower = " + $(this).val());
-   	                    /*   console.log("following = " + ${userNo}); */
-   	                      let targetBtn = $(this);
-   	                      
-   	                      if($(this).text() == "팔로잉"){
-   	                         alert("딜리트 반응?");
-   	                         $.ajax({
-   	                            url:"${pageContext.request.contextPath}/follow/delete", 
-   	                            type:"post",
-   	                            dataType:"text",
-   	                                data:JSON.stringify(target),   
-   	                                contentType:'application/json;charset=utf-8',
-   	                            success:function(result){
-   	                               if(result=="ok"){
-   	                                  alert("팔로잉이 해제 되었습니다.")                  
-   	                                  
-   	                                  targetBtn.css("background","rgb(243, 156, 18)")
-   	                                  targetBtn.text("팔로우")
-   	                               }
-   	                            },error:function(err){
-   	                               alert("err : "+err);
-   	                            }
-   	                         });//Delete ajax END
-   	                      }
-   	                      
-   	                      if($(this).text()=="팔로우"){
-   	                         alert("인설트반응?");
-   	                         $.ajax({
-   	                            url:"${pageContext.request.contextPath}/follow/insert",
-   	                            type:"post",
-   	                            dataType:"text",
-   	                                data:JSON.stringify(target),   
-   	                                contentType:'application/json;charset=utf-8',
-   	                            success:function(result){
-   	                               if(result=="ok"){
-   	                                  alert("팔로우 등록 되었습니다.")                  
-   	                                  
-   	                                  targetBtn.css("background","gray")
-   	                                  targetBtn.text("팔로잉")
-   	                               }
-   	                               
-   	                            },error:function(err){
-   	                               alert("err : "+err);
-   	                            }
-   	                         });//Insert ajax END
-   	                      }//if  END
-   	                      
-   	                   });///////////////////////////
-   	             
+                    alert("버튼클릭했음" + " , " + $(this).val());
+                    
+                    let target = {"follower":$(this).val() , "following":"${userNo}"}
+                    console.log("follower = " + $(this).val());
+                    console.log("following = " + ${userNo});
+                    let targetBtn = $(this);
+                    
+                    if($(this).text() == "팔로잉"){
+                       alert("딜리트 반응?");
+                       $.ajax({
+                          url:"${pageContext.request.contextPath}/follow/delete", 
+                          type:"post",
+                          dataType:"text",
+                              data:JSON.stringify(target),   
+                              contentType:'application/json;charset=utf-8',
+                          success:function(result){
+                             if(result=="ok"){
+                                alert("팔로잉이 해제 되었습니다.")                  
+                                
+                                targetBtn.css("background","rgb(243, 156, 18)")
+                                targetBtn.text("팔로우")
+                             }
+                          },error:function(err){
+                             alert("err : "+err);
+                          }
+                       });//Delete ajax END
+                    }//Delete if END
+                    
+                    if($(this).text()=="팔로우"){
+                       alert("인설트반응?");
+                       $.ajax({
+                          url:"${pageContext.request.contextPath}/follow/insert",
+                          type:"post",
+                          dataType:"text",
+                              data:JSON.stringify(target),   
+                              contentType:'application/json;charset=utf-8',
+                          success:function(result){
+                             if(result=="ok"){
+                                alert("팔로우 등록 되었습니다.")                  
+                                
+                                targetBtn.css("background","gray")
+                                targetBtn.text("팔로잉")
+                             }
+                             
+                          },error:function(err){
+                             alert("err : "+err);
+                          }
+                       });//Insert ajax END
+                    }//if  END
+                    
+                 });///////////////////////////
+           
+       });//modal 띄우기
+  });//ready 다음 function ENd
 
-   	              
-   	             
-   	             
-   	         });
-   	   
-   	      
-   	       //////////////////////////////////////////////////
-   	   })
-   	   
-   	    function modal(id) {
-   	                var zIndex = 9999;
-   	                var modal = document.getElementById(id);
 
-   	                // 모달 div 뒤에 희끄무레한 레이어
-   	                var bg = document.createElement('div');
-   	                bg.setStyle({
-   	                    position: 'fixed',
-   	                    zIndex: zIndex,
-   	                    left: '0px',
-   	                    top: '0px',
-   	                    width: '100%',
-   	                    height: '100%',
-   	                    overflow: 'auto',
-   	                    // 레이어 색갈은 여기서 바꾸면 됨
-   	                    backgroundColor: 'rgba(0,0,0,0.4)'
-   	                });
-   	                document.body.append(bg);
 
-   	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-   	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-   	                    bg.remove();
-   	                    modal.style.display = 'none';
-   	                });
+  function modal(id) {
+              var zIndex = 9999;
+              var modal = document.getElementById(id);
 
-   	                modal.setStyle({
-   	                    position: 'fixed',
-   	                    display: 'block',
-   	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+              // 모달 div 뒤에 희끄무레한 레이어
+              var bg = document.createElement('div');
+              bg.setStyle({
+                  position: 'fixed',
+                  zIndex: zIndex,
+                  left: '0px',
+                  top: '0px',
+                  width: '100%',
+                  height: '100%',
+                  overflow: 'auto',
+                  // 레이어 색갈은 여기서 바꾸면 됨
+                  backgroundColor: 'rgba(0,0,0,0.4)'
+              });
+              document.body.append(bg);
 
-   	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
-   	                    zIndex: zIndex + 1,
+              // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+              modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+                  bg.remove();
+                  modal.style.display = 'none';
+              });
 
-   	                    // div center 정렬
-   	                    top: '50%',
-   	                    left: '50%',
-   	                    transform: 'translate(-50%, -50%)',
-   	                    msTransform: 'translate(-50%, -50%)',
-   	                    webkitTransform: 'translate(-50%, -50%)'
-   	                });
-   	            }
+              modal.setStyle({
+                  position: 'fixed',
+                  display: 'block',
+                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
 
-   	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-   	            Element.prototype.setStyle = function(styles) {
-   	                for (var k in styles) this.style[k] = styles[k];
-   	                return this;
-   	            };
-   });
+                  // 시꺼먼 레이어 보다 한칸 위에 보이기
+                  zIndex: zIndex + 1,
+
+                  // div center 정렬
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  msTransform: 'translate(-50%, -50%)',
+                  webkitTransform: 'translate(-50%, -50%)'
+              });
+          }
+
+          // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+          Element.prototype.setStyle = function(styles) {
+              for (var k in styles) this.style[k] = styles[k];
+              return this;
+          };
+
+
+  }); 
 	  
 	  $(document).ready(function(){		
 			$('#check1').change(function(){
@@ -156,7 +171,6 @@
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo="+$("#check2").val();
 			})
 		})
-  });
   </script>
   <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
@@ -219,7 +233,21 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">
+						알림함
+							
+							<c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise> 
+							</c:choose>
+							
+						</li>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"
@@ -285,7 +313,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}"" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${completionList.gatherName}</td>
@@ -296,45 +324,49 @@
                        	</c:forEach>
                     </table>
                 </div>
-            </div>     
+            </div>    
+            <div>
+            	 <div style="text-align: center">
+		<!--  블럭당  -->
+			 <nav class="pagination-container">
+				<div class="pagination">
+				<c:set var="doneLoop" value="false"/>
+					
+					 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+					      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
+					  </c:if> 
+					  
+					<span class="pagination-inner"> 
+					  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+					  
+						    <c:if test="${(i-1)>=completionList.getTotalPages()}">
+						       <c:set var="doneLoop" value="true"/>
+						    </c:if> 
+					    
+					  <c:if test="${not doneLoop}" >
+					         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
+					  </c:if>
+					   
+					</c:forEach>
+					</span> 
+							
+					 <c:if test="${(startPage+blockCount)<=completionList.getTotalPages()}">
+					     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
+					 </c:if>
+							 
+						
+					
+					</div>
+				</nav>  
+			</div>
+            </div> 
           </section>
           
           </div>
           </div>
  
         </div>
-                 <div style="text-align: center">
-		<!--  블럭당  -->
- <nav class="pagination-container">
-	<div class="pagination">
-	<c:set var="doneLoop" value="false"/>
-		
-		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
-		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
-		  </c:if> 
-		  
-		<span class="pagination-inner"> 
-		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
-		  
-			    <c:if test="${(i-1)>=completionList.getTotalPages()}">
-			       <c:set var="doneLoop" value="true"/>
-			    </c:if> 
-		    
-		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
-		  </c:if>
-		   
-		</c:forEach>
-		</span> 
-				
-		 <c:if test="${(startPage+blockCount)<=completionList.getTotalPages()}">
-		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
-		 </c:if>
-				 
-			
-		
-		</div>
-	</nav>  
+                
 	<div id="my_modal">
 	 	<table id="following" style="width: 100%">
 	 		
@@ -372,7 +404,7 @@
 						${f.followerUser.temper}℃
 					</th>
 					<th style="width: 20%">
-						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
 					</th>
 				</tr>
 			</c:forEach>
@@ -380,7 +412,7 @@
 	 
         </div>
 	
-</div>
+
        
   </body>
 </html>

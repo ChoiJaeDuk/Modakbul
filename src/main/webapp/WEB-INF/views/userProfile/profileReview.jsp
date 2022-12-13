@@ -21,8 +21,77 @@
 		
 	</style>
 	<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
-  	<script type="text/javascript">
-  	
+	<script type="text/javascript">
+  		$(document).ready(function(){
+  			$(function(){
+  				console.log("버튼 텍스트 = " + $(".profile-button").text());
+  	  			console.log("있어 없어 ? = " + "${searchFollow}" );
+  				
+  				// 토글
+  				$(document).ajaxSend(function(e,xht,op){
+  		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+  		      	});
+  				let str = "yes";
+  				if("${searchFollow}"==str){
+  					$(".profile-button").text("팔로잉");
+  					$(".profile-button").css("background","gray");
+  				}
+  				
+  				$(document).on('click', '.profile-button',function(){
+  					
+  					alert("버튼클릭했음" + " , " + $(this).val());
+                    
+                    let target = {"follower":$(this).val() , "following":"${loginUserNo}"}
+                    console.log("follower = " + $(this).val());
+
+                    let targetBtn = $(this);
+  					
+  					if($(this).text() == "팔로잉"){
+                        alert("딜리트 반응?");
+                        $.ajax({
+                           url:"${pageContext.request.contextPath}/follow/delete", 
+                           type:"post",
+                           dataType:"text",
+                               data:JSON.stringify(target),   
+                               contentType:'application/json;charset=utf-8',
+                           success:function(result){
+                              if(result=="ok"){
+                                 alert("팔로잉이 해제 되었습니다.")                  
+                                 
+                                 targetBtn.css("background","rgb(243, 156, 18)")
+                                 targetBtn.text("팔로우")
+                              }
+                           },error:function(err){
+                              alert("err : "+err);
+                           }
+                        });//Delete ajax END
+                     }
+                     
+                     if($(this).text()=="팔로우"){
+                        alert("인설트반응?");
+                        $.ajax({
+                           url:"${pageContext.request.contextPath}/follow/insert",
+                           type:"post",
+                           dataType:"text",
+                               data:JSON.stringify(target),   
+                               contentType:'application/json;charset=utf-8',
+                           success:function(result){
+                              if(result=="ok"){
+                                 alert("팔로우 등록 되었습니다.")                  
+                                 
+                                 targetBtn.css("background","gray")
+                                 targetBtn.text("팔로잉")
+                              }
+                              
+                           },error:function(err){
+                              alert("err : "+err);
+                           }
+                        });//Insert ajax END
+                     }//if  END
+  				});//click END
+  				
+  			});
+  		});
   	</script>
  </head>
  
@@ -33,58 +102,23 @@
    	<div id="user-outer-wrapper">
    		<div id="user-inner-wrapper" class="divi">
    			 <div class="user-content">
+   			 <!-- <i class="fa-solid fa-user"></i> -->
    			 <img src="${pageContext.request.contextPath}/css/pageImg.png"
 			alt="modakbul-icon" class="pageimg" /> 
    			 
-   			 <%-- <div class="my-page-image-wrap" id="original">
-					<sec:authorize access="isAuthenticated()">
-						<sec:authentication var="user" property="principal" />
+   			
+								 <div class="profileImg">
+								
 						<c:set value="${user.userProfileImg}" var="img" />
 						<c:set value="true" var="state1" />
 						<c:forEach items="${fileNames }" var="file">
 							<c:if test="${file eq img }">
 								<c:set value="true" var="state2" />
-								 --%>
-								 <div class="profileImg">
 								<img class="sign-up-image"
-									src="${pageContext.request.contextPath}/save/dong.jpg"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
 									alt="img" />
-									</div>
-									
-								 <div class="my-page-info-wrap">
-					   			 	
-						   			
-						   		</div>
-						   		<div class="userNick">
-					   			 		닉네임
-					
-						   			</div>
-						   		<div class="user-temper">
-					   			 		온도
-					
-						   			</div>
-						   		<div class="plusinfo">
-									<span>지역</span>
-									</div>
-								<div class="follower">
-									팔로워
-								</div>
-								<div class="result-nick"> 지으니요 </div>
-								<div class="result-addr"> 경기도 성남시 </div>
-								<div class="result-temper"><p> 80°C </p></div>
-								<div class="result-follower"><p> 126 </p></div>
-								<div class="followBtn">
-								<button class="profile-button" type="button"><p>팔로우</p></button>	
-								</div>
-													<!-- 	<div class="plusinfo">
-									<span>지역</span>
-									</div>
-									<div class="plusinfo">
-									팔로워
-									</div> -->
-		
 
-							<%-- </c:if>
+							</c:if>
 
 						</c:forEach>
 
@@ -92,57 +126,58 @@
 							<img class="sign-up-image" src="${user.userProfileImg }"
 								alt="img" />
 						</c:if>
+									</div>
+									
+								 <div class="my-page-info-wrap">
+					   			 	
+						   			
+						   		</div>
+						   		<div class="user-info-page">
+						   			<table>
+						   				<tr class="user-info-page-title">
+						   					<th class="userNick"> 닉네임 </th>
+						   					<th class="follower"> 팔로워 </th>
+						   					<th class="user-temper"> 온도 </th>
+						   					<th class="plusinfo"> 지역 </th>
+						   				
+						   				</tr>
+						   				<tr class="user-info-page-content">
+						   					<th class="result-nick"> ${user.userNo} </th>
+						   					<th class="result-addr"> ${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]} </th>
+						   					<th class="result-temper"> ${user.temper}&#8451 </th>
+						   					<th class="result-follower">${follower }</th>
+						   				</tr>	
+						   			</table>
 
-						<input id="sign-up-add-image" class="sign-up-add-image"
-							type="file" name="file" accept="image/*" />
-					</sec:authorize> --%>
+						   		
+						   		</div>
+
+								<div class="followBtn">
+								<button class="profile-button" type="button" value="${user.userNo}"><p>팔로우</p></button>
+								</div>
+
+
 				</div>
-				<!--  <div class="my-page-info-wrap">
-   			 	<div class="user-name">
-   			 		지은이요
-
-	   			</div>
-	   			<div class="user-temper">
-   			 		온도
-
-	   			</div>
-	   			<div class="user-follow">
-   			 		팔로우
-
-	   			</div>
-	   		</div> 
-   			 </div> -->
+				
    			
    		</div>
    	</div>
-   
     <div id="profile-outer-wrapper">
     
 
       <div id="profile-inner-wrapper" class="divi">
-       <%--  <nav class="modakbul-navigation">
-          <div class="modakbul-navigation-menu">
-           <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAll'">운영현황</p>
-          </div>
-          <div class="modakbul-navigation-menu navigation-selected">
-            <p onclick="location.href='${pageContext.request.contextPath}/admin/manageGather'">유료계정 / 승인</p>
-          </div>
-          <div class="modakbul-navigation-menu">
-            <p onclick="location.href='${pageContext.request.contextPath}/admin/manageSales'">매출현황</p>
-          </div>
-          <div class="modakbul-navigation-menu">
-             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
-          </div>
-        </nav> --%>
+       
         <div class="profile-content">
           <!-- 여기에 내용 넣으면 됨. -->
           	<div class="subject-title">
+          	<nav>
 			<div class="checkUserSubject">
-			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather'" style="color: lightgray">주최모임</h3>
+			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${user.userNo }'" style="color: lightgray">주최모임</h3>
 			</div>
 			<div class="checkUserSubject">
-			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileReview'" >후기</h3>
+			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileReview/${user.userNo }'" >후기</h3>
 			</div>
+			</nav>
 			</div>
 			
 			<div class="profile-review-list">

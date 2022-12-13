@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,11 +52,14 @@ public class Advertisement {
 	@NonNull
 	private String adStatus;
 	
+	@CreationTimestamp
 	@Column(nullable = false)
 	private LocalDateTime adRegisDate;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm")
 	private LocalDateTime adApproveDate;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm")
 	private LocalDateTime deadLine;
 	
 	@Column(nullable = false)

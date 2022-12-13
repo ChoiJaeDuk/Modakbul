@@ -141,7 +141,7 @@
     display: flex;
     gap: 0 12px;
     margin: 40px;
-    margin-left: 240px;
+    margin-left: 300px;
     width: 100%;
 	margin-top:120px;
    
@@ -209,7 +209,7 @@ table{
 .user-temper{
 	position: absolute;
 	top: 40%;
-	left: 68%; 
+	left: 62%; 
 }
 /* .user-follow{
 	
@@ -223,7 +223,7 @@ table{
 	display: inline-block;
 	font-size: 16px;
 	top: 40%;
-	left: 15%;
+	left: 10%;
 }
 
 
@@ -232,7 +232,7 @@ table{
 	display: inline-block;
 	font-size: 16px;
 	top: 40%;
-	right: 15%;
+	right: 20%;
 }
 
 .profileImg{
@@ -247,7 +247,7 @@ table{
 .follower{
 	position: absolute;
 	top: 40%;
-	left: 30%;
+	left: 25%;
 	font-size: 16px;
 	
 	
@@ -281,21 +281,21 @@ table{
 	display: inline-block;
 	font-size: 16px;
 	top: 60%;
-	right: 11%;
+	right: 16%;
 }
 .result-temper{
 	
 	color: orange;
 	position: absolute;
 	top: 60%;
-	left: 68%; 
+	left: 62%; 
 	
 }
 
 .result-follower{
 	position: absolute;
 	top: 60%;
-	left: 30%;
+	left: 26%;
 	font-size: 16px;
 	display: inline-block;
 }
@@ -303,7 +303,7 @@ table{
 .result-nick{
 	position: absolute;
 	top: 60%;
-	left: 15%;
+	left: 11%;
 	font-size: 16px;
 	display: inline-block;
 }

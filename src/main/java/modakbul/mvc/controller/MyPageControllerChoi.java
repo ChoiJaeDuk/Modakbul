@@ -21,6 +21,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherAttachmentsService;
 import modakbul.mvc.service.GatherService;
@@ -40,8 +41,9 @@ public class MyPageControllerChoi {
 	private final ParticipantService participantService;
 	private final InquiryService inqService;
 	private final FollowService followService;
+	private final AlarmService alarmService;
 	
-	private final static int PAGE_COUNT=2;
+	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	@RequestMapping("/{url}")
 	public void aa() {
@@ -59,8 +61,10 @@ public class MyPageControllerChoi {
 		List<SelectReplyState> resultList1 = list.getContent();
 		Long totalWaiting=list.getTotalElements();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 
 		File file = new File(path);
 		String fileNames [] = file.list();
@@ -77,8 +81,11 @@ public class MyPageControllerChoi {
 		 mv.addObject("startPage",startPage);
 		 mv.addObject("nowPage", nowPage);
 		 
+		 mv.addObject("followingList", followList);
 		 mv.addObject("follower", follower.size());
-		mv.addObject("following", following.size());
+		 mv.addObject("following", following.size());
+		 mv.addObject("newAlarm", newAlarm);
+		 mv.addObject("userNo", userNo);
 		
 		 mv.addObject("fileNames", fileNames);
 		
@@ -99,8 +106,10 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
@@ -111,8 +120,11 @@ public class MyPageControllerChoi {
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 
 	}
 	
@@ -131,8 +143,10 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 	
 		model.addAttribute("upcomingList", upcomingList);
 		model.addAttribute("blockCount", BLOCK_COUNT);
@@ -141,8 +155,11 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("fileNames", fileNames);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 
 
 	}
@@ -164,8 +181,10 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 
 		model.addAttribute("participationList", participationList);
 
@@ -175,8 +194,11 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("fileNames", fileNames);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 
 	}
 	
@@ -189,14 +211,18 @@ public class MyPageControllerChoi {
 		
 		Page<Gather> waitingList = gatherService.selectGatherStateByUserNo(pageable, userNo, "신청대기");
 		
+		System.out.println("waitingList = " + waitingList);
+		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 
 		model.addAttribute("waitingList", waitingList);
 
@@ -206,8 +232,11 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("fileNames", fileNames);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 
 	}
 	
@@ -223,8 +252,10 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		
 		Page<GatherGroupBy> recruitingList = gatherService.selectRecruitingList(pageable, userNo);
 		
@@ -235,8 +266,11 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("fileNames", fileNames);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 
 	}
 	
@@ -255,8 +289,10 @@ public class MyPageControllerChoi {
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		
 		model.addAttribute("completionList", completionList);
 
@@ -266,8 +302,11 @@ public class MyPageControllerChoi {
 		
 		model.addAttribute("fileNames", fileNames);
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 		System.out.println("F = " + following.size());
 
 
@@ -287,12 +326,13 @@ public class MyPageControllerChoi {
 		
 		System.out.println("regularGatherNo = " + regularGatherNo);
 	
-		gatherService.deleteGather(gatherNo);
+		
 		
 		if(regularGatherNo!=null) {
 			regularGatherService.deleteRegularGather(regularGatherNo);
 		}
 		
+		gatherService.deleteGather(gatherNo);
 		redirect.addAttribute("userNo", userNo);
 		
 		
@@ -314,7 +354,7 @@ public class MyPageControllerChoi {
 	
 	
 	
-	//@RequestMapping("/gatherAD/adApplication")
+	@RequestMapping("/gatherAD/adApplication")
 	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 

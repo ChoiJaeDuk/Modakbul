@@ -21,9 +21,24 @@
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.form.min.js"></script>
 <script type="text/javascript">
-   		$(function(){
+
+	$(function(){
+		console.log("새알람 = " + ${newAlarm});
+		if(${newAlarm}==0 || ${newAlarm}==null){
+			$(".nav-counter").hide();
+		}else{
+			$(".nav-counter").show();
+		}
+	});
+	
+	$(document).ready(function(){
    		 $(function(){
    	      let $modal ;
+   	      
+   	   $(document).ajaxSend(function(e,xht,op){
+	         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+	      	});
+   	   
    	       document.getElementById('following').addEventListener('click', function() {
    	             // 모달창 띄우기
    	             modal('my_modal');
@@ -392,8 +407,8 @@
 				$("#addrDetail").focus();
 			}
 		}).open();
-			
-		}
+	
+		})
    		
     </script>
 </head>
@@ -458,7 +473,21 @@
 					<ul>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">
+						알림함
+							
+							<c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise> 
+							</c:choose>
+							
+						</li>
 						<li class="my-page-nav-item"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"
@@ -663,7 +692,7 @@
 						${f.followerUser.temper}℃
 					</th>
 					<th style="width: 20%">
-						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
 					</th>
 				</tr>
 			</c:forEach>

@@ -22,7 +22,7 @@ public interface AdminService {
 	/**
 	 * 광고 등록
 	 * */
-	void advertisementInsert(Advertisement advertisement);
+	void advertisementInsert(Advertisement advertisement, Long gatherNo);
 
 	/**
 	 * 광고 수정하기

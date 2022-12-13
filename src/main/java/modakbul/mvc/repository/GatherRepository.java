@@ -65,6 +65,12 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 			+ "group by to_char(gather_date,'mm') \r\n"
 			+ "order by gatherMonth", nativeQuery = true)
 	List<GatherGroupBy> selectBidTotal(String year);
+	
+	
+	@Query(value = "select * from gather where gather_state='모집중' and rownum <5 order by gather_deadline asc", nativeQuery = true)
+	List<Gather> selectGatherOrderByDeadline();
 }
+
+
 
 

@@ -85,7 +85,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/userProfile/profileReview/{userNo}")
-	public String profileReview(@PathVariable Long userNo, Model model, HttpSession session) {
+	public String profileReview(@PathVariable Long userNo, Long loginUserNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
 		
@@ -94,12 +94,13 @@ public class UsersController {
 		
 		List<Follow> follower = followService.myFollower(userNo);
 		
-		
+		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
 		
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);
-		
+		model.addAttribute("searchFollow",searchFollow);
+		model.addAttribute("loginUserNo",loginUserNo);
 		
 		
 		return "userProfile/profileReview";
@@ -112,8 +113,8 @@ public class UsersController {
 		File file = new File(path);
 
 		String fileNames [] = file.list();
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
 		
 		

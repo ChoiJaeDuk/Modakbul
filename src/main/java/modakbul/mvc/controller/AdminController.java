@@ -2,6 +2,7 @@ package modakbul.mvc.controller;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import modakbul.mvc.domain.Advertisement;
 import modakbul.mvc.domain.Follow;
@@ -31,7 +32,6 @@ import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
-import modakbul.mvc.service.UsersService;
 
 @Controller
 //@RequestMapping("/admin")
@@ -256,43 +256,45 @@ public class AdminController {
 	}
 
 	/**
-	 * 업로드
+	 * 광고 등록
 	 */
 	@RequestMapping("/my_page/gatherAD/insertAd")
-	public String advertisementInsert(Advertisement advertisement, HttpSession session, MultipartFile file) {
-
+	public String advertisementInsert(RedirectAttributes redirect, Advertisement advertisement, 
+			HttpSession session, MultipartFile file, HttpServletRequest request
+			, Long gatherNo, String date) {
+		System.out.println("나 나오니?");
+		System.out.println(date);
+		String userNo = request.getParameter("userNo");
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
-
+	
+		
+		Gather gather = new Gather(gatherNo);
+		
+		//LocalDateTime gatherDate = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		advertisement.setGather(gather);
+	
+		System.out.println("originalFileName = "+ originalFileName);
 		try {
 			file.transferTo(new File(saveDir + "/" + originalFileName));
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-
-		advertisement.setAdvertisementNo(0L);
-		advertisement.setAdApproveDate(advertisement.getAdApproveDate());
-		advertisement.setAdRegisDate(LocalDateTime.now());
-		advertisement.setAdStatus("광고신청");
-		advertisement.setGather(gather);
-		advertisement.setUser(userTest);
+		
+		//advertisement.setAdApproveDate();
+		//advertisement.setAdRegisDate(LocalDateTime.now());
+		advertisement.setAdStatus("신청대기");
 		advertisement.setAdFileName(originalFileName);
-
-		adminService.advertisementInsert(advertisement);
-
-		return "index";
+		System.out.println("중간은 와?");
+		//adminService.advertisementInsert(advertisement, Long.parseLong(userNo));
+		System.out.println("중간은 와?!!!!!!!!");
+		redirect.addAttribute("userNo", userNo);
+		System.out.println("끝은 도착하니?");
+		
+		return "redirect:/my_page/gatherAD/adApplication";
+	
 	}
 
-	/**
-	 * 광고 등록
-	 */
-	@RequestMapping("/admin/insert")
-	public String advertisementInsert(Advertisement advertisement) {
-
-		adminService.advertisementInsert(advertisement);
-
-		return "index";
-	}
 
 	/**
 	 * 광고 상태 변경
