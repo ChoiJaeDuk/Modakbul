@@ -24,7 +24,7 @@ public class PaymentTestController {
 	
 	@RequestMapping("/ajaxTest")
 	@ResponseBody
-	public void ajaxTest(@RequestBody Map<String, Object> result) {
+	public int ajaxTest(@RequestBody Map<String, Object> result) {
 		for (String m:result.keySet()) {
 			 System.out.println("key:"+m+",value:"+result.get(m));
 		}
@@ -33,6 +33,7 @@ public class PaymentTestController {
 
 		
 		System.out.println("123123");
+		return 1;
 	}
 		
 
