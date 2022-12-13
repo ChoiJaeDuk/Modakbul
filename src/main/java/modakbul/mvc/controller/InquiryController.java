@@ -22,6 +22,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.UsersService;
@@ -36,6 +37,9 @@ public class InquiryController {
 	
 	@Autowired
 	private FollowService followService;
+	
+	@Autowired
+	private AlarmService alarmService;
 
 	@Autowired
 	private  static int PAGE_COUNT=5;//상수//한 페이지당 5개
@@ -54,8 +58,10 @@ public class InquiryController {
 		
 		Page<SelectReplyState> page= inqService.selectReplyState(userNo, pageable);
 		Users dbUser=usersService.selectById(userNo);
-		List<Follow> following = followService.myFollowing(userNo);	
-		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		  List<Follow> following = followService.myFollower(userNo);
+		  List<Follow> follower = followService.myFollowing(userNo);
+		  int newAlarm = alarmService.countNewAlarm(userNo);
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
@@ -63,8 +69,11 @@ public class InquiryController {
 		model.addAttribute("inquiryList", page);
 		
 		model.addAttribute("user", dbUser);
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);

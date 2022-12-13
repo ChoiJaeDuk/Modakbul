@@ -19,6 +19,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherReviewService;
 import modakbul.mvc.service.GatherService;
@@ -45,6 +46,10 @@ public class ReviewController {
 	@Autowired
 	private FollowService followService;
 	
+	@Autowired
+	private AlarmService alarmService;
+	
+	
 	@RequestMapping("/my_page/my_page_review")
 	public ModelAndView reviewStatus(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		  ModelAndView mv= new ModelAndView();
@@ -57,8 +62,10 @@ public class ReviewController {
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, false,pageable);
 		  List <Gather> confrimSize=page.getContent();
 		  Users dbUser=usersService.selectById(userNo);
-		  List<Follow> following = followService.myFollowing(userNo);	
-		  List<Follow> follower = followService.myFollower(userNo);
+		  List<Follow> followList = followService.selectByUserId(userNo);
+		  List<Follow> following = followService.myFollower(userNo);
+		  List<Follow> follower = followService.myFollowing(userNo);
+		  int newAlarm = alarmService.countNewAlarm(userNo);
 		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
@@ -68,8 +75,12 @@ public class ReviewController {
 	
 
 		  mv.addObject("user", dbUser);
+		  
+		  mv.addObject("followingList", followList);
 		  mv.addObject("follower", follower.size());
 		  mv.addObject("following", following.size());
+		  mv.addObject("newAlarm", newAlarm);
+		  mv.addObject("userNo", userNo);
 		  
 		  mv.addObject("blockCount", BLOCK_COUNT); 
 		  mv.addObject("startPage", startPage);
@@ -92,8 +103,10 @@ public class ReviewController {
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, true,pageable);
 		  List <Gather> confrimSize=page.getContent();
 		  Users dbUser=usersService.selectById(userNo);
-		  List<Follow> following = followService.myFollowing(userNo);	
-		  List<Follow> follower = followService.myFollower(userNo);
+		  List<Follow> followList = followService.selectByUserId(userNo);
+		  List<Follow> following = followService.myFollower(userNo);
+		  List<Follow> follower = followService.myFollowing(userNo);
+		  int newAlarm = alarmService.countNewAlarm(userNo);
 		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
@@ -103,8 +116,11 @@ public class ReviewController {
 		  
 		  
 		  mv.addObject("user", dbUser);
+		  mv.addObject("followingList", followList);
 		  mv.addObject("follower", follower.size());
 		  mv.addObject("following", following.size());
+		  mv.addObject("newAlarm", newAlarm);
+		  mv.addObject("userNo", userNo);
 		  
 		  mv.addObject("fileNames", fileNames);
 		  mv.addObject("blockCount", BLOCK_COUNT); 
