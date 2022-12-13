@@ -41,7 +41,7 @@ public class MyPageControllerChoi {
 	private final InquiryService inqService;
 	private final FollowService followService;
 	
-	private final static int PAGE_COUNT=2;
+	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	@RequestMapping("/{url}")
 	public void aa() {
@@ -189,6 +189,8 @@ public class MyPageControllerChoi {
 		
 		Page<Gather> waitingList = gatherService.selectGatherStateByUserNo(pageable, userNo, "신청대기");
 		
+		System.out.println("waitingList = " + waitingList);
+		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
@@ -197,7 +199,10 @@ public class MyPageControllerChoi {
 		
 		List<Follow> follower = followService.myFollower(userNo);
 		List<Follow> following = followService.myFollowing(userNo);
-
+		
+		
+		
+		
 		model.addAttribute("waitingList", waitingList);
 
 		model.addAttribute("blockCount", BLOCK_COUNT);
@@ -287,12 +292,13 @@ public class MyPageControllerChoi {
 		
 		System.out.println("regularGatherNo = " + regularGatherNo);
 	
-		gatherService.deleteGather(gatherNo);
+		
 		
 		if(regularGatherNo!=null) {
 			regularGatherService.deleteRegularGather(regularGatherNo);
 		}
 		
+		gatherService.deleteGather(gatherNo);
 		redirect.addAttribute("userNo", userNo);
 		
 		
