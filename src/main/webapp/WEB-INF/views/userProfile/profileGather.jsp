@@ -22,8 +22,76 @@
 		
 	</style>
 	<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
-  	<script type="text/javascript">
-  	
+	<script type="text/javascript">
+  		$(document).ready(function(){
+  			$(function(){
+  				console.log("버튼 텍스트 = " + $(".profile-button").text());
+  	  			console.log("있어 없어 ? = " + "${searchFollow}" );
+  				alert(11111111);	
+  				// 토글
+  				$(document).ajaxSend(function(e,xht,op){
+  		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+  		      	});
+  				if(${searchFollow}===("yes")){
+  					$(".profile-button").text("팔로잉");
+  					$(".profile-button").css("background","gray");
+  				}
+  				
+  				$(document).on('click', '.profile-button',function(){
+  					
+  					alert("버튼클릭했음" + " , " + $(this).val());
+                    
+                    let target = {"follower":$(this).val() , "following":"${loginUserNo}"}
+                    console.log("follower = " + $(this).val());
+
+                    let targetBtn = $(this);
+  					
+  					if($(this).text() == "팔로잉"){
+                        alert("딜리트 반응?");
+                        $.ajax({
+                           url:"${pageContext.request.contextPath}/follow/delete", 
+                           type:"post",
+                           dataType:"text",
+                               data:JSON.stringify(target),   
+                               contentType:'application/json;charset=utf-8',
+                           success:function(result){
+                              if(result=="ok"){
+                                 alert("팔로잉이 해제 되었습니다.")                  
+                                 
+                                 targetBtn.css("background","rgb(243, 156, 18)")
+                                 targetBtn.text("팔로우")
+                              }
+                           },error:function(err){
+                              alert("err : "+err);
+                           }
+                        });//Delete ajax END
+                     }
+                     
+                     if($(this).text()=="팔로우"){
+                        alert("인설트반응?");
+                        $.ajax({
+                           url:"${pageContext.request.contextPath}/follow/insert",
+                           type:"post",
+                           dataType:"text",
+                               data:JSON.stringify(target),   
+                               contentType:'application/json;charset=utf-8',
+                           success:function(result){
+                              if(result=="ok"){
+                                 alert("팔로우 등록 되었습니다.")                  
+                                 
+                                 targetBtn.css("background","gray")
+                                 targetBtn.text("팔로잉")
+                              }
+                              
+                           },error:function(err){
+                              alert("err : "+err);
+                           }
+                        });//Insert ajax END
+                     }//if  END
+  				});//click END
+  				
+  			});
+  		});
   	</script>
  </head>
  
@@ -116,7 +184,15 @@
 								<div class="result-temper"><p> ${user.temper}&#8451  </p></div>
 								<div class="result-follower"><p>  </p></div> --%>
 								<div class="followBtn">
-								<button class="profile-button" type="button"><p>팔로우</p></button>	
+								<%-- <c:choose>
+									<c:when test="${searchFollow ne 'no'}">
+										<button class="profile-button" type="button" value="${user.userNo}" style="background-color: rgb(243, 156, 18);"><p>팔로우</p></button>
+									</c:when>
+									<c:otherwise>
+										<button class="profile-button" type="button" value="${user.userNo}" style="background-color: gray"><p>팔로잉</p></button>
+									</c:otherwise>	
+								</c:choose> --%>
+								<button class="profile-button" type="button" value="${user.userNo}"><p>팔로우</p></button>
 								</div>
 													
 		

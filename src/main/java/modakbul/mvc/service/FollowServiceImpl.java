@@ -64,4 +64,15 @@ public class FollowServiceImpl implements FollowService {
 		return list;
 	}
 
+	@Override
+	public String searchFollowing(Long follower, Long following) {
+		Follow follow = followRep.searchFollowing(follower, following);
+		
+		if(follow==null) {
+			return "no";
+		}
+		
+		return "yes";
+	}
+
 }

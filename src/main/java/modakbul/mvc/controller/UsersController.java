@@ -71,9 +71,15 @@ public class UsersController {
 		
 		List<Follow> follower = followService.myFollower(userNo);
 		
+		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
+		System.out.println("있어 없어? = " + searchFollow);
+		
+		System.out.println("로그인 :  " + loginUserNo);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);
+		model.addAttribute("searchFollow",searchFollow);
+		model.addAttribute("loginUserNo",loginUserNo);
 		
 		return "userProfile/profileGather";
 	}
@@ -88,6 +94,7 @@ public class UsersController {
 		List<Follow> follower = followService.myFollower(userNo);
 		List<Follow> following = followService.myFollowing(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
+		
 		
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());

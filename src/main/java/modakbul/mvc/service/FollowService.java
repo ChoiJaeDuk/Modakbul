@@ -32,4 +32,9 @@ public interface FollowService {
 	 * 내가 팔로잉(구독한채널) 하는 사람들
 	 */
 	List<Follow> myFollowing(Long userNo);
+	
+	/**
+	 * 내가 팔로우 했나요?
+	 */
+	String searchFollowing(Long follower, Long following);
 }
