@@ -72,9 +72,9 @@
               datasets: [{ 
                   data: getTotal,
                   label: "모임 수익",
-                  borderColor: "#3e95cd",
+                 
                   fill: false,
-                  borderWidth: 3
+                  backgroundColor: "#b9b9ff"
                 }
               ]
             },

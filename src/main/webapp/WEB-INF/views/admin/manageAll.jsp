@@ -79,13 +79,14 @@
         		var myChart = new Chart(context,{
             type: 'bar',
             data: {
-              labels: gatherCategory,
+              labels: ["스포츠", "클래스", "자유"],
               datasets: [{ 
                   data: gatherCount,
                   label: "카테고리별 모임 개수",
-                  borderColor: "#3e95cd",
-                  fill: false,
-                  borderWidth: 3
+                  /* borderColor: "#3e95cd", */
+                  backgroundColor: ["#b4e379", "#ffff35", "#ff9b9b" ],
+                  fill: false
+                
                 }
               ]
             },
