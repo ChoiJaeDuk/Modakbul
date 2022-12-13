@@ -16,48 +16,134 @@
     <title>Document</title>
   </head>
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
   <script type="text/javascript">
   	$(function() {
+  		
+  		$(document).ajaxSend(function(e,xht,op){
+			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		});
+  		
 		$("[name=adApplication-btn]").click(function() {
 			
-			var gatherNo = $(this).val();
+			$("#gatherNo").val($(this).val());
 			
+			alert($("#gatherNo").val())
 			$("#ad-form").show();
 			
 			
-			$(".search-id-button").click(function(){
+			/* $(".search-id-button").click(function(){
 
-                  if($(this).val()=="등록"){
-                	  alert(gatherNo)
-                	  $.ajax({
-                          type:"POST",
-                          url:"${pageContext.request.contextPath}/my_page/gatherAD/insertAd",
-                          dataType:"text",
-                          data: "${_csrf.parameterName}=${_csrf.token}&gatherNo="+gatherNo,            
-                          success:function(result){
-                              
-                          
-                                  alert(result);
-                                  $("#adInsert").load(location.href + " #adInsert");
-                                  
-                                  $("#ad-form").hide();
-      
-                          },//function
-                          error:function(error){
-                              console.log(error)
-                          }
-                          
-                      });
+                  if($("#payment").text()=="결제완료"){
+                	  $("#ad-form").hide();
                   }else{
-                      $("#ad-form").hide();
+                	  alert("결제를 완료해주세요!")
                   }
-              })
+					
+              }) */
 			
 		})
 		
 		$(".cancel-button").click(function() {
-			$("#ad-form").hide();
+			//$("#ad-form").hide();
+			
+			alert($("[name='date']").val())
 		})
+		
+		
+		$("#start").change(function() {
+			$("#start-date").text($(this).val()+" ~ ")
+			start = new Date($(this).val())
+			dateCal = end - start
+			adPrice = 10000 * (dateCal/1000/60/60/24)
+			$("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+		});
+		
+		$("#end").change(function() {
+			$("#end-date").text($(this).val())	
+			
+			end = new Date($(this).val())
+			dateCal = end - start
+			
+			adPrice = 10000 * (dateCal/1000/60/60/24)
+			
+			$("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+			
+		});
+		
+		
+		
+		
+		//////////////////////////////////////////////////결제///////////////////////
+		$("#payment").click(function() { 
+					if($("#payment").text()=="결제하기"){
+					if(!$("#adPrice").text()==""){
+					var IMP = window.IMP;
+					IMP.init('imp55744106');
+					IMP.request_pay(
+									{
+										pg : "kakaopay",
+										pay_method : 'card',
+										merchant_uid : 'merchant_'
+												+ new Date().getTime(),
+										name : '상품명',
+										amount : adPrice, //총판매가격
+										buyer_email : 'kyucando@gmail.com',
+										buyer_name : '규야 ',
+										buyer_tel : '01085510356',
+										buyer_addr : '경기도 용인시 ',
+										//buyer_postcode : '01234',
+										//m_redirect_url : '/index.jsp'
+									},
+									function(rsp) {
+										if (rsp.success) {
+											var msg = '결제가 완료되었습니다.';
+											var result = {
+											"imp_uid" : rsp.imp_uid,													
+	 										"pay_date" : new Date().getTime(),
+											"amount" : rsp.paid_amount,
+											"buyer_name": rsp.buyer_name
+											
+									     }
+											
+											//console.log("result = " + result.imp_uid);
+											//alert("${_csrf.parameterName}")
+											//alert("${_csrf.token}")
+											
+											$.ajax({
+												type : "post",
+												url : "${pageContext.request.contextPath}/ajaxTest",  
+												dataType:"json",
+										   		data:JSON.stringify(result),	
+										        contentType:'application/json;charset=utf-8',
+										        success : function(result) {
+										    	    //location.href="${pageContext.request.contextPath}/payment/success";
+													/* $("#payment").text("결제완료")
+													$("#payment").css("background","lightgrey")
+													$("#payment").attr("disabled","disabled") */
+										        	//$("#ad-form").hide();
+										        	location.href="/my_page/gatherAD/insertAd"
+											
+										        },
+												error : function(err) {
+													alert(err);
+												}
+											});
+									
+										} else {
+											var msg = '결제에 실패하였습니다.';
+											rsp.error_msg;
+											alert(msg);
+										}
+									});
+						}else{
+							alert("날짜를 선택해주세요!!!")
+						}
+					}
+				});
+		////////////////////////////////////////////////////////////////
+		
+		
 	})
   </script>
   <body>
@@ -65,6 +151,7 @@
       <div class="my-page-wrap">
         <div class="my-page-header">
           <div class="my-page-image-wrap">
+          
             <img
               src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
               alt="img"
@@ -193,6 +280,10 @@
             </div>
         </div>
         <!-- 추가된 모달 -->
+        <form action="${pageContext.request.contextPath}/my_page/gatherAD/insertAd" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+        <input type="hidden" id="gatherNo" name="gatherNo"/>
+        <input type="hidden" name="userNo" value="1"/>
         <div class="commercial-modal-wrap" hidden="" id="ad-form" >
             <div class="commercial-modal-title">광고 신청
             </div>
@@ -205,9 +296,10 @@
                 </div>
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행일자:</div>
+                    <div class="commercial-modal-label" id="start-date"></div><div class="commercial-modal-label" id="end-date" ></div>
                     <div class="create-commercial-value-wrap">
-                        <div>2022/10/22~2022/11/22</div>
-                        <input type="date" class="my-page-button">~<input type="date" class="my-page-button">
+                        
+                        <input id="start" type="date" class="my-page-button" name="date">~<input id="end" type="date" class="my-page-button" name="deadLineDate">
                     </div>
                 </div>
                 <div class="create-commercial-item">
@@ -227,19 +319,17 @@
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행 금액:</div>
                     <div class="create-commercial-value-wrap">
-                        <div>300원</div>
-                        <button type="button" class="my-page-button">결제 완료</button>
-                        <button type="button" class="my-page-button-gray">결제 하기</button>
+                        <div id="adPrice"></div>
+                        <button id="payment" class="my-page-button">결제 완료</button>
                     </div>
                 </div>
             </div>
             <div class="modal-button-wrap">
                 <button type="button" class="modal-button cancel-button">취소</button>
-                <button type="button" class="modal-button search-id-button" value="등록">
-                확인
-                </button>
+                <button type="submit" class="modal-button search-id-button" > 확인</button>
             </div>
         </div>
+        </form>
         <div class="modal-wrap" hidden="" id="ADCancel">
            <div class="create-commercial-warning">광고 신청을 정말 취소하시겠습니까?</div>
             <div class="modal-button-wrap">
