@@ -146,7 +146,7 @@
 });
 		
 	  $(document).ready(function(){	
-		  var userNo = "";
+		
 	  
 			$('#check1').change(function(){
 				
@@ -171,9 +171,7 @@
 		})
 		
 		$("#confirm").click(function() {
-			
-			alert(userNo)
-			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo="+userNo+"&url=applicationList&gatherNo="+$(this).val();
+			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo="+$("#check1").val()+"&url=applicationList&gatherNo="+$(this).val();
 		})
   });
   </script>
