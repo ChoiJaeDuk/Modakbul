@@ -28,16 +28,16 @@
 						<div class="preview col-md-6">
 							
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="http://placekitten.com/400/252" /></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${pageContext.request.contextPath}/save/${gather.gatherImg}"/></div>
 							</div>	
 						</div>
 						<div class="gather-info">
 							<div class="gather-name">
 								<div>
-									<h3 class="product-title">고양이 정보 공유해요!</h3>
+									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								<div class="heart-img">
-									<img src="" alt="img">
+									<img src="${pageContext.request.contextPath}/save/no_modak.png" alt="img" style="width: 50px;">
 								</div>
 							</div>
 							<div class="rating">
@@ -48,17 +48,27 @@
 									<span class="fa fa-star"></span>
 									<span class="fa fa-star"></span>
 								</div>
-								<span class="category">자유</span>
+								<span class="category">${gather.category.categoryName}</span>
 							</div>
 							<div class="gather-detail">
 								<div class="gather gather-margin">
-									참가비: <span>???</span>
+									참가비: 
+									<span>
+										<c:choose>
+											<c:when test="${gather.gatherBid eq 0}">
+												무료
+											</c:when>
+											<c:otherwise>
+												${gather.gatherBid}
+											</c:otherwise>
+										</c:choose>
+									</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>2022-10-20 20:30</span>
+									모임 날짜: <span>${gather.gatherDate}</span>
 								</div>
 								<div class="gather inline">
-									장소: 서울시 금천구
+									장소: ${gather.gatherPlace}
 								</div>
 								<div class="gather inline">
 									성별: 남녀모두
@@ -66,10 +76,18 @@
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령: 20 ~ 29
+									연령 : 
+									<c:choose>
+											<c:when test="${gather.gatherMinAge eq 0}">
+												전연령
+											</c:when>
+											<c:otherwise>
+												${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
+											</c:otherwise>
+										</c:choose>
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / 최대인원
+									인원: 신청인원 / ${gather.gatherMaxUsers}
 								</div>
 							</div>
 							
@@ -91,7 +109,7 @@
 				</div>
 				<div class="gather-detail-info">
 					<div class="gather-content">
-						내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용
+						${gather.gatherComment}
 					</div>
 					<div class="address">상세주소: 스타벅스 2층</div>
 				

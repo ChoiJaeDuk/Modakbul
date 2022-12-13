@@ -14,6 +14,23 @@
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    	$(function() {
+			
+    		var gatherNo;
+    		
+    			$(document).on("click", ".gather-img", function() {
+				gatherNo = $(this).attr("name");
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+			})
+    	
+    		$(document).on("click", ".list-card-title", function() {
+    			gatherNo = $(this).attr("id");
+    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+    		})
+		})
+		
+    </script>
   </head>
   <body>
     <div class="wrap">
@@ -48,86 +65,37 @@
             <div class="list-title">새로운 모닥불</div>
           </div>
           <div class="card-list">
+          <c:forEach items="${requestScope.newGatherList}" var="newGather" varStatus="status">
             <div class="list-card">
               <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
+                <img class="gather-img" width="100%" src="${pageContext.request.contextPath}/save/${newGather.gatherImg}" alt="사진"  name="${newGather.gatherNo}"/>
+                <img name="${newGather.gatherNo}" class="list-card-like" alt="하트" />
               </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
+              <div class="list-card-title" id="${newGather.gatherNo}">
+                ${newGather.gatherName}
               </div>
             </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
+          </c:forEach>
           </div>
-          <div></div>
+        <div></div>
         </div>
+        
         <div class="featured-list-wrap">
           <div class="list-header">
             <div class="list-title">마감임박 모닥불</div>
           </div>
           <div class="card-list">
+           <c:forEach items="${requestScope.deadLineGatherList}" var="deadLineGatherList" varStatus="status">
             <div class="list-card">
               <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
+                <img class="gather-img" width="100%" src="${pageContext.request.contextPath}/save/${deadLineGatherList.gatherImg}" name="${deadLineGatherList.gatherNo}" alt="사진" />
+                <img class="list-card-like" name="${deadLineGatherList.gatherNo}" alt="하트" />
               </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
+              <div id="${deadLineGatherList.gatherNo}" class="list-card-title">
+                 ${deadLineGatherList.gatherName}
               </div>
             </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
-            <div class="list-card">
-              <div class="list-image-wrap">
-                <img width="100%" src="" alt="사진" />
-                <img class="list-card-like" alt="하트" />
-              </div>
-              <div class="list-card-title">
-                플랩 스타디움 가산 마리오 소셜 매치ddd
-              </div>
-            </div>
+        	</c:forEach>
           </div>
           <div></div>
         </div>
