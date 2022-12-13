@@ -39,7 +39,6 @@ public interface ServiceQuestionService {
 	
 	/**공지사항상세보기*/
 	ServiceQuestion selectNoticeDetail(Long serviceQuestionNo);
-
 	
-	
+	ServiceQuestion selectByNo(Long serviceQuestionNo);
 }

@@ -1,6 +1,5 @@
 package modakbul.mvc.controller;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +37,6 @@ public class InqueryControllerKyu {
 
 	@RequestMapping("/inqueryFAQ")
 	public void inqueryFAQ() {
-		
-		
 	}
 	
 	@RequestMapping("/inqueryQnA")
@@ -47,6 +45,7 @@ public class InqueryControllerKyu {
 			
 			Page<ServiceQuestion> page= serviceQuestionService.selectAll(pageable);
 			List<ServiceQuestion> list=page.getContent(); 
+			
 			/* Users dbUser=userService.selectById(userNo); */
 			
 			int temp= (nowPage -1)%BLOCK_COUNT; 
@@ -98,16 +97,25 @@ public class InqueryControllerKyu {
 	}
 	@RequestMapping("/pwdCheck")
 	@ResponseBody
-	public String pwqCheck(HttpServletRequest request) {
-		String id=request.getParameter("id");
-		String password=request.getParameter("password");
-		System.out.println(id+"//////////"+password);
+	public String pwqCheck(HttpServletRequest request , Authentication auth) {
+	 	System.out.println("auth = " + auth);
+	 	Users user =(Users)auth.getPrincipal();
+	 	System.out.println("user = "+user);
+	 	//System.out.println(serviceQuestionNo);
+	 	
+		String sqNo=request.getParameter("serviceQuestionNo");
+		Long.parseLong(sqNo);
+		System.out.println(sqNo);
 		
-		Users dbUser=userService.selectById(id);
-		if(!dbUser.getUserpwd().equals(password)) {
-			return "비번오류";
+		String password=request.getParameter("password");
+		System.out.println(user.getUserId() +"//////////"+password);
+		
+		
+		ServiceQuestion sq=serviceQuestionService.selectByServiceQuestionNo(Long.parseLong(sqNo), password, user.getUserNo());
+		if (!sq.getServiceQuestionPwd().equals(password)) {
+			return "비밀번호가 맞지않습니다.";			
 		}
-		return "확인되었어요 ";
+		return "";
 	}
 	
 	@RequestMapping("/noticeDetail")
@@ -115,7 +123,20 @@ public class InqueryControllerKyu {
 		ServiceQuestion dbNotice=serviceQuestionService.selectNoticeDetail(serviceQuestionNo );
 		
 		model.addAttribute("noticeDetail", dbNotice);
+	}
+	
+	@RequestMapping("/question_insert")
+	public void inauiryInsertForm() {
 		
 	}
+	
+	
+	@RequestMapping("/questionInsert")
+	public String inquiryInsert(ServiceQuestion serviceQuestion) {
+		serviceQuestionService.insertServiceQustion(serviceQuestion);
+		
+		return "redirect:/question/inqueryQnA";
+	}
+	
 }
 	
