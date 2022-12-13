@@ -10,9 +10,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MODAKBUL</title>
-     <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
-     <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
-     <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminCharged.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminPaging.css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+  	<script type="text/javascript">
+  	$(function(){
+	 $(".button-deny").click(function(){
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/admin/updateAdCancle",
+				dataType:"text",
+				data: "${_csrf.parameterName}=${_csrf.token}&status=광고종료&advertisementNo="+$(this).val(),			
+				success:function(result){
+					alert(result)
+					console.log(result)
+					
+						$("#advRegis").load(location.href + " #advRegis");
+						$("#count").load(location.href + " #count");
+						
+						
+	   					
+				
+				},//function
+				error:function(error){
+					console.log(error)
+				}
+				
+			});//ajax
+		}) 
+	})
+     
+	</script>
   <body>
   <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
@@ -32,14 +62,14 @@
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
           </div>
         </nav>
-        <div class="modakbul-content">
+        <div class="modakbul-content" id="count">
           <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
-			<div class="ad-wrap">
+			<!-- <div class="ad-wrap">
 				<div class="ad">현재 진행중 광고 : 1</div>
 				<div class="ad">현재 신청대기 광고 : 1</div>
 				<div class="ad">종료된 광고 : 1</div>
-			</div>
+			</div> -->
 	
 			<div class="nav-wrap">
 				<div id="nav1"><a href="${pageContext.request.contextPath}/admin/manageAdvAll">전체</a></div>
@@ -69,10 +99,11 @@
 							<td>${adv.user.userName}</td>
 							<td>${adv.user.userJob}</td>
 							<td>${fn:substring(adv.deadLine,5,7)-fn:substring(adv.adApproveDate,5,7)}개월</td>
-							<td><select>
-        						<option value="1">${adv.adStatus}</option>
-        						<option value="2">광고 종료</option>
-    						</select></td>
+							<td>
+							<div class="modakbul-charged-grid-col">	
+                			<button type="button" class="modakbul-button button-deny" value="${adv.advertisementNo}" >광고종료</button>
+              				</div>
+							</td>
 						</tr>
 						</c:forEach> 
 						</c:when>
