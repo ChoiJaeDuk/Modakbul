@@ -126,9 +126,7 @@ public class InqueryControllerKyu {
 	}
 	
 	@RequestMapping("/question_insert")
-	public void inauiryInsertForm() {
-		
-	}
+	public void inauiryInsertForm() {}
 	
 	
 	@RequestMapping("/questionInsert")

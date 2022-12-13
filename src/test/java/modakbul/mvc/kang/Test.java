@@ -207,6 +207,19 @@ public class Test {
 		}*/
 		list.forEach(b->System.out.println(b));
 }
+	
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * selectByNo
+	 */
+	@org.junit.jupiter.api.Test
+	public void selectByNo() {
+		Advertisement ad = advertisementRep.selectByNo(119L);
+		
+		System.out.println("광고 상태는 ? = " + ad.toString());
+	}
 
 
 }
