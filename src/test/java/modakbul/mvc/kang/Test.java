@@ -25,7 +25,7 @@ public class Test {
 
 	Gather gather = new Gather(6L);
 
-	Users userTest = new Users().builder().userNo(2L).build();
+	Users userTest = new Users().builder().userNo(6L).build();
 	
 	@Autowired
 	private AdminService adminService;

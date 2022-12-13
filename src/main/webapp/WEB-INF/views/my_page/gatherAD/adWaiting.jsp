@@ -1,21 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
-    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
      <link href="${pageContext.request.contextPath}/css/my-page/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/reset.css" rel="stylesheet" />
     <title>Document</title>
   </head>
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+   
+    <script type="text/javascript">
+  	$(function(){
+  		
+  		
+			
+			
+  		$(".my-page-button").click(function(){
+  			var advNo = $(this).val();
+  			
+  	
+  			$("#ADCancel").show();
+  			
+  			$(".search-id-button").click(function(){
+  				
+  			
+  				if($(this).val()=="취소"){
+  					$.ajax({
+  						type:"POST",
+  						url:"${pageContext.request.contextPath}/my_page/gatherAD/updateMyAdCancle",
+  						dataType:"text",
+  						data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,			
+  						success:function(result){
+  							
+  						
+  								alert(result);
+  								$("#adWaiting").load(location.href + " #adWaiting");
+  								
+  	
+  						},//function
+  						error:function(error){
+  							console.log(error)
+  						}
+  						
+  					});
+  				}else{
+  					$("#ADCancel").hide();
+  				}
+  			})
+  			
+  		})
+  		
+  		$(".cancel-button").click(function() {
+			$("#ADCancel").hide();
+		})
+
+  	
+  	/* 	{
+  		
+  			 */
+  		
+  	})  	
+  	
+  	
+  /* //ajax */
+  
+  </script>
+   
   <body>
     <div class="wrap">
       <div class="my-page-wrap">
@@ -65,7 +124,7 @@
                         <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=6'">광고진행중</div>
                     </div>
                 </div>
-                <div class="commercial-wait">
+                <div class="commercial-wait" id="adWaiting">
                     <table class="table">
                         <colgroup>
                             <col width="8%" />
@@ -84,35 +143,25 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <c:forEach items="${requestScope.selectADGatherRegis.content}" var="data">
                             <tr class="table-body">
-                                <td>1</td>
+                                <td>${data.gatherNo}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${data.gatherImg}" alt="이미지" width="100%"/>
                                     </div>
                                 </td>
-                                <td>모임</td>
+                                <td>${data.gatherName}</td>
                                 <td>2011.22.22</td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button">신청취소</button>
+                                    <button type="button" class="my-page-button" value="${data.gatherNo}">신청취소</button>
                                 </td>
                             </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
-                                    </div>
-                                </td>
-                                <td>모임</td>
-                                <td>2011.22.22</td>
-                                <td class="inquiry-replied">
-                                    <button class="my-page-button">신청취소</button>
-                                </td>
-                            </tr>
+                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+             </div>
             <!-- 추가된 내용 -->
           </section>
         </div>
@@ -196,11 +245,11 @@
                 </button>
             </div>
         </div>
-        <div class="modal-wrap" style="display: none">
+        <div class="modal-wrap" style="display: none" id="ADCancel">
            <div class="create-commercial-warning">광고 신청을 정말 취소하시겠습니까?</div>
             <div class="modal-button-wrap">
-                <button type="button" class="modal-button search-id-button">
-                신청하기
+                <button type="button" class="modal-button search-id-button" value="취소" >
+                확인하기
                 </button>
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
             </div>
@@ -232,7 +281,41 @@
             </div>
         </div>
         <!-- 추가된 모달 -->
+        <c:choose>
+	<c:when test="${empty requestScope.selectADGatherRegis}"></c:when>
+	<c:otherwise>
+    <nav class="pagination-container">
+	<div class="pagination">
+	<c:set var="doneLoop" value="false"/>
+		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${startPage-1}">PREV</a>
+		  </c:if>
+		  
+		<span class="pagination-inner"> 
+		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+		
+			    <c:if test="${(i-1)>=indivList.getTotalPages()}">
+			       <c:set var="doneLoop" value="true"/>
+			    </c:if> 
+		    
+		  <c:if test="${not doneLoop}" >
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${i}">${i}</a> 
+		  </c:if>
+		   
+		</c:forEach>
+		</span> 
+				
+		 <c:if test="${(startPage+blockCount)<=indivList.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if> 
+		</div>
+	</nav>
+	</c:otherwise>
+</c:choose>
       </div>
     </div>
+    
+    
+    
   </body>
 </html>

@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -282,7 +284,7 @@ public class AdminServiceImpl implements AdminService {
 	 * */
 	@Override
 	public void updateAdGather(Long advertisementNo, String status) {
-		LocalDateTime date = LocalDateTime.now();
+		LocalDateTime now = LocalDateTime.now();
 		
 			//queryFactory.update(ad).set(ad.adStatus, "광고중").set(ad.adApproveDate, date)
 			//.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo()))
@@ -290,6 +292,20 @@ public class AdminServiceImpl implements AdminService {
 			//.execute();
 		Advertisement dbAdv = adminRep.findById(advertisementNo).orElse(null);
 		dbAdv.setAdStatus(status);
+		dbAdv.setAdApproveDate(now);
+	}
+	
+	/**
+	 * 광고 종료하기
+	 * */
+	@Override
+	public void updateAdCancle(Long advertisementNo, String status) {
+		LocalDateTime now = LocalDateTime.now();
+		
+		Advertisement dbAdv = adminRep.findById(advertisementNo).orElse(null);
+		dbAdv.setAdStatus(status);
+		dbAdv.setDeadLine(now);
+		
 	}
 	
 	/**
@@ -313,6 +329,56 @@ public class AdminServiceImpl implements AdminService {
 				
 		return gatherList;
 	}
+
+	@Override
+	public Page<Advertisement> selectADGatherRegis(Long userNo, Pageable pageable, Long advertisementNo) {
+		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
+				.from(ad).join(qGather).on(ad.advertisementNo.eq(advertisementNo))
+				.where(ad.adStatus.eq("신청대기")
+				//.where(qGather.gatherState.eq("신청대기")
+				.and(qGather.user.userNo.eq(userNo)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetchResults();
+		
+		return new PageImpl<Advertisement>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
+	}
+	
+	/**
+	 * 마이페이지에서 광고중 리스트
+	 */
+	@Override
+	public Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable) {
+		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
+				.from(qGather).join(ad).on(qGather.gatherNo.eq(ad.gather.gatherNo))
+				.where(ad.adStatus.eq("광고중")
+				//.where(qGather.gatherState.eq("신청대기")
+				.and(qGather.user.userNo.eq(userNo)))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize()).fetchResults();
+		
+		return new PageImpl<Gather>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
+	}
+	
+	/**
+	 * 광고 신청 취소하기
+	 * */
+	@Override
+	public void updateMyAdCancle(Long advertisementNo) {
+		//Advertisement dbAdv = //adminRep.findById(advertisementNo).orElse(null);
+		/*
+		 * queryFactory.delete(ad).where(ad.gather.gatherNo.eq(advertisement.getGather()
+		 * .getGatherNo()) .and(ad.adStatus.eq("신청대기"))) .execute();
+		 */
+		adminRep.deleteById(advertisementNo);
+
+				
+				
+		//dbAdv.setAdStatus(status);
+		
+	}
+	
+	
+
 
 	
 

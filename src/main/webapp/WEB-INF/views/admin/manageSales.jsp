@@ -74,6 +74,7 @@
                   label: "모임 수익",
                   borderColor: "#3e95cd",
                   fill: false,
+                  backgroundColor:"3e95cd",
                   borderWidth: 3
                 }
               ]
@@ -106,6 +107,11 @@
 	    			<td><fmt:formatNumber type="number" value="${data.getTotal()/10}" maxFractionDigits="3"/>원</td>
 				</tr><!-- 첫번째 줄 끝 -->
 			</c:forEach>
+			<tr class="table-header">
+			<td>Total :</td>
+            <td>123원</td>
+            <td>123원</td>
+          	</tr>
             </table>
           </div>
           <div class="modakbul-sales-data">
@@ -185,13 +191,17 @@ $(function(){
 	    	<td><fmt:formatNumber type="number" value="${data.getTotalPrice()}" maxFractionDigits="3"/>원</td>
 		</tr><!-- 첫번째 줄 끝 -->
 	</c:forEach>
-
+	<tr class="table-header">
+			<td>Total :</td>
+            <td>123개</td>
+            <td>123원</td>
+          	</tr>
 	</table>
           </div>
           <!-- 여기까지 Content -->
         </div>
       </div>
     </div>
-     <jsp:include page="../layout/footer.jsp" />
+     <!--<jsp:include page="../layout/footer.jsp" />-->
   </body>
 </html>

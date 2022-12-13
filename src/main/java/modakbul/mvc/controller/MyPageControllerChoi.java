@@ -221,12 +221,12 @@ public class MyPageControllerChoi {
 	}
 	
 	
-	@RequestMapping("/gatherAD/adWaiting")
+	//@RequestMapping("/gatherAD/adWaiting")
 	public void adWaiting() {
 		
 	}
 	
-	@RequestMapping("/gatherAD/adStatus")
+	//@RequestMapping("/gatherAD/adStatus")
 	public void adStatus() {
 		
 	}
