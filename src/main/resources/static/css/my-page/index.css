@@ -723,7 +723,7 @@ img{
 }
 
 .following {
-    background: rgb(243, 156, 18);
+    background: gray;
     color: white;
     margin-bottom: 10px;
 }

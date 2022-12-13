@@ -32,7 +32,8 @@
   				$(document).ajaxSend(function(e,xht,op){
   		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
   		      	});
-  				if(${searchFollow}===("yes")){
+  				let str = "yes";
+  				if("${searchFollow}"==str){
   					$(".profile-button").text("팔로잉");
   					$(".profile-button").css("background","gray");
   				}

@@ -95,11 +95,11 @@
 								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
 									<span class="nav-counter"> ${newAlarm} </span>
 								</c:when>
-								<%-- <c:otherwise>
-									<div class="nav-counter-invi" style="visibility: hidden;" hidden="hidden">
-										<span class="nav-counter-invi"  hidden="hidden"> 0 </span>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
 									</div>
-								</c:otherwise> --%>
+								</c:otherwise> 
 							</c:choose>
 							
 						</li>

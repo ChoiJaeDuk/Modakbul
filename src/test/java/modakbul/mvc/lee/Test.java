@@ -129,12 +129,12 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	public void insertAlarm() {
 		Users sendUsers = new Users(1L);
-		for(Long i=5L; i<=9L; i++) {
+		for(Long i=15L; i<=19L; i++) {
 			alarmReceiverRep.save(AlarmReceiver.builder()
-					.user(new Users(i))
+					.user(new Users(7L))
 					.alarm(alarmRep.save(Alarm.builder()
 							.alarmSubject("참가가 신청되었습니다.")
-							.alarmContent(sendUsers + "님이 참가를 승인했습니다.")
+							.alarmContent(i + "님이 참가를 승인했습니다.")
 							.build()
 							))
 					.alarmStatus("안읽음")

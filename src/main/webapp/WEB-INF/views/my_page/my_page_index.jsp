@@ -13,8 +13,14 @@
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
-  
-   		
+    	$(function(){
+    		console.log("새알람 = " + ${newAlarm});
+    		if(${newAlarm}==0 || ${newAlarm}==null){
+    			$(".nav-counter").hide();
+    		}else{
+    			$(".nav-counter").show();
+    		}
+    	})
     </script>
   </head>
  <body>
@@ -82,19 +88,17 @@
 							<!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
 						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position:relative;"> 
 							알림함
-							<%-- <c:set var="resultVar" value="${newAlarm}" />
-							<c:if test="${resultVar ne 0 || resultVar ne null}">
-								<span class="nav-counter"> <c:out value="${resultVar}"/> </span>
-							</c:if> --%>
-						</li>
 							<c:choose>
 								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
 									<span class="nav-counter"> ${newAlarm} </span>
 								</c:when>
 								<c:otherwise>
-									
-								</c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise> 
 							</c:choose>
+						</li>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"

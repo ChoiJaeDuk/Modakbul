@@ -26,14 +26,22 @@
    $(document).ready(function(){
    $(function(){
       let $modal ;
+      $(document).ajaxSend(function(e,xht,op){
+	         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+	      	});
        document.getElementById('following').addEventListener('click', function() {
              // 모달창 띄우기
              modal('my_modal');
              
             // alert("dd = " + document.querySelector(".modakbul-button following"))
-              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
+              $modal = $("button[class='modakbul-button following']");//document.querySelector(".modakbul-button following");
               
-              
+              let str = "yes"
+              if("${searchFollow}"==str){
+					$(".profile-button").text("팔로잉");
+					$(".profile-button").css("background","gray");
+					
+				}//searchFollow if END
               
               $(document).on("click", "button[class='modakbul-button following']" , function(){
                 
@@ -42,7 +50,7 @@
                       
                       let target = {"follower":$(this).val() , "following":"${userNo}"}
                       console.log("follower = " + $(this).val());
-                    /*   console.log("following = " + ${userNo}); */
+                      console.log("following = " + ${userNo});
                       let targetBtn = $(this);
                       
                       if($(this).text() == "팔로잉"){
@@ -64,7 +72,7 @@
                                alert("err : "+err);
                             }
                          });//Delete ajax END
-                      }
+                      }//Delete if END
                       
                       if($(this).text()=="팔로우"){
                          alert("인설트반응?");
@@ -90,15 +98,8 @@
                       
                    });///////////////////////////
              
-
-              
-             
-             
-         });
-   
-      
-       //////////////////////////////////////////////////
-   })
+         });//modal 띄우기
+   });//ready 다음 function ENd
    
     function modal(id) {
                 var zIndex = 9999;
@@ -148,70 +149,7 @@
                 return this;
             };
 
-/////////////////////////////////////////////////////////////////////////////
 
-   $(function(){
-      alert(1111);
-   $(document).ajaxSend(function(e,xht,op){
-         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
-         });
-   
-   //alert("dd = "+document.querySelector(".modakbul-button following"))
-   
-   
-   //const $modal = document.querySelector("#my_modal");
-   //const $modal = document.querySelector(".modakbul-button following");
-   //const $modal = $("button[class=modakbul-button following]")
-
-   
-      
-      /*$(document).on('click', 'button[type=button]',function(){
-         alert("버튼클릭했음");
-         let target = {"follower":$(this).val() , "following":"${userNo}"}
-         let targetBtn = $(this);
-         
-         if($(this).text() == "팔로잉"){
-            alert("딜리트 반응?");
-            $.ajax({
-               url:"${pageContext.request.contextPath}/follow/delete",
-               type:"post",
-               dataType:"text",
-                    data:JSON.stringify(target),   
-                    contentType:'application/json;charset=utf-8',
-               success:function(result){
-                  if(result=="ok"){
-                     alert("팔로잉이 해제 되었습니다.")                  
-                     
-                     targetBtn.text("팔로우")
-                  }
-               },error:function(err){
-                  alert("err : "+err);
-               }
-            });//Delete ajax END
-         }
-         
-         if($(this).text()=="팔로우"){
-            alert("인설트반응?");
-            $.ajax({
-               url:"${pageContext.request.contextPath}/follow/insert",
-               type:"post",
-               dataType:"text",
-                    data:JSON.stringify(target),   
-                    contentType:'application/json;charset=utf-8',
-               success:function(result){
-                  if(result=="ok"){
-                     alert("팔로우 등록 되었습니다.")                  
-                     
-                     targetBtn.text("팔로잉")
-                  }
-                  
-               },error:function(err){
-                  alert("err : "+err);
-               }
-            });//Insert ajax END
-         }//Insert ajax END
-      });//click END*/
-   });
    });     
 
 	
@@ -331,7 +269,7 @@
 						<a href="#">${f.followerUser.temper}℃</a>
 					</th>
 					<th style="width: 20%">
-						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
 					</th>
 				</tr>
 			</c:forEach>

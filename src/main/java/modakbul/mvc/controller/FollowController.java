@@ -50,6 +50,8 @@ public class FollowController {
 		
 		mv.addObject("follower", followerSize.size());
 		mv.addObject("following", followingSize.size());
+
+		mv.addObject("userNo", userNo);
 		
 		mv.setViewName("my_page/layout");
 		
