@@ -37,15 +37,12 @@
               <div class="inquiry-top">
                 <h2 class="inquiry-title">공지사항</h2>
                 <div class="inquiry-button-wrap">
-                  <button class="search-list-button" type="button">수정</button>
+                  <button class="search-list-button" type="button">등록</button>
                   <button class="search-list-button" type="button">삭제</button>
                 </div>
               </div>
               <div class="inquiry-search-area">
-                <div class="inquiry-search-wrap">
-                  <input class="inquiry-input" />
-                  <button class="search-list-button" type="button">검색</button>
-                </div>
+                
               </div>
               <div class="search-inquiry-list">
                 <table class="table">

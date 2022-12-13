@@ -3,6 +3,8 @@ package modakbul.mvc.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,9 @@ public class FollowController {
 	 * 유저별 팔로잉 리스트
 	 */
 	@RequestMapping("/my_page/followingList")
-	public ModelAndView myFollowing(Long userNo) {
+	public ModelAndView myFollowing(HttpServletRequest request) {
+		String userno = request.getParameter("userNo");
+		Long userNo = Long.parseLong(userno);
 		System.out.println("누구의 팔로잉 리스트 ? " + userNo);
 		
 		List<Follow> following = followService.selectByUserId(userNo);
@@ -50,6 +54,8 @@ public class FollowController {
 		
 		mv.addObject("follower", followerSize.size());
 		mv.addObject("following", followingSize.size());
+
+		mv.addObject("userNo", userNo);
 		
 		mv.setViewName("my_page/layout");
 		

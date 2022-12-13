@@ -77,7 +77,7 @@ public class InqueryControllerKyu {
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("nowPage", nowPage);
 		}
-	@RequestMapping("/inqueryQnADetail")
+	@RequestMapping("/inqueryDetail")
 	public void qnaDetail(Long serviceQuestionNo, @RequestParam(required = false) String serviceQuestionPwd, Long userNo, Model model) {
 		if(userNo == 4) { //어드민이 들어오면 다 문의사항보여줌 
 			ServiceQuestion dbSq=serviceQuestionService.selectByServiceQuestionNo(serviceQuestionNo,null,userNo);
@@ -115,7 +115,7 @@ public class InqueryControllerKyu {
 		if (!sq.getServiceQuestionPwd().equals(password)) {
 			return "비밀번호가 맞지않습니다.";			
 		}
-		return "";
+		return "?serviceQuestionNo="+Long.parseLong(sqNo)+"&serviceQuestionPwd="+password+"&userNo="+user.getUserNo();
 	}
 	
 	@RequestMapping("/noticeDetail")
@@ -126,9 +126,7 @@ public class InqueryControllerKyu {
 	}
 	
 	@RequestMapping("/question_insert")
-	public void inauiryInsertForm() {
-		
-	}
+	public void inauiryInsertForm() {}
 	
 	
 	@RequestMapping("/questionInsert")
@@ -138,5 +136,10 @@ public class InqueryControllerKyu {
 		return "redirect:/question/inqueryQnA";
 	}
 	
+	@RequestMapping("/serviceQuestionDelete")
+	public String serviceQuestionDelete(Long serviceQuestionNo,String serviceQuestionPwd) {
+		serviceQuestionService.deleteServiceQuestion(serviceQuestionNo, serviceQuestionPwd);
+		return null;
+	}
 }
 	

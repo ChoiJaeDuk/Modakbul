@@ -154,5 +154,11 @@ public interface AdminService {
 	
 	/**
 	 * 광고 배너 변경
-	 * */
+	 */
+	void updateBanner(Long advertisementNo, String bannerName);
+	
+	/**
+	 * selectByNo
+	 */
+	Advertisement selectByNo(Long advertisementNo);
 }

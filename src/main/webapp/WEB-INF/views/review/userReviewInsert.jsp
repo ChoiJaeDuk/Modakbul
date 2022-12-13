@@ -12,8 +12,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/gatherDetail/index.css" rel="stylesheet" />
+    
     <title>Document</title>
     <style type="text/css">
  a:link { color: white; text-decoration: none;}
@@ -46,30 +46,74 @@ $("form").on("submit",function() {
       <div class="search-list">
         <div class="search-list-body">
           <aside class="search-list-sub-filter">
-            <ul class="search-list-filter-type">
-            
-            <sec:authentication var="user" property="principal" />
-              <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</li>
-              <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryQnA '">Q&A</li>
-              <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryFAQ'">자주하는 질문</li>
-            </ul>
-     
-           
-           
+         <sec:authentication var="user" property="principal" /> 
           </aside>
           <main class="search-list-main">
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
-                <h2 class="inquiry-title">문의하기</h2>
+                <h2 class="inquiry-title">주최자 후기 등록하기 </h2>
                 <div class="inquiry-button-wrap">
                   
                 </div>
               </div>
-             <div class="inquiry-search-area">
-                <div class="inquiry-search-wrap">
-                
-                </div>
+             <div class="underline-wrap">
+               
               </div>
+              
+              <div class="container-fliud">
+					<div class="wrapper row">
+						<div class="preview col-md-6">
+							
+							<div class="preview-pic tab-content">
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="이미지" /></div>
+							</div>	
+						</div>
+						<div class="gather-info">
+							<div class="gather-name">
+								<div>
+									<h3 class="product-title">고양이 정보 공유해요!</h3>
+								</div>
+								
+								<div class="heart-img">
+									<img src="" alt="img">
+								</div>
+							</div>
+							<div class="rating">
+								<div class="stars">
+									<span class="fa fa-star checked"></span>
+									<span class="fa fa-star checked"></span>
+									<span class="fa fa-star checked"></span>
+									<span class="fa fa-star"></span>
+									<span class="fa fa-star"></span>
+								</div>
+								<span class="category">자유</span>
+							</div>
+							<div class="gather-detail">
+								<div class="gather gather-margin">
+									참가비: <span>???</span>
+								</div>
+								<div class="gather gather-margin">
+									모임 날짜: <span>2022-10-20 20:30</span>
+								</div>
+								<div class="gather inline">
+									장소: 서울시 금천구
+								</div>
+								<div class="gather inline">
+									성별: 남녀모두
+								</div>
+							</div>
+							<div class="gather-detail">
+								<div class="gather inline">
+									연령: 20 ~ 29
+								</div>
+								<div class="gather inline">
+									인원: 신청인원 / 최대인원
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
               
               <div class="notice-list-wrap">
                 <div class="notice-list-title-wrap">
@@ -78,44 +122,37 @@ $("form").on("submit",function() {
               </div>
                 
                 <div class="notice-list-info-wrap">
-	                <h4 class="inquiry-guide-comment">
-	                  모닥불을 이용하면서 궁금한것이 있다면 알려주세요
-	                  <br><br>
-	                  임시 비밀번호는 분실시 찾을 수 없으니 주의해주세요 
-	                 </h4>
+	                <h2 class="inquiry-guide-comment">
+	                주최자 온도 남기기  	                 
+	                </h2>
                 </div>
                 <div class="create-group-wrap">
                 <sec:authentication var="user" property="principal" />
-			        <form action="${pageContext.request.contextPath}/question/questionInsert" method="post" >
+			        <form action="${pageContext.request.contextPath}/review/userReviewInsert" method="post" >
 			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-			        <input type="hidden" name="user" value="${user.userNo}" id="user"> 
+			        <input type="hidden" name="writeUserNo" value="${user.userNo}" id="writeUserNo"> 
 			          <div class="create-group-top">
 			            <div class="create-group-wrap-image">
 			              <div class="create-group-info-table-item">
-			              	<div class="create-group-info-table-item-label">제목</div>
 			              	<div class="create-group-info-table-item-content">
-			                	<input class="create-group-form-input" id="serviceQuestionSubject" name="serviceQuestionSubject"/>
+			                	<input class="create-group-form-input" id="userTemper" name="userTemper"/>
 			              	</div>
 			              </div>
 			            </div>
 			             <div class="create-group-info-table-item">
-			              <div class="create-group-info-table-item-label">내용</div>
+			              <div class="create-group-info-table-item-label">
+			              	<h2 class="user-review-content">
+			              	주최자 후기
+			              	</h2>
+			              </div>
 			              <div class="create-group-info-table-item-content">
-			                <textarea class="create-group-form-textarea" name="serviceQuestionContent" id="serviceQuestionContent"></textarea>
+			                <textarea class="create-group-form-textarea" name="userReviewContent" id="userReviewContent"></textarea>
 			              </div>
 			            </div>
-			            <div class="create-group-info-table-item">
-			              	<div class="create-group-info-table-item-label">임시 비밀번호</div>
-			              	<div class="create-group-info-table-item-content">
-			                	<input class="create-group-form-input-temp" id="serviceQuestionPwd" name="serviceQuestionPwd"/>
-			              	</div>
-			             </div>
-			            
 			                <div class="create-group-button-wrap">
-					            <button class="create-group-button" type="submit">등록하기</button>
-					            <button class="create-group-cancel-button" type="button">돌아가기</button>
+					            <button class="create-user-review-button" type="submit">등록하기</button>
+					            <button class="create-user-review-cancel-button" type="button">돌아가기</button>
 					        </div>
-			          
 			            </div>
 			          </form>
              		</div>

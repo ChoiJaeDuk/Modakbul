@@ -36,7 +36,7 @@
                   <sec:authentication var="user" property="principal" />
                   <c:set var="userNo" value="{user.userNo}"/>
                   </sec:authorize> --%>
-               <li class="search-list-filter-item " onclick="location.href='${pageContext.request.contextPath}/question/notice?userNo=4'">공지사항</li>
+               <li class="search-list-filter-item " onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</li>
               <li class="search-list-filter-item"  onclick="location.href='${pageContext.request.contextPath}/question/inqueryQnA'">Q&A</li>
               <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/inqueryFAQ'">자주하는 질문</li>
             </ul>
@@ -46,16 +46,10 @@
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
                 <h2 class="inquiry-title">자주하는 질문</h2>
-                <div class="inquiry-button-wrap">
-                  <button class="search-list-button" type="button">수정</button>
-                  <button class="search-list-button" type="button">삭제</button>
-                </div>
+               
               </div>
               <div class="inquiry-search-area">
-                <div class="inquiry-search-wrap">
-                  <input class="inquiry-input" />
-                  <button class="search-list-button" type="button">검색</button>
-                </div>
+                
               </div>
               <div class="search-inquiry-list">
                 <ul>
