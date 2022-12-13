@@ -182,8 +182,9 @@
 								<!-- 페이징 끝 -->
 							</div>
 							</nav>
-						</div></section>
-					</div>
+						</div>
+					</section>
+				</div>
 		</div>
 	</div>
 	<jsp:include page="../layout/footer.jsp" />

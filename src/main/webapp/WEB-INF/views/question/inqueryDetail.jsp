@@ -30,7 +30,7 @@
             <ul class="search-list-filter-type">
             <sec:authorize access="isAuthenticated()">
             <sec:authentication var="user" property="principal" />
-              <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/notice '">공지사항</li>
+              <li class="search-list-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</li>
               <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryQnA'">Q&A</li>
               <li class="search-list-filter-item" onclick="location.href='${pageContext.request.contextPath}/question/inqueryFAQ'">자주하는 질문</li>
             </ul>

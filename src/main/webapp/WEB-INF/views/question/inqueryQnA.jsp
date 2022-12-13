@@ -22,13 +22,13 @@
             $(this).next().fadeToggle();
         })
         
-    })  
+   	 })  
     	 $(function() {
         //비밀번호 비교 
         
         $(document).on("click", "button[class=password-form-button]" , function(){
         	//alert(11111)
-        	//alert($("#password").val())
+        	alert($("#password").val())
         	//alert($("#serviceQuestionNo").val())
         	//console.log(${serviceQuestionNo})
         	//if($("#password").val().length==0){
@@ -44,7 +44,7 @@
 				success:function(result){
 					
 						alert(result);
-						location.href="${pageContext.request.contextPath}/question/inqueryDetail";
+						location.href="${pageContext.request.contextPath}/question/inqueryDetail"+result;
 					
 				},//function
 				error:function(error){
@@ -54,8 +54,16 @@
 			});//ajax
         });
         ///////////////////////////////////////////////
+        $(function() {
+        $("#insertQuestion").on("click", function() {
+        	
+            location.href="${pageContext.request.contextPath}/question/question_insert";
+        })
         
-    	 }) 
+   	 })
+        
+        
+    }) 
     </script>
   <body>
   	<div class="wrap">
@@ -111,7 +119,7 @@
 	                        문의글 작성시 입력한 임시비밀번호를 입력해주세요.
 	                    </div>
 	                    <input type="hidden" class="id"id="id" name="id" />
-	                    <input type="text" class="password-form" id="password" name="password" />
+	                    <input type="password" class="password-form" id="password" name="password" />
 	                    <input type="hidden" value="${serviceQ.serviceQuestionNo}" class="serviceQuestionNo"id="serviceQuestionNo" name="serviceQuestionNo" />
 	                    <button class="password-form-button" type="button" > 확인 </button> 
 	                </div>
@@ -122,6 +130,41 @@
                   </tbody>
                 </table>
               </div>
+              <!-- 페이징 -->
+					<div style="text-align:center;">
+						<!--  블럭당  -->
+						<nav class="pagination-container">
+							<div class="pagination">
+								<c:set var="doneLoop" value="false" />
+
+								<c:if test="${(startPage-blockCount) > 0}"><!-- (-2) > 0  -->
+									<a class="pagination-newer"
+										href="${pageContext.request.contextPath}/question/inqueryQnA?nowPage=${startPage-1}">PREV</a>
+								</c:if>
+
+								<span class="pagination-inner"> 
+								<c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'>
+
+										<c:if test="${(i-1)>=serviceQuestionList.getTotalPages()}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+
+										<c:if test="${not doneLoop}">
+											<a class="${i==nowPage?'pagination-active':page}"
+												href="${pageContext.request.contextPath}/question/inqueryQnA?nowPage=${i}">${i}</a>
+										</c:if>
+
+									</c:forEach>
+								</span>
+
+								<c:if test="${(startPage+blockCount)<=serviceQuestionList.getTotalPages()}">
+									<a class="pagination-older"
+										href="${pageContext.request.contextPath}/question/inqueryQnA?nowPage=${startPage+blockCount}">NEXT</a>
+								</c:if>
+								<!-- 페이징 끝 -->
+							</div>
+							</nav>
+						</div>
              
             </section>
           </main>
