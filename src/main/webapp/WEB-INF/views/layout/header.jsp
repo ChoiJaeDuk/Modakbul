@@ -15,12 +15,12 @@
 	rel="stylesheet" />
 	
 <script type="text/javascript">
-
+/* 
 $(function(){
-	/* $(".logoutImg").click(function(){
-		location.href=""
-	}) */
-})
+	$(".myPageImg").click(function(){
+		location.href="${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}";
+	}) 
+}) */
 
 
 var index = 0;   //이미지에 접근하는 인덱스
@@ -82,7 +82,8 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 				<c:otherwise>
 				<div class="loginheader-wrap">
 					<div class="loginheader" id="gotomypage">
-					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg">
+					<sec:authentication var="user" property="principal" />
+					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'">
 					</div>
 					<div class="loginheader"  id="gotomypage2"> 
 						 <form action="${pageContext.request.contextPath}/logout" method="post" class="logout">

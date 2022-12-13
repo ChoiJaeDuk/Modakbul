@@ -17,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.AlarmReceiver;
+import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.service.AlarmService;
+import modakbul.mvc.service.FollowService;
 
 @Controller
 //@RequestMapping("/alarm")
@@ -26,6 +28,8 @@ public class AlarmController {
 	
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private FollowService followService;
 	
 	private final static int PAGE_COUNT=3;
 	private final static int BLOCK_COUNT=4;
@@ -50,6 +54,9 @@ public class AlarmController {
 		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ALARM_RECEIVE_NO");
 		Page<AlarmReceiver> pageList = alarmService.selectByUserId(userNo, page);
 
+		List<Follow> followerSize = followService.myFollower(userNo);
+		List<Follow> followingSize = followService.myFollowing(userNo);
+		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 		int startPage = nowPage - temp;
 
@@ -62,6 +69,9 @@ public class AlarmController {
 		mv.addObject("startPage", startPage);
 		mv.addObject("nowPage", nowPage);
 		mv.addObject("fileNames", fileNames);
+		
+		mv.addObject("follower", followerSize.size());
+		mv.addObject("following", followingSize.size());
 		
 		return mv;
 

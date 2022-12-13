@@ -251,6 +251,7 @@ nav{
 .table th {
   text-align: center;
   height: 70px;
+  padding: 10px 0px
 }
 .table-header {
   background-color: #eaeaea;
@@ -259,6 +260,8 @@ nav{
 }
 .table-body {
   font-size: 13px;
+  height: 200px;
+  margin: 300px;
 }
 .table-body + .table-body {
   border-top: 1px solid #d0d0d0;
