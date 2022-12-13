@@ -17,54 +17,157 @@
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
-		var categoryList[]
-		var sort
-		var gatherType
-		var search
-		var place
-		
-		
-		
-    	$(function() {
+		var categoryList =[];
+		var sort="";
+		var gatherType="dayTime";
+		var search="";
+		var place="";
+		var nowPage;
+		var agoPage=1;
+    	$(function() {  		
+    		///////////ajax페이징
+    		$(document).on("click","a",function() {
+    			
+    			nowPage=$(this).attr("id");
+    			agoPage=$(this).attr("id");
+    			selectGatherList();
+			})
+    		
+    		$(document).ajaxSend(function(e,xht,op){
+		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		      });
+    		
+    		var object = {
+    				"${_csrf.parameterName}":"${_csrf.token}",
+    				"categoryList" : categoryList,
+    				"sort"	: sort,
+    				"search" : search,
+    				"place" : place,
+    				"gatherType" : gatherType,
+    				"nowPage" : nowPage
+    		}//JSON.stringify(object)
+    		
+    		
+    		selectGatherList();
     		
     		
     		function selectGatherList() {
+    			
+    			object = {
+        				"${_csrf.parameterName}":"${_csrf.token}",
+        				"categoryList" : categoryList,
+        				"sort"	: sort,
+        				"search" : search,
+        				"place" : place,
+        				"gatherType" : gatherType,
+        				"nowPage" : nowPage
+        		}
+    			
+    			
     			$.ajax({
     				type:"POST",
-    				url:"${pageContext.request.contextPath}/dayTimeGather",
-    				data:"${_csrf.parameterName}=${_csrf.token}&categoryList[]="++"&sort="++"&search="++"&place="++"&gatherType=",
+    				url:"${pageContext.request.contextPath}/main/ajaxPage",
+    				data:object, 
     				dataType:"json",
+    				//contentType:'application/json;charset=utf-8',
     				success:function(result){
+    					
+    					console.log(result.gatherList.totalPages)
+    					var str ="";
+    					$.each(result.gatherList.content, function(index,item) {
+    							str += `<article class="search-list-result-item">`;
+    							str += `<div class="search-list-result-item-image-wrap">`;
+    							str += `<img src="${pageContext.request.contextPath}/save/"${'${item.gatherImg}'} alt="이미지" width="100%" />`;
+    							str += `</div>`;
+    							str += `<div class="search-list-result-item-info">`;
+    							str += `<div class="search-list-result-item-title">`;
+    							str += `${"${item.gatherName}"}</div>`;
+    							str += `<div class="search-list-result-item-text">모집인원 : ${"${item.gatherMaxUsers}"}</div>`;
+    							str += `<div class="search-list-result-item-text">마감일 : ${"${item.gatherDeadline}"}</div>`;
+    							str += `<div class="search-list-result-item-date">`;
+    							str += `<div>모임날짜 : ${"${item.gatherDate}"}</div>`;
+    							str += `<div class="user-nick">작성자 : </div>`;
+    							str += `</div>`;
+    							str += `</div>`;
+    							str += `</article>` 
+						});
+    					var startPage = result.startPage;
+    					var blockCount = result.blockCount;
+    					var gatherList = result.gatherList;
+    					nowPage = result.nowPage;
+    					var result = false;
+  						
+    					var page =`<div class="pagination">`
+    					if ( (startPage-blockCount) > 0){
     						
-    					$.each(result, function(index, item){
-   						 
-   						 }) 	
-    				}) 
-    					data+="</table>";
-    					
-    					$("#memberListView").html(data);	
-    					
-    									
-    				}//function
-    			});//ajax
-			}
-    		
+    						page +=	`<a name='page' id=${"${nowPage=startPage-1}"} class="pagination-newer">PREV</a>`
+    						
+    					} <!-- (-2) > 0  --> 
+    				 	page +=	`<span class="pagination-inner">`;
+    				 	for(let i = startPage; i<=(startPage-1)+ blockCount ; i++){
+    				 		if( (i-1) >= gatherList.totalPages ){
+    				 			result=false;
+    				 		}else{
+    				 			
+    				 			page +=`<a name='page' class="${"${i==agoPage ? 'pagination-active': 'page'}"}" id=${"${nowPage=i}"}>${"${i}"}</a>`;
+    				 			
+    				 		}
+    				 		if(result) break;
+    				 	}
+    				 	page +=	`</span>`; 				
+    							 					
+    				 	page +=	`</div>`;
+    				 	page +=	`</span>`;
+    				 	//
+    				 	if(startPage+blockCount<=gatherList.totalPages){
+    				 		
+    				 		page +=	`<a name='page' id=${"${nowPage=startPage+blockCount}"} class="pagination-older">NEXT</a>`;
+    				 		
+    				 	}		
+    				 	
+    				 	page +=	`</div>`;
+    				 	
+    				 
+    					$(".pagination-container").html(page);
+    					$(".search-list-result-wrap").html(str)
+    				},
+    				error: function(err) {
+						alert(err)
+					}
+    			})//ajax
+    		}
+		
+    		//////////////////////////////////////
     		
     		$(document).ready(function(){
-    			  textchange = false;
-    			  $('.category-btn').click(function(){
+    			
+    			textchange = true;
+    			$('.category-btn').click(function(){
     			    if(textchange){
     			      textchange = false;
     			      $(this).addClass("selected")
+    			      categoryList[$(this).val()] = $(this).val()+1
+    		
     			    }else{
     			      textchange = true;
     			      $(this).removeClass("selected")
+    			      delete categoryList[$(this).val()];
+    			      
     			    }
-    			  })
+    			    nowPage=1;
+    			    agoPage=1;
+    			    console.log(categoryList)
+    			    
+    				selectGatherList();
     			})
+    		})
+    		
+    		$("#sort").change(function() {
+				sort = $(this).val();
+				selectGatherList();
+			})
 			
-		})
-	    
+		})	    
     </script>
   </head>
   <body>
@@ -86,48 +189,21 @@
         <div class="search-list-body">
           <aside class="search-list-sub-filter">
             <ul class="search-list-filter-categpry">
-              <li class="search-list-filter-item category-btn" value="1")>스포츠</li>
-              <li class="search-list-filter-item category-btn" value="2">클래스</li>
-              <li class="search-list-filter-item category-btn" value="3">자유</li>
+              <li class="search-list-filter-item category-btn" value="0">스포츠</li>
+              <li class="search-list-filter-item category-btn" value="1">클래스</li>
+              <li class="search-list-filter-item category-btn" value="2">자유</li>
             </ul>
           </aside>
           <main>
             <section class="search-list-result-wrap">
-              <article class="search-list-result-item">
-                <div class="search-list-result-item-image-wrap">
-                  <img src="" alt="이미지" width="100%" />
-                </div>
-                <div class="search-list-result-item-info">
-                  <div class="search-list-result-item-title">
-                    망원동 꼼작커피공방 커피바리스타 2급 자격증 단기 속성 교육
-                    연습반 모집 (2회실습)
-                  </div>
-                  <div class="search-list-result-item-text">모집인원 : 1</div>
-                  <div class="search-list-result-item-text">마감일 : 1</div>
-                  <div class="search-list-result-item-date">
-                    <div>모임날짜 : 1</div>
-                    <div>작성자 : ㅇㅇ</div>
-                  </div>
-                </div>
-              </article>
-              <article class="search-list-result-item">
-                <div class="search-list-result-item-image-wrap">
-                  <img src="" alt="이미지" width="100%" />
-                </div>
-                <div class="search-list-result-item-info">
-                  <div class="search-list-result-item-title">
-                    망원동 꼼작커피공방 커피바리스타 2급 자격증 단기 속성 교육
-                  </div>
-                  <div class="search-list-result-item-text">모집인원 : 1</div>
-                  <div class="search-list-result-item-text">마감일 : 1</div>
-                  <div class="search-list-result-item-date">
-                    <div>모임날짜 : 1</div>
-                    <div>작성자 : ㅇㅇ</div>
-                  </div>
-                </div>
-              </article>
+       
             </section>
           </main>
+        </div>
+        <div style="text-align: center">
+        	<nav class="pagination-container">
+        	
+        	</nav>
         </div>
       </div>
     </div>

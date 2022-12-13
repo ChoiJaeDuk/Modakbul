@@ -209,13 +209,8 @@
 		 <c:if test="${(startPage+blockCount)<=participationList.getTotalPages()}">
 		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=6&nowPage=${startPage+blockCount}">NEXT</a>
 		 </c:if>
-				 
-			
-		
 		</div>
 	</nav>  
 </div>
-      </div>
-    </div>
   </body>
 </html>

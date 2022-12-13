@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -230,32 +231,34 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	public Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort,
+	public Page<Gather> selectGatherList(String gatherType, List<Long> categoryList, String place, String sort,
 			String search, Pageable pageable) {
-
+		System.out.println("selectGatherList 호출");
 		List<OrderSpecifier> ORDERS = gatherSort(pageable);
-
+		System.out.println("sort 통과");
 		BooleanBuilder builder = new BooleanBuilder();
+		System.out.println("builder 생성");
 		builder.and(g.gatherState.eq("모집중"));
 		// 일일, 정기모임 구분
-		if (gatherType) {
+		if (gatherType.equals("regular")) {
 			builder.and(g.regularGather.regularGatherNo.isNotNull()); // 정기모임
 		} else {
 			builder.and(g.regularGather.regularGatherNo.isNull()); // 일일모임
+			System.out.println("일일모임 호출");
 		}
-
+		System.out.println("일일 정기 모임 구분");
 		if (categoryList != null)
 			builder.and(g.category.categoryNo.in(categoryList));
 
 		// 장소 검색
-		if (search != null) {
+		if (!search.equals("")) {
 			builder.and(g.gatherName.contains(search));
 		}
 
-		if (place != null) {
+		if (!place.equals("")) {
 			builder.and(g.gatherPlace.contains(place));
 		}
-
+		System.out.println("selectGatherList if문 통과");
 		
 		QueryResults<Gather> result = queryFactory.selectFrom(g).where(builder)
 				.orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new))
@@ -490,6 +493,14 @@ public class GatherServiceImpl implements GatherService {
 	public List<GatherGroupBy> selectBidTotal(String year){
 		
 		List<GatherGroupBy> list = gatherRep.selectBidTotal(year);
+		
+		return list;
+	}
+
+
+	@Override
+	public List<Gather> selectDeadlineOrderBy() {
+		List<Gather> list = gatherRep.selectGatherOrderByDeadline();
 		
 		return list;
 	}

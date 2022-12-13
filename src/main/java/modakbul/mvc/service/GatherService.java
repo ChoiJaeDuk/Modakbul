@@ -50,7 +50,7 @@ public interface GatherService {
 	 * @param regularGatherNo
 	 * @return
 	 */
-	Page<Gather> selectGatherList(boolean gatherType, List<Long> categoryList, String place, String sort , String search, Pageable pageable);
+	Page<Gather> selectGatherList(String gatherType, List<Long> categoryList, String place, String sort , String search, Pageable pageable);
 	
 	
 	/**
@@ -166,4 +166,10 @@ public interface GatherService {
 	 * @return
 	 */
 	List<GatherGroupBy> selectBidTotal(String year);
+	
+	
+	List<Gather> selectDeadlineOrderBy();
+	
 }
+
+
