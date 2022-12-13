@@ -201,7 +201,7 @@ public class Test {
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectGatherList() {
-		List<Gather> list = adminService.selectGatherList();
+		List<Gather> list = adminService.selectADGatherRegis(userTest, null);
 		/*for(Advertisement b :list) {
 			System.out.println(b);
 		}*/

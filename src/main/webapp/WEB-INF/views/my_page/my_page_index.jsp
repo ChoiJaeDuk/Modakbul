@@ -70,10 +70,10 @@
 							</div>
 							<div>
 								<div>팔로잉</div>
-							 <div>&nbsp;&nbsp;&nbsp;${following}</div> 
+							
 								<div>
 									<a
-										href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a>
+										href="${pageContext.request.contextPath}/follow/followingList?userNo=${user.userNo}">&nbsp;&nbsp;&nbsp;${following}</a>
 								</div>
 							</div>
 						</div>
@@ -172,6 +172,53 @@
        
    
       </div>
+      
+      <div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			<!-- <tr class="user">
+			<th style="width: 20%">
+			사진
+			</th>
+			<th style="width: 10%">
+			이름
+			</th>
+			<th style="width: 10%">
+			온도
+			</th>
+			<th style="width: 20%">
+			<button class="modakbul-button following" id="" value="">팔로우</button>
+			</th>
+			</tr> 	 -->
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+					</th>
+				</tr>
+			</c:forEach>
+	 	</table>
+	 
+        </div>
+      
+      
     </div>
   </body>
 </html>

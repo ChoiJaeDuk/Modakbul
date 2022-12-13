@@ -140,10 +140,19 @@ public interface AdminService {
 	/**
 	 * 마이페이지에서 광고중 리스트
 	 */
-	//Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable);
+	Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable, Long advertisementNo);
 	
 	/**
 	 * 광고 신청 취소하기
 	 * */
-	void updateMyAdCancle(Long advertisementNo);
+	void updateMyAdCancel(Long advertisementNo);
+	
+	/**
+	 * 광고 종료하기
+	 * */
+	void updateMyAdCancel(Long advertisementNo, String status);
+	
+	/**
+	 * 광고 배너 변경
+	 * */
 }
