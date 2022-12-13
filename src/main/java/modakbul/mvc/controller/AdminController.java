@@ -380,21 +380,21 @@ public class AdminController {
 	/**
 	 * 마이페이지2 광고(광고중)
 	 */
-	/*
-	 * @RequestMapping("/my_page/gatherAD/adStatus") public void
-	 * selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage,
-	 * Long userNo) { System.out.println("마이페이지 광고중"); Pageable pageable =
-	 * PageRequest.of((nowPage-1),PAGE_COUNT); int temp= (nowPage -1)%BLOCK_COUNT;
-	 * int startPage= nowPage-temp;
-	 * 
-	 * 
-	 * Page<Gather> selectGatherADIng = adminService.selectGatherADIng(userNo,
-	 * pageable);
-	 * 
-	 * model.addAttribute("selectGatherADIng", selectGatherADIng);
-	 * 
-	 * model.addAttribute("blockCount", BLOCK_COUNT);
-	 * model.addAttribute("startPage",startPage); model.addAttribute("nowPage",
-	 * nowPage); }
-	 */
+	/*@RequestMapping("/my_page/gatherAD/adStatus")
+	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+		System.out.println("마이페이지 광고중");
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+
+		Page<Advertisement> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable);
+		
+		model.addAttribute("selectGatherADIng", selectGatherADIng);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+	}*/
+
 }

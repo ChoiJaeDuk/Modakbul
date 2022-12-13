@@ -16,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +38,7 @@ public class ServiceQuestion {
 	@SequenceGenerator(name = "service_question_no_seq" , allocationSize = 1 , sequenceName = "service_question_no_seq")
 	private Long serviceQuestionNo;
 	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "user_no")
 	private Users user;

@@ -28,7 +28,7 @@ import modakbul.mvc.service.UsersService;
 @Controller
 public class ReviewController {
 	private final static int PAGE_COUNT=5;
-	private final static int BLOCK_COUNT=4;	
+	private final static int BLOCK_COUNT=5;	
 	
 	@Autowired
 	private UserReviewService userReviewService;
@@ -65,6 +65,7 @@ public class ReviewController {
 		  
 		  mv.setViewName("/my_page/my_page_review");
 		  mv.addObject("reviewStatusList", page);
+	
 
 		  mv.addObject("user", dbUser);
 		  mv.addObject("follower", follower.size());

@@ -270,9 +270,7 @@ body, html {
 }
 
 .pagination {
-	/* position: relative; */
-	margin-left: 20%;
-	margin-top: 200px;
+position: relative;
 }
 
 .pagination a {

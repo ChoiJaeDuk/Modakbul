@@ -483,3 +483,72 @@ header {
 .password-form-button:active {
   background-color: rgb(214, 132, 0);
 }
+
+/***/
+.create-group-info-table-item-label{
+	margin-top: 20px;
+	font-weight: bold;
+  	font-size: 25px;
+}
+.create-group-form-input{
+	margin-top:10px;
+	width : 230px;
+	height : 30px;
+	border: solid lightgray 0.5px;
+}
+.create-group-form-textarea{
+	margin-top:10px;
+	width : 800px;
+	height : 300px;
+	border: solid lightgray 0.5px;
+}
+.create-group-form-input-temp{
+	margin-top:10px;
+	width : 150px;
+	height : 30px;
+	border: solid lightgray 0.5px;
+}
+.create-group-button {
+  margin-top: 30px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.create-group-button:hover {
+  background-color: rgb(251, 174, 51);
+}
+.create-group-button:active {
+  background-color: rgb(214, 132, 0);
+}
+.create-group-cancel-button{
+ margin-left: 20px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+.insert-question-button{
+	margin-right: 30px;
+	margin-top:10px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 4px 8px;
+  background-color: rgb(243, 156, 18);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+
+
+
