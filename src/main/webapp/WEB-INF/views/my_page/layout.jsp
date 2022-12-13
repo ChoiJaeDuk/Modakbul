@@ -97,9 +97,13 @@
                       }//if  END
                       
                    });///////////////////////////
+<<<<<<< HEAD
              
          });//modal 띄우기
    });//ready 다음 function ENd
+=======
+   
+    
    
     function modal(id) {
                 var zIndex = 9999;

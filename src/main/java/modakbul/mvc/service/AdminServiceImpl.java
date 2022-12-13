@@ -395,7 +395,20 @@ public class AdminServiceImpl implements AdminService {
 		dbAdv.setAdStatus(status);
 		dbAdv.setDeadLine(now);
 	}
+
+	@Override
+	public void updateBanner(Long advertisementNo, String bannerName) {
+		Advertisement ad = this.selectByNo(advertisementNo);
+		ad.setAdFileName(bannerName);
+		
+	}
 	
+	@Override
+	public Advertisement selectByNo(Long advertisementNo) {
+		
+		return adminRep.selectByNo(advertisementNo);
+	}
+
 	
 
 

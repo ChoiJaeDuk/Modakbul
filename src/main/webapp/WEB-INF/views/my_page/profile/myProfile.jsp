@@ -22,34 +22,134 @@
 <script src="${pageContext.request.contextPath}/js/jquery.form.min.js"></script>
 <script type="text/javascript">
    		$(function(){
+   		 $(function(){
+   	      let $modal ;
+   	       document.getElementById('following').addEventListener('click', function() {
+   	             // 모달창 띄우기
+   	             modal('my_modal');
+   	             
+   	            // alert("dd = " + document.querySelector(".modakbul-button following"))
+   	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
+   	              
+   	              
+   	              
+   	              $(document).on("click", "button[class='modakbul-button following']" , function(){
+   	                
+
+   	                      alert("버튼클릭했음" + " , " + $(this).val());
+   	                      
+   	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
+   	                      console.log("follower = " + $(this).val());
+   	                    /*   console.log("following = " + ${userNo}); */
+   	                      let targetBtn = $(this);
+   	                      
+   	                      if($(this).text() == "팔로잉"){
+   	                         alert("딜리트 반응?");
+   	                         $.ajax({
+   	                            url:"${pageContext.request.contextPath}/follow/delete", 
+   	                            type:"post",
+   	                            dataType:"text",
+   	                                data:JSON.stringify(target),   
+   	                                contentType:'application/json;charset=utf-8',
+   	                            success:function(result){
+   	                               if(result=="ok"){
+   	                                  alert("팔로잉이 해제 되었습니다.")                  
+   	                                  
+   	                                  targetBtn.css("background","rgb(243, 156, 18)")
+   	                                  targetBtn.text("팔로우")
+   	                               }
+   	                            },error:function(err){
+   	                               alert("err : "+err);
+   	                            }
+   	                         });//Delete ajax END
+   	                      }
+   	                      
+   	                      if($(this).text()=="팔로우"){
+   	                         alert("인설트반응?");
+   	                         $.ajax({
+   	                            url:"${pageContext.request.contextPath}/follow/insert",
+   	                            type:"post",
+   	                            dataType:"text",
+   	                                data:JSON.stringify(target),   
+   	                                contentType:'application/json;charset=utf-8',
+   	                            success:function(result){
+   	                               if(result=="ok"){
+   	                                  alert("팔로우 등록 되었습니다.")                  
+   	                                  
+   	                                  targetBtn.css("background","gray")
+   	                                  targetBtn.text("팔로잉")
+   	                               }
+   	                               
+   	                            },error:function(err){
+   	                               alert("err : "+err);
+   	                            }
+   	                         });//Insert ajax END
+   	                      }//if  END
+   	                      
+   	                   });///////////////////////////
+   	             
+
+   	              
+   	             
+   	             
+   	         });
+   	   
+   	      
+   	       //////////////////////////////////////////////////
+   	   })
+   	   
+   	    function modal(id) {
+   	                var zIndex = 9999;
+   	                var modal = document.getElementById(id);
+
+   	                // 모달 div 뒤에 희끄무레한 레이어
+   	                var bg = document.createElement('div');
+   	                bg.setStyle({
+   	                    position: 'fixed',
+   	                    zIndex: zIndex,
+   	                    left: '0px',
+   	                    top: '0px',
+   	                    width: '100%',
+   	                    height: '100%',
+   	                    overflow: 'auto',
+   	                    // 레이어 색갈은 여기서 바꾸면 됨
+   	                    backgroundColor: 'rgba(0,0,0,0.4)'
+   	                });
+   	                document.body.append(bg);
+
+   	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+   	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+   	                    bg.remove();
+   	                    modal.style.display = 'none';
+   	                });
+
+   	                modal.setStyle({
+   	                    position: 'fixed',
+   	                    display: 'block',
+   	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+   	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+   	                    zIndex: zIndex + 1,
+
+   	                    // div center 정렬
+   	                    top: '50%',
+   	                    left: '50%',
+   	                    transform: 'translate(-50%, -50%)',
+   	                    msTransform: 'translate(-50%, -50%)',
+   	                    webkitTransform: 'translate(-50%, -50%)'
+   	                });
+   	            }
+
+   	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+   	            Element.prototype.setStyle = function(styles) {
+   	                for (var k in styles) this.style[k] = styles[k];
+   	                return this;
+   	            };
    		
    			var data = $("#follower").val();
    			
-   		/*  function readImage(input) {
-			  
-				// 인풋 태그에 파일이 있는 경우
-			    if(input.files && input.files[0]) {
-			        // 이미지 파일인지 검사 (생략)
-			        // FileReader 인스턴스 생성
-			        const reader = new FileReader()
-			        // 이미지가 로드가 된 경우
-			        reader.onload = e => {
-			            const previewImage = document.getElementById("sign-up-image")
-			          
-			            previewImage.src = e.target.result
-			          
-			        }
-			        // reader가 이미지 읽도록 하기
-			        reader.readAsDataURL(input.files[0])
-			    }
-			}
-			// input file에 change 이벤트 부여
-			const inputImage = document.getElementById("sign-up-add-image")
+   	
 			
-			inputImage.addEventListener("load", e => {
-			    readImage(e.target)
-			})
-			 */
 			
 			 $(document).on("change", "#sign-up-add-image2", function(){ //주황색
 					
@@ -343,11 +443,10 @@
 								<div>&nbsp;&nbsp;&nbsp;${follower}</div> 
 							</div>
 							<div>
-								<div>팔로잉</div>
-							 <div>&nbsp;&nbsp;&nbsp;${following}</div> 
-								<div>
-									<a
-										href="${pageContext.request.contextPath}/follow/followingList?userNo=7">&nbsp;&nbsp;&nbsp;${following}</a>
+								<div >팔로잉</div>
+							
+								<div id="following">
+									<a>&nbsp;&nbsp;&nbsp;${following}</a>
 								</div>
 							</div>
 						</div>
@@ -527,6 +626,51 @@
 				</section>
 			</div>
 		</div>
+		<div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			<!-- <tr class="user">
+			<th style="width: 20%">
+			사진
+			</th>
+			<th style="width: 10%">
+			이름
+			</th>
+			<th style="width: 10%">
+			온도
+			</th>
+			<th style="width: 20%">
+			<button class="modakbul-button following" id="" value="">팔로우</button>
+			</th>
+			</tr> 	 -->
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+					</th>
+				</tr>
+			</c:forEach>
+	 	</table>
+	 
+        </div>
+		
 	</div>
 
 	 <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
