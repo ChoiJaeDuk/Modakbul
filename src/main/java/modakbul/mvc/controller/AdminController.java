@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +124,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/manageAdvRegis")
+	@RequestMapping("/admin/{uml}")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -161,16 +162,44 @@ public class AdminController {
 
 	}
 	/**
-	 * 광고 상태변경
+	 * 광고 상태변경(광고승인)
 	 * */
 	@ResponseBody
 	@RequestMapping("/admin/updateAdGather")
 	public String updateAdGather(Long advertisementNo, String status) {
 		System.out.println("광고 승인");
 		adminService.updateAdGather(advertisementNo, status);
-		//return "redirect:/admin/manageAdvRegis";
+		
 		return "광고진행상태가 변경되었습니다.";
 	}
+	
+	/**
+	 * 광고 상태변경(광고종료)
+	 * */
+	@ResponseBody
+	@RequestMapping("/admin/updateAdCancle")
+	public String updateAdCancle(Long advertisementNo, String status) {
+		System.out.println("광고 종료");
+		adminService.updateAdCancle(advertisementNo, status);
+		
+		return "광고진행상태가 변경되었습니다.";
+	}
+	
+	/**
+	 * 광고 상태변경(광고 신청 취소)
+	 * */
+	@ResponseBody
+	@RequestMapping("/my_page/gatherAD/updateMyAdCancle")
+	public String updateMyAdCancle(HttpServletRequest request) {
+		String advertisementNo = request.getParameter("advertisementNo");
+	
+		System.out.println("광고 신청 취소");
+		adminService.updateMyAdCancle(Long.parseLong(advertisementNo));
+		
+		return "광고진행상태가 변경되었습니다.";
+	}
+	
+	
 
 	/*	*//**
 			 * 유료모임 승인 리스트
@@ -329,9 +358,42 @@ public class AdminController {
 	}
 
 	/**
-	 * 마이페이지2 광고
+	 * 마이페이지2 광고(신청대기)
 	 */
-	//@RequestMapping("/my_page/gatherAD/adApplication")
-	public void adApplication() {
+	@RequestMapping("/my_page/gatherAD/adWaiting")
+	public void selectADGatherRegis(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo) {
+		System.out.println("마이페이지 광고 신청대기");
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+
+		Page<Advertisement> selectADGatherRegis = adminService.selectADGatherRegis(userNo, pageable, advertisementNo);
+		
+		model.addAttribute("selectADGatherRegis", selectADGatherRegis);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+	}
+	
+	/**
+	 * 마이페이지2 광고(광고중)
+	 */
+	@RequestMapping("/my_page/gatherAD/adStatus")
+	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+		System.out.println("마이페이지 광고중");
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+
+		Page<Gather> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable);
+		
+		model.addAttribute("selectGatherADIng", selectGatherADIng);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
 	}
 }

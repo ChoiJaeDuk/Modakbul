@@ -16,6 +16,32 @@
     <title>Document</title>
   </head>
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+   
+    <script type="text/javascript">
+  	$(function(){
+  		
+  		
+			
+			
+  		$(".my-page-button").click(function(){
+  			$("#bannerUpdate").show();
+  			
+  		})
+  		
+  		$(".cancel-button").click(function() {
+			$("#ADCancel").hide();
+		})
+  	})
+  	
+  	function adDelete(adv){
+  		alert(11)
+  		alert($(this).val())
+  		//if($)
+  	}  	
+
+  
+  </script>
+   
   <body>
     <div class="wrap">
       <div class="my-page-wrap">
@@ -84,33 +110,24 @@
                             <th>수정하기</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
+                        <c:forEach items="${requestScope.selectGatherADIng.content}" var="data">
                             <tr class="table-body">
-                                <td>1</td>
+                                <td>${data.gatherNo}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
                                         <img src="" alt="이미지" width="100%"/>
                                     </div>
                                 </td>
-                                <td>모임</td>
+                                <td>${data.gatherName}</td>
                                 <td>2022/10/17 ~ 2022/11/17</td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button">배너수정</button>
+                                    <button type="button" class="my-page-button">배너수정</button>
                                 </td>
                             </tr>
-                            <tr class="table-body">
-                                <td>2</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="" alt="이미지" width="100%"/>
-                                    </div>
-                                </td>
-                                <td>모임</td>
-                                <td>2022/10/17 ~ 2022/11/17</td>
-                                <td class="inquiry-replied">
-                                    <button class="my-page-button">배너수정</button>
-                                </td>
-                            </tr>
+                           </c:forEach>
+                           
                         </tbody>
                     </table>
                 </div>
@@ -207,7 +224,7 @@
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
             </div>
         </div>
-        <div class="commercial-modal-wrap" style="display: none">
+        <div class="commercial-modal-wrap" id="bannerUpdate" style="display: none">
             <div class="commercial-modal-title">배너 수정하기</div>
             <div class="modify-commercial-current-image-text">현재 배너 이미지</div>
             <div class="modify-commercial-current-image-wrap">

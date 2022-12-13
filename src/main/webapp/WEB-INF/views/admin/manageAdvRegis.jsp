@@ -22,7 +22,7 @@
 				type:"POST",
 				url:"${pageContext.request.contextPath}/admin/updateAdGather",
 				dataType:"text",
-				data: "${_csrf.parameterName}=${_csrf.token}&status=광고중&advertisementNo="+$(this).attr("id")			
+				data: "${_csrf.parameterName}=${_csrf.token}&status=광고중&advertisementNo="+$(this).val(),			
 				success:function(result){
 					alert(result);
 					console.log(result)
@@ -42,12 +42,12 @@
   		})
   		
   		
-  		$(".button-deny").click(function(){
+  		 $(".button-deny").click(function(){
   			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/admin/updateAdGather",
 				dataType:"text",
-				data: "${_csrf.parameterName}=${_csrf.token}&status=승인거절&advertisementNo="+$(this).attr("id")				
+				data: "${_csrf.parameterName}=${_csrf.token}&status=승인거절&advertisementNo="+$(this).val(),			
 				success:function(result){
 					alert(result)
 					console.log(result)
@@ -64,7 +64,7 @@
 				}
 				
 			});//ajax
-  		})
+  		}) 
   	})
   	
   	
@@ -129,14 +129,10 @@
 							<td>${adv.user.userJob}</td>
 							<td>${fn:substring(adv.adRegisDate,0,10)}</td>
 							<td>
-							<%-- <form action="${pageContext.request.contextPath}/admin/updateAdGather" method="post"> --%>
                 			<div class="modakbul-charged-grid-col">
-                			<button type="button" class="modakbul-button button-agree" id="${adv.advertisementNo}" name="${adv.gather.gatherNo}">승인하기</button>
-                		<%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							<input type="hidden" name="${adv.gather.gatherNo}" value="${adv.gather.gatherNo}"/> --%>
-                			<button class="modakbul-button button-deny" id="${adv.advertisementNo}" >거절하기</button>
+                			<button type="button" class="modakbul-button button-agree" value="${adv.advertisementNo}" name="${adv.gather.gatherNo}">승인하기</button>   		
+                			<button type="button" class="modakbul-button button-deny" value="${adv.advertisementNo}" >거절하기</button>
               				</div>
-                			<!-- </form> -->
               				</td>
 							</tr>
 						</c:forEach> 

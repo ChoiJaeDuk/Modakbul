@@ -118,6 +118,11 @@ public interface AdminService {
 	void updateAdGather(Long advertisementNo, String status);
 	
 	/**
+	 * 광고 종료하기
+	 * */
+	void updateAdCancle(Long advertisementNo, String status);
+	
+	/**
 	 * 모임 신청대기 리스트
 	 * */
 	List<Gather> selectGatherState();
@@ -126,4 +131,19 @@ public interface AdminService {
 	 * 유료광고 모임 뿌리기
 	 * */
 	List<Advertisement> selectAdGather();
+	
+	/**
+	 * 마이페이지에서 광고신청 대기 리스트
+	 */
+	Page<Advertisement> selectADGatherRegis(Long userNo, Pageable pageable, Long advertisementNo);
+	
+	/**
+	 * 마이페이지에서 광고중 리스트
+	 */
+	Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable);
+	
+	/**
+	 * 광고 신청 취소하기
+	 * */
+	void updateMyAdCancle(Long advertisementNo);
 }
