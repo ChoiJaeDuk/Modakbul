@@ -29,10 +29,7 @@
 					
 						$("#advRegis").load(location.href + " #advRegis");
 						$("#count").load(location.href + " #count");
-						
-						
-	   					
-				
+			
 				},//function
 				error:function(error){
 					console.log(error)
@@ -52,7 +49,7 @@
 					alert(result)
 					console.log(result)
 					
-						$("#advRegis").load(location.href + " #advRegis");
+						$(".cont-wrap").load(location.href + " .cont-wrap");
 						$("#count").load(location.href + " #count");
 						
 						

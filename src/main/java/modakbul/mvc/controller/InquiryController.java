@@ -42,32 +42,7 @@ public class InquiryController {
 	@Autowired
 	private  static int BLOCK_COUNT=4;
 	
-	@RequestMapping("/my_page/my_page_index")
-	public ModelAndView main(Long userNo,@RequestParam(defaultValue = "1") int nowPage) {
-		ModelAndView mv= new ModelAndView();
-		
-		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
-		//PageRequest pageRequest = PageRequest.of(0, 5);
-		Page<SelectReplyState> list=inqService.selectReplyState(userNo, pageable);
-		List<SelectReplyState> resultList1 = list.getContent();
-		Long totalWaiting=list.getTotalElements();
-
-		
-		 int temp = (nowPage - 1) % BLOCK_COUNT;
-		 int startPage = nowPage - temp;
-		 
-		
-		mv.addObject("replyState", totalWaiting); 
-		System.out.println(resultList1.size());
-		//mv.addObject("nowPage", pages);
-		mv.setViewName("my_page/my_page_index");
-		 mv.addObject("blockCount", BLOCK_COUNT);
-		 mv.addObject("startPage",startPage);
-		 mv.addObject("nowPage", nowPage);
-		
-		
-		return mv;
-	}
+	
 	
 	@RequestMapping("my_page/my_page_inquiry")
 	public void inquiryStatus(Long userNo,Model model, @RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
