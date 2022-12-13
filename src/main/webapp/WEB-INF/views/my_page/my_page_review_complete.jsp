@@ -3,6 +3,7 @@
     <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
     
 <!DOCTYPE html>
 <html lang="ko">
@@ -85,11 +86,11 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/likeGather/applicationList?userNo=${user.userNo}'">관심모임</li>
+							onclick="location.href='${pageContext.request.contextPath}/my_page/likeGather/myLikeGather?userNo=${user.userNo}'">관심모임</li>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
 						<li class="my-page-nav-item"

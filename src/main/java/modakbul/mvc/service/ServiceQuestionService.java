@@ -20,7 +20,7 @@ public interface ServiceQuestionService {
 	/**
 	 * 문의 사항 상세보기
 	 * */
-	ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo,String serviceQuestionPwd, Long userNo);
+	ServiceQuestion selectByServiceQuestionNo(Long serviceQuestionNo,String serviceQuestionPwd,Long userNo);
 	
 	/**
 	 * 삭제하기
@@ -35,8 +35,10 @@ public interface ServiceQuestionService {
 	/**
 	 * 어드민이 쓴 글(user_no=4)은 공지사항
 	 * */
-	Page<ServiceQuestion> selectByAdminNo(Long userNo,Pageable pageable);
+	Page<ServiceQuestion> selectByAdminNo(Pageable pageable);
 	
+	/**공지사항상세보기*/
+	ServiceQuestion selectNoticeDetail(Long serviceQuestionNo);
 
 	
 	

@@ -17,8 +17,39 @@
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
-
+		var categoryList[]
+		var sort
+		var gatherType
+		var search
+		var place
+		
+		
+		
     	$(function() {
+    		
+    		
+    		function selectGatherList() {
+    			$.ajax({
+    				type:"POST",
+    				url:"${pageContext.request.contextPath}/dayTimeGather",
+    				data:"${_csrf.parameterName}=${_csrf.token}&categoryList[]="++"&sort="++"&search="++"&place="++"&gatherType=",
+    				dataType:"json",
+    				success:function(result){
+    						
+    					$.each(result, function(index, item){
+   						 
+   						 }) 	
+    				}) 
+    					data+="</table>";
+    					
+    					$("#memberListView").html(data);	
+    					
+    									
+    				}//function
+    			});//ajax
+			}
+    		
+    		
     		$(document).ready(function(){
     			  textchange = false;
     			  $('.category-btn').click(function(){
@@ -45,9 +76,10 @@
               <li class="search-list-main-filter-item selected">모임검색</li>
               <li class="search-list-main-filter-item">회원검색</li>
             </ul>
-            <select class="select-small" name="" id="">
-              <option value="인기순">인기순</option>
-              <option value="마감임박순">마감임박순</option>
+            <select class="select-small" name="sort" id="sort">
+              <option value="likeCount">관심순</option>
+              <option value="userTemper">온도순</option>
+              <option value="gatherDeadLine">마감임박순</option>
             </select>
           </div>
         </div>

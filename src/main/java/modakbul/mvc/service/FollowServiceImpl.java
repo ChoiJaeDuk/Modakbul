@@ -37,7 +37,8 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public String delete(Long follower, Long follwing) {
-		Follow f = followRep.searchFollowing(follower, follower);
+		System.out.println("서비스 왔?");
+		Follow f = followRep.searchFollowing(follower, follwing);
 		
 		followRep.deleteById(f.getFollowNo());
 		

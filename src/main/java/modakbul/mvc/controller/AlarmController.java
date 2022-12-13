@@ -39,6 +39,8 @@ public class AlarmController {
 	public ModelAndView myAlarm(Long userNo, @RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 
 		System.out.println("누구의 알람목록 ? " + userNo);
+		
+		int newAlarm = alarmService.countNewAlarm(userNo);
 
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
@@ -54,7 +56,7 @@ public class AlarmController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("my_page/alarm/myPage-alarm");
 		mv.addObject("pageList", pageList);
-		mv.addObject("userNo", userNo);
+		mv.addObject("newAlarm", newAlarm);
 
 		mv.addObject("blockCount", BLOCK_COUNT);
 		mv.addObject("startPage", startPage);

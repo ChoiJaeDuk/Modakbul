@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://localhost:9000/loginForm -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+    
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="./Document_files/index.css" rel="stylesheet">
+ 
+    <title>Document</title>
+    <script src="./Document_files/jquery-3.6.1.min.js.다운로드"></script>
+	<script type="text/javascript">
+	$(function(){
+	
+		$("#findIdBtn").click(function(){
+			if($("#email").val()==""){
+				alert("이메일을 입력해주세요.");
+				return;
+			}
+			
+			$.ajax({
+				type:"POST",
+				url:"/selectUserId",
+				data: "_csrf=a353206b-6f5e-4554-abed-11599f2d1f7c&email="+$('#email').val(),
+			
+				dataType:"text",
+				success:function(result){
+					
+					 var data = result;
+					 console.log(data);
+					 
+					if(data=="이메일에 해당하는 정보가 없습니다."){
+						 $("#selectId").html(data);	
+						 $("#email").val("");
+					}else{
+						$("#selectId").html("ID : " + data);	
+					}
+					
+
+				},//function
+				error:function(error){
+					
+				}
+				
+			});//ajax
+		})
+		
+		 $("#findPwdBtn").click(function(){
+			console.log($("#idForPwd").val() )
+			if( $("#idForPwd").val()=="" || $("#emailForPwd").val()==""){
+				alert("정보를 입력해주세요.");
+				return;
+			}
+			
+			$.ajax({
+				type:"POST",
+				url:"/selectUserPwd",
+				data: 
+					
+					"_csrf=a353206b-6f5e-4554-abed-11599f2d1f7c&email="+$('#emailForPwd').val()+"&id="+$("#idForPwd").val()
+
+				,
+				
+				dataType:"text",
+				success:function(result){
+					
+					 var data = result;
+					 
+					 console.log(data);
+					 //$("#selectId").html(data);	
+					 alert(data);
+
+				},//function
+				error:function(error){
+					console.log(error)
+				}
+				
+			});//ajax
+		}) 
+		
+		$("form").on("submit",function(){
+			if($("#id").val()=="" || $("#pwd").val()==""){
+				alert("아이디 혹은 비밀번호를 입력해주세요.")
+				return false;
+			}
+			
+		})
+	})
+
+	
+	</script>
+
+    
+  </head>
+  <body>
+
+  
+
+
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODAKBUL</title>
+<link href="./Document_files/adminLayout.css" rel="stylesheet">
+
+	<header id="modakbul-header" class="flex">
+		<div class="modakbul-header-left flex">
+			<img src="./Document_files/icon.png" alt="modakbul-icon">
+			<!-- <h1 class="modakbul-title">MODAKBUL</h1> -->
+			<p class="modakbul-title">
+				<strong>MODAKBUL</strong>
+			</p>
+		</div>
+		<div class="modakbul-header-center flex">
+			<p class="modakbul-header-menu header-selected">메뉴</p>
+			<p class="modakbul-header-menu">메뉴</p>
+			<p class="modakbul-header-menu">메뉴</p>
+			<p class="modakbul-header-menu">메뉴</p>
+		</div>
+
+		<div class="modakbul-header-right">
+			
+			<h3>관리자 모드</h3>
+		</div>
+	</header>
+	<div class="bannerSection">
+		<img src="./Document_files/banner4.png" alt="modakbul-icon" class="modakbul-banner">
+</div>
+
+
+
+
+
+
+  
+    <div id="wrap">
+      <main class="login-wrap">
+        <div class="login-logo-wrap">
+          <img class="login-logo-image" src="./Document_files/logo.png">
+          <h1 class="login-logo-title">MODAKBUL</h1>
+        </div>
+        <div>
+          <form class="login-form" action="http://localhost:9000/user/loginCheck" method="post">
+            <div>
+              <div class="login-form-item-wrap">
+                <label for="id" class="form-label">ID</label>
+                <input id="id" name="id" class="form-input" placeholder="아이디 입력">
+              </div>
+              <div class="login-form-item-wrap">
+                <label for="pwd" class="form-label">PW</label>
+                <input type="password" id="pwd" name="pwd" class="form-input" placeholder="비밀번호 입력">
+                <input type="hidden" name="_csrf" value="a353206b-6f5e-4554-abed-11599f2d1f7c"> 
+              </div>
+            </div>
+            <div>
+              <button class="login-button" type="submit">로그인</button>
+            </div>
+          </form>
+          <div class="option-wrap">
+            <div class="option-item"><a href="javascript:void(0)" onclick="$(&#39;#findIdForm&#39;).show()">아이디 찾기</a></div>
+            <div class="option-item"><a href="javascript:void(0)" onclick="$(&#39;#findPwdForm&#39;).show()">비밀번호 찾기</a></div>
+            <div class="option-item"><a href="javascript:void(0)" onclick="$(&#39;#userJob&#39;).show()">회원가입</a></div>
+          </div>
+          <div class="kakao-login-button-wrap">
+            <a href="https://kauth.kakao.com/oauth/authorize?client_id=14b0e31baeb3e5bc554c607d7293b85c&amp;redirect_uri=http://localhost:9000/auth/kakao/callback&amp;response_type=code">
+            <img class="kakao-login-button" src="./Document_files/kakao-login.png">
+            </a>
+          </div>
+        </div>
+      </main>
+      <!-- 아이디 찾기 -->
+  		<div class="modal-wrap" id="findIdForm" style="display: none"> 
+        <div>
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">E-mail</label>
+            <input class="modal-input" placeholder="이메일 입력" id="email">
+          </div>
+        </div>
+        <div class="search-id-result" id="selectId"></div>
+        <div class="modal-button-wrap">
+          <button class="modal-button cancel-button" onclick="$(&#39;#findIdForm&#39;).hide()">닫기</button>
+          <button class="modal-button search-id-button" id="findIdBtn">아이디 찾기</button>
+        </div>
+      </div>
+      <!-- 비밀번호 찾기 -->
+      <div class="modal-wrap" id="findPwdForm" style="display: none"> 
+        <div>
+       
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">ID</label>
+            <input class="modal-input" placeholder="이메일 입력" id="idForPwd">
+          </div>
+          <div class="modal-input-wrap">
+            <label class="modal-input-label" for="">E-mail</label>
+            <input class="modal-input" placeholder="이메일 입력" id="emailForPwd">
+          </div>
+        </div>
+        <div class="modal-button-wrap">
+          <button type="button" class="modal-button cancel-button" onclick="$(&#39;#findPwdForm&#39;).hide()">닫기</button>
+          <button type="button" class="modal-button search-id-button" id="findPwdBtn">
+            비밀번호 찾기
+          </button>
+         
+        </div>
+      </div>
+      <!-- 완료 팝업 -->
+      <div class="modal-wrap" style="display: none">
+        <div class="modal-text">
+          해당 이메일로 임시 비밀번호가<br>전송되었습니다.
+        </div>
+        <div class="modal-button-wrap">
+          <div></div>
+          <button type="button" class="modal-button cancel-button">닫기</button>
+        </div>
+      </div>
+      <!-- 기관 개인 선택 모달 -->
+      <div class="modal-wrap" style="display: none" id="userJob">
+        <div class="modal-sign-up-button-wrap">
+          <button class="sign-up-agency-button" onclick="location.href=&#39;/joinFormForCompany&#39;">기관/사업자</button>
+          <button class="sign-up-individual-button" onclick="location.href=&#39;/joinFormForIndiv&#39;">개인</button>
+        </div>
+        <div class="modal-button-wrap">
+          <div></div>
+          <button type="button" class="modal-button cancel-button" onclick="$(&#39;#userJob&#39;).hide()">닫기</button>
+          <div></div>
+        </div>
+      </div>
+    </div>
+ 
+
+
+
+
+
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODAKBUL</title>
+     <link href="./Document_files/footer.css" rel="stylesheet">
+     
+ 	<footer id="footer" class="main-footer">
+	<div class="">
+		<div class="contents">
+			<div class="footer-info">
+			 
+				<div class="box">
+					<p>(주)모닥불 컴퍼니</p>
+				</div>
+				<div class="box">
+					<p><span>사업자등록번호 : 588-87-00966</span></p>
+					<p><span>대표 : 최재덕</span></p>
+				</div>
+				<div class="box">
+					<p><span>모임중개업 : 신고번호 제2022-경기도성남-6호</span></p>
+				</div>
+				<div class="box">
+					<p><span>경기도 성남시 분당구 성남대로 34 하나프라자빌딩 6층</span></p>
+				</div>
+				<div class="box">
+					<p><span>(주)모닥불컴퍼니는 모임을 이어주는 중개자일뿐 손해에 대해서는 책임지지 않습니다.</span></p>
+				</div>
+				<div class="box" style="float: right;">
+					<p><span>Copyright 2022. SSSDC. All rights reserved.</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cs-info">
+		<div class="contents">
+			<ul>
+				<li>
+					<a href="http://localhost:9000/main/acceptTerms.do?num=2" target="_blank" rel="noopener" title="서비스 이용약관">서비스 이용약관</a> 
+				</li>
+				<li>
+					<a href="http://localhost:9000/main/acceptTerms.do?num=3" target="_blank" rel="noopener" title="개인정보 처리방침" style="font-weight: bold;">개인정보 처리방침</a> 
+				</li>
+				<li>
+					<a href="http://www.sssd.co.kr/m/notice/noticeList.do?idx=1" target="_blank" rel="noopener" title="공지사항">공지사항</a> 
+				</li>
+				<li>
+					<div class="affiliate-toggld-dropdown dropdown">
+						<button class="dropdown-toggle" type="button" id="affiliateToggleBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							일반 / 제휴 문의 <i class="xi-angle-down"></i>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="affiliateToggleBtn">
+							<li class="dropdown-item">
+								<a href="mailto:help@sssdc.co.kr" rel="noopener" title="일반문의 메일 보내기">일반문의 help@sssdc.co.kr</a>
+							</li>
+							<li class="dropdown-item">
+								<a href="mailto:yoonjae@sssdc.co.kr" rel="noopener" title="제휴문의 메일 보내기">제휴문의 yoonjae@sssdc.co.kr</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<div>
+				<div>
+					<span>고객센터 <a href="tel:1800-9764" title="모닥불 고객센터 전화하기" rel="noopener">1800-9764</a></span>
+				</div>
+				<div class="ico-instagram ico">
+					<a href="https://www.instagram.com/sssdc_ins" target="_blank" title="모닥불 인스타그램" rel="noopener">모닥불 인스타그램</a>
+				</div>
+				<div class="ico-naver-blog ico">
+					<a href="https://blog.naver.com/town_class" target="_blank" title="모닥불 네이버 블로그" rel="noopener">모닥불 네이버 블로그</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+
+  
+</body></html>

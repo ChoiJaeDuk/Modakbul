@@ -83,9 +83,12 @@ public class FollowController {
 	@RequestMapping("/follow/delete")
 	@ResponseBody
 	public String delete(@RequestBody Map<String, Object> result) {
+		System.out.println("컨트롤러 왔?");
 		long follower = (long)Integer.parseInt((String) result.get("follower"));		  
 		long following = (long)Integer.parseInt((String) result.get("following"));
-		 
+
+		System.out.println("follower = "+ follower);
+		System.out.println("following = "+ following);
 		followService.delete(follower, following);
 		
 		return "ok";
@@ -111,7 +114,7 @@ public class FollowController {
 	/**
 	 *  팔로잉 팔로워 수
 	 * 	 */
-	@RequestMapping("/my_page/myindex/{userNo}")
+	@RequestMapping("/my_page/follow/myindex/{userNo}")
 	public ModelAndView jieun(@PathVariable Long userNo) {
 		System.out.println("누구의 팔로잉 리스트 ? " + userNo);
 		

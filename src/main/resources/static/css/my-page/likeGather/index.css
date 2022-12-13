@@ -4,15 +4,24 @@
 .my-page-header {
   display: flex;
   gap: 0 12px;
+  margin: 60px;
+  margin-left: 220px;
+ 
 }
+nav{
+	padding-left: 13%
+}
+
+
 .my-page-image-wrap {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
 }
 .my-page-user-info-wrap {
   width: 200px;
+  padding-left: 50px;
 }
 .my-page-user-name {
   width: 100%;
@@ -36,7 +45,8 @@
 .my-page-content-wrap {
   margin-top: 36px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  width: 2000px;
 }
 .my-page-nav-item {
   display: flex;
@@ -64,7 +74,8 @@
 }
 .my-page-main-content {
   flex-grow: 0;
-  width: 1000px;
+  width: 1100px;
+  margin-left: 90px;
 }
 /* 버튼 */
 .my-page-button {
@@ -129,10 +140,16 @@
 }
 /* 프로필 정보 */
 .my-page-profile-info {
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 36px;
+    border: 1px solid #f1a634;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 36px;
+    /* position: absolute; */
+    margin:  0px 0px 85px;
+    top: 30%;
+    left: 39%;
+    width: 900px;
+    height: 1200px;
 }
 .my-page-form-wrap {
   width: 300px;

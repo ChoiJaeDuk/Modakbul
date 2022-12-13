@@ -16,6 +16,12 @@
 	
 <script type="text/javascript">
 
+$(function(){
+	/* $(".logoutImg").click(function(){
+		location.href=""
+	}) */
+})
+
 
 var index = 0;   //이미지에 접근하는 인덱스
 window.onload = function(){
@@ -48,52 +54,59 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 			</p>
 		</div>
 		<div class="modakbul-header-center flex">
-			<p class="modakbul-header-menu header-selected">메뉴</p>
-			<p class="modakbul-header-menu">메뉴</p>
-			<p class="modakbul-header-menu">메뉴</p>
-			<p class="modakbul-header-menu">메뉴</p>
+			<p class="modakbul-header-menu header-selected">정기</p>
+			<p class="modakbul-header-menu">일일</p>
+			<p class="modakbul-header-menu">기관</p>
+			<p class="modakbul-header-menu">공지사항</p>
 		</div>
 
 		<div class="modakbul-header-right">
-			<%-- <sec:authorize access="isAuthenticated()">
+			 <sec:authorize access="isAuthenticated()">
 			<sec:authentication var="user" property="principal" /> 
 			<c:choose>
 				<c:when test="${user.state } eq 'ROLE_ADMIN'">
-					 <h3>관리자 모드</h3>
+					<<%-- div class="loginheader-wrap2">
+					<div class="loginheader" id="gotomypage">
+					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg">
+					</div>
+					<div class="loginheader"  id="gotomypage2"> 
+						 <form action="${pageContext.request.contextPath}/logout" method="post" class="logout">
+							 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							 <input type="image" class="logoutImg" src="${pageContext.request.contextPath}/css/logout.png" value="로그아웃"/> 
+							
+						 </form>
+					</div>	  
+				</div> --%>
 				</c:when>
+				
 				<c:otherwise>
-					<c:set value="${user.userProfileImg}" var="img"/>
-			<c:set value="true" var="state1"/>
-			<c:forEach items="${fileNames }" var="file">
-				<c:if test="${file eq img }">
-					<c:set value="true" var="state2"/>
-				<img
-              class="sign-up-image"
-              src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-              alt="img"
-           		 />
-           		 
-				</c:if>
-
-			</c:forEach>
-
-		<c:if test="${state1 ne state2}">
-			<img
-              class="sign-up-image"
-              src="${user.userProfileImg }"
-              alt="img"
-           		 />
-          </c:if>
-					<h3>회원 모드</h3>
-				</c:otherwise>
+				<div class="loginheader-wrap">
+					<div class="loginheader" id="gotomypage">
+					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg">
+					</div>
+					<div class="loginheader"  id="gotomypage2"> 
+						 <form action="${pageContext.request.contextPath}/logout" method="post" class="logout">
+							 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							 <input type="image" class="logoutImg" src="${pageContext.request.contextPath}/css/logout.png" value="로그아웃"/> 
+							
+						 </form>
+					</div>	  
+				</div>	 
+				</c:otherwise> 
+				
+			</c:choose>	
+				</sec:authorize>
+			<sec:authorize access="isAnonymous()">
+			<img class="loginImg" src="${pageContext.request.contextPath}/css/login.png" onclick="location.href='${pageContext.request.contextPath}/loginForm'"/>
+					
 			
-			</c:choose>
-			
-		</sec:authorize>	 --%>
-			<h3>관리자 모드</h3>
+		</sec:authorize>
+		
+		<!-- <h3>회원 모드</h3> -->
+		
 		</div>
 	</header>
- <div class="bannerSection">
+ <%-- <div class="bannerSection">
 	 
 		    <img src="${pageContext.request.contextPath}/css/banner3.png"
 			alt="modakbul-icon" class="modakbul-banner" onclick="" /> 
@@ -110,7 +123,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 			<img src="${pageContext.request.contextPath}/css/banner7.png"
 			alt="modakbul-icon" class="modakbul-banner" /> 
 			
-
+ --%>
 	
 	
        <!--  <ul class="dot">
@@ -120,7 +133,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
             <li> <input type="button" value="버튼4"></li>
             <li> <input type="button" value="버튼5"></li>
         </ul> -->
- 	</div>
+ 	<!-- </div> -->
 	
 
 </body>

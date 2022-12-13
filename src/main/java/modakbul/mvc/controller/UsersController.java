@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NamedStoredProcedureQueries;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.User;
@@ -58,6 +59,23 @@ public class UsersController {
 	@RequestMapping("/layout/myProfileLayout")
 	public void url2() {
 			
+	}
+	
+	@RequestMapping("/userProfile/profileGather/{userNo}")
+	public String profileGather(@PathVariable Long userNo, Long loginUserNo, Model model, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+		
+		Users user = usersService.selectById(userNo);
+		String fileNames [] = file.list();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("user", user);
+		model.addAttribute("fileNames", fileNames);
+		
+		return "userProfile/profileGather";
 	}
 	
 	
@@ -188,5 +206,8 @@ public class UsersController {
 	 * }
 	 */
 	
-	
+	@RequestMapping("/userProfile/{url}")
+	public void profile() {
+		
+	}
 }
