@@ -62,6 +62,8 @@ public class ReviewController {
 		  List<Follow> follower = followService.myFollower(userNo);
 		  gatherService.selectGatherByGatherNo(userNo);
 		  
+		
+		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
 		  
@@ -119,13 +121,32 @@ public class ReviewController {
 		  return mv; 
 		  }
 	@RequestMapping("/review/userReviewInsert")
-	public String userReviewInsert(UserReview userReview) {
+	public void userReviewInsertForm(Long gatherNo, Long userNo,Model model) {
+		//userReviewService.insert(userReview);
+		Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
+		model.addAttribute("gather", gather);
+		model.addAttribute("userNo", userNo);
+	}
+	
+	@RequestMapping("/review/userReviewInsertbutton")
+	public String userReviewInsertbutton(UserReview userReview, Model model, @RequestParam(defaultValue = "1") int nowPage) {
 		userReviewService.insert(userReview);
 		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		  
+		model.addAttribute("startPage",startPage);
+		model.addAttribute("blockCount", BLOCK_COUNT); 
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
 		
 		
-		return "redirect:/my_page/my_page_review";
+		Long userNo=userReview.getWriterUser().getUserNo();
+		System.out.println(userNo);
+		
+		return "redirect:/my_page/my_page_review?userNo="+userNo; //여기 경우 만들어서 테으스
 	}
+	
 	
 	@RequestMapping("/gatherDetail/review")
 	public void gatherDetailReview() {

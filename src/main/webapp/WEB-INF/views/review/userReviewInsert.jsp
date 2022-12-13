@@ -71,7 +71,7 @@ $("form").on("submit",function() {
 						<div class="gather-info">
 							<div class="gather-name">
 								<div>
-									<h3 class="product-title">고양이 정보 공유해요!</h3>
+									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								
 								<div class="heart-img">
@@ -86,28 +86,28 @@ $("form").on("submit",function() {
 									<span class="fa fa-star"></span>
 									<span class="fa fa-star"></span>
 								</div>
-								<span class="category">자유</span>
+								<span class="category">${gather.category.categoryName}</span>
 							</div>
 							<div class="gather-detail">
 								<div class="gather gather-margin">
-									참가비: <span>???</span>
+									참가비: <span>${gather.gatherBid}</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>2022-10-20 20:30</span>
+									모임 날짜: <span>${gather.gatherDate}</span>
 								</div>
 								<div class="gather inline">
-									장소: 서울시 금천구
+									장소: ${gather.gatherPlace}
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender}
 								</div>
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령: 20 ~ 29
+									연령:${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / 최대인원
+									인원: 신청인원 / ${gather.gatherMaxUsers}
 								</div>
 							</div>
 							
@@ -128,9 +128,11 @@ $("form").on("submit",function() {
                 </div>
                 <div class="create-group-wrap">
                 <sec:authentication var="user" property="principal" />
-			        <form action="${pageContext.request.contextPath}/review/userReviewInsert" method="post" >
+			        <form action="${pageContext.request.contextPath}/review/userReviewInsertbutton" method="post" >
 			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-			        <input type="hidden" name="writeUserNo" value="${user.userNo}" id="writeUserNo"> 
+			        <input type="hidden" name="writerUser" value="${userNo}" id="writerUser">
+			        <input type="hidden" name="hostUser" value="${gather.user.userNo}" id="hostUser">
+			        
 			          <div class="create-group-top">
 			            <div class="create-group-wrap-image">
 			              <div class="create-group-info-table-item">

@@ -264,13 +264,13 @@ $(document).ready(function(){
 													<td>${review.gatherNo}</td>
 													<td>
 														<div class="table-small-image-wrap">
-															<img src="" alt="이미지" width="100%" />
+															<img src="/save" alt="이미지" width="100%" />
 														</div>
 													</td>
 													<td>${review.gatherName}</td>
 													<td>${fn:substring(TextValue,0,10)}</td>
 													<td class="inquiry-replied">
-														<button class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}'">후기쓰기</button>
+														<button class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}&gatherNo=${review.gatherNo }'">후기쓰기</button>
 													</td>
 												</tr>
 											</c:forEach>
