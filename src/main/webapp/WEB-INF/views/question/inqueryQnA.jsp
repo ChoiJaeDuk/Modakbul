@@ -13,7 +13,8 @@
     <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
-    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+  </head>
+      <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
     $(function() {
         $(".table-row").on("click", function() {
@@ -22,41 +23,40 @@
         })
         
     })  
+    	 $(function() {
         //비밀번호 비교 
-        $("#passwordBtn").click(function(){
-        	
-				$.ajax({
-					type:"POST",
-					url:"${pageContext.request.contextPath}/pwdCheck",
-					dataType:"text",
-					data: "${_csrf.parameterName}=${_csrf.token}&password="+$("#password").val(),			
-					success:function(result){
-						if($("#password").val().length==0){
-							alert("비밀번호를 입력해주세요.")
-							//$("#compareNick").html("");
-						}else{
-							//$("#compareNick").html(result);
-							alert(result);
-							/* if(result=="이미 사용중인 닉네임"){
-								$("#nick").val("");
-								
-							}else{
-								$("#checkNick").html("중복체크완료");
-							}
-							
-							 */
-						}
-					},//function
-					error:function(error){
-						console.log(error)
-					} 
-					
-				});//ajax
-       
         
-    })
+        $(document).on("click", "button[class=password-form-button]" , function(){
+        	//alert(11111)
+        	//alert($("#password").val())
+        	//alert($("#serviceQuestionNo").val())
+        	//console.log(${serviceQuestionNo})
+        	//if($("#password").val().length==0){
+			//	alert("비밀번호를 입력해주세요.")
+			//	return;
+			//}
+        	
+        	$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/question/pwdCheck",
+				dataType:"text",
+				data: "${_csrf.parameterName}=${_csrf.token}&password="+$("#password").val()+"&serviceQuestionNo="+$("#serviceQuestionNo").val(),			
+				success:function(result){
+					
+						alert(result);
+						location.href="${pageContext.request.contextPath}/question/inqueryDetail";
+					
+				},//function
+				error:function(error){
+					console.log(error)
+				} 
+				
+			});//ajax
+        });
+        ///////////////////////////////////////////////
+        
+    	 }) 
     </script>
-  </head>
   <body>
   	<div class="wrap">
       <div class="search-list">
@@ -72,6 +72,8 @@
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
                 <h2 class="inquiry-title">Q&A</h2>
+                <button class="insert-question-button" type="button" id="insertQuestion"> 등록하기 </button>
+                
               </div>
               <div class="search-inquiry-list">
                 <table class="table">
@@ -95,7 +97,7 @@
                    	<c:set var="TextValue" value="${serviceQ.serviceQuestionDate}" />
                    	
                  	  <tr class="table-row">
-                      <td>${status.count}</td>
+                      <td>${serviceQ.serviceQuestionNo}</td>
                       <td>비밀글 입니다. </td>
                       <td>${serviceQ.user.userName}</td>
                        <td>${fn:substring(TextValue,0,10)}</td> 
@@ -110,7 +112,8 @@
 	                    </div>
 	                    <input type="hidden" class="id"id="id" name="id" />
 	                    <input type="text" class="password-form" id="password" name="password" />
-	                    <button class="password-form-button" type="button" id="passwordBtn"> 확인 </button> 
+	                    <input type="hidden" value="${serviceQ.serviceQuestionNo}" class="serviceQuestionNo"id="serviceQuestionNo" name="serviceQuestionNo" />
+	                    <button class="password-form-button" type="button" > 확인 </button> 
 	                </div>
                     </td>
                     <tr>

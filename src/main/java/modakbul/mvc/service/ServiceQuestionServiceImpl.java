@@ -109,6 +109,11 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 		
 		return dbServiceQuestion;
 	}
+	@Override
+	public ServiceQuestion selectByNo(Long serviceQuestionNo) {
+		ServiceQuestion serviceQuestion= serviceQuestionRep.findById(serviceQuestionNo).orElse(null);
+		return serviceQuestion;
+	}
 	
 	
 	

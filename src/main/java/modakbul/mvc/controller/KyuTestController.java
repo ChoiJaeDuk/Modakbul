@@ -95,6 +95,8 @@ public class KyuTestController {
 	  List<GatherReview> pageList=page.getContent();
 	  
 	 System.out.println(pageList.size());
+	 
+	 
 	List<String> nameList = new ArrayList<String>();
 	 for(GatherReview r:pageList) {
 			
@@ -115,6 +117,9 @@ public class KyuTestController {
 	 map.put("nowPage", nowPage);
 	 map.put("nameList", nameList);
 	  
+	 //for (String m:result.keySet()) {
+	//	 System.out.println("key:"+m+",value:"+result.get(m));
+	 //} 
 	  System.out.println("Asdasda");
 	  
 	  pageList.forEach(b->System.out.println(b.getGatherReviewContent())); //여기까지 옴

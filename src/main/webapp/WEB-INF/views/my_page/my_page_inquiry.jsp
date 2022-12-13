@@ -116,6 +116,14 @@
 								</tr>
 							</thead>
 							<tbody>
+							<c:choose>
+										<c:when
+											test="${0 eq requestScope.inquiryList.getTotalPages()}">
+											<tr>
+												<td colspan="5">작성된 문의가 없어요 🔥</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
 								<c:forEach var="inquiry"
 									items="${requestScope.inquiryList.content}" varStatus="status">
 									<c:set var="TextValue" value="${inquiry.inqRegisDate}" />
@@ -134,14 +142,14 @@
 											</c:otherwise>
 										</c:choose>
 									</tr>
-
-
 								</c:forEach>
+									</c:otherwise>
+									</c:choose>
 							</tbody>
 						</table>
 					</div>
 					<!-- 페이징 -->
-					<div style="text-align: center">
+					<div style="text-align:center;">
 						<!--  블럭당  -->
 						<nav class="pagination-container">
 							<div class="pagination">
@@ -149,140 +157,33 @@
 
 								<c:if test="${(startPage-blockCount) > 0}"><!-- (-2) > 0  -->
 									<a class="pagination-newer"
-										href="${pageContext.request.contextPath}/board/list?nowPage=${startPage-1}">PREV</a>
+										href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}&nowPage=${startPage-1}">PREV</a>
 								</c:if>
 
 								<span class="pagination-inner"> <c:forEach var='i'
 										begin='${startPage}' end='${(startPage-1)+blockCount}'>
 
-										<c:if test="${(i-1)>=pageList.getTotalPages()}">
+										<c:if test="${(i-1)>=inquiryList.getTotalPages()}">
 											<c:set var="doneLoop" value="true" />
 										</c:if>
 
 										<c:if test="${not doneLoop}">
 											<a class="${i==nowPage?'pagination-active':page}"
-												href="${pageContext.request.contextPath}/board/list?nowPage=${i}">${i}</a>
+												href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}&nowPage=${i}">${i}</a>
 										</c:if>
 
 									</c:forEach>
 								</span>
 
-								<c:if test="${(startPage+blockCount)<=pageList.getTotalPages()}">
+								<c:if test="${(startPage+blockCount)<=inquiryList.getTotalPages()}">
 									<a class="pagination-older"
-										href="${pageContext.request.contextPath}/board/list?nowPage=${startPage+blockCount}">NEXT</a>
+										href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}&nowPage=${startPage+blockCount}">NEXT</a>
 								</c:if>
 								<!-- 페이징 끝 -->
-								
-								<!-- 추가된 내용 -->
-				</section>
-			</div>
-			<div class="modal-wrap" style="display: none">
-				<div class="modal-title">내용</div>
-				<div class="modal-text-wrap">정말로 삭제하시겠습니까?</div>
-				<div class="modal-button-wrap">
-					<button type="button" class="modal-button cancel-button">취소</button>
-					<button type="button" class="modal-button search-id-button">
-						확인</button>
-				</div>
-			</div>
-			<div class="modal-wrap" style="display: none">
-				<div class="modal-title">내용</div>
-				<div class="modal-text-wrap">정말 취소하시겠습니까?</div>
-				<div class="modal-button-wrap">
-					<button type="button" class="modal-button cancel-button">취소</button>
-					<button type="button" class="modal-button search-id-button">
-						확인</button>
-				</div>
-			</div>
-			<div class="modal-wrap" style="display: none">
-				<div class="modal-text-wrap">하루 전 모임은 취소할 수 없습니다.</div>
-				<div class="modal-button-wrap">
-					<div></div>
-					<button type="button" class="modal-button search-id-button">
-						확인</button>
-				</div>
-			</div>
-			<!-- 추가된 모달 -->
-			<div class="commercial-modal-wrap" style="display: none">
-				<div class="commercial-modal-title">광고 신청</div>
-				<div class="create-commercial-wrap">
-					<div class="create-commercial-top">
-						<div class="create-commercial-image-wrap">
-							<img width="100%" />
-						</div>
-						<div class="create-commercial-class-name">핸드드립 커피 클래스</div>
-					</div>
-					<div class="create-commercial-item">
-						<div class="commercial-modal-label">광고 진행일자:</div>
-						<div class="create-commercial-value-wrap">
-							<div>2022/10/22~2022/11/22</div>
-							<button type="button" class="my-page-button">기간 설정</button>
-						</div>
-					</div>
-					<div class="create-commercial-item">
-						<div class="commercial-modal-label">
-							광고 배너 이미지 첨부(<span class="create-commercial-value-required">필수</span>)
-						</div>
-						<div class="create-commercial-input-wrap">
-							<div>
-								<input class="my-page-form-input" readonly /> <input
-									id="create-image" type="file" class="commercial-image-input" />
-								<div class="create-commercial-input-tip">가로 : 1000px 세로 :
-									200px</div>
 							</div>
-							<label for="create-image" class="commercial-file-button">
-								파일 첨부 </label>
-						</div>
+							</nav>
+						</div></section>
 					</div>
-					<div class="create-commercial-item">
-						<div class="commercial-modal-label">광고 진행 금액:</div>
-						<div class="create-commercial-value-wrap">
-							<div>300원</div>
-							<button type="button" class="my-page-button">결제 완료</button>
-							<button type="button" class="my-page-button-gray">결제 하기</button>
-						</div>
-					</div>
-				</div>
-				<div class="modal-button-wrap">
-					<button type="button" class="modal-button cancel-button">취소</button>
-					<button type="button" class="modal-button search-id-button">
-						확인</button>
-				</div>
-			</div>
-			<div class="modal-wrap" style="display: none">
-				<div class="create-commercial-warning">광고 신청을 정말 취소하시겠습니까?</div>
-				<div class="modal-button-wrap">
-					<button type="button" class="modal-button search-id-button">
-						신청하기</button>
-					<button type="button" class="modal-button cancel-button">뒤로가기</button>
-				</div>
-			</div>
-			<div class="commercial-modal-wrap" style="display: none">
-				<div class="commercial-modal-title">배너 수정하기</div>
-				<div class="modify-commercial-current-image-text">현재 배너 이미지</div>
-				<div class="modify-commercial-current-image-wrap">
-					<img src="" alt="img" />
-				</div>
-				<div class="modify-commercial-change-image-wrap">
-					<div class="commercial-modal-label">광고 배너 이미지 첨부</div>
-					<div class="modify-commercial-change-image-value-wrap">
-						<div>
-							<input class="my-page-form-input" readonly /> <input
-								id="modify-image" type="file" class="commercial-image-input" />
-							<div class="create-commercial-input-tip">가로 : 1000px 세로 :
-								200px</div>
-						</div>
-						<label for="modify-image" class="commercial-file-button">
-							파일 첨부 </label>
-					</div>
-				</div>
-				<div class="modal-button-wrap">
-					<button type="button" class="modal-button search-id-button">
-						수정하기</button>
-					<button type="button" class="modal-button cancel-button">뒤로가기</button>
-				</div>
-			</div>
-			<!-- 추가된 모달 -->
 		</div>
 	</div>
 	<jsp:include page="../layout/footer.jsp" />
