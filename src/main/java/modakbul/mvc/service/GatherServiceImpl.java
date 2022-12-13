@@ -242,10 +242,13 @@ public class GatherServiceImpl implements GatherService {
 		// 일일, 정기모임 구분
 		if (gatherType.equals("regular")) {
 			builder.and(g.regularGather.regularGatherNo.isNotNull()); // 정기모임
-		} else {
+		} else if(gatherType.equals("dayTime")) {
 			builder.and(g.regularGather.regularGatherNo.isNull()); // 일일모임
 			System.out.println("일일모임 호출");
+		}else if(gatherType.equals("agency")){
+			builder.and(g.user.userJob.eq("기관"));
 		}
+		
 		System.out.println("일일 정기 모임 구분");
 		if (categoryList != null)
 			builder.and(g.category.categoryNo.in(categoryList));
