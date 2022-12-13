@@ -1,6 +1,7 @@
 package modakbul.mvc.controller;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,13 +13,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherAttachmentsService;
 import modakbul.mvc.service.GatherService;
+import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.ParticipantService;
 import modakbul.mvc.service.RegularGatherService;
 
@@ -32,6 +38,8 @@ public class MyPageControllerChoi {
 	private final RegularGatherService regularGatherService;
 	private final GatherAttachmentsService gatherAttachmentsService;
 	private final ParticipantService participantService;
+	private final InquiryService inqService;
+	private final FollowService followService;
 	
 	private final static int PAGE_COUNT=2;
 	private final static int BLOCK_COUNT=4;
@@ -39,6 +47,44 @@ public class MyPageControllerChoi {
 	public void aa() {
 		
 	}
+	
+	@RequestMapping("/my_page_index")
+	public ModelAndView main(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
+		ModelAndView mv= new ModelAndView();
+		String path = session.getServletContext().getRealPath("/save");
+		
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);//0부터 시작, PAGE_COUNT(10)개씩 뿌림, 정렬, 기준=bno
+		//PageRequest pageRequest = PageRequest.of(0, 5);
+		Page<SelectReplyState> list=inqService.selectReplyState(userNo, pageable);
+		List<SelectReplyState> resultList1 = list.getContent();
+		Long totalWaiting=list.getTotalElements();
+		
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
+
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		 int temp = (nowPage - 1) % BLOCK_COUNT;
+		 int startPage = nowPage - temp;
+		 
+		
+		mv.addObject("replyState", totalWaiting); 
+		System.out.println(resultList1.size());
+		
+		 mv.setViewName("my_page/my_page_index");
+		 mv.addObject("blockCount", BLOCK_COUNT);
+		 mv.addObject("startPage",startPage);
+		 mv.addObject("nowPage", nowPage);
+		 
+		 mv.addObject("follower", follower.size());
+		mv.addObject("following", following.size());
+		
+		 mv.addObject("fileNames", fileNames);
+		
+		return mv;
+	}
+	
 	
 	@RequestMapping("/gatherAD/{url}")
 	public void url() {}

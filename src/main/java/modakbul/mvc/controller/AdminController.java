@@ -384,13 +384,14 @@ public class AdminController {
 	 */
 	@RequestMapping("/my_page/gatherAD/adStatus")
 	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo) {
+
 		System.out.println("마이페이지 광고중");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-
 		Page<Advertisement> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable, advertisementNo);
+
 		
 		model.addAttribute("selectGatherADIng", selectGatherADIng);
 		
@@ -398,4 +399,5 @@ public class AdminController {
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 	}
+
 }

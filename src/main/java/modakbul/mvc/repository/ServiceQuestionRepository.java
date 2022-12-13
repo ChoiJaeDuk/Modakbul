@@ -28,5 +28,4 @@ public interface ServiceQuestionRepository extends JpaRepository<ServiceQuestion
 	@Query("select s from ServiceQuestion s where s.serviceQuestionNo=?1")
 	ServiceQuestion selectNoticeDetail(Long serviceQuestionNo);
 	
-	
 }

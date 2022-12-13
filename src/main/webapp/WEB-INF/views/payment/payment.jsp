@@ -91,7 +91,7 @@ $(document).ready(function(){
 													$.ajax({
 														type : "post",
 														url : "${pageContext.request.contextPath}/ajaxTest",  
-														dataType:"text",
+														dataType:"json",
 												   		data:JSON.stringify(result),	
 												        contentType:'application/json;charset=utf-8',
 												        success : function(result) {

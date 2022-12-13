@@ -151,4 +151,8 @@ public interface AdminService {
 	 * 광고 종료하기
 	 * */
 	void updateMyAdCancel(Long advertisementNo, String status);
+	
+	/**
+	 * 광고 배너 변경
+	 * */
 }

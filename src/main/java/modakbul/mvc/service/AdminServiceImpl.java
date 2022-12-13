@@ -351,6 +351,7 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	@Override
 	public Page<Advertisement> selectGatherADIng(Long userNo, Pageable pageable, Long advertisementNo) {
+
 		QueryResults<Advertisement> selectADGatherRegis = queryFactory.select(ad)
 				.from(ad).join(qGather).on(ad.gather.gatherNo.eq(qGather.gatherNo))
 				.where(ad.adStatus.eq("광고중")
@@ -361,6 +362,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		return new PageImpl<Advertisement>(selectADGatherRegis.getResults(), pageable, selectADGatherRegis.getTotal());
 	}
+
 	
 	/**
 	 * 광고 신청 취소하기
