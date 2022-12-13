@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherReview;
+import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherReviewService;
@@ -59,6 +60,7 @@ public class ReviewController {
 		  Users dbUser=usersService.selectById(userNo);
 		  List<Follow> following = followService.myFollowing(userNo);	
 		  List<Follow> follower = followService.myFollower(userNo);
+		  gatherService.selectGatherByGatherNo(userNo);
 		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
@@ -116,11 +118,19 @@ public class ReviewController {
 		  
 		  return mv; 
 		  }
-	@RequestMapping("/userReviewInsert")
-	public String userReviewInsert() {
-		return "redirect:/";
+	@RequestMapping("/review/userReviewInsert")
+	public String userReviewInsert(UserReview userReview) {
+		userReviewService.insert(userReview);
+		
+		
+		
+		return "redirect:/my_page/my_page_review";
 	}
 	
+	@RequestMapping("/gatherDetail/review")
+	public void gatherDetailReview() {
+		
+	}
 	
 	}
 

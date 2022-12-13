@@ -23,6 +23,9 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	@Autowired 
 	private UsersService userService;
 	
+	@Autowired
+	private RegularGatherService regularGatherService;
+	
 	/**
 	 * 문의 전체
 	 * */
@@ -40,7 +43,8 @@ public class GatherReviewServiceImpl implements GatherReviewService {
 	@Override
 	public void insert(GatherReview gatherReview) {
 		GatherReview resultReview=gatherReviewRep.save(gatherReview);
-		//userService.updateTemper(gatherReview.getRegularGather().getRegularGatherNo(),gatherReview.getGatherTemper()); //정기모임 번호, 모임온도 -- 재덕 
+		
+		regularGatherService.updateGatherTemper(gatherReview.getRegularGather().getRegularGatherNo(),gatherReview.getGatherTemper()); //정기모임 번호, 모임온도
 		userService.updateTemper(gatherReview.getHostUser().getUserNo(),gatherReview.getHostUser().getTemper()); //주최자 온도, 회원 온도
 	}
 
