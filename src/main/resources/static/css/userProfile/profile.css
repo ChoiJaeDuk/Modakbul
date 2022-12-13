@@ -187,14 +187,29 @@
 	
 }
 
+table{
+	width: 1200px;
+	height: 250px;
+}
+
+.user-info-page-title{
+	width: 100%;
+	position: absolute;
+	top: 30%;
+}
+.user-info-page{
+	position: absolute;
+}
 .user-name{
+	position:absolute;
 	font-size: 20px;
-	display: inline-block;
+	left: 25%;
+
 }
 .user-temper{
 	position: absolute;
-	top: 45%;
-	left: 71.5%; 
+	top: 40%;
+	left: 68%; 
 }
 /* .user-follow{
 	
@@ -207,8 +222,8 @@
 	position: absolute;
 	display: inline-block;
 	font-size: 16px;
-	top: 45%;
-	left: 25%;
+	top: 40%;
+	left: 15%;
 }
 
 
@@ -216,7 +231,7 @@
 	position: absolute;
 	display: inline-block;
 	font-size: 16px;
-	top: 45%;
+	top: 40%;
 	right: 15%;
 }
 
@@ -231,10 +246,10 @@
 
 .follower{
 	position: absolute;
-	top: 45%;
-	left: 39%;
+	top: 40%;
+	left: 30%;
 	font-size: 16px;
-	display: inline-block;
+	
 	
     
 }
@@ -266,21 +281,21 @@
 	display: inline-block;
 	font-size: 16px;
 	top: 60%;
-	right: 12.5%;
+	right: 11%;
 }
 .result-temper{
 	
 	color: orange;
 	position: absolute;
 	top: 60%;
-	left: 71.5%; 
+	left: 68%; 
 	
 }
 
 .result-follower{
 	position: absolute;
 	top: 60%;
-	left: 39.5%;
+	left: 30%;
 	font-size: 16px;
 	display: inline-block;
 }
@@ -288,7 +303,7 @@
 .result-nick{
 	position: absolute;
 	top: 60%;
-	left: 24.5%;
+	left: 15%;
 	font-size: 16px;
 	display: inline-block;
 }

@@ -168,8 +168,6 @@ $(document).ready(function(){
 								alt="img" />
 						</c:if>
 
-						<input id="sign-up-add-image" class="sign-up-add-image"
-							type="file" name="file" accept="image/*" />
 					</sec:authorize>
 				</div>
 				<div class="my-page-user-info-wrap">
@@ -228,7 +226,7 @@ $(document).ready(function(){
 	 	
 			</th>
 			 <a class="modal_close_btn">X</a>
-			<tr class="user">
+			<!-- <tr class="user">
 			<th style="width: 20%">
 			사진
 			</th>
@@ -241,21 +239,21 @@ $(document).ready(function(){
 			<th style="width: 20%">
 			<button class="modakbul-button following" id="" value="">팔로우</button>
 			</th>
-			</tr> 	
+			</tr> 	 -->
 			<c:forEach items="${followingList}" var="f">
 				<tr>
-					<td> 
-						<img alt="img" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
-					</td>
-					<td>
-						${f.followerUser.userNick}
-					</td>
-					<td>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
 						${f.followerUser.temper}℃
-					</td>
-					<td style="width: 20%">
+					</th>
+					<th style="width: 20%">
 						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
-					</td>
+					</th>
 				</tr>
 			</c:forEach>
 	 	</table>

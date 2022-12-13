@@ -15,7 +15,16 @@ element.style {
 nav{
 	padding-left: 13%
 }
+.followImg{
+	width: 60%;
+    margin-left: 20%;
+	height: 50px;
+	border-radius: 50%
+}
 
+.following table td{
+	text-align: center;
+}
 
 .my-page-image-wrap {
   width: 180px;
