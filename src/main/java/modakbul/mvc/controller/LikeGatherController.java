@@ -28,6 +28,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.LikeGather;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.domain.LikeGather;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.LikeGatherService;
@@ -44,6 +45,9 @@ public class LikeGatherController {
 
 	@Autowired
 	private GatherService gs;
+	
+	@Autowired
+	private AlarmService alarmService;
 	
 
 	private final static int PAGE_COUNT=3;
@@ -68,8 +72,10 @@ public class LikeGatherController {
 		mv.addObject("myList", like);
 		mv.addObject("userNo", userNo);
 		mv.setViewName("my_page/likeGather/myPage-likeGather");*/
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		
 		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ATTENTION_NO");
 		Page<LikeGather> pageList = likeGatherService.selectById(userNo, page);
@@ -86,8 +92,11 @@ public class LikeGatherController {
 		mv.addObject("startPage", startPage);
 		mv.addObject("nowPage", nowPage);
 		
+		mv.addObject("followingList", followList);
 		mv.addObject("follower", follower.size());
 		mv.addObject("following", following.size());
+		mv.addObject("newAlarm", newAlarm);
+		mv.addObject("userNo", userNo);
 		mv.addObject("fileNames", fileNames);
 		return mv;
 	}

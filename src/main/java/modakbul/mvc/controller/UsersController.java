@@ -113,8 +113,8 @@ public class UsersController {
 		File file = new File(path);
 
 		String fileNames [] = file.list();
-		List<Follow> follower = followService.myFollower(userNo);
-		List<Follow> following = followService.myFollowing(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
 		
 		

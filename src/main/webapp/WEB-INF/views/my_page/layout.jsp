@@ -23,12 +23,23 @@
 
    
    <script type="text/javascript">
+   $(function(){
+		console.log("새알람 = " + ${newAlarm});
+		if(${newAlarm}==0 || ${newAlarm}==null){
+			$(".nav-counter").hide();
+		}else{
+			$(".nav-counter").show();
+		}
+		})
+		
    $(document).ready(function(){
    $(function(){
       let $modal ;
+      
       $(document).ajaxSend(function(e,xht,op){
 	         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 	      	});
+      
        document.getElementById('following').addEventListener('click', function() {
              // 모달창 띄우기
              modal('my_modal');
@@ -97,11 +108,9 @@
                       }//if  END
                       
                    });///////////////////////////
-<<<<<<< HEAD
              
          });//modal 띄우기
    });//ready 다음 function ENd
-=======
    
     
    
@@ -273,7 +282,7 @@
 						<a href="#">${f.followerUser.temper}℃</a>
 					</th>
 					<th style="width: 20%">
-						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}" >팔로잉</button>
 					</th>
 				</tr>
 			</c:forEach>

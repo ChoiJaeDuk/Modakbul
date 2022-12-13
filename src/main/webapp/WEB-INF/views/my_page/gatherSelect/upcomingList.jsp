@@ -17,132 +17,138 @@
   </head>
   <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
   <script type="text/javascript">
-  $(function() {
-	  $(document).ready(function(){
-   	   $(function(){
-   	      let $modal ;
-   	       document.getElementById('following').addEventListener('click', function() {
-   	             // 모달창 띄우기
-   	             modal('my_modal');
-   	             
-   	            // alert("dd = " + document.querySelector(".modakbul-button following"))
-   	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
-   	              
-   	              
-   	              
-   	              $(document).on("click", "button[class='modakbul-button following']" , function(){
-   	                
+  $(function(){
+		console.log("새알람 = " + ${newAlarm});
+		if(${newAlarm}==0 || ${newAlarm}==null){
+			$(".nav-counter").hide();
+		}else{
+			$(".nav-counter").show();
+		}
+	})
 
-   	                      alert("버튼클릭했음" + " , " + $(this).val());
-   	                      
-   	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
-   	                      console.log("follower = " + $(this).val());
-   	                    /*   console.log("following = " + ${userNo}); */
-   	                      let targetBtn = $(this);
-   	                      
-   	                      if($(this).text() == "팔로잉"){
-   	                         alert("딜리트 반응?");
-   	                         $.ajax({
-   	                            url:"${pageContext.request.contextPath}/follow/delete", 
-   	                            type:"post",
-   	                            dataType:"text",
-   	                                data:JSON.stringify(target),   
-   	                                contentType:'application/json;charset=utf-8',
-   	                            success:function(result){
-   	                               if(result=="ok"){
-   	                                  alert("팔로잉이 해제 되었습니다.")                  
-   	                                  
-   	                                  targetBtn.css("background","rgb(243, 156, 18)")
-   	                                  targetBtn.text("팔로우")
-   	                               }
-   	                            },error:function(err){
-   	                               alert("err : "+err);
-   	                            }
-   	                         });//Delete ajax END
-   	                      }
-   	                      
-   	                      if($(this).text()=="팔로우"){
-   	                         alert("인설트반응?");
-   	                         $.ajax({
-   	                            url:"${pageContext.request.contextPath}/follow/insert",
-   	                            type:"post",
-   	                            dataType:"text",
-   	                                data:JSON.stringify(target),   
-   	                                contentType:'application/json;charset=utf-8',
-   	                            success:function(result){
-   	                               if(result=="ok"){
-   	                                  alert("팔로우 등록 되었습니다.")                  
-   	                                  
-   	                                  targetBtn.css("background","gray")
-   	                                  targetBtn.text("팔로잉")
-   	                               }
-   	                               
-   	                            },error:function(err){
-   	                               alert("err : "+err);
-   	                            }
-   	                         });//Insert ajax END
-   	                      }//if  END
-   	                      
-   	                   });///////////////////////////
-   	             
+$(document).ready(function(){
+	   $(function(){
+	      let $modal ;
+	      
+	      $(document).ajaxSend(function(e,xht,op){
+		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		      	});
+	      
+	       document.getElementById('following').addEventListener('click', function() {
+	             // 모달창 띄우기
+	             modal('my_modal');
+	             
+	            // alert("dd = " + document.querySelector(".modakbul-button following"))
+	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
+	              
+	              
+	              
+	              $(document).on("click", "button[class='modakbul-button following']" , function(){
+	                
 
-   	              
-   	             
-   	             
-   	         });
-   	   
-   	      
-   	       //////////////////////////////////////////////////
-   	   })
-   	   
-   	    function modal(id) {
-   	                var zIndex = 9999;
-   	                var modal = document.getElementById(id);
+	                      alert("버튼클릭했음" + " , " + $(this).val());
+	                      
+	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
+	                      console.log("follower = " + $(this).val());
+	                    /*   console.log("following = " + ${userNo}); */
+	                      let targetBtn = $(this);
+	                      
+	                      if($(this).text() == "팔로잉"){
+	                         alert("딜리트 반응?");
+	                         $.ajax({
+	                            url:"${pageContext.request.contextPath}/follow/delete", 
+	                            type:"post",
+	                            dataType:"text",
+	                                data:JSON.stringify(target),   
+	                                contentType:'application/json;charset=utf-8',
+	                            success:function(result){
+	                               if(result=="ok"){
+	                                  alert("팔로잉이 해제 되었습니다.")                  
+	                                  
+	                                  targetBtn.css("background","rgb(243, 156, 18)")
+	                                  targetBtn.text("팔로우")
+	                               }
+	                            },error:function(err){
+	                               alert("err : "+err);
+	                            }
+	                         });//Delete ajax END
+	                      }
+	                      
+	                      if($(this).text()=="팔로우"){
+	                         alert("인설트반응?");
+	                         $.ajax({
+	                            url:"${pageContext.request.contextPath}/follow/insert",
+	                            type:"post",
+	                            dataType:"text",
+	                                data:JSON.stringify(target),   
+	                                contentType:'application/json;charset=utf-8',
+	                            success:function(result){
+	                               if(result=="ok"){
+	                                  alert("팔로우 등록 되었습니다.")                  
+	                                  
+	                                  targetBtn.css("background","gray")
+	                                  targetBtn.text("팔로잉")
+	                               }
+	                               
+	                            },error:function(err){
+	                               alert("err : "+err);
+	                            }
+	                         });//Insert ajax END
+	                      }//if  END
+	                      
+	                   });///////////////////////////
+	             
+	         });
+	   })
+	   
+	    function modal(id) {
+	                var zIndex = 9999;
+	                var modal = document.getElementById(id);
 
-   	                // 모달 div 뒤에 희끄무레한 레이어
-   	                var bg = document.createElement('div');
-   	                bg.setStyle({
-   	                    position: 'fixed',
-   	                    zIndex: zIndex,
-   	                    left: '0px',
-   	                    top: '0px',
-   	                    width: '100%',
-   	                    height: '100%',
-   	                    overflow: 'auto',
-   	                    // 레이어 색갈은 여기서 바꾸면 됨
-   	                    backgroundColor: 'rgba(0,0,0,0.4)'
-   	                });
-   	                document.body.append(bg);
+	                // 모달 div 뒤에 희끄무레한 레이어
+	                var bg = document.createElement('div');
+	                bg.setStyle({
+	                    position: 'fixed',
+	                    zIndex: zIndex,
+	                    left: '0px',
+	                    top: '0px',
+	                    width: '100%',
+	                    height: '100%',
+	                    overflow: 'auto',
+	                    // 레이어 색갈은 여기서 바꾸면 됨
+	                    backgroundColor: 'rgba(0,0,0,0.4)'
+	                });
+	                document.body.append(bg);
 
-   	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-   	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-   	                    bg.remove();
-   	                    modal.style.display = 'none';
-   	                });
+	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+	                    bg.remove();
+	                    modal.style.display = 'none';
+	                });
 
-   	                modal.setStyle({
-   	                    position: 'fixed',
-   	                    display: 'block',
-   	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+	                modal.setStyle({
+	                    position: 'fixed',
+	                    display: 'block',
+	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
 
-   	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
-   	                    zIndex: zIndex + 1,
+	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+	                    zIndex: zIndex + 1,
 
-   	                    // div center 정렬
-   	                    top: '50%',
-   	                    left: '50%',
-   	                    transform: 'translate(-50%, -50%)',
-   	                    msTransform: 'translate(-50%, -50%)',
-   	                    webkitTransform: 'translate(-50%, -50%)'
-   	                });
-   	            }
+	                    // div center 정렬
+	                    top: '50%',
+	                    left: '50%',
+	                    transform: 'translate(-50%, -50%)',
+	                    msTransform: 'translate(-50%, -50%)',
+	                    webkitTransform: 'translate(-50%, -50%)'
+	                });
+	            }
 
-   	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-   	            Element.prototype.setStyle = function(styles) {
-   	                for (var k in styles) this.style[k] = styles[k];
-   	                return this;
-   	            };
-   });
+	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+	            Element.prototype.setStyle = function(styles) {
+	                for (var k in styles) this.style[k] = styles[k];
+	                return this;
+	            };
+});//ready END
 	  
 	  $(document).ready(function(){		
 			$('#check1').change(function(){
@@ -231,7 +237,21 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">
+						알림함
+							
+							<c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise> 
+							</c:choose>
+							
+						</li>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"
@@ -403,7 +423,7 @@
 						${f.followerUser.temper}℃
 					</th>
 					<th style="width: 20%">
-						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로우</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
 					</th>
 				</tr>
 			</c:forEach>

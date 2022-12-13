@@ -54,8 +54,9 @@ public class AlarmController {
 		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "ALARM_RECEIVE_NO");
 		Page<AlarmReceiver> pageList = alarmService.selectByUserId(userNo, page);
 
-		List<Follow> followerSize = followService.myFollower(userNo);
-		List<Follow> followingSize = followService.myFollowing(userNo);
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> followingSize = followService.myFollower(userNo);
+		List<Follow> followerSize = followService.myFollowing(userNo);
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 		int startPage = nowPage - temp;
@@ -70,8 +71,11 @@ public class AlarmController {
 		mv.addObject("nowPage", nowPage);
 		mv.addObject("fileNames", fileNames);
 		
+		mv.addObject("followingList", followList);
 		mv.addObject("follower", followerSize.size());
 		mv.addObject("following", followingSize.size());
+		
+		mv.addObject("userNo", userNo);
 		
 		return mv;
 
@@ -98,7 +102,7 @@ public class AlarmController {
 	public String delete(Long receiverNo, Long userNo) {
 		alarmService.deleteReceiver(receiverNo);
 		
-		return "redirect:/alarm/myAlarm?userNo="+userNo;
+		return "redirect:/my_page/alarm/myAlarm?userNo="+userNo;
 	}
 	
 	/**
