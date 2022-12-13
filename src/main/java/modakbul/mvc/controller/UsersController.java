@@ -188,5 +188,8 @@ public class UsersController {
 	 * }
 	 */
 	
-	
+	@RequestMapping("/userProfile/{url}")
+	public void profile() {
+		
+	}
 }
