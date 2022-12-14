@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,22 +62,21 @@ public class ReviewController {
 		  
 		  Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, false,pageable);
-		  List <Gather> confrimSize=page.getContent();
 		  Users dbUser=usersService.selectById(userNo);
 
-		  gatherService.selectGatherByGatherNo(userNo);
 		  List<Follow> followList = followService.selectByUserId(userNo);
 		  List<Follow> following = followService.myFollower(userNo);
 		  List<Follow> follower = followService.myFollowing(userNo);
 		  int newAlarm = alarmService.countNewAlarm(userNo);
+		  
+		
 		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
 		  
 		  mv.setViewName("/my_page/my_page_review");
 		  mv.addObject("reviewStatusList", page);
-	
-
+		  
 		  mv.addObject("user", dbUser);
 		  
 		  mv.addObject("followingList", followList);
@@ -89,12 +89,9 @@ public class ReviewController {
 		  mv.addObject("startPage", startPage);
 		  mv.addObject("nowPage", nowPage);
 		  mv.addObject("fileNames", fileNames);
-		 
-		  
-		  System.out.println(page.getSize());
 		  return mv; 
 		  }
-	@RequestMapping("/my_page/my_page_review/complete")
+	@RequestMapping("/my_page/my_page_review_complete")
 	public ModelAndView reviewStatusComplete(Long userNo,@RequestParam(defaultValue = "1") int nowPage, HttpSession session) {
 		ModelAndView mv= new ModelAndView();
 		 String path = session.getServletContext().getRealPath("/save");
@@ -102,9 +99,9 @@ public class ReviewController {
 
 			String fileNames [] = file.list();
 		  
-		  Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
+		  Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT,Direction.DESC,"GATHER_NO");
 		  Page<Gather> page = gatherService.selectByReviewState(userNo, true,pageable);
-		  List <Gather> confrimSize=page.getContent();
+		  //List <Gather> confrimSize=page.getContent();
 		  Users dbUser=usersService.selectById(userNo);
 		  List<Follow> followList = followService.selectByUserId(userNo);
 		  List<Follow> following = followService.myFollower(userNo);
@@ -114,10 +111,8 @@ public class ReviewController {
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;
 		  
-		  mv.setViewName("/my_page/my_page_review_complete");
+		  mv.setViewName("my_page/my_page_review_complete");
 		  mv.addObject("reviewStatusCompleteList", page);
-		  
-		  
 		  mv.addObject("user", dbUser);
 		  mv.addObject("followingList", followList);
 		  mv.addObject("follower", follower.size());
@@ -130,19 +125,38 @@ public class ReviewController {
 		  mv.addObject("startPage", startPage);
 		  mv.addObject("nowPage", nowPage);
 		  
-		  System.out.println(confrimSize.size());
+		  //System.out.println(confrimSize.size());
 		  System.out.println(page.getSize());
 		  
 		  return mv; 
+		  
 		  }
 	@RequestMapping("/review/userReviewInsert")
-	public String userReviewInsert(UserReview userReview) {
+	public void userReviewInsertForm(Long gatherNo, Long userNo,Model model) {
+		Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
+		model.addAttribute("gather", gather);
+		model.addAttribute("userNo", userNo);
+	}
+	
+	@RequestMapping("/review/userReviewInsertbutton")
+	public String userReviewInsertbutton(UserReview userReview, Model model, @RequestParam(defaultValue = "1") int nowPage) {
 		userReviewService.insert(userReview);
 		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		  
+		model.addAttribute("startPage",startPage);
+		model.addAttribute("blockCount", BLOCK_COUNT); 
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
 		
 		
-		return "redirect:/my_page/my_page_review";
+		Long userNo=userReview.getWriterUser().getUserNo();
+		System.out.println(userNo);
+		
+		return "redirect:/my_page/my_page_review?userNo="+userNo; //여기 경우 만들어서 테으스
 	}
+	
 	
 	@RequestMapping("/gatherDetail/review")
 	public void gatherDetailReview() {
