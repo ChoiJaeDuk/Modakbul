@@ -29,6 +29,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.ParticipantGroupBy;
 import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherAttachmentsService;
@@ -50,7 +51,7 @@ public class MyPageControllerChoi {
 	private final InquiryService inqService;
 	private final FollowService followService;
 	private final AlarmService alarmService;
-	
+	private final AdminService adminService;
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	@RequestMapping("/{url}")
@@ -74,9 +75,10 @@ public class MyPageControllerChoi {
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
 		int newAlarm = alarmService.countNewAlarm(userNo);
+		Long selectMyGatherIng = adminService.selectMyGatherIng(userNo);
+		Long selectMyGatherEnd = adminService.selectMyGatherEnd(userNo);
 		
 		List<ParticipantGroupBy> selectApplicationStateCount = participantService.selectApplicationStateCount(userNo);
-
 		
 		
 		File file = new File(path);
@@ -103,6 +105,9 @@ public class MyPageControllerChoi {
 		 mv.addObject("fileNames", fileNames);
 		 
 		 mv.addObject("selectApplicationStateCount", selectApplicationStateCount);
+		 mv.addObject("selectMyGatherIng", selectMyGatherIng);
+		 mv.addObject("selectMyGatherEnd", selectMyGatherEnd);
+		 
 		
 		return mv;
 	}

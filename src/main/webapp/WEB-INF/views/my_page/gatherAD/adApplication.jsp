@@ -37,14 +37,17 @@
 		});
   		
 		$("[name=adApplication-btn]").click(function() {
-			
+			//alert($("#imgg").attr("src"))
+			$("#submitBotton").css("background","lightgrey")
+			$("#img2").attr("src",$("#imgg").attr("src"))
 			
 			
 			//alert(today)
 			$("#start").attr("min",today)
 			//$("#end").attr("min",end)
 			$("#end").attr("disabled","disabled")
-			$("#gatherNo").val($(this).val());
+			$("#gatherNo").val($(this).attr("id"));
+			$(".create-commercial-class-name").text($(this).val())
 
 			//alert($("#gatherNo").val())
 			$("#ad-form").show();
@@ -88,7 +91,7 @@
 			
 			$("#end").attr("min",end2);
 			$("#end").removeAttr("disabled")
-			alert(end2)
+			//alert(end2)
 			
 			$("#adPrice").text("");
 		});
@@ -112,7 +115,7 @@
 		
 		//////////////////////////////////////////////////결제///////////////////////
 		$("#payment").click(function() {
-			alert(1)
+		
 					if($("#payment").text()=="결제하기"){
 					if(!$("#adPrice").text()==""){
 					var IMP = window.IMP;
@@ -154,14 +157,15 @@
 										   		data:JSON.stringify(result),	
 										        contentType:'application/json;charset=utf-8',
 										        success : function(result) {
-										        	alert(2)
+										        	$("#submitBotton").attr("disabled",false)
+										        	$("#submitBotton").css("background","rgb(251, 174, 51)")
 										    	    //location.href="${pageContext.request.contextPath}/payment/success";
 													$("#payment").text("결제완료")
 													$("#payment").css("background","lightgrey")
 													$("#payment").attr("disabled","disabled")
 										        	//$("#ad-form").hide();
 										        	//location.href="/my_page/gatherAD/insertAd"
-											alert(3)
+											
 										        },
 												error : function(err) {
 													alert(err);
@@ -180,10 +184,10 @@
 					}
 				});
 		////////////////////////////////////////////////////////////////
-	/* 	$("#submitBotton").click(function() {
+	 /* 	$("#submitBotton").click(function() {
 			if($("#adFileName").text()==""){
 				alert("파일을 첨부해주세요")
-				$("#submitBotton").attr("disabled","disabled")
+				$("#submitBotton").attr("disabled",true)
 				$("#submitBotton").css("background","lightgrey")
 	  	}else{
 	  		$("#submitBotton").removeAttr("disabled")
@@ -194,7 +198,7 @@
 			
 	  		$("#submitBotton").removeAttr("disabled")
 	  		
-	  	} */
+	  	}  */
 		
 		
 	})
@@ -273,7 +277,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img class="gather-img" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%"/>
+                                        <img class="gather-img" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%" id="imgg"/>
                                     </div>
                                 </td>
                                 <td>${adApplicationList.gatherName}</td>
@@ -288,7 +292,7 @@
                                 </c:choose>
                                 </td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherNo}">광고신청</button>
+                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherName}">광고신청</button>
                                 </td>
                             </tr>
        						</c:forEach>
@@ -344,9 +348,9 @@
             <div class="create-commercial-wrap">
                 <div class="create-commercial-top">
                     <div class="create-commercial-image-wrap">
-                        <img width="100%"/>
+                        <img width="100%" src="" id="img2"/>
                     </div>
-                    <div class="create-commercial-class-name">${gather.gatherName}</div>
+                    <div class="create-commercial-class-name"></div>
                 </div>
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행일자:</div>
@@ -381,7 +385,7 @@
             </div>
             <div class="modal-button-wrap">
                 <button type="button" class="modal-button cancel-button">취소</button>
-                <button type="submit" class="modal-button search-id-button" id="submitBotton">확인</button>
+                <button type="submit" class="modal-button search-id-button" id="submitBotton" disabled="disabled">확인</button>
             </div>
         </div>
         </form>
