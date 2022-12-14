@@ -212,11 +212,12 @@
             
                 <img src="" alt="img" id="current-image"/>
             </div>
-            <form enctype="multipart/form-data" id="formId" method="post">
+            <form id="formId" method="post" enctype="multipart/form-data">
             <div class="modify-commercial-change-image-wrap">
                 <div class="commercial-modal-label">광고 배너 이미지 첨부</div>
                 <div class="modify-commercial-change-image-value-wrap">
                 <div>
+                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
                         <input class="my-page-form-input" type="text" id="fileName"  name="bannerName" readonly>
                        <input class="commercial-image-input" type="file" id="modify-image" name="file" >
                         <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
