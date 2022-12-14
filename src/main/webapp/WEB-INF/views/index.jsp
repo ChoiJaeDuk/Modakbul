@@ -36,9 +36,9 @@
 	
 	    }
     	$(function() {
-			
+			alert($("#userNo").val())
     		var gatherNo;
-    		
+    		var userNo=$("#userNo").val()
     			$(document).on("click", ".main-gather-img", function() {
 				gatherNo = $(this).attr("name");
 				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo+"&userNo="+$("#userNo").val();
@@ -46,7 +46,7 @@
     	
     		$(document).on("click", ".list-card-title", function() {
     			gatherNo = $(this).attr("id");
-    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo+"&userNo="+$("#userNo").val();
     		})
 		})
 		
