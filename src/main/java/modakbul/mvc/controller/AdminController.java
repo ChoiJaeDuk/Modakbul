@@ -126,7 +126,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/{uml}")
+	@RequestMapping("/admin/{url}")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -383,6 +383,7 @@ public class AdminController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("userNo", userNo);
 	}
 	
 	/**

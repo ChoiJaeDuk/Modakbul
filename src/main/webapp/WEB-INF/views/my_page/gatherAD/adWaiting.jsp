@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="${pageContext.request.contextPath}/css/my-page/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/my-page/reset.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
     <title>Document</title>
   </head>
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
@@ -109,10 +108,11 @@
           <section class="my-page-main-content">
             <div class="class-search">
                 <div class="filter-wrap">
+                <sec:authentication var="user" property="principal" />
                     <div class="filter-list-wrap selected">
-                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=6'">광고신청</div>
-                        <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=6'">신청대기</div>
-                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=6'">광고진행중</div>
+                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</div>
+                        <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo}'">신청대기</div>
+                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=${user.userNo}'">광고진행중</div>
                     </div>
                 </div>
                 <div class="commercial-wait" id="adWaiting">
@@ -139,7 +139,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${data.gather.gatherImg}" alt="이미지" width="100%"/>
+                                        <img src="${pageContext.request.contextPath}/save/${data.gather.gatherImg}" class="gather-img" alt="이미지" width="100%"/>
                                     </div>
                                 </td>
                                 <td>${data.gather.gatherName}</td>
@@ -280,37 +280,38 @@
       
     </div>
     
-    <c:choose>
-	<c:when test="${!empty requestScope.selectADGatherRegis.content}"></c:when>
-	<c:otherwise>
-    <nav class="pagination-container">
+    <sec:authentication var="user" property="principal" />
+    <div style="text-align: center">
+   <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
-		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
-		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${startPage-1}">PREV</a>
-		  </c:if>
+		
+		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
+		  </c:if> 
 		  
 		<span class="pagination-inner"> 
 		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
-		
-			    <c:if test="${(i-1)>=indivList.getTotalPages()}">
+		  
+			    <c:if test="${(i-1)>=selectADGatherRegis.getTotalPages()}">
 			       <c:set var="doneLoop" value="true"/>
 			    </c:if> 
 		    
 		  <c:if test="${not doneLoop}" >
-		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${i}">${i}</a> 
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
 		  </c:if>
 		   
 		</c:forEach>
 		</span> 
 				
-		 <c:if test="${(startPage+blockCount)<=indivList.getTotalPages()}">
-		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?nowPage=${startPage+blockCount}">NEXT</a>
-		 </c:if> 
+		 <c:if test="${(startPage+blockCount)<=selectADGatherRegis.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if>
+				 
+			
+		
 		</div>
-	</nav>
-	</c:otherwise>
-</c:choose>
-    
+	</nav>  
+	</div>
   </body>
 </html>
