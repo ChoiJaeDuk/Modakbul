@@ -417,7 +417,7 @@ public class AdminController {
 	 */
 	
 	 @RequestMapping("/my_page/gatherAD/bannerUpdate")
-	 public String bannerUpdate(Long advertisementNo, String bannerName, Long userNo,HttpSession session, MultipartFile file) {
+	 public String bannerUpdate(String bannerName, HttpSession session, MultipartFile file, String advertisementNo, String userNo) {
 		//모임 이미지 첨부
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
@@ -426,8 +426,11 @@ public class AdminController {
 		}catch (Exception e) {
 			e.getStackTrace();
 		}
+		
+		Long advertisementNo2 = Long.parseLong(advertisementNo);
+		
 		if(originalFileName.length() > 0) {
-			adminService.updateBanner(advertisementNo, originalFileName);
+			adminService.updateBanner(advertisementNo2, originalFileName);
 		}
 		 
 	 	

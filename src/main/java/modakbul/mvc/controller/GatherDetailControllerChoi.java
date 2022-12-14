@@ -24,17 +24,21 @@ public class GatherDetailControllerChoi {
 	@RequestMapping("/info")
 	public void info(Model model, Long gatherNo, String userNo) {
 		System.out.println("userNo = " + userNo);
+		
+		
+		
 		Long userNoLong = Long.parseLong(userNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		  
 		int check = participantService.checkParticipant(gatherNo, userNoLong);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
-		  
-		model.addAttribute("gather", gather); model.addAttribute("participant", participant);
-		 
+		System.out.println("check = "+check);  
+		model.addAttribute("gather", gather); 
+		model.addAttribute("participant", participant);
+		model.addAttribute("userNo1", userNoLong);
+		model.addAttribute("check", check);
 		
-	
 		
 	}
 	
@@ -77,19 +81,19 @@ public class GatherDetailControllerChoi {
 	}
 	
 	@RequestMapping("/insertParticipant")
-	public String insertParticipant(Model model, String userNo, Long gatherNo, String state,RedirectAttributes re) {
-		System.out.println("호출되니?");
+	public String insertParticipant(Model model, Long userNo, Long gatherNo,RedirectAttributes re) {
+		
 		System.out.println("userNo = " + userNo);
 		System.out.println("gatherNo = " + gatherNo);
 		Gather gather = new Gather(gatherNo);
-		//Users user = new Users(userNo);
-		//Participant p = new Participant(0L, gather, user, state);
+		Users user = new Users(userNo);
+		Participant participant = new Participant(0L, gather, user, "신청대기");
 		
-		//int check = participantService.checkParticipant(gatherNo, userNo);
-		
-		//participantService.insertParticipant(null);
-		
-		//model.addAttribute("check", check);
+		int check = participantService.checkParticipant(gatherNo, userNo);
+		System.out.println("check = "+check);
+		participantService.insertParticipant(participant);
+		System.out.println("호출되니?");
+		model.addAttribute("check", check);
 		re.addAttribute("userNo",userNo);
 		re.addAttribute("gatherNo",gatherNo);
 		
