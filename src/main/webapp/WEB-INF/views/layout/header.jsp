@@ -50,40 +50,42 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 				alt="modakbul-icon" />
 			<!-- <h1 class="modakbul-title">MODAKBUL</h1> -->
 			<p class="modakbul-title">
-				<strong>MODAKBUL</strong>
+				<strong onclick="location.href='/'">MODAKBUL</strong>
 			</p>
 		</div>
 		<div class="modakbul-header-center flex">
-			<p class="modakbul-header-menu header-selected">정기</p>
-			<p class="modakbul-header-menu">일일</p>
-			<p class="modakbul-header-menu">기관</p>
-			<p class="modakbul-header-menu">공지사항</p>
+			<p class="modakbul-header-menu" onclick="location.href='${pageContext.request.contextPath}/main/regularGather'" id="regular">정기</p>
+			<p class="modakbul-header-menu" id="daily" onclick="location.href='${pageContext.request.contextPath}/main/dayTimeGather'">일일</p>
+			<p class="modakbul-header-menu" id="gov" onclick="location.href='${pageContext.request.contextPath}/main/agencyGather'">기관</p>
+			<p class="modakbul-header-menu" id="notice" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</p>
 		</div>
 
 		<div class="modakbul-header-right">
-			 <sec:authorize access="isAuthenticated()">
+			<sec:authorize access="isAuthenticated()">
 			<sec:authentication var="user" property="principal" /> 
+			
 			<c:choose>
-				<c:when test="${user.state } eq 'ROLE_ADMIN'">
-					<<%-- div class="loginheader-wrap2">
-					<div class="loginheader" id="gotomypage">
-					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg">
+			
+				<c:when test="${user.state == 'ROLE_ADMIN'}">
+				
+					<div class="loginheader-wrap2">
+						<div class="loginheader" id="gotomypage">
+						<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg" onclick="location.href='${pageContext.request.contextPath}/admin/manageAll'">
+						</div>
+						<div class="loginheader"  id="gotomypage2"> 
+							<form action="${pageContext.request.contextPath}/logout" method="post" class="logout">
+								 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								 <input type="image" class="logoutImg" src="${pageContext.request.contextPath}/css/logout.png" value="로그아웃"/> 
+								
+							</form>
+						</div>	  
 					</div>
-					<div class="loginheader"  id="gotomypage2"> 
-						 <form action="${pageContext.request.contextPath}/logout" method="post" class="logout">
-							 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							 <input type="image" class="logoutImg" src="${pageContext.request.contextPath}/css/logout.png" value="로그아웃"/> 
-							
-						 </form>
-					</div>	  
-				</div> --%>
 				</c:when>
 				
 				<c:otherwise>
 				<div class="loginheader-wrap">
 					<div class="loginheader" id="gotomypage">
-					<sec:authentication var="user" property="principal" />
-					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'">
+					<img src="${pageContext.request.contextPath}/css/mypage.png" class="myPageImg" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo }'">
 					</div>
 					<div class="loginheader"  id="gotomypage2"> 
 						 <form action="${pageContext.request.contextPath}/logout" method="post" class="logout">
@@ -96,12 +98,12 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 				</c:otherwise> 
 				
 			</c:choose>	
-				</sec:authorize>
+			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
 			<img class="loginImg" src="${pageContext.request.contextPath}/css/login.png" onclick="location.href='${pageContext.request.contextPath}/loginForm'"/>
 					
 			
-		</sec:authorize>
+			</sec:authorize>
 		
 		<!-- <h3>회원 모드</h3> -->
 		

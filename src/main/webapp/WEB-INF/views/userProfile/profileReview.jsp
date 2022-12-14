@@ -105,8 +105,6 @@
    			 <!-- <i class="fa-solid fa-user"></i> -->
    			 <img src="${pageContext.request.contextPath}/css/pageImg.png"
 			alt="modakbul-icon" class="pageimg" /> 
-   			 
-   			
 								 <div class="profileImg">
 								
 						<c:set value="${user.userProfileImg}" var="img" />
@@ -179,48 +177,37 @@
 			</div>
 			</nav>
 			</div>
-			
+			<c:choose>
+				<c:when test="${0 eq requestScope.userReviewList.getTotalPages()}">
+					<div class="profile-review-list-ifnone">
+					작성된 후기가 없습니다. 
+					</div>
+				</c:when>
+			<c:otherwise>
+			<c:forEach var="url" items="${requestScope.userReviewList.content}">
+				<c:set var="TextValue" value="${url.userRevieweRegisDate}" />
 			<div class="profile-review-list">
               <div class="modakbul-review-grid-col">
-                <img class="reviewUser-img"  alt="modakbul-charged-img" />
+                <img class="reviewUser-img"  alt="modakbul-charged-img" src="${pageContext.request.contextPath}/save/${url.writerUser.userProfileImg}"/>
               </div>
               <div class="modakbul-review-grid-col">
                 
                 <div class="modakbul-charged-grid-director gather">
                   <p class="review-user-name">
-                   닉네임
+                   닉네임 : ${url.hostUser.userNick}
                   </p>
-                  
                     <p class="review-date">
-                    날짜
+                   등록일 : ${fn:substring(TextValue,0,10)}
                   </p>
                    <p class="review-content">
-                    <input type="text" class="review-content-area" value="하잉 ~ 규 ~"/>
+                    <input type="text" class="review-content-area" value="${url.userReviewContent}"/>
                   </p>
                 </div>
               </div>
-             
             </div>
-			<div class="profile-review-list">
-              <div class="modakbul-reivew-grid-col">
-                <img class="reviewUser-img"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-review-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="review-user-name">
-                   닉네임
-                  </p>
-                  
-                    <p class="review-date">
-                    날짜
-                  </p>
-                   <p class="review-content">
-                    내용
-                  </p>
-                </div>
-              </div>
-             
+           </c:forEach>
+          </c:otherwise>
+		 </c:choose> 
             </div>
           </div>
           
@@ -228,8 +215,6 @@
           </div>
           <!-- 여기까지 content -->
         
-      </div>
-      
              <!-- confirm 모달을 쓸 페이지에 추가 start-->
         <section class="modal modal-section type-confirm">
             <div class="enroll_box">

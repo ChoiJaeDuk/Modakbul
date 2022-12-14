@@ -1,5 +1,6 @@
 package modakbul.mvc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.GatherService;
 
 @Controller
-@RequestMapping("/main")
+//@RequestMapping("/main")
 @RequiredArgsConstructor
 public class MainControllerChoi {
 	
@@ -35,8 +36,8 @@ public class MainControllerChoi {
 	private final static int PAGE_COUNT=3;
 	private final static int BLOCK_COUNT=4;
 	
-	@RequestMapping("/main")
-	public void main(Model model) {
+	@RequestMapping("/")
+	public String main(Model model) {
 		Pageable pageable = PageRequest.of(2,4);
 		
 		List<Advertisement> selectAdGather = adminService.selectAdGather();
@@ -49,21 +50,24 @@ public class MainControllerChoi {
 		model.addAttribute("newGatherList", newGatherList);
 		model.addAttribute("selectAdGather", selectAdGather);
 		
+		return "index";
+		
 	}
 	
-	@RequestMapping("{url}")
+	@RequestMapping("/main/{url}")
 	public void url() {}
 	
-	@RequestMapping("/dayTimeGather")
+	@RequestMapping("/main/dayTimeGather")
 	public void dayTimeGather() {}
 	
 	
 	@ResponseBody
-	@RequestMapping("ajaxPage")
+	@RequestMapping("/main/ajaxPage")
 	public Map<String, Object> selectGatherList(HttpServletRequest request,@RequestParam(defaultValue ="1", required = false) int nowPage ,@RequestParam(value="categoryList[]" , required = false) List<Long> categoryList){
 		System.out.println("나오니?");
 		
 		String place = request.getParameter("place");
+		System.out.println(place);
 		String gatherType = request.getParameter("gatherType");
 		String sort = request.getParameter("sort");
 		String search = request.getParameter("search");
@@ -73,12 +77,17 @@ public class MainControllerChoi {
 //		System.out.println("sort = "+ sort);
 //		System.out.println("search = "+ search);
 //		System.out.println("categoryList = "+ categoryList);
-
+		List<Object> list = new ArrayList<Object>(); 
+		
+	
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
 		Page<Gather> gatherList = gatherService.selectGatherList(gatherType, categoryList, place, sort, search, pageable);
+		
+		
 		
 			
 		int temp= (nowPage -1)%BLOCK_COUNT; 

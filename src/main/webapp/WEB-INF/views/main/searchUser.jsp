@@ -17,6 +17,7 @@
     <title>Document</title>
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
@@ -97,5 +98,6 @@
         </div>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

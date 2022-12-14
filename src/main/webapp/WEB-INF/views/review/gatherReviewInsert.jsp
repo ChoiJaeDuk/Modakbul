@@ -21,34 +21,19 @@
  a:hover { color: rgb(243, 156, 18); text-decoration: blink;}
 </style>
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
-   <!--  <script type="text/javascript">
-      const drawStar = (e) => {
-        console.log(e.value);
-        const wrap = document.querySelector('.fire-fill');
-        if (wrap) {
-          const value = Number(e.value) || 0;
-          wrap.style.width = `${value * 10}%`;
-        }
-      };
-    </script> -->
+
+<script type="text/javascript">
+const drawStar = (e) => {
+  console.log(e.value);
+  const wrap = document.querySelector(`.fire-fill`);
+  if (wrap) {
+    const value = Number(e.value) || 0;
+    wrap.style.width = `${value * 10}%`;
+  }
+};
+</script>
   </head>
   <body>
-   <script type="text/javascript">
-      const drawStar = (e) => {
-        console.log(e.value);
-        const wrap = document.querySelector(`.fire-fill`);
-        console.log(wrap)
-       
-        if (wrap) {
-          const value = Number(e.value) || 0;
-          console.log(value)
-         // alert(value*10)
-          wrap.style.width = (value*10) +"%";
-          
-        }
-      };
-    </script>
-  
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-body">
@@ -70,10 +55,10 @@
               <div class="container-fliud">
 					<div class="wrapper row">
 						<div class="preview col-md-6">
-							 
+							
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${gather.gatherImg }" /></div>
-							</div>	 
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="이미지" /></div>
+							</div>	
 						</div>
 						<div class="gather-info">
 							<div class="gather-name">
@@ -134,44 +119,41 @@
 	                </h2>
                 </div>
                 <div class="create-group-wrap">
-               
                 <sec:authentication var="user" property="principal" />
 			        <form action="${pageContext.request.contextPath}/review/userReviewInsertbutton" method="post" >
 			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			        <input type="hidden" name="writerUser" value="${userNo}" id="writerUser">
 			        <input type="hidden" name="hostUser" value="${gather.user.userNo}" id="hostUser">
-			        
+			        <input type="hidden" name="regularGather" value="${gather.regularGather.regularGatherNo}" id="regularGather">
+
 			          <div class="create-group-top">
 			            <div class="create-group-wrap-image">
 			              <div class="create-group-info-table-item">
 			              	<div class="create-group-info-table-item-content">
-			                	 <div class="rate-wrap">
+			                	<div class="rate-wrap">
 							      <div class="rate">
 							        <div class="empty-wrap">
-							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
-							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
-							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
-							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
-							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="./assets/empty.png" width="30px" />
+							          <img src="./assets/empty.png" width="30px" />
+							          <img src="./assets/empty.png" width="30px" />
+							          <img src="./assets/empty.png" width="30px" />
+							          <img src="./assets/empty.png" width="30px" />
 							        </div>
 							        <div class="fire-fill">
-							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
-							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
-							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
-							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
-							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="./assets/logo.png" width="30px" />
+							          <img class="fire-image" src="./assets/logo.png" width="30px" />
+							          <img class="fire-image" src="./assets/logo.png" width="30px" />
+							          <img class="fire-image" src="./assets/logo.png" width="30px" />
+							          <img class="fire-image" src="./assets/logo.png" width="30px" />
 							        </div>
-							        <input
-							          type="range"
-							          class="rate-input"
-							          onInput="drawStar(this)"
-							          step="1"
-							          min="0"
-							          max="10"
-							        />
+							        <input  type="range" class="rate-input" onInput="drawStar(this)" step="10" min="50" max="100"/>
 							      </div>
-							   </div>
-								</div>
+							    </div>
+			              	</div>
+			              	<div class="create-group-info-table-item-content">
+			                	<input class="create-group-form-input" id="gatherTemper" name="gatherTemper"/>
+			              	</div>
+			              	
 			              </div>
 			            </div>
 			             <div class="create-group-info-table-item">
@@ -181,7 +163,7 @@
 			              	</h2>
 			              </div>
 			              <div class="create-group-info-table-item-content">
-			                <textarea class="create-group-form-textarea" name="userReviewContent" id="userReviewContent"></textarea>
+			                <textarea class="create-group-form-textarea" name="gatherReviewContent" id="gatherReviewContent"></textarea>
 			              </div>
 			            </div>
 			                <div class="create-group-button-wrap">

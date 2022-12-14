@@ -28,10 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/user/login") //     pattern="/member/main" 
 		.hasAnyRole("USER", "ADMIN")          //      access="isAuthenticated()"
 		.antMatchers("/my_page/**")
-		//.hasRole("USER")
+		.hasRole("USER")
+		.antMatchers("/gatherDetail/info")
 		.authenticated()
-		//.antMatchers("/admin/**")
-		//.hasRole("ADMIN")
+		//.authenticated()
+		.antMatchers("/admin/**")
+		.hasRole("ADMIN")
 		.and()
 		//.csrf().disable() // <security:csrf disabled="true"/>
 		.formLogin()

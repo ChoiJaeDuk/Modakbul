@@ -24,7 +24,14 @@
 		var place="";
 		var nowPage;
 		var agoPage=1;
-    	$(function() {  		
+    	$(function() {  	
+    		$(document).ready(function(){
+    			
+				$("#daily").attr("class", "modakbul-header header-selected");
+			 /*  $(":header").css("background-color", "yellow"); */
+
+			});
+    		
     		///////////ajax페이징
     		$(document).on("click","a",function() {
     			
@@ -86,7 +93,7 @@
     							str += `<div class="search-list-result-item-text">마감일 : ${"${item.gatherDeadline}"}</div>`;
     							str += `<div class="search-list-result-item-date">`;
     							str += `<div>모임날짜 : ${"${item.gatherDate}"}</div>`;
-    							str += `<div class="user-nick">작성자 : </div>`;
+    							str += `<div class="user-nick">작성자 : ${"${item.user.userNick}"}</div>`;
     							str += `</div>`;
     							str += `</div>`;
     							str += `</article>` 
@@ -144,6 +151,7 @@
 			    agoPage=1;
     			search=$("#search-text").val()
     			selectGatherList();
+    			$("#search-text").text("")
 			})
     		
     		$(document).ready(function(){
@@ -174,10 +182,18 @@
 				selectGatherList();
 			})
 			
+			$("#place-search-btn").click(function() {
+				nowPage=1;
+			    agoPage=1;
+				place = $("#place-search").val();
+				selectGatherList();
+				$("#place-search").text("")
+			})
 		})	    
     </script>
   </head>
   <body>
+   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
@@ -190,7 +206,15 @@
 			  <input id="search-text" type="text" placeholder="검색어 입력">
 			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="search-btn">
 			</div>
+			<ul class="search-list-main-filter-wrap" style="margin-left: 50px;">
+              <li class="search-list-main-filter-item selected">지역검색</li>
+            </ul>
+			<div class="search place">
+			  <input id="place-search" type="text" placeholder="검색어 입력">
+			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="place-search-btn">
+			</div>
             <select class="select-small" name="sort" id="sort">
+              <option value="">--선택--</option>
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
               <option value="gatherDeadLine">마감임박순</option>
@@ -218,5 +242,6 @@
         </div>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

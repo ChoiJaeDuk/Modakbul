@@ -1052,3 +1052,44 @@ margin-top:10px;
 	height : 300px;
 	border: solid lightgray 0.5px;
 	}
+/*µå·¡±×*/
+
+.img {
+  margin: 0;
+  padding: 0;
+}
+.empty-wrap {
+  display: flex;
+}
+.rate-wrap {
+  width: 150px;
+}
+.rate {
+  width: 100%;
+  height: 30px;
+  position: relative;
+}
+.fire-image {
+  display: block;
+}
+.rate-input {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.fire-fill {
+  display: flex;
+  width: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: red;
+  overflow: hidden;
+  pointer-events: none;
+  transition: 0.05s linear;
+  z-index: 1;
+}
