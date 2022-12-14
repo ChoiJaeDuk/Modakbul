@@ -212,12 +212,12 @@
             
                 <img src="" alt="img" id="current-image"/>
             </div>
+            <form enctype="multipart/form-data" id="formId" method="post">
             <div class="modify-commercial-change-image-wrap">
                 <div class="commercial-modal-label">광고 배너 이미지 첨부</div>
                 <div class="modify-commercial-change-image-value-wrap">
-                    <div>
-                    <form action="${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate"></form>
-                        <input class="my-page-form-input" type="text" id="fileName"  name="fileName" readonly>
+                <div>
+                        <input class="my-page-form-input" type="text" id="fileName"  name="bannerName" readonly>
                        <input class="commercial-image-input" type="file" id="modify-image" name="file" >
                         <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
                     </div>
@@ -227,11 +227,14 @@
                 </div>
             </div>
             <div class="modal-button-wrap">
-                <button type="button" class="modal-button search-id-button" name="update"><!-- onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'" -->
+                <button type="button" class="modal-button search-id-button" onclick="updateBanner();"><!-- onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'" -->
                 수정하기
                 </button>
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
             </div>
+            </form>    
+                    
+           
         </div>
         <!-- 추가된 모달 -->
       </div>
@@ -340,12 +343,29 @@
 	    readImage(e.target)
 	})
 	
-	$(document).on("click","button[name='update']", function(){
+	function updateBanner(){
 		//var bannerName = $(".commercial-image-input").val().split('/').pop().split('\\').pop();
 		var advertisementNo = $(buttonVal).attr('id')
 		const banner = document.getElementById("modify-image")
-		 location.href = "${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate?advertisementNo="+advertisementNo+"&bannerName="+filename+"&userNo="+${userNo}+"&file="+banner;
-	})
+		
+		const inForm = document.getElementById("formId");
+		
+		const form = document.createElement('p');
+		
+		
+		form.innerHTML = "<input type='text' name='advertisementNo' value='"+advertisementNo+"'>	<input type='text' name='userNo' value='"+${userNo}+"'>";
+		//form.innerHTML = "<input type='text' name='bannerName' value="+filename+">"
+		//form.innerHTML = 
+		
+		inForm.appendChild(form);
+		
+		inForm.action = "${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate";
+		inForm.encoding="multipart/form-data";
+		inForm.submit();
+		
+		//enctype="multipart/form-data"
+		// location.href = "${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate?advertisementNo="+advertisementNo+"&bannerName="+filename+"&userNo="+${userNo}+"&file="+banner;
+	}
 					
         
     </script>
