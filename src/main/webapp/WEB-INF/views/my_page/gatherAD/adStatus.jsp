@@ -16,54 +16,8 @@
     <link href="${pageContext.request.contextPath}/css/admin/adminNav.css" rel="stylesheet" />
     <title>Document</title>
   </head>
-   <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
    
-    <script type="text/javascript">
-  	$(function(){
-
-            $(".my-page-button").click(function(){
-                var advNo = $(this).val();
-
-                $("#bannerUpdate").show();
-
-                $(".search-id-button").click(function(){
-
-                    if($(this).val()=="취소"){
-                  	  $.ajax({
-                            type:"POST",
-                            url:"${pageContext.request.contextPath}/my_page/gatherAD/updateMyAdCancel",
-                            dataType:"text",
-                            data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,            
-                            success:function(result){
-                                
-                            
-                                    alert(result);
-                                    $("#adWaiting").load(location.href + " #adWaiting");
-                                    
-                                    $("#bannerUpdate").hide();
-        
-                            },//function
-                            error:function(error){
-                                console.log(error)
-                            }
-                            
-                        });
-                    }else{
-                        $("#ADCancel").hide();
-                    }
-                })
-                
-            })
-            
-            $(".cancel-button").click(function() {
-              $("#bannerUpdate").hide();
-          })
-          
-          
-            
-        })      
     
-    </script>
   <body>
     <div class="wrap">
       <div class="my-page-wrap">
@@ -145,7 +99,7 @@
                                 <td>${data.gather.gatherName}</td>
                                 <td>${fn:substring(data.adApproveDate,0,10)} ~ ${fn:substring(data.deadLine,0,10)}</td>
                                 <td class="inquiry-replied">
-                                   <button type="button" class="my-page-button" id="${data.advertisementNo}" value="${data.advertisementNo}">배너수정</button>
+                                   <button type="button" class="my-page-button" id="${data.advertisementNo}" value="${data.adFileName}">배너수정</button>
                                 </td>
                             </tr>
                            </c:forEach>
@@ -197,7 +151,7 @@
             <div class="create-commercial-wrap">
                 <div class="create-commercial-top">
                     <div class="create-commercial-image-wrap">
-                        <img width="100%"/>
+                        <img width="100%" src=""/>
                     </div>
                     <div class="create-commercial-class-name">핸드드립 커피 클래스</div>
                 </div>
@@ -246,20 +200,25 @@
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
             </div>
         </div>
+        
+        <!-- 
+        	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+         -->
+         
         <div class="commercial-modal-wrap" style="display: none" id="bannerUpdate">
             <div class="commercial-modal-title">배너 수정하기</div>
             <div class="modify-commercial-current-image-text">현재 배너 이미지</div>
             <div class="modify-commercial-current-image-wrap">
             
-                <img src="${pageContext.request.contextPath}/save/" alt="img"/>
+                <img src="" alt="img" id="current-image"/>
             </div>
             <div class="modify-commercial-change-image-wrap">
                 <div class="commercial-modal-label">광고 배너 이미지 첨부</div>
                 <div class="modify-commercial-change-image-value-wrap">
                     <div>
-                    
+                    <form action="${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate"></form>
                         <input class="my-page-form-input" type="text" id="fileName"  name="fileName" readonly>
-                       <input class="commercial-image-input" type="file" id="modify-image" name="file"  onchange="javascript:document.getElementById('fileName').value = this.value">
+                       <input class="commercial-image-input" type="file" id="modify-image" name="file" >
                         <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
                     </div>
                     <label for="modify-image" class="commercial-file-button">
@@ -268,7 +227,7 @@
                 </div>
             </div>
             <div class="modal-button-wrap">
-                <button type="button" class="modal-button search-id-button">
+                <button type="button" class="modal-button search-id-button" name="update"><!-- onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'" -->
                 수정하기
                 </button>
                 <button type="button" class="modal-button cancel-button">뒤로가기</button>
@@ -277,5 +236,119 @@
         <!-- 추가된 모달 -->
       </div>
     </div>
+    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+   
+    <script type="text/javascript">
+  	$(function(){
+
+            $(".my-page-button").click(function(){
+                var advNo = $(this).val();
+
+                $("#bannerUpdate").show();
+
+                $(".search-id-button").click(function(){
+
+                    if($(this).val()=="취소"){
+                  	  $.ajax({
+                            type:"POST",
+                            url:"${pageContext.request.contextPath}/my_page/gatherAD/updateMyAdCancel",
+                            dataType:"text",
+                            data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,            
+                            success:function(result){
+                                
+                            
+                                    alert(result);
+                                    $("#adWaiting").load(location.href + " #adWaiting");
+                                    
+                                    $("#bannerUpdate").hide();
+        
+                            },//function
+                            error:function(error){
+                                console.log(error)
+                            }
+                            
+                        });
+                    }else{
+                        $("#ADCancel").hide();
+                    }
+                })
+                
+            })
+            
+            $(".cancel-button").click(function() {
+              $("#bannerUpdate").hide();
+          })
+          
+          
+            
+        })   
+    	    
+        /////////////////////////////////////////////////
+       let buttonVal;
+  	   let filename;
+  	
+        $(document).on("click", "button[class='my-page-button']", function(){
+        	buttonVal = $(this);
+        	console.log("현재사진 = " + buttonVal.val())
+        	
+        	//$(`.modify-commercial-current-image-wrap > img`).attr({ src: "dong.jpg" });
+        	$img = document.querySelector(".modify-commercial-current-image-wrap > img");
+
+        	$img.src = "${pageContext.request.contextPath}/save/"+buttonVal.val();//"${pageContext.request.contextPath}/save/"+buttonVal.val();
+        });
+  	
+  	$(document).on("change", ".commercial-image-input", function(){ //주황색
+		
+		alert(1)
+        console.log($(this))
+        	filename = $(this).val().split('/').pop().split('\\').pop();
+  	// var filename = $(".commercial-image-input").val().split('/').pop().split('\\').pop();
+          console.log("1 = "+filename)
+          
+        	$(this).prev().val(filename);
+          //$(this).attr("name","test");
+          
+        	console.log($(this))
+        // $(this).prev().find("input").val(filename);
+	})   
+	
+	
+	function readImage(input) {
+						  
+		// 인풋 태그에 파일이 있는 경우
+	    if(input.files && input.files[0]) {
+	        // 이미지 파일인지 검사 (생략)
+	        // FileReader 인스턴스 생성
+	        const reader = new FileReader()
+	        // 이미지가 로드가 된 경우
+	        reader.onload = e => {
+	            const previewImage = document.getElementById("current-image") 
+	          
+	            previewImage.src = e.target.result
+	          
+	        }
+	        // reader가 이미지 읽도록 하기
+	        reader.readAsDataURL(input.files[0])
+	    }
+	}
+
+	// input file에 change 이벤트 부여
+	const inputImage = document.getElementById("modify-image")
+	
+	inputImage.addEventListener("change", e => {
+	    readImage(e.target)
+	})
+	
+	$(document).on("click","button[name='update']", function(){
+		//var bannerName = $(".commercial-image-input").val().split('/').pop().split('\\').pop();
+		var advertisementNo = $(buttonVal).attr('id')
+		const banner = document.getElementById("modify-image")
+		 location.href = "${pageContext.request.contextPath}/my_page/gatherAD/bannerUpdate?advertisementNo="+advertisementNo+"&bannerName="+filename+"&userNo="+${userNo}+"&file="+banner;
+	})
+					
+        
+    </script>
+    
   </body>
 </html>

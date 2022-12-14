@@ -30,6 +30,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.UserAttachmentsService;
 import modakbul.mvc.service.UsersService;
@@ -46,6 +47,9 @@ public class UsersController {
 	
 	@Autowired
 	private UserAttachmentsService attachService;
+	
+	@Autowired
+	private AlarmService alarmService;
 	
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
@@ -113,13 +117,18 @@ public class UsersController {
 		File file = new File(path);
 
 		String fileNames [] = file.list();
+		List<Follow> followList = followService.selectByUserId(userNo);
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
 		
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 		
 		
 		model.addAttribute("attachList", attachList);

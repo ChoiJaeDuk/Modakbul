@@ -267,7 +267,21 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">알림함</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position: relative;">
+						알림함
+							
+							<c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise> 
+							</c:choose>
+							
+						</li>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
 						<li class="my-page-nav-item"

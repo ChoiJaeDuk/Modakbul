@@ -162,36 +162,4 @@ public class LikeGatherController {
 		return "redirect:/my_page/likeGather/myLikeGather?userNo="+userNo;
 	}
 
-	///////////////////////////////////////////////////////////////
-//	@RequestMapping("/myindex")
-//	public String myindex() {
-//		return "my-page/index";
-//	}
-
-	/**
-	 * GatherList
-	 */
-	@RequestMapping("/likeGather/gatherList")
-	public ModelAndView gatherList(@RequestParam(defaultValue = "1") int nowPage) {
-
-		
-		////// 페이징처리////////////////////////
-		Pageable page = PageRequest.of((nowPage - 1), PAGE_COUNT, Direction.DESC, "GATHER_NO");
-		Page<Gather> pageList = gs.selectGatherList(true, null, null, null, null, page);
-
-		int temp = (nowPage - 1) % BLOCK_COUNT;
-		int startPage = nowPage - temp;
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("lee/views/my-page/gatherList");
-		mv.addObject("pageList", pageList);
-
-		mv.addObject("blockCount", BLOCK_COUNT);
-		mv.addObject("startPage", startPage);
-		mv.addObject("nowPage", nowPage);
-
-		mv.addObject("userNo", 7L);
-		return mv;
-	}
-
 }
