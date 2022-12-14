@@ -124,7 +124,7 @@
 										merchant_uid : 'merchant_'
 												+ new Date().getTime(),
 										name : '상품명',
-										amount : adPrice, //총판매가격
+										amount : $("$gatherBid").val(), //총판매가격
 										buyer_email : 'kyucando@gmail.com',
 										buyer_name : '규야 ',
 										buyer_tel : '01085510356',
