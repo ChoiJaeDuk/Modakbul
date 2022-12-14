@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <!DOCTYPE html>
@@ -16,6 +18,13 @@
 <title>Document</title>
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+
+
+/* var length = $("selectApplicationStateCount").length;
+
+$("#aaa").click(function() {
+	alert(length);
+}) */
 
     	$(function(){
     		console.log("새알람 = " + ${newAlarm});
@@ -148,7 +157,9 @@
     	                for (var k in styles) this.style[k] = styles[k];
     	                return this;
     	            };
+
     });//ready END
+
     </script>
 </head>
 <body>
@@ -239,13 +250,15 @@
 						<li class="my-page-nav-item">광고신청</li>
 					</ul>
 				</nav>
+
 				<section class="my-page-main-content">
 					<div class="my-page-profile">
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">selectApplicationStateCount</span>&nbsp;개
 							</div>
+							<input type="button" id="aaa" value="aaa">
 							<div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
@@ -306,6 +319,88 @@
 					<th colspan="4" class="th">팔로잉</th>
 					<a class="modal_close_btn">X</a>
 					<!-- <tr class="user">
+
+          <section class="my-page-main-content">
+            <div class="my-page-profile">
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap">
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
+                    </div>
+                    <div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
+                </div>
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap">
+                  	  	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
+                    </div>
+                    <div class="my-page-profile-card-label">
+                        참가예정인 모닥불
+                    </div>
+                </div>
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap">
+                    <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
+                    </div>
+                    <div class="my-page-profile-card-label">
+                        참가완료한 모닥불
+                    </div>
+                </div>
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap">
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
+                    </div>
+                    <div class="my-page-profile-card-label">
+                        모집중인 모닥불
+                    </div>
+                </div>
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap">
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
+                    </div>
+                    <div class="my-page-profile-card-label">
+                        진행완료한 모닥불
+                    </div>
+                </div>
+                <div class="my-page-profile-card">
+                    <div class="my-page-profile-card-count-wrap" id="replyState">
+                         <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}" id="replyState">
+                         <span class="my-page-profile-card-count" >${replyState}</span></a>&nbsp;개
+                         
+                    </div>
+                    <div class="my-page-profile-card-label">
+                        댓글대기중인 문의글
+                    </div>
+                </div>
+            </div>
+            
+           
+                
+              
+       
+           
+          </section>
+        </div>
+       
+   
+      </div>
+      
+      <div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			<!-- <tr class="user">
+
 			<th style="width: 20%">
 			사진
 			</th>
@@ -319,6 +414,7 @@
 			<button class="modakbul-button following" id="" value="">팔로우</button>
 			</th>
 			</tr> 	 -->
+
 					<c:forEach items="${followingList}" var="f">
 						<tr>
 							<th><img alt="img" class="followImg"
@@ -343,4 +439,5 @@
 
 	</div>
 </body>
+
 </html>

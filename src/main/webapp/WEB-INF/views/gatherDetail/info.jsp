@@ -16,10 +16,46 @@
     <title>eCommerce Product Detail</title>
     <link href="${pageContext.request.contextPath}/css/gatherDetail/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/gatherDetail/reset.css" rel="stylesheet" />
-
+    
   </head>
-
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script type="text/javascript">
+		var gatherPlace;
+		$(function() {
+			gatherPlace = $("#gatherPlace").val();
+			//alert(gatherPlace)
+		})
+		
+		if($("#participant").val()>0){
+			$("#application-btn").css("background","grey")
+			$("#application-btn").val("신청완료")
+			$("#application-btn").attr("disabled",disabled)
+		}
+		
+		$(function() {
+			
+			
+			$("#application-btn").click(function() { 
+				if(!$("#gatherBid").val()==0){
+					//if(confirm("모임 참가를 신청하시겠습니까???")){
+						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?uesrNo="+$("#uesrNo").val()+"&gatherNo="+$(this).val()+"";	
+					//}
+				}else{
+					
+				}
+				
+			});
+			
+		})
+		
+	</script>
   <body>
+  	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
+  	<input hidden="" id="check" value="${participant}">
+  	<sec:authentication var="user" property="principal" />
+ 	<input hidden="" id="userNo" value="${user.userNo}">
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -87,34 +123,124 @@
 										</c:choose>
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / ${gather.gatherMaxUsers}
+									인원: 신청인원 / ${gather.gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							
 							
 							<div class="action">
-								<button class="add-to-cart btn btn-default" type="button">지금 예약하기</button>
+								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}"type="button">지금 예약하기</button>
 							</div>
 						</div>
 					</div>
 				</div>
-			
+				
 				<div class="tab-container">
 					<div class="menu-tab">
-						<div class="menu selected">상세정보</div>
-						<div class="menu">주최자 프로필</div>
-						<div class="menu">Q & A</div>
-						<div class="menu">후기(?)</div>	
+						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'">상세정보</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'">주최자 프로필</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'">Q & A</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'">후기(?)</div>	
 					</div>
 				</div>
 				<div class="gather-detail-info">
 					<div class="gather-content">
 						${gather.gatherComment}
 					</div>
-					<div class="address">상세주소: 스타벅스 2층</div>
-				
-					<div class="map-space"></div>
-				
+					<div class="address">상세주소: ${gather.gatherPlace} ${gather.gatherPlaceDetail}</div>
+					
+					<div class="map-space">
+						
+						<div id="map" style="width:100%;height:100%;"></div>
+					</div>
+					
+					<input hidden="" id="gatherPlace" value="${gather.gatherPlace}">
+					<input hidden="" id="gatherName" value="${gather.gatherName}">
+					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cd1727c389a0a4f4cf415a8a0d72e932&libraries&libraries=services,clusterer,drawing"></script>
+					<script>
+					
+					
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					    mapOption = {
+					        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					        level: 3 // 지도의 확대 레벨
+					    };  
+					
+					
+					// 지도를 생성합니다    
+					var map = new kakao.maps.Map(mapContainer, mapOption); 
+					
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+					
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch($("#gatherPlace").val(), function(result, status) {
+						
+					    // 정상적으로 검색이 완료됐으면 
+					     if (status === kakao.maps.services.Status.OK) {
+					
+					        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					        // 결과값으로 받은 위치를 마커로 표시합니다
+					        var marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+					
+					        // 인포윈도우로 장소에 대한 설명을 표시합니다
+					        var infowindow = new kakao.maps.InfoWindow({
+					            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$("#gatherName").val()+'</div>'
+					        });
+					        infowindow.open(map, marker);
+					
+					        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					        map.setCenter(coords);
+					    } 
+					});    
+					</script>
+					<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cd1727c389a0a4f4cf415a8a0d72e932&libraries&libraries=services,clusterer,drawing"></script>
+					<script type="text/javascript">
+							var gatherPlace	= ${gather.gatherPlace};
+							
+									
+							var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = {
+						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    };  
+					
+						
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+		
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(gatherPlace, function(result, status) {
+		
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+		
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+		
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new kakao.maps.InfoWindow({
+						            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+  +'</div>'
+						        });
+						        infowindow.open(map, marker);
+		
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						    } 
+						});    
+					</script> -->
 					<div class="file-down">파일위치</div>
 				</div>
 			</div>

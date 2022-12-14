@@ -19,15 +19,16 @@
     <script type="text/javascript">
 		var categoryList =[];
 		var sort="";
-		var gatherType="dayTime";
+		var gatherType="agency";
 		var search="";
 		var place="";
 		var nowPage;
 		var agoPage=1;
-    	$(function() {  	
-    		$(document).ready(function(){
+    	$(function() {
+    		
+			$(document).ready(function(){
     			
-				$("#daily").attr("class", "modakbul-header header-selected");
+				$("#gov").attr("class", "modakbul-header header-selected");
 			 /*  $(":header").css("background-color", "yellow"); */
 
 			});
@@ -151,7 +152,6 @@
 			    agoPage=1;
     			search=$("#search-text").val()
     			selectGatherList();
-    			$("#search-text").text("")
 			})
     		
     		$(document).ready(function(){
@@ -180,9 +180,12 @@
     		$("#sort").change(function() {
 				sort = $(this).val();
 				selectGatherList();
+		
 			})
 			
+			
 			$("#place-search-btn").click(function() {
+				alert(1)
 				nowPage=1;
 			    agoPage=1;
 				place = $("#place-search").val();
@@ -213,12 +216,14 @@
 			  <input id="place-search" type="text" placeholder="검색어 입력">
 			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="place-search-btn">
 			</div>
+			
             <select class="select-small" name="sort" id="sort">
-              <option value="">--선택--</option>
+              <option value="">---선택---</option>
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
               <option value="gatherDeadLine">마감임박순</option>
             </select>
+            
           </div>
         </div>
         <div class="search-list-body">
@@ -242,6 +247,6 @@
         </div>
       </div>
     </div>
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+   <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

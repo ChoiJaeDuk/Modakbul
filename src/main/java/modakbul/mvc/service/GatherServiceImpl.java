@@ -242,10 +242,13 @@ public class GatherServiceImpl implements GatherService {
 		// 일일, 정기모임 구분
 		if (gatherType.equals("regular")) {
 			builder.and(g.regularGather.regularGatherNo.isNotNull()); // 정기모임
-		} else {
+		} else if(gatherType.equals("dayTime")) {
 			builder.and(g.regularGather.regularGatherNo.isNull()); // 일일모임
 			System.out.println("일일모임 호출");
+		}else if(gatherType.equals("agency")){
+			builder.and(g.user.userJob.eq("기관"));
 		}
+		
 		System.out.println("일일 정기 모임 구분");
 		if (categoryList != null)
 			builder.and(g.category.categoryNo.in(categoryList));
@@ -418,29 +421,24 @@ public class GatherServiceImpl implements GatherService {
 		
 	}
 
-	@Override
-	public Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable) {
-		BooleanBuilder builder = new BooleanBuilder();
-		
-		builder.and(p.user.userNo.eq(userNo));
-		builder.and(p.applicationState.eq("참가완료"));
-		if(state) {//true이면 후기를 남긴 Gather를 리턴한다.
-			builder.and(ur.writerUser.userNo.isNotNull());
-		}else {//false이면 후기를 안남긴 Gather를 리턴한다.
-			builder.and(ur.writerUser.userNo.isNull());
-		}
-		
-		
-		QueryResults<Gather> result = queryFactory.select(p.gather)
-				.from(p).leftJoin(ur).on(p.user.userNo.eq(ur.writerUser.userNo))
-				.where(builder)
-				.limit(pageable.getPageSize())
-				.offset(pageable.getOffset())
-				.fetchResults();
-		System.out.println(result.getTotal());
-		
-		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
-	}
+	/*
+	 * @Override public Page<Gather> selectByReviewState(Long userNo, boolean state,
+	 * Pageable pageable) { BooleanBuilder builder = new BooleanBuilder();
+	 * 
+	 * builder.and(p.user.userNo.eq(userNo));
+	 * builder.and(p.applicationState.eq("참가완료")); if(state) {//true이면 후기를 남긴
+	 * Gather를 리턴한다. builder.and(ur.writerUser.userNo.isNotNull()); }else {//false이면
+	 * 후기를 안남긴 Gather를 리턴한다. builder.and(ur.writerUser.userNo.isNull()); }
+	 * 
+	 * 
+	 * QueryResults<Gather> result = queryFactory.select(p.gather)
+	 * .from(p).leftJoin(ur).on(p.user.userNo.eq(ur.writerUser.userNo))
+	 * .where(builder) .limit(pageable.getPageSize()) .offset(pageable.getOffset())
+	 * .fetchResults(); System.out.println(result.getTotal());
+	 * 
+	 * return new PageImpl<Gather>(result.getResults(), pageable,
+	 * result.getTotal()); }
+	 */
 
 
 	@Override

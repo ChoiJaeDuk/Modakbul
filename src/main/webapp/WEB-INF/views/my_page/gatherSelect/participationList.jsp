@@ -161,7 +161,7 @@ $(document).ready(function(){
 				
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo="+$("#check2").val();
 			})
-		})
+		
   });
   </script>
   <body>

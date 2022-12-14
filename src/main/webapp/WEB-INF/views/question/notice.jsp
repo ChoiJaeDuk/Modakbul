@@ -19,9 +19,21 @@
  a:visited { color: black; text-decoration: none;}
  a:hover { color: rgb(243, 156, 18); text-decoration: underline;}
 </style>
+<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function() {  
+		$(document).ready(function(){
+		
+			$("#notice").attr("class", "modakbul-header header-selected");
+		
+
+		});
+})
+</script>
 
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-body">
@@ -36,10 +48,19 @@
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
                 <h2 class="inquiry-title">공지사항</h2>
+                <sec:authorize access="isAuthenticated()">
+				<sec:authentication var="user" property="principal" /> 
+				
+				<c:choose>
+			
+				<c:when test="${user.state == 'ROLE_ADMIN'}">
                 <div class="inquiry-button-wrap">
                   <button class="search-list-button" type="button">등록</button>
                   <button class="search-list-button" type="button">삭제</button>
                 </div>
+                </c:when>
+                </c:choose>
+                </sec:authorize>
               </div>
               <div class="inquiry-search-area">
                 
@@ -115,5 +136,6 @@
         </div>
       </div>
     </div>
+     <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

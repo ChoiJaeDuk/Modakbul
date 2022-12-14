@@ -15,7 +15,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     
     <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
-   	<link href="${pageContext.request.contextPath}/css/admin/adminSales.css" rel="stylesheet" />
+      <link href="${pageContext.request.contextPath}/css/admin/adminSales.css" rel="stylesheet" />
   </head>
   <body>
   <jsp:include page="../layout/header.jsp" />
@@ -43,29 +43,29 @@
             <div class="modakbul-sales-data-graph">
             
             <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-			<canvas id="myChart" width="600" height="500"></canvas>
+         <canvas id="myChart" width="600" height="500"></canvas>
             <script type="text/javascript">
             
             $(function(){
-            	
-            	let getGatherMonth = [];
-        		let getTotal = [];
-        		
-        		<c:forEach items="${selectBidTotal}" var="list">
-					var month = '${list.getGatherMonth()}';
-					var Total = '${list.getTotal()}';
+               
+               let getGatherMonth = [];
+              let getTotal = [];
+              
+              <c:forEach items="${selectBidTotal}" var="list">
+               var month = '${list.getGatherMonth()}';
+               var Total = '${list.getTotal()}';
                    
                    
-					getGatherMonth.push(month);
-					getTotal.push(Total);
+               getGatherMonth.push(month);
+               getTotal.push(Total);
                    
                    
                </c:forEach>
-        		var context = document
+              var context = document
                 .getElementById('myChart')
                 .getContext('2d');
-        		
-        		var myChart = new Chart(context,{
+              
+              var myChart = new Chart(context,{
             type: 'bar',
             data: {
               labels: getGatherMonth,
@@ -99,28 +99,28 @@
                 <td>매출</td>
                 <td>수수료(수익)</td>
               </tr>
-			<c:forEach items="${requestScope.selectBidTotal}" var="data">
-				<tr align="center"><!-- 첫번째 줄 시작 -->
-	    			<td>${data.getGatherMonth()}</td>
-	    			<td><fmt:formatNumber type="number" value="${data.getTotal()}" maxFractionDigits="3"/>원</td>
-	    			<td><fmt:formatNumber type="number" value="${data.getTotal()/10}" maxFractionDigits="3"/>원</td>
-				</tr><!-- 첫번째 줄 끝 -->
-			</c:forEach>
+         <c:forEach items="${requestScope.selectBidTotal}" var="data">
+            <tr align="center"><!-- 첫번째 줄 시작 -->
+                <td>${data.getGatherMonth()}</td>
+                <td><fmt:formatNumber type="number" value="${data.getTotal()}" maxFractionDigits="3"/>원</td>
+                <td><fmt:formatNumber type="number" value="${data.getTotal()/10}" maxFractionDigits="3"/>원</td>
+            </tr><!-- 첫번째 줄 끝 -->
+         </c:forEach>
             </table>
           </div>
           <div class="modakbul-sales-data">
             <div class="modakbul-sales-data-graph">
             <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-			<canvas id="myChart2" width="600" height="500"></canvas>
+         <canvas id="myChart2" width="600" height="500"></canvas>
             <script type="text/javascript">
 $(function(){
-	
+   
 
-		
-		let month = [];
-		let adCount = [];
-		let totalPrice = [];
-		<c:forEach items="${selectAdTotalPrice}" var="list">
+      
+      let month = [];
+      let adCount = [];
+      let totalPrice = [];
+      <c:forEach items="${selectAdTotalPrice}" var="list">
            var m = '${list.getMonth()}';
            var c = '${list.getAdCount()}';
            var t = '${list.getTotalPrice()}';
@@ -129,14 +129,14 @@ $(function(){
            adCount.push(c);
            totalPrice.push(t);
        </c:forEach>
-		
-		
-		
-		var context = document
+      
+      
+      
+      var context = document
         .getElementById('myChart2')
         .getContext('2d');
-		
-		var myChart = new Chart(context,{
+      
+      var myChart = new Chart(context,{
     type: 'bar',
     data: {
       labels: month,
@@ -165,28 +165,28 @@ $(function(){
       }
     }
   })
-	
+   
 
 })
 </script>
 </div>
 
-	<table class="modakbul-sales-data-table">
-	
+   <table class="modakbul-sales-data-table">
+   
         <tr class="table-header">
-           	<td>월</td>
+              <td>월</td>
             <td>광고수</td>
             <td>수수료(수익)</td>
         </tr>
-	<c:forEach items="${requestScope.selectAdTotalPrice}" var="data">
-		<tr align="center"><!-- 첫번째 줄 시작 -->
-	    	<td>${data.getMonth()}</td>
-	    	<td>${data.getAdCount()}개</td>
-	    	<td><fmt:formatNumber type="number" value="${data.getTotalPrice()}" maxFractionDigits="3"/>원</td>
-		</tr><!-- 첫번째 줄 끝 -->
-	</c:forEach>
+   <c:forEach items="${requestScope.selectAdTotalPrice}" var="data">
+      <tr align="center"><!-- 첫번째 줄 시작 -->
+          <td>${data.getMonth()}</td>
+          <td>${data.getAdCount()}개</td>
+          <td><fmt:formatNumber type="number" value="${data.getTotalPrice()}" maxFractionDigits="3"/>원</td>
+      </tr><!-- 첫번째 줄 끝 -->
+   </c:forEach>
 
-	</table>
+   </table>
           </div>
           <!-- 여기까지 Content -->
         </div>

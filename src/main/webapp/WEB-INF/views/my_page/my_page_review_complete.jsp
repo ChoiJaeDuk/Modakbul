@@ -264,7 +264,7 @@ function modal(id) {
 								<div id="r" class="filter-list-item"
 									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기쓰기</div>
 								<div id="rc" class="filter-list-item selected"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${user.userNo}'">
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review_complete?userNo=${user.userNo}'">
 									작성완료</div>
 							</div>
 						</div>
@@ -296,20 +296,21 @@ function modal(id) {
 											</tr>
 										</c:when>
 										<c:otherwise>
+										
 											<c:forEach var="review"
-												items="${requestScope.reviewStatusCompleteList.content}">
+												items="${requestScope.reviewStatusCompleteList.content}" varStatus="state">
 												<c:set var="TextValue" value="${review.gatherDeadline}" />
 												<tr class="table-body">
 													<td>${review.gatherNo}</td>
 													<td>
 														<div class="table-small-image-wrap">
-															<img src="" alt="이미지" width="100%" />
+															<img src="${pageContext.request.contextPath}/save/${review.gatherImg}" alt="img" width="100%" />
 														</div>
 													</td>
 													<td>${review.gatherName}</td>
 													<td>${fn:substring(TextValue,0,10)}</td>
 													<td class="inquiry-replied">
-														<button class="my-page-button">후기쓰기</button>
+														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}&gatherNo=${review.gatherNo}'">상세로 이동할버튼</button>
 													</td>
 												</tr>
 											</c:forEach>
@@ -331,8 +332,8 @@ function modal(id) {
 											href="${pageContext.request.contextPath}/my_page/my_page_review_complete?userNo=${user.userNo}&nowPage=${startPage-1}">PREV</a>
 									</c:if>
 
-									<span class="pagination-inner"> <c:forEach var='i'
-											begin='${startPage}' end='${(startPage-1)+blockCount}'>
+									<span class="pagination-inner">
+									 <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'>
 
 											<c:if test="${(i-1)>=reviewStatusCompleteList.getTotalPages()}">
 												<c:set var="doneLoop" value="true" />
@@ -351,24 +352,15 @@ function modal(id) {
 										<a class="pagination-older"
 											href="${pageContext.request.contextPath}/my_page/my_page_review_complete?userNo=${user.userNo}&nowPage=${startPage+blockCount}">NEXT</a>
 									</c:if>
-
-
-
 								</div>
 							</nav>
 						</div>
-
+						</section>
 					</div>
-
-					<!-- 추가된 내용 -->
-				</section>
+				<!-- 추가된 내용 -->
+				
 			</div>
-
-
 		</div>
-      
-		
-	</div>
 	<div id="my_modal">
 	 	<table id="following" style="width: 100%">
 	 		

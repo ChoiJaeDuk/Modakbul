@@ -1,8 +1,12 @@
 package modakbul.mvc.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -13,13 +17,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.Participant;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.ParticipantGroupBy;
 import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
@@ -61,11 +69,16 @@ public class MyPageControllerChoi {
 		List<SelectReplyState> resultList1 = list.getContent();
 		Long totalWaiting=list.getTotalElements();
 		
+		
 		List<Follow> followList = followService.selectByUserId(userNo);
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
 		int newAlarm = alarmService.countNewAlarm(userNo);
+		
+		List<ParticipantGroupBy> selectApplicationStateCount = participantService.selectApplicationStateCount(userNo);
 
+		
+		
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
@@ -88,6 +101,8 @@ public class MyPageControllerChoi {
 		 mv.addObject("userNo", userNo);
 		
 		 mv.addObject("fileNames", fileNames);
+		 
+		 mv.addObject("selectApplicationStateCount", selectApplicationStateCount);
 		
 		return mv;
 	}
@@ -259,6 +274,7 @@ public class MyPageControllerChoi {
 		
 		Page<GatherGroupBy> recruitingList = gatherService.selectRecruitingList(pageable, userNo);
 		
+		
 		model.addAttribute("recruitingList", recruitingList);
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
@@ -274,13 +290,44 @@ public class MyPageControllerChoi {
 
 	}
 	
+	@RequestMapping("/selectParticipant")
+	@ResponseBody
+	public Page<Participant>  selectParticipant(HttpServletRequest request,Long gatherNo, @RequestParam(defaultValue ="1") int nowPage){
+		
+		System.out.println("호출되니");
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		Page<Participant> participantList = participantService.selectParticipantByGatherNo(gatherNo, pageable);
+		
+		/*List<Participant> test = participantList.getContent();
+        List<Users> usersList =new ArrayList<Users>();
+		
+		for(Participant p:test) {
+			usersList.add(p.getUser());
+		}
+		
+		System.out.println("몇개 가져와? " + test.size());
+		
+		test.forEach(b->System.out.println(b.getApplicationState()));
+		
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//map.put("participantList", participantList);
+		//map.put("usersList", usersList);*/
+		
+		
+		return participantList;
+	
+	}
+	
 	
 	@RequestMapping("/gatherSelect/completionList")
 	public void selectCompletionList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
-
+		
 		Page<Gather> completionList = gatherService.selectGatherStateByUserNo(pageable, userNo, "진행완료");
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
@@ -355,22 +402,32 @@ public class MyPageControllerChoi {
 	
 	
 	@RequestMapping("/gatherAD/adApplication")
-	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo) {
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-
+		//Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
 		Page<Gather> adApplicationList = gatherService.selectNoneADGatherList(userNo, pageable);
 		
 		model.addAttribute("adApplicationList", adApplicationList);
+		//model.addAttribute("gather", gather);
+		
 		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/updateApplicationState")
+	public void updateApplicationState(HttpServletRequest request,Long gatherNo, Long userNo) {
+		System.out.println("업데이트 잘 됐니?");
+		String state = request.getParameter("state");
+		participantService.updateApplicationState(userNo, gatherNo, state);
+		System.out.println("업데이트 잘 됐니?");
+		
+	}
 	//@RequestMapping("/gatherAD/adWaiting")
 	public void adWaiting() {
 		

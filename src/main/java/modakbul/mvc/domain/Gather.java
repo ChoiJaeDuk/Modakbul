@@ -53,8 +53,8 @@ public class Gather {
 	private Category category;
 	
 	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	//@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")
 	private Users user;
 	
