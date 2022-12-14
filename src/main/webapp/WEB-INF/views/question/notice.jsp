@@ -19,9 +19,21 @@
  a:visited { color: black; text-decoration: none;}
  a:hover { color: rgb(243, 156, 18); text-decoration: underline;}
 </style>
+<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function() {  
+		$(document).ready(function(){
+		
+			$("#notice").attr("class", "modakbul-header header-selected");
+		
+
+		});
+})
+</script>
 
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-body">
@@ -115,5 +127,6 @@
         </div>
       </div>
     </div>
+     <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

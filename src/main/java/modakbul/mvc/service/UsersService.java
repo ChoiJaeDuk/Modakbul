@@ -40,7 +40,7 @@ public interface UsersService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Users> selectUsers(Pageable pageable, String job, String keyword);
+	Page<Users> selectUsers(Pageable pageable, String userJob, String keyword, String section);
 	
 	/**
 	 * 카카오로그인

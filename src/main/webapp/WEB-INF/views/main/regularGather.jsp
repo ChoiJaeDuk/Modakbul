@@ -24,7 +24,14 @@
 		var place="";
 		var nowPage;
 		var agoPage=1;
-    	$(function() {  		
+    	$(function() {  
+    		$(document).ready(function(){
+    			
+					$("#regular").attr("class", "modakbul-header header-selected");
+    			 /*  $(":header").css("background-color", "yellow"); */
+
+    		});
+    		
     		///////////ajax페이징
     		$(document).on("click","a",function() {
     			
@@ -175,8 +182,12 @@
 			})
 		})	    
     </script>
+    <style type="text/css">
+    	
+    </style>
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
@@ -217,5 +228,6 @@
         </div>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

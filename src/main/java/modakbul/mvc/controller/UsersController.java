@@ -27,8 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.UsersRepository;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.UserAttachmentsService;
@@ -237,6 +240,31 @@ public class UsersController {
 	
 	@RequestMapping("/userProfile/{url}")
 	public void profile() {
+		
+	}
+	
+	@RequestMapping("/main/searchUser")
+	public void searchUser(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			@RequestParam(required = false) String userJob, @RequestParam(required = false) String keyWord, @RequestParam(required = false) String section) {
+		
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
+
+		Page<Users> userList = usersService.selectUsers(page, userJob, keyWord, section);
+		
+				
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+		
+	
+		model.addAttribute("userList", userList);
+
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+		model.addAttribute("count", userList.getTotalElements());
 		
 	}
 }
