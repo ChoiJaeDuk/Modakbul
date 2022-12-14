@@ -18,7 +18,19 @@
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
   <script type="text/javascript">
+  //광고 시작날짜
+  var date = new Date();
+  date.setDate(date.getDate() + 3);
+  let today = date.toISOString().slice(0,10);
+  //광고 종료날짜
+  //var date = new Date();
+  //date.setDate(date.getDate() + 4);
+  //let end = date.toISOString().slice(0,10);
+  
+ 
   	$(function() {
+  		
+  		
   		
   		$(document).ajaxSend(function(e,xht,op){
 			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
@@ -26,9 +38,15 @@
   		
 		$("[name=adApplication-btn]").click(function() {
 			
-			$("#gatherNo").val($(this).val());
 			
-			alert($("#gatherNo").val())
+			
+			//alert(today)
+			$("#start").attr("min",today)
+			//$("#end").attr("min",end)
+			$("#end").attr("disabled","disabled")
+			$("#gatherNo").val($(this).val());
+
+			//alert($("#gatherNo").val())
 			$("#ad-form").show();
 			
 			
@@ -42,31 +60,49 @@
 					
               }) */
 			
+			
 		})
 		
 		$(".cancel-button").click(function() {
-			//$("#ad-form").hide();
+			$("#ad-form").hide();
 			
-			alert($("[name='date']").val())
+			//alert($("[name='date']").val())
 		})
 		
-		
 		$("#start").change(function() {
+			
+			$("#end").val("");
+			
 			$("#start-date").text($(this).val()+" ~ ")
 			start = new Date($(this).val())
 			dateCal = end - start
 			adPrice = 10000 * (dateCal/1000/60/60/24)
 			$("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+			
+		
+			let date = $(this).val();
+			
+			let tomorrow = new Date(date);
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			let end2 = tomorrow.toISOString().slice(0,10);
+			
+			$("#end").attr("min",end2);
+			$("#end").removeAttr("disabled")
+			alert(end2)
+			
+			$("#adPrice").text("");
 		});
 		
+	
 		$("#end").change(function() {
+			
 			$("#end-date").text($(this).val())	
 			
 			end = new Date($(this).val())
 			dateCal = end - start
 			
 			adPrice = 10000 * (dateCal/1000/60/60/24)
-			
+			$("[name=adPrice]").val(adPrice)
 			$("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
 			
 		});
@@ -75,7 +111,8 @@
 		
 		
 		//////////////////////////////////////////////////결제///////////////////////
-		$("#payment").click(function() { 
+		$("#payment").click(function() {
+			alert(1)
 					if($("#payment").text()=="결제하기"){
 					if(!$("#adPrice").text()==""){
 					var IMP = window.IMP;
@@ -117,13 +154,14 @@
 										   		data:JSON.stringify(result),	
 										        contentType:'application/json;charset=utf-8',
 										        success : function(result) {
+										        	alert(2)
 										    	    //location.href="${pageContext.request.contextPath}/payment/success";
-													/* $("#payment").text("결제완료")
+													$("#payment").text("결제완료")
 													$("#payment").css("background","lightgrey")
-													$("#payment").attr("disabled","disabled") */
+													$("#payment").attr("disabled","disabled")
 										        	//$("#ad-form").hide();
-										        	location.href="/my_page/gatherAD/insertAd"
-											
+										        	//location.href="/my_page/gatherAD/insertAd"
+											alert(3)
 										        },
 												error : function(err) {
 													alert(err);
@@ -142,6 +180,21 @@
 					}
 				});
 		////////////////////////////////////////////////////////////////
+	/* 	$("#submitBotton").click(function() {
+			if($("#adFileName").text()==""){
+				alert("파일을 첨부해주세요")
+				$("#submitBotton").attr("disabled","disabled")
+				$("#submitBotton").css("background","lightgrey")
+	  	}else{
+	  		$("#submitBotton").removeAttr("disabled")
+	  	}
+		
+		})
+		if(!$("#create-image").text()==""){
+			
+	  		$("#submitBotton").removeAttr("disabled")
+	  		
+	  	} */
 		
 		
 	})
@@ -282,8 +335,9 @@
         <!-- 추가된 모달 -->
         <form action="${pageContext.request.contextPath}/my_page/gatherAD/insertAd" method="post" enctype="multipart/form-data">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+        <sec:authentication var="user" property="principal" />
         <input type="hidden" id="gatherNo" name="gatherNo"/>
-        <input type="hidden" name="userNo" value="1"/>
+        <input type="hidden" name="userNo" value="${user.userNo}"/>
         <div class="commercial-modal-wrap" hidden="" id="ad-form" >
             <div class="commercial-modal-title">광고 신청
             </div>
@@ -292,14 +346,14 @@
                     <div class="create-commercial-image-wrap">
                         <img width="100%"/>
                     </div>
-                    <div class="create-commercial-class-name">핸드드립 커피 클래스</div>
+                    <div class="create-commercial-class-name">${gather.gatherName}</div>
                 </div>
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행일자:</div>
                     <div class="commercial-modal-label" id="start-date"></div><div class="commercial-modal-label" id="end-date" ></div>
                     <div class="create-commercial-value-wrap">
                         
-                        <input id="start" type="date" class="my-page-button" name="date">~<input id="end" type="date" class="my-page-button" name="deadLineDate">
+                        <input id="start" type="date" class="my-page-button" name="date1" min="" value="">~<input id="end" type="date" class="my-page-button" name="date2" min="" disabled="" value="">
                     </div>
                 </div>
                 <div class="create-commercial-item">
@@ -307,26 +361,27 @@
                     <div class="create-commercial-input-wrap">
                         <div>
                          
-                       <input class="my-page-form-input" type="text" id="fileName"  name="fileName" readonly>
-                       <input class="commercial-image-input" type="file" id="create-image" name="file"  onchange="javascript:document.getElementById('fileName').value = this.value">
+                       <input class="my-page-form-input" type="text" id="adFileName"  name="adFileName" readonly>
+                       <input class="commercial-image-input" type="file" id="create-image" name="file"  onchange="javascript:document.getElementById('adFileName').value = this.value">
                         <div class="create-commercial-input-tip">가로 : 1000px  세로 : 200px</div>
                         </div>
                         <label for="create-image" class="commercial-file-button">
                             파일 첨부
                         </label>
                     </div>
-                </div>
+                </div> 
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행 금액:</div>
                     <div class="create-commercial-value-wrap">
-                        <div id="adPrice"></div>
-                        <button id="payment" class="my-page-button">결제 완료</button>
+                        <div id="adPrice" ></div>
+                        <input type="hidden" name="adPrice">
+                        <button type="button" id="payment" class="my-page-button">결제하기</button>
                     </div>
                 </div>
             </div>
             <div class="modal-button-wrap">
                 <button type="button" class="modal-button cancel-button">취소</button>
-                <button type="submit" class="modal-button search-id-button" > 확인</button>
+                <button type="submit" class="modal-button search-id-button" id="submitBotton">확인</button>
             </div>
         </div>
         </form>

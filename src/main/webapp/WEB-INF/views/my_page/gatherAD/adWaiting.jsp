@@ -281,7 +281,7 @@
     </div>
     
     <c:choose>
-	<c:when test="${empty requestScope.selectADGatherRegis.content}"></c:when>
+	<c:when test="${!empty requestScope.selectADGatherRegis.content}"></c:when>
 	<c:otherwise>
     <nav class="pagination-container">
 	<div class="pagination">

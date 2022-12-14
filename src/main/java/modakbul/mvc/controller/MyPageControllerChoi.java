@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.ParticipantGroupBy;
 import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
@@ -61,11 +62,16 @@ public class MyPageControllerChoi {
 		List<SelectReplyState> resultList1 = list.getContent();
 		Long totalWaiting=list.getTotalElements();
 		
+		
 		List<Follow> followList = followService.selectByUserId(userNo);
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
 		int newAlarm = alarmService.countNewAlarm(userNo);
+		
+		List<ParticipantGroupBy> selectApplicationStateCount = participantService.selectApplicationStateCount(userNo);
 
+		
+		
 		File file = new File(path);
 		String fileNames [] = file.list();
 		
@@ -88,6 +94,8 @@ public class MyPageControllerChoi {
 		 mv.addObject("userNo", userNo);
 		
 		 mv.addObject("fileNames", fileNames);
+		 
+		 mv.addObject("selectApplicationStateCount", selectApplicationStateCount);
 		
 		return mv;
 	}
@@ -355,15 +363,17 @@ public class MyPageControllerChoi {
 	
 	
 	@RequestMapping("/gatherAD/adApplication")
-	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo) {
+	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo) {
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
 		
-
+		//Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
 		Page<Gather> adApplicationList = gatherService.selectNoneADGatherList(userNo, pageable);
 		
 		model.addAttribute("adApplicationList", adApplicationList);
+		//model.addAttribute("gather", gather);
+		
 		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 

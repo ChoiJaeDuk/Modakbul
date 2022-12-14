@@ -1,6 +1,7 @@
 package modakbul.mvc.controller;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -261,15 +262,21 @@ public class AdminController {
 	@RequestMapping("/my_page/gatherAD/insertAd")
 	public String advertisementInsert(RedirectAttributes redirect, Advertisement advertisement, 
 			HttpSession session, MultipartFile file, HttpServletRequest request
-			, Long gatherNo, String date) {
-		System.out.println("나 나오니?");
-		System.out.println(date);
-		String userNo = request.getParameter("userNo");
+			, Long gatherNo, String date1, String date2, Long userNo) {
+
+		//String userNo2 = request.getParameter("userNo");
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
-	
+		
+		String adPrice = request.getParameter("adPrice");
+		
+		 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		 LocalDateTime startDate = LocalDate.parse(date1, dateTimeFormatter).atStartOfDay();
+		 LocalDateTime endDate = LocalDate.parse(date2, dateTimeFormatter).atStartOfDay();
+		 
 		
 		Gather gather = new Gather(gatherNo);
+		Users users = new Users(userNo);
 		
 		//LocalDateTime gatherDate = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		advertisement.setGather(gather);
@@ -281,20 +288,24 @@ public class AdminController {
 			e.getStackTrace();
 		}
 		
-		//advertisement.setAdApproveDate();
-		//advertisement.setAdRegisDate(LocalDateTime.now());
+		advertisement.setUser(users);
+		advertisement.setGather(gather);
+		advertisement.setAdApproveDate(startDate);
+		advertisement.setDeadLine(endDate);
+		//advertisement.setAdRegisDate(LocalDateTime.now()); 자동으로 시간 들어감
 		advertisement.setAdStatus("신청대기");
 		advertisement.setAdFileName(originalFileName);
-		System.out.println("중간은 와?");
-		//adminService.advertisementInsert(advertisement, Long.parseLong(userNo));
-		System.out.println("중간은 와?!!!!!!!!");
-		redirect.addAttribute("userNo", userNo);
-		System.out.println("끝은 도착하니?");
+		//advertisement.setAdPrice(Integer.parseInt(adPrice));
+		advertisement.setAdPrice(Integer.parseInt(adPrice));
+		redirect.addAttribute("userNo", users);
 		
+		
+		adminService.advertisementInsert(advertisement);
+		System.out.println("광고등록실행");
 		return "redirect:/my_page/gatherAD/adApplication";
 	
 	}
-
+	
 
 	/**
 	 * 광고 상태 변경

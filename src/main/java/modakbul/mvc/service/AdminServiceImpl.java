@@ -153,7 +153,7 @@ public class AdminServiceImpl implements AdminService {
 	 * 광고 등록
 	 * */
 	@Override
-	public void advertisementInsert(Advertisement advertisement, Long gatherNo) {
+	public void advertisementInsert(Advertisement advertisement) {
 
 		adminRep.save(advertisement);
 
@@ -410,20 +410,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	
+	}
 
 
 	
 
 
-
-
-
-
-
-
-		
-	
-}
-
-
-	

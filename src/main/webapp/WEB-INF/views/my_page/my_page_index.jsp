@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <!DOCTYPE html>
@@ -16,6 +18,13 @@
 <title>Document</title>
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
+
+
+/* var length = $("selectApplicationStateCount").length;
+
+$("#aaa").click(function() {
+	alert(length);
+}) */
 
     	$(function(){
     		console.log("새알람 = " + ${newAlarm});
@@ -244,8 +253,9 @@
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">selectApplicationStateCount</span>&nbsp;개
 							</div>
+							<input type="button" id="aaa" value="aaa">
 							<div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
