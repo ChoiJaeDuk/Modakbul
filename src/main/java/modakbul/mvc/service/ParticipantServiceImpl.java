@@ -159,5 +159,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 	}
 
-	
+	public Page<Participant> selectParticipantByGatherNo(Long gatherNo, Pageable pageable) {
+		
+		QueryResults<Participant> result = queryFactory.selectFrom(participant)
+				.where(participant.gather.gatherNo.eq(gatherNo)
+						.and(participant.applicationState.eq("신청대기")))
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetchResults();
+		
+		return new PageImpl<Participant>(result.getResults(),pageable, result.getTotal());
+		
+	}
 }

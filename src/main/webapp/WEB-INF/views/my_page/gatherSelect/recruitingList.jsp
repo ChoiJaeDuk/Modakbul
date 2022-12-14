@@ -20,6 +20,63 @@
   
   $(document).ready(function(){
 	   $(function(){
+		   
+		   //document.getElementByName('modal-on').addEventListener('click', function() {
+	             // 모달창 띄우기
+	       	 $(document).on("click","[name='modal-on']", function() {
+	    		 alert($(this).val())
+                     $.ajax({
+                        url:"${pageContext.request.contextPath}/my_page/selectParticipant", 
+                        type:"post",
+                        dataType:"json",
+                        data:"${_csrf.parameterName}=${_csrf.token}&gatherNo="+$(this).val(),   
+                        //contentType:'application/json;charset=utf-8',
+                        success:function(result){
+                        	console.log("result = " + result)
+                        
+                        	//map.put("participantList", participantList);
+                    		//map.put("usersList", usersList);
+                            console.log(result.content)
+                            //console.log("result.usersList[index]="+result.usersList[0])
+                            // console.log("result.usersList[index]="+result.usersList[0].userNick)
+                        	console.log(result.content[0].user)
+                        	console.log(result.content[0].user.userNick)
+                         	/*str =""
+                         	str += `<table id="gather-applicant" style="width: 100%">`;
+                         	str += `<tr class="title">`;
+                         	str += `<th colspan="4" class="th">참가 신청 리스트</th>`;
+                         	str += `<a class="modal_close_btn" style="margin-left: 600px;font-size: 25px;">X</a>`
+                         	$.each(result.participantList.content, function(index, item) {
+                         		
+                         		 console.log("result.usersList[index]="+result.usersList[index])
+                         	
+                      			
+                         		str += `<tr>`;
+                         		str += `<th>`
+                         		str += `위치체크<img alt="img" class="followImg" src="">`;
+                         		str += `</th>`;
+                         		str += `<th>`;
+                         		str += `<p onclick="">11<p>`;
+                         		str += `</th>`;
+                         		str += `<th>`;
+                         		str += `${item.applicationState}℃`;
+                         		str += `</th>`;
+                         		str += `<th style="width: 20%">111`;
+                         		str += `<button class="modakbul-button following" id="" >팔로우</button>`;
+                         		str += `</th>`;
+                         		str += `</tr>`;
+							});
+							str+=`</table>`;
+							
+							$("#applicant-modal").html(str);
+							modal('applicant-modal');*/
+                        },error:function(err){
+                           alert("err : "+err);
+                        }
+                     });//Delete ajax END
+     		});
+		   //////////////////////////////////////////////////////////////
+		   
 	      let $modal ;
 	       document.getElementById('following').addEventListener('click', function() {
 	             // 모달창 띄우기
@@ -86,8 +143,9 @@
 	                   });///////////////////////////
 	             
 
-	              
-	             
+	        
+	                
+	                   
 	             
 	         });
 	       
@@ -189,7 +247,7 @@
 	                for (var k in styles) this.style[k] = styles[k];
 	                return this;
 	            };
-});
+			});
 		
 		
 		 $(document).ready(function(){		
@@ -344,7 +402,7 @@
                                     </div>
                                 </td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button" name="gatherDetail" id="${recruitingList.getGatherNo()}">확인하기</button>
+                                    <button name="modal-on" class="my-page-button" name="selectParticipant" value="${recruitingList.getGatherNo()}">확인하기</button>
                               	
                                     <button class="my-page-button" name="cancel" id="${recruitingList.getRegularGatherNo()}" value="${recruitingList.getGatherNo()}">취소하기</button>
                                 </td>
@@ -430,7 +488,7 @@
 	 		팔로잉
 	 	
 			</th>
-			 <a class="modal_close_btn">X</a>
+			<a class="modal_close_btn">X</a>
 			<!-- <tr class="user">
 			<th style="width: 20%">
 			사진
@@ -464,7 +522,31 @@
 	 	</table>
 	 
         </div>
-
+		
+	<div class="applicant-modal" id="applicant-modal">
+	 	<!-- <table id="gather-applicant" style="width: 100%">	
+	 		<tr class="title">
+	 		<th colspan="4" class="th">참가 신청 리스트</th>
+			<a class="modal_close_btn" style="margin-left: 600px;font-size: 25px;">X</a> -->
+			<%-- <c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">승인</button>
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">거절</button>
+					</th>
+				</tr>
+			</c:forEach> --%>
+	 	<!-- </table> -->
+     </div>
           
     
   </body>
