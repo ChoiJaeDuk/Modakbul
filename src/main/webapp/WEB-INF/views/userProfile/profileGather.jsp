@@ -44,6 +44,7 @@
                     
                     let target = {"follower":$(this).val() , "following":"${loginUserNo}"}
                     console.log("follower = " + $(this).val());
+                    console.log("following = " + "${loginUserNo}");
 
                     let targetBtn = $(this);
   					
@@ -63,7 +64,7 @@
                                  targetBtn.text("팔로우")
                               }
                            },error:function(err){
-                              alert("err : "+err);
+                              alert("err");
                            }
                         });//Delete ajax END
                      }
@@ -85,7 +86,7 @@
                               }
                               
                            },error:function(err){
-                              alert("err : "+err);
+                              alert("로그인을 먼저 진행해주세요.");
                            }
                         });//Insert ajax END
                      }//if  END

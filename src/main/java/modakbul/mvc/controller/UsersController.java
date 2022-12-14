@@ -68,7 +68,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/userProfile/profileGather/{userNo}")
-	public String profileGather(@PathVariable Long userNo, Long loginUserNo, Model model, HttpSession session) {
+	public String profileGather(@PathVariable Long userNo,@RequestParam(required = false) Long loginUserNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
 		

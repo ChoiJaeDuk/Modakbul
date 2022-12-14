@@ -101,7 +101,14 @@
 								
                 			</div>
                 			<div class="search-member-list-result-item-member-name">
-                  				${user.userNick }
+                			<sec:authorize access="isAnonymous()">
+                				<a href="${pageContext.request.contextPath}/userProfile/profileGather/${user.userNo }?loginUserNo=${loginUser.userNo}">${user.userNick }</a>
+                			</sec:authorize>
+                			<sec:authorize access="isAuthenticated()">
+                			<sec:authentication property="principal" var="loginUser"/>
+                				<a href="${pageContext.request.contextPath}/userProfile/profileGather/${user.userNo }?loginUserNo=${loginUser.userNo}">${user.userNick }</a>
+                			</sec:authorize>
+                			
                 			</div>
               			</article>
          			</c:forEach>
