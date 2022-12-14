@@ -202,8 +202,8 @@
         <div class="search-list-top">
           <div class="search-list-main-filter">
             <ul class="search-list-main-filter-wrap">
-              <li class="search-list-main-filter-item selected">모임검색</li>
-              <li class="search-list-main-filter-item">회원검색</li>
+              <li class="search-list-main-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/main/agencyGather'">모임검색</li>
+              <li class="search-list-main-filter-item" onclick="location.href='${pageContext.request.contextPath}/main/searchUserCom'">회원검색</li>
             </ul>
             <div class="search">
 			  <input id="search-text" type="text" placeholder="검색어 입력">

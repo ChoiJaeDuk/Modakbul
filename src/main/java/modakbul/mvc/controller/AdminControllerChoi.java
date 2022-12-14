@@ -71,7 +71,7 @@ public class AdminControllerChoi {
 		
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
-		Page<Users> userList = usersService.selectUsers(page, null, null, null);
+		Page<Users> userList = usersService.selectUsers(page, null, null);
 		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
 		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
 		List<Gather> gatherList = adminService.selectGatherList();
@@ -101,7 +101,7 @@ public class AdminControllerChoi {
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 		
-		Page<Users> indivList = usersService.selectUsers(page, "개인", null, null);
+		Page<Users> indivList = usersService.selectUsers(page, "개인", null);
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 
@@ -125,7 +125,7 @@ public class AdminControllerChoi {
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 	
-		Page<Users> comList = usersService.selectUsers(page, "기관", null, null);
+		Page<Users> comList = usersService.selectUsers(page, "기관", null);
 
 		int temp = (nowPage - 1) % BLOCK_COUNT;
 

@@ -59,10 +59,6 @@ public class UsersController {
 		
 	}
 	
-	@RequestMapping("/main/searchUser")
-	public void searchUser() {
-		
-	}
 	
 	@RequestMapping("/layout/myProfileLayout")
 	public void url2() {
@@ -248,13 +244,68 @@ public class UsersController {
 		
 	}
 	
-	@RequestMapping("/main/searchUser")
-	public void searchUser(@RequestParam(defaultValue = "1") int nowPage, Model model, 
-			@RequestParam(required = false) String userJob, @RequestParam(required = false) String keyWord, @RequestParam(required = false) String section) {
+	@RequestMapping("/main/searchUserIndivForDaily/{keyWord}")
+	public String searchUserIndivForDaily(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			@PathVariable String keyWord) {
 		
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
-		Page<Users> userList = usersService.selectUsers(page, userJob, keyWord, section);
+		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
+		
+				
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+		
+	
+		model.addAttribute("userList", userList);
+		model.addAttribute("keyword", keyWord);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserIndivForDaily";
+		
+	}
+	
+	@RequestMapping("/main/searchUserIndivForRegular/{keyWord}")
+	public String searchUserIndivForRegular(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			@PathVariable String keyWord) {
+		System.out.println("왔엉 ?");
+		System.out.println("keyword = " + keyWord);
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
+
+		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
+		
+				
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+		
+	
+		model.addAttribute("userList", userList);
+		model.addAttribute("keyword", keyWord);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserIndivForRegular";
+		
+	}
+	
+	@RequestMapping("/main/searchUserCom/{keyWord}")
+	public String searchUserCom(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			 @PathVariable String keyWord) {
+		
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
+
+		Page<Users> userList = usersService.selectUsers(page, "기관", keyWord);
 		
 				
 		
@@ -270,6 +321,8 @@ public class UsersController {
 		model.addAttribute("nowPage", nowPage);
 
 		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserCom";
 		
 	}
 }
