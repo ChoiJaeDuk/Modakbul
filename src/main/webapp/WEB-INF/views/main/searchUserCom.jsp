@@ -15,25 +15,59 @@
     <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
     <title>Document</title>
+     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$(document).ready(function(){
+    			
+				$("#regular").attr("class", "modakbul-header header-selected");
+				
+				/* var con = querySelector(`.search-list-body`)
+				con.style.visibility="hidden"; */
+			 /*  $(":header").css("background-color", "yellow"); */
+
+			});
+    		
+    		$("#search-btn").click(function(){
+    			alert(1)
+    			location.href="${pageContext.request.contextPath}/main/searchUserIndivForRegular/"+$("#search-text").val()
+    			
+    			
+    		})    
+    	})
+    
+    </script>
   </head>
   <body>
   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
-          <h2 class="search-list-title">'커피' 검색 결과</h2>
+          
           <div class="search-list-main-filter">
             <ul class="search-list-main-filter-wrap">
-              <li class="search-list-main-filter-item">모임검색</li>
-              <li class="search-list-main-filter-item selected">회원검색</li>
+              <li class="search-list-main-filter-item" onclick="location.href='${pageContext.request.contextPath}/main/agencyGather'">모임검색</li>
+              <li class="search-list-main-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/main/searchUserCom'">회원검색</li>
             </ul>
-            <select class="select-small" name="" id="">
-              <option value="인기순">인기순</option>
-              <option value="마감임박순">마감임박순</option>
-            </select>
+          
+             <div class="search">
+			  <input id="search-text" type="text" placeholder="검색어 입력">
+			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="search-btn">
+			</div>
           </div>
+         <c:choose>
+         	<c:when test="${empty requestScope.searchUser}">
+          <h2 class="search-list-title">'' 검색 결과</h2>
+          	</c:when>
+          	
+          	<c:otherwise>
+          		<h2 class="search-list-title">'${searchUser.keyword}' 검색 결과</h2>
+          	</c:otherwise>
+          </c:choose>
+          
         </div>
-        <div class="search-list-body">
+        
+        <div class="search-list-body" style="visibility: hidden">
           <aside class="search-list-sub-filter"></aside>
           <main>
             <section class="search-member-list-result-wrap">
