@@ -61,4 +61,13 @@ public interface ParticipantService {
 	 */
 	void autoUpdateParticipantState(Long gatherNo, String state, String dbState);
 	
+	
+	/**
+	 * gatherNo에 해당하는 신청 대기상태인 유저 조회
+	 * @param gatherNo
+	 * @param pageable
+	 * @return
+	 */
+	Page<Participant> selectParticipantByGatherNo(Long gatherNo, Pageable pageable);
+	
 }

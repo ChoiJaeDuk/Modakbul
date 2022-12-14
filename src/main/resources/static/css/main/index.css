@@ -553,8 +553,14 @@ header {
 
 .search {
   position: relative;
-  width: 300px;
-  margin-left: -250px;
+  width: 200px;
+ 
+}
+
+.place {
+  position: relative;
+  width: 200px;
+
 }
 
 input {

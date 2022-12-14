@@ -1,5 +1,6 @@
 package modakbul.mvc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,7 @@ public class MainControllerChoi {
 		System.out.println("나오니?");
 		
 		String place = request.getParameter("place");
+		System.out.println(place);
 		String gatherType = request.getParameter("gatherType");
 		String sort = request.getParameter("sort");
 		String search = request.getParameter("search");
@@ -73,12 +75,17 @@ public class MainControllerChoi {
 //		System.out.println("sort = "+ sort);
 //		System.out.println("search = "+ search);
 //		System.out.println("categoryList = "+ categoryList);
-
+		List<Object> list = new ArrayList<Object>(); 
+		
+	
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		
 		Page<Gather> gatherList = gatherService.selectGatherList(gatherType, categoryList, place, sort, search, pageable);
+		
+		
 		
 			
 		int temp= (nowPage -1)%BLOCK_COUNT; 

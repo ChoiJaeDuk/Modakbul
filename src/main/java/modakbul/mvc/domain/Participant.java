@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,11 +29,13 @@ public class Participant {
 	@SequenceGenerator(name = "participant_no_seq" , allocationSize = 1 , sequenceName = "participant_no_seq")
 	private Long participantNo;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "gather_no")
 	private Gather gather;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	//@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")
 	private Users user;
 	
