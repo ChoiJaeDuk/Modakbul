@@ -20,6 +20,7 @@
   </head>
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<script type="text/javascript">
 		var gatherPlace;
 		$(function() {
@@ -27,8 +28,34 @@
 			//alert(gatherPlace)
 		})
 		
+		if($("#participant").val()>0){
+			$("#application-btn").css("background","grey")
+			$("#application-btn").val("신청완료")
+			$("#application-btn").attr("disabled",disabled)
+		}
+		
+		$(function() {
+			
+			
+			$("#application-btn").click(function() { 
+				if(!$("#gatherBid").val()==0){
+					//if(confirm("모임 참가를 신청하시겠습니까???")){
+						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?uesrNo="+$("#uesrNo").val()+"&gatherNo="+$(this).val()+"";	
+					//}
+				}else{
+					
+				}
+				
+			});
+			
+		})
+		
 	</script>
   <body>
+  	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
+  	<input hidden="" id="check" value="${participant}">
+  	<sec:authentication var="user" property="principal" />
+ 	<input hidden="" id="userNo" value="${user.userNo}">
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -96,13 +123,13 @@
 										</c:choose>
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / ${gather.gatherMaxUsers}
+									인원: 신청인원 / ${gather.gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							
 							
 							<div class="action">
-								<button class="add-to-cart btn btn-default" type="button">지금 예약하기</button>
+								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}"type="button">지금 예약하기</button>
 							</div>
 						</div>
 					</div>
@@ -110,10 +137,10 @@
 				
 				<div class="tab-container">
 					<div class="menu-tab">
-						<div class="menu selected">상세정보</div>
-						<div class="menu">주최자 프로필</div>
-						<div class="menu">Q & A</div>
-						<div class="menu">후기(?)</div>	
+						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'">상세정보</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'">주최자 프로필</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'">Q & A</div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'">후기(?)</div>	
 					</div>
 				</div>
 				<div class="gather-detail-info">

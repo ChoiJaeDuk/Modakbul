@@ -148,7 +148,7 @@ $(document).ready(function(){
 	                for (var k in styles) this.style[k] = styles[k];
 	                return this;
 	            };
-});//ready END
+});
 	  
 	  $(document).ready(function(){		
 			$('#check1').change(function(){
@@ -160,7 +160,7 @@ $(document).ready(function(){
 				
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo="+$("#check2").val();
 			})
-		})
+		
 	  
 	  $(".my-page-button").click(function() {
 			$("#confirm").val($(this).val())

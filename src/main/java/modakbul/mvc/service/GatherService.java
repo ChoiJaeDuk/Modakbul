@@ -94,7 +94,7 @@ public interface GatherService {
 	
 	
 	/**
-	 * 신청대기상태인 유료모임 조회
+	 * 신청대기상태인 모임 조회
 	 * @param pageable
 	 * @return
 	 */
