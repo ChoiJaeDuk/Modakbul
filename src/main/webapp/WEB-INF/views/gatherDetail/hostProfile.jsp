@@ -19,6 +19,7 @@
   </head>
 
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -91,15 +92,28 @@
 				<div class="gather-detail-info">
 					<div class="host-profile">
 						<div class="my-page-image-wrap">
-				            <img
-				              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
-				              alt="img"
-				            />
+				        <c:set value="${hostUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${hostUser.userProfileImg }"
+									alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${hostUser.userProfileImg }"
+								alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+						</c:if>
 				        </div>
 				        <div class="host-profile-info">
 				        	
-					        <div class="host name">OOO님  </div>
-					        <div class="host temper">모닥불 온도 : 36.5&#8451</div>
+					        <div class="host name">${hostUser.userNick }님  </div>
+					        <div class="host temper">모닥불 온도 : ${hostUser.temper }&#8451</div>
 					        <div class="host">모임 진행횟수 : </div>
 					        <div class="host">리뷰 : 3개</div>
 				        </div>
@@ -130,5 +144,6 @@
 			
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

@@ -439,10 +439,14 @@ public class MyPageControllerChoi {
 	
 	
 	@RequestMapping("/gatherAD/adApplication")
-	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo) {
+	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
 		
 		//Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
 		Page<Gather> adApplicationList = gatherService.selectNoneADGatherList(userNo, pageable);
@@ -451,9 +455,23 @@ public class MyPageControllerChoi {
 		//model.addAttribute("gather", gather);
 		
 		
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
+		
+
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("followingList", followList);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 	}
 	
 	@ResponseBody

@@ -1,11 +1,13 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +39,12 @@ public class MainControllerChoi {
 	private final static int BLOCK_COUNT=4;
 	
 	@RequestMapping("/")
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/banner");
+		File file = new File(path);
+		
+		String fileNames [] = file.list();
+		
 		Pageable pageable = PageRequest.of(2,4);
 		
 		List<Advertisement> selectAdGather = adminService.selectAdGather();
@@ -49,6 +56,8 @@ public class MainControllerChoi {
 		model.addAttribute("deadLineGatherList", deadLineGatherList);
 		model.addAttribute("newGatherList", newGatherList);
 		model.addAttribute("selectAdGather", selectAdGather);
+		model.addAttribute("fileNames", fileNames);
+		
 		
 		return "index";
 		

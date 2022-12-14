@@ -160,7 +160,7 @@ public class UsersController {
 		String saveDir = session.getServletContext().getRealPath("/save");
 		
 		System.out.println(user.getUserProfileImg());
-			System.out.println("userGender" + user.getUserGender());
+		System.out.println("userGender" + user.getUserGender());
 			
 			
 		

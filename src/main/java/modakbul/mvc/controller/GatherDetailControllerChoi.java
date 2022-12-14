@@ -1,5 +1,9 @@
 package modakbul.mvc.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.jni.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.ParticipantService;
+import modakbul.mvc.service.UsersService;
 @Controller
 @RequestMapping("/gatherDetail")
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class GatherDetailControllerChoi {
 	
 	private final GatherService gatherService;
 	private final ParticipantService participantService;
+	private final UsersService usersService;
 	
 	@RequestMapping("/info")
 	public void info(Model model, Long gatherNo, String userNo) {
@@ -43,15 +49,23 @@ public class GatherDetailControllerChoi {
 	}
 	
 	@RequestMapping("/hostProfile")
-	public void hostProfile(Model model, Long gatherNo, Long userNo) {
+	public void hostProfile(Model model, Long gatherNo, Long userNo, HttpSession session) {
+		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+		
+		String fileNames [] = file.list();
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
+		Users user = usersService.selectById(gather.getUser().getUserNo());
+		
+		model.addAttribute("hostUser", user);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
-		
+		model.addAttribute("fileNames", fileNames);
 	}
 	
 	

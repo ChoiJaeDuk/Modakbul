@@ -439,6 +439,7 @@ $("#aaa").click(function() {
 
 
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 </body>
 
 </html>
