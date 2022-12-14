@@ -59,10 +59,7 @@ public class UsersController {
 		
 	}
 	
-	@RequestMapping("/main/searchUser")
-	public void searchUser() {
-		
-	}
+
 	
 	@RequestMapping("/layout/myProfileLayout")
 	public void url2() {

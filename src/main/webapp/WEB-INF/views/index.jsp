@@ -39,7 +39,7 @@
 			
     		var gatherNo;
     		
-    			$(document).on("click", ".gather-img", function() {
+    			$(document).on("click", ".main-gather-img", function() {
 				gatherNo = $(this).attr("name");
 				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
 			})

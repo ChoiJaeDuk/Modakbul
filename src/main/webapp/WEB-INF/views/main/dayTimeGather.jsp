@@ -93,7 +93,7 @@
     							str += `<div class="search-list-result-item-text">마감일 : ${"${item.gatherDeadline}"}</div>`;
     							str += `<div class="search-list-result-item-date">`;
     							str += `<div>모임날짜 : ${"${item.gatherDate}"}</div>`;
-    							str += `<div class="user-nick">작성자 : </div>`;
+    							str += `<div class="user-nick">작성자 : ${"${item.user.userNick}"}</div>`;
     							str += `</div>`;
     							str += `</div>`;
     							str += `</article>` 

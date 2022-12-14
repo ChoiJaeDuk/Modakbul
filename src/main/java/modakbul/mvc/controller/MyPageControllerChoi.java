@@ -409,7 +409,15 @@ public class MyPageControllerChoi {
 		model.addAttribute("nowPage", nowPage);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/updateApplicationState")
+	public void updateApplicationState(HttpServletRequest request,Long gatherNo, Long userNo) {
+		System.out.println("업데이트 잘 됐니?");
+		String state = request.getParameter("state");
+		participantService.updateApplicationState(userNo, gatherNo, state);
+		System.out.println("업데이트 잘 됐니?");
+		
+	}
 	//@RequestMapping("/gatherAD/adWaiting")
 	public void adWaiting() {
 		

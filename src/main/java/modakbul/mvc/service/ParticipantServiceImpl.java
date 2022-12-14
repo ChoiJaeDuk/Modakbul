@@ -87,16 +87,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 			String str = user.getUserPhone();
 			str = str.replaceAll("-", "");
 			System.out.println(str);
-			exampleController.sendOne(str, alarmContent);
+			//exampleController.sendOne(str, alarmContent);//문자
 		}else if(state.equals("참가거절")) {
 			String alarmSubject = gather.getGatherName()+"모임 상태알림";
-			String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
+			String alarmContent = "신청하신 " + gather.getGatherName() + "모임 참가가 거절되었습니다.";
 			Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
 			alarmService.insertReceiverOne(user, alarm);
 			String str = user.getUserPhone();
 			str = str.replaceAll("-", "");
 			System.out.println(str);
-			exampleController.sendOne(str, alarmContent);
+			//exampleController.sendOne(str, alarmContent);//문자
 		}
 		
 	}

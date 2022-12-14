@@ -28,4 +28,42 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("participant", participant);
 		
 	}
+	
+	@RequestMapping("/hostProfile")
+	public void hostProfile(Model model, Long gatherNo) {
+		
+		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
+		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		
+		model.addAttribute("gather", gather);
+		model.addAttribute("participant", participant);
+		
+	}
+	
+	
+	@RequestMapping("/qna")
+	public void qna(Model model, Long gatherNo) {
+		
+		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
+		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		
+		model.addAttribute("gather", gather);
+		model.addAttribute("participant", participant);
+		
+	}
+	
+	
+	@RequestMapping("/review")
+	public void review(Model model, Long gatherNo) {
+		
+		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
+		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		
+		model.addAttribute("gather", gather);
+		model.addAttribute("participant", participant);
+		
+	}
 }
