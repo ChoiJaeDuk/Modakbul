@@ -701,6 +701,18 @@ img{
     font-size: 25px;
 }
 
+ .applicant-modal {
+    display: none;           
+    width: 700px;
+    height: 900px;
+    padding: 20px 40px;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 4%;
+    /* overflow: scroll; */
+}
+
+
 #my_modal table tr {
 	width: 100%;
     /* border-bottom: 1px solid #7f7f7f; */

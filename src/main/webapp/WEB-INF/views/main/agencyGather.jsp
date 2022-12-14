@@ -172,8 +172,18 @@
     		$("#sort").change(function() {
 				sort = $(this).val();
 				selectGatherList();
+		
 			})
 			
+			
+			$("#place-search-btn").click(function() {
+				alert(1)
+				nowPage=1;
+			    agoPage=1;
+				place = $("#place-search").val();
+				selectGatherList();
+				$("#place-search").text("")
+			})
 		})	    
     </script>
   </head>
@@ -190,11 +200,21 @@
 			  <input id="search-text" type="text" placeholder="검색어 입력">
 			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="search-btn">
 			</div>
+			<ul class="search-list-main-filter-wrap" style="margin-left: 50px;">
+              <li class="search-list-main-filter-item selected">지역검색</li>
+            </ul>
+			<div class="search place">
+			  <input id="place-search" type="text" placeholder="검색어 입력">
+			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="place-search-btn">
+			</div>
+			
             <select class="select-small" name="sort" id="sort">
+              <option value="">---선택---</option>
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
               <option value="gatherDeadLine">마감임박순</option>
             </select>
+            
           </div>
         </div>
         <div class="search-list-body">
