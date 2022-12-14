@@ -257,7 +257,7 @@ function modal(id) {
 								<div id="r" class="filter-list-item selected"
 									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기쓰기</div>
 								<div id="rc" class="filter-list-item"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review/complete?userNo=${user.userNo}'">작성완료</div>
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review_complete?userNo=${user.userNo}'">작성완료</div>
 							</div>
 						</div>
 						<div class="table-wrap selected" id="tab-1">
@@ -294,18 +294,16 @@ function modal(id) {
 													<td>${review.gatherNo}</td>
 													<td>
 														<div class="table-small-image-wrap">
-															<img src="/save" alt="이미지" width="100%" />
+															<img src="${pageContext.request.contextPath}/save/${review.gatherImg}" alt="img" width="100%" />
 														</div>
 													</td>
 													<td>${review.gatherName}</td>
 													<td>${fn:substring(TextValue,0,10)}</td>
 													<td class="inquiry-replied">
-														<button class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}&gatherNo=${review.gatherNo }'">후기쓰기</button>
+														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}&gatherNo=${review.gatherNo}'">후기쓰기</button>
 													</td>
 												</tr>
 											</c:forEach>
-
-
 										</c:otherwise>
 									</c:choose>
 								</tbody>

@@ -381,6 +381,14 @@ public class GatherTest {
 			
 			System.out.println("길이:" + gatherList.size() );
 		}
+		
+		@Test
+		void ete() {
+			Pageable pageable = PageRequest.of(0, 5);
+			Page<Gather> list = gatherService.selectByReviewState(1L, false, pageable);
+			
+			System.out.println(list.getSize());
+		}
 }
 
 

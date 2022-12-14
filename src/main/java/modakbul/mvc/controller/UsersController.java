@@ -1,37 +1,31 @@
 package modakbul.mvc.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NamedStoredProcedureQueries;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.User;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.UserAttachments;
+import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
-import modakbul.mvc.repository.UsersRepository;
 import modakbul.mvc.service.FollowService;
+import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.UserAttachmentsService;
+import modakbul.mvc.service.UserReviewService;
 import modakbul.mvc.service.UsersService;
 
 @Controller
@@ -46,6 +40,12 @@ public class UsersController {
 	
 	@Autowired
 	private UserAttachmentsService attachService;
+	
+	@Autowired
+	private UserReviewService userReviewService;
+	
+	@Autowired
+	private GatherService gatherService;
 	
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
@@ -85,22 +85,28 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/userProfile/profileReview/{userNo}")
-	public String profileReview(@PathVariable Long userNo, Long loginUserNo, Model model, HttpSession session) {
+	public String profileReview(@PathVariable Long userNo, Long loginUserNo,Model model, HttpSession session,@RequestParam(defaultValue = "1") int nowPage) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
 		
 		Users user = usersService.selectById(userNo);
 		String fileNames [] = file.list();
 		
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
+		Page<UserReview> page=userReviewService.selectAllByUserReviewNo(userNo, pageable);
+		
 		List<Follow> follower = followService.myFollower(userNo);
 		
+		
 		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
+		
 		
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);
 		model.addAttribute("searchFollow",searchFollow);
 		model.addAttribute("loginUserNo",loginUserNo);
+		model.addAttribute("userReviewList", page);
 		
 		
 		return "userProfile/profileReview";
@@ -239,4 +245,6 @@ public class UsersController {
 	public void profile() {
 		
 	}
+	
+	
 }

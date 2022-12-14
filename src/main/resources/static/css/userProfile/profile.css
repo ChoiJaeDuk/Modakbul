@@ -329,3 +329,16 @@ table{
 .review-content{
 	margin-bottom: 10px;	
 }
+.profile-review-list-ifnone{
+	text-align: center;
+	 margin: 20px 80px;
+    display: grid;
+    grid-template-columns: 2fr 8fr 1fr;
+    align-items: center;
+    border: 1px solid lightgray;
+    /* border-radius: 10px; */
+    width: 87%;
+   border: #F3F0EB 27px solid; 
+   background-color: #F3F0EB;
+	
+}
