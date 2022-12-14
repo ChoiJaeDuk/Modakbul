@@ -41,7 +41,7 @@
     		
     			$(document).on("click", ".main-gather-img", function() {
 				gatherNo = $(this).attr("name");
-				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo+"&userNo="+$("#userNo").val();
 			})
     	
     		$(document).on("click", ".list-card-title", function() {
@@ -82,6 +82,10 @@
  	</div>
     <div class="wrap">
       <main>
+     <sec:authorize access="isAuthenticated()">
+	<sec:authentication var="user" property="principal" />
+	<input type="hidden" value="${user.userNo }" id="userNo">
+	</sec:authorize>
        
         <div class="featured-list-wrap">
           <div class="list-header">

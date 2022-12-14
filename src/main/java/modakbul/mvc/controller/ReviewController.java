@@ -158,10 +158,7 @@ public class ReviewController {
 	}
 	
 	
-	@RequestMapping("/gatherDetail/review")
-	public void gatherDetailReview() {
-		
-	}
+
 	
-	}
+}
 

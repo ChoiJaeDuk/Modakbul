@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.hasAnyRole("USER", "ADMIN")          //      access="isAuthenticated()"
 		.antMatchers("/my_page/**")
 		.hasRole("USER")
+		.antMatchers("/gatherDetail/info")
+		.authenticated()
 		//.authenticated()
 		.antMatchers("/admin/**")
 		.hasRole("ADMIN")

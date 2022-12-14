@@ -1,11 +1,15 @@
 package modakbul.mvc.controller;
 
+import org.apache.tomcat.jni.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.Participant;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.ParticipantService;
 @Controller
@@ -18,19 +22,24 @@ public class GatherDetailControllerChoi {
 	private final ParticipantService participantService;
 	
 	@RequestMapping("/info")
-	public void info(Model model, Long gatherNo) {
+	public void info(Model model, Long gatherNo, String userNo) {
+		System.out.println("userNo = " + userNo);
+		Long userNoLong = Long.parseLong(userNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
-		
+		  
+		int check = participantService.checkParticipant(gatherNo, userNoLong);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		  
+		model.addAttribute("gather", gather); model.addAttribute("participant", participant);
+		 
 		
-		model.addAttribute("gather", gather);
-		model.addAttribute("participant", participant);
+	
 		
 	}
 	
 	@RequestMapping("/hostProfile")
-	public void hostProfile(Model model, Long gatherNo) {
+	public void hostProfile(Model model, Long gatherNo, Long userNo) {
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
@@ -43,7 +52,7 @@ public class GatherDetailControllerChoi {
 	
 	
 	@RequestMapping("/qna")
-	public void qna(Model model, Long gatherNo) {
+	public void qna(Model model, Long gatherNo, Long userNo) {
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
@@ -56,7 +65,7 @@ public class GatherDetailControllerChoi {
 	
 	
 	@RequestMapping("/review")
-	public void review(Model model, Long gatherNo) {
+	public void review(Model model, Long gatherNo, Long userNo) {
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
@@ -65,5 +74,25 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		
+	}
+	
+	@RequestMapping("/insertParticipant")
+	public String insertParticipant(Model model, String userNo, Long gatherNo, String state,RedirectAttributes re) {
+		System.out.println("호출되니?");
+		System.out.println("userNo = " + userNo);
+		System.out.println("gatherNo = " + gatherNo);
+		Gather gather = new Gather(gatherNo);
+		//Users user = new Users(userNo);
+		//Participant p = new Participant(0L, gather, user, state);
+		
+		//int check = participantService.checkParticipant(gatherNo, userNo);
+		
+		//participantService.insertParticipant(null);
+		
+		//model.addAttribute("check", check);
+		re.addAttribute("userNo",userNo);
+		re.addAttribute("gatherNo",gatherNo);
+		
+		return "redirect:/gatherDetail/info";
 	}
 }

@@ -18,4 +18,5 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long>,
 			+ "on p1.application_state = p2.application_state \r\n"
 			+ "group by p1.application_state order by p1.application_state", nativeQuery = true)
 	List<ParticipantGroupBy> selectApplicationStateCount(Long userNo);
+
 }

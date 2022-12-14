@@ -1,6 +1,5 @@
 package modakbul.mvc.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -170,5 +169,17 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		return new PageImpl<Participant>(result.getResults(),pageable, result.getTotal());
 		
+	}
+
+
+	@Override
+	public int checkParticipant(Long gatherNo, Long userNo) {
+
+		List<Participant> list = queryFactory.selectFrom(participant)
+				.where(participant.gather.gatherNo.eq(gatherNo)
+						.and(participant.user.userNo.eq(userNo)))
+				.fetch();
+		
+		return list.size();
 	}
 }

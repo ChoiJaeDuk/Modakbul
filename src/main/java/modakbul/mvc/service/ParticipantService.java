@@ -70,4 +70,7 @@ public interface ParticipantService {
 	 */
 	Page<Participant> selectParticipantByGatherNo(Long gatherNo, Pageable pageable);
 	
+	
+	int checkParticipant(Long gatherNo, Long userNo);
+	
 }
