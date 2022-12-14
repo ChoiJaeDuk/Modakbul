@@ -3,13 +3,13 @@
   width: 1200px;
   overflow: auto;
 }
-header {
+/* header {
   padding: 24px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
-}
+  background-color: lightblue;
+} */
 .header-logo {
   display: flex;
   align-items: center;
@@ -33,10 +33,10 @@ header {
 .icon-button {
   cursor: pointer;
 }
-.main-banner-wrap {
+/* .main-banner-wrap {
   height: 210px;
   background-color: indianred;
-}
+} */
 .featured-list-wrap {
   margin-top: 64px;
 }
@@ -52,7 +52,7 @@ header {
   flex-wrap: wrap;
   margin-top: 12px;
   gap: 32px 48px;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 .list-card {
   width: 264px;
@@ -66,8 +66,8 @@ header {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 30px;
-   height: 30px;
+  width: 40px;
+  height: 40px;
 }
 .list-card-title {
   margin-top: 16px;
@@ -553,19 +553,40 @@ header {
   border: 0;
   cursor: pointer;
 }
-#search-btn{
-	height: 25px;
-    width: 25px;
-    padding-left: 10px;
-    padding-bottom: 1px;
-    margin-top:10px;
+
+.search {
+  position: relative;
+  width: 200px;
+ 
 }
-#search-text{
-	display: block;
-	float: left;
-	width: 300px;
-	height: 40px;
-	border:1px solid lightgray;
-	padding: 10px;
-	
+
+.place {
+  position: relative;
+  width: 200px;
+
+}
+
+input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+#search-btn{
+ position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 12px;
+    margin: 0;
+}
+#place-search-btn {
+  position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 12px;
+    margin: 0;
 }
