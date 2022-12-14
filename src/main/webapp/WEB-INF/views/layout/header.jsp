@@ -56,7 +56,7 @@ setTimeout(slideShow, 4000);   //함수를 4초마다 호출
 		<div class="modakbul-header-center flex">
 			<p class="modakbul-header-menu" onclick="location.href='${pageContext.request.contextPath}/main/regularGather'" id="regular">정기</p>
 			<p class="modakbul-header-menu" id="daily" onclick="location.href='${pageContext.request.contextPath}/main/dayTimeGather'">일일</p>
-			<p class="modakbul-header-menu" id="gov">기관</p>
+			<p class="modakbul-header-menu" id="gov" onclick="location.href='${pageContext.request.contextPath}/main/agencyGather'">기관</p>
 			<p class="modakbul-header-menu" id="notice" onclick="location.href='${pageContext.request.contextPath}/question/notice'">공지사항</p>
 		</div>
 

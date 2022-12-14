@@ -48,10 +48,19 @@ $(function() {
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
                 <h2 class="inquiry-title">공지사항</h2>
+                <sec:authorize access="isAuthenticated()">
+				<sec:authentication var="user" property="principal" /> 
+				
+				<c:choose>
+			
+				<c:when test="${user.state == 'ROLE_ADMIN'}">
                 <div class="inquiry-button-wrap">
                   <button class="search-list-button" type="button">등록</button>
                   <button class="search-list-button" type="button">삭제</button>
                 </div>
+                </c:when>
+                </c:choose>
+                </sec:authorize>
               </div>
               <div class="inquiry-search-area">
                 
