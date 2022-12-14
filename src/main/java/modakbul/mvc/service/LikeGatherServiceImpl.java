@@ -66,9 +66,10 @@ public class LikeGatherServiceImpl implements LikeGatherService {
 	}
 	
 	@Override
-	public LikeGather selectEle(Long gatherNo, Long userNo) {
+	public String selectEle(Long gatherNo, Long userNo) {
 		LikeGather lg = likeGatherRep.searchLikeGather(gatherNo, userNo);
-		return lg;
+		if(lg==null)return "no";
+		return "yes";
 	}
 
 	

@@ -11,6 +11,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
+import modakbul.mvc.service.LikeGatherService;
 import modakbul.mvc.service.ParticipantService;
 @Controller
 @RequestMapping("/gatherDetail")
@@ -20,16 +21,19 @@ public class GatherDetailControllerChoi {
 	
 	private final GatherService gatherService;
 	private final ParticipantService participantService;
+	private final LikeGatherService lgService;
 	
 	@RequestMapping("/info")
 	public void info(Model model, Long gatherNo, String userNo) {
 		System.out.println("userNo = " + userNo);
 		
-		
-		
 		Long userNoLong = Long.parseLong(userNo);
 		
+		String yesOrNo = lgService.selectEle(gatherNo, userNoLong);
+		model.addAttribute("yesOrNo", yesOrNo);
+		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
 		  
 		int check = participantService.checkParticipant(gatherNo, userNoLong);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
@@ -38,6 +42,7 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("participant", participant);
 		model.addAttribute("userNo1", userNoLong);
 		model.addAttribute("check", check);
+		
 		
 		
 	}
@@ -62,6 +67,9 @@ public class GatherDetailControllerChoi {
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
+		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		
@@ -74,6 +82,9 @@ public class GatherDetailControllerChoi {
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
