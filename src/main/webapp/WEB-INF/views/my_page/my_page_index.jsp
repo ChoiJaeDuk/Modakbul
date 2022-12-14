@@ -145,7 +145,7 @@
     	            };
     });
    		
->>>>>>> jieun
+
     </script>
   </head>
  <body>
@@ -238,13 +238,15 @@
             <div class="my-page-profile">
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">2</span>&nbsp;개
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
                     </div>
                     <div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
                 </div>
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}'">2</span>&nbsp;개
+                  	  	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
                     </div>
                     <div class="my-page-profile-card-label">
                         참가예정인 모닥불
@@ -252,7 +254,8 @@
                 </div>
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}'">2</span>&nbsp;개
+                    <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
                     </div>
                     <div class="my-page-profile-card-label">
                         참가완료한 모닥불
@@ -260,7 +263,8 @@
                 </div>
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}'">2</span>&nbsp;개
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
                     </div>
                     <div class="my-page-profile-card-label">
                         모집중인 모닥불
@@ -268,7 +272,8 @@
                 </div>
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap">
-                        <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}'">2</span>&nbsp;개
+                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}">
+                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
                     </div>
                     <div class="my-page-profile-card-label">
                         진행완료한 모닥불
@@ -276,8 +281,8 @@
                 </div>
                 <div class="my-page-profile-card">
                     <div class="my-page-profile-card-count-wrap" id="replyState">
-                         <a class="btn btn-outline-secondary" href="index.jsp" id="replyState" >
-                         <span class="my-page-profile-card-count" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">${replyState}</span></a>&nbsp;개
+                         <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}" id="replyState">
+                         <span class="my-page-profile-card-count" >${replyState}</span></a>&nbsp;개
                          
                     </div>
                     <div class="my-page-profile-card-label">
@@ -344,5 +349,6 @@
       
       
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

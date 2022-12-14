@@ -18,20 +18,23 @@
   	<script type="text/javascript">
   	$(function(){
 	 $(".button-deny").click(function(){
+		  let btn = $(this).parent().parent().parent();
 			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/admin/updateAdCancle",
 				dataType:"text",
 				data: "${_csrf.parameterName}=${_csrf.token}&status=광고종료&advertisementNo="+$(this).val(),			
 				success:function(result){
-					alert(result)
+					alert(result+"ㅇㅇㅇㅇ")
 					console.log(result)
+			        let tr = $(this).parent().parent().parent();
+					alert(tr)
 					
-						$("#advRegis").load(location.href + " #advRegis");
-						$("#count").load(location.href + " #count");
-						
-						
-	   					
+					//$(this).parent().parent().parent().parent().remove("tr:first");
+					btn.remove()
+					$("#count").load(location.href + " #count")	
+					//$("#modakbul-inner-wrapper").load("ㅇㅇㅇㅇㅇ");
+
 				
 				},//function
 				error:function(error){
@@ -44,6 +47,7 @@
      
 	</script>
   <body>
+  <div class="whole">
   <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
      
@@ -62,8 +66,8 @@
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
           </div>
         </nav>
-        <div class="modakbul-content" id="count">
-          <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
+        <div class="modakbul-content">
+          <div id="count"><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
 			<!-- <div class="ad-wrap">
 				<div class="ad">현재 진행중 광고 : 1</div>
@@ -101,7 +105,7 @@
 							<td>${fn:substring(adv.deadLine,5,7)-fn:substring(adv.adApproveDate,5,7)}개월</td>
 							<td>
 							<div class="modakbul-charged-grid-col">	
-                			<button type="button" class="modakbul-button button-deny" value="${adv.advertisementNo}" >광고종료</button>
+                			 <button type="button" class="modakbul-button button-deny" value="${adv.advertisementNo}" >광고종료</button>
               				</div>
 							</td>
 						</tr>
@@ -148,5 +152,6 @@
 </c:choose>	
 	
      <jsp:include page="../layout/footer.jsp" />
+</div>
   </body>
 </html>

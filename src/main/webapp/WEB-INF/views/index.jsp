@@ -1,75 +1,151 @@
- <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="${pageContext.request.contextPath}/css/main/index.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/main/reset.css" rel="stylesheet" />
+    <title>Document</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
     
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-<style type="text/css">
-  a{text-decoration: none;}
-</style>
-</head>
-<body>
-<h1>Spring Security ¿äÃ»</h1>
-<h4>
-   USER :  »ç¿ëÀÚ /  
-   MEMBER : °¡ÀÔµÈ »ç¿ëÀÚ /
-   ADMIN : °ü¸®ÀÚ <p>
-</h4>
-
-<h1>
-<c:if test="${not empty pageContext.request.userPrincipal}">
-	<sec:authorize access="isAuthenticated()">
-    ${pageContext.request.userPrincipal.name}´Ô<p>
-    <sec:authentication property="principal.userName"/>´Ô<p>
-    
-	<a href="${pageContext.request.contextPath }/my_page/my_page_index/<sec:authentication property='principal.userNo'/>">ÇÁ·ÎÇÊ</a> 
-    </sec:authorize>
-
-   <form action="${pageContext.request.contextPath}/logout" method="post">
-	   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	   <input type="submit" value="·Î±×¾Æ¿ô"/> 
-   </form>
-
-
-</c:if>
-
-
-
-	<h3><a href="${pageContext.request.contextPath}/logout">·Î±×¾Æ¿ô</a></h3>
-
-
-  <a href="${pageContext.request.contextPath}"> index</a></h1>
-
-<h2> USER </h2>
-<a href="${pageContext.request.contextPath}/user/main">user/main - ÀÎÁõ¾øÀÌ Á¢±Ù °¡´É</a><p>
-<a href="${pageContext.request.contextPath}/user/login">user/login - ÀÎÁõÇØ¾ß¸¸ Á¢±Ù °¡´É(ROLE_USER)</a><p>
-<a href="${pageContext.request.contextPath}/user/loginForm">user/loginForm - ÀÎÁõ¾øÀÌ Á¢±Ù °¡´É</a><p>
-<a href="${pageContext.request.contextPath}/user/board">user/board - ÀÎÁõ¾øÀÌ Á¢±Ù °¡´É</a><p>
-
-<h2> MEMBER </h2>
-<a href="${pageContext.request.contextPath}/member/main">member/main - ÀÎÁõÇØ¾ß¸¸ Á¢±Ù °¡´É</a><p>
-<a href="${pageContext.request.contextPath}/member/myPage">member/myPage - ÀÎÁõÇØ¾ß¸¸ Á¢±Ù °¡´É</a><p>
-
-<h2> ADMIN </h2>
-<a href="${pageContext.request.contextPath}/admin/main">admin/main - ÀÎÁõÇØ¾ß¸¸ Á¢±Ù °¡´É(ROLE_ADMIN,ROLE_USER)</a><p>
-<a href="${pageContext.request.contextPath}/admin/board">admin/board - ÀÎÁõÇØ¾ß¸¸ Á¢±Ù °¡´É(ROLE_ADMIN,ROLE_USER)</a><p>
-<a href="${pageContext.request.contextPath}/admin2/userList">À¯Àú ÆäÀÌÁö °¡±â</a><p>
-<a href="${pageContext.request.contextPath}/admin2/gatherList">¸ğÀÓ ÆäÀÌÁö °¡±â</a><p>
-<a href="${pageContext.request.contextPath}/admin2/adList">±¤°í ÆäÀÌÁö °¡±â</a><p>
-<a href="${pageContext.request.contextPath}/admin2/adChart">±¤°í ¿ùº° ¸ÅÃâ Â÷Æ®</a><p>
-<a href="${pageContext.request.contextPath}/admin2/userChart">À¯Àú ¿ùº° Áõ°¡ Â÷Æ®</a><p>
-<a href="${pageContext.request.contextPath}/admin2/categoryGatherChart">Ä«Å×°í¸®º° ¸ğÀÓ °³¼ö Â÷Æ®</a><p>
-</body>
+	    var index = 0;   //ì´ë¯¸ì§€ì— ì ‘ê·¼í•˜ëŠ” ì¸ë±ìŠ¤
+	    window.onload = function(){
+	        slideShow();
+	    }
+	
+	    function slideShow() {
+	    var i;
+	    var x = document.getElementsByClassName("modakbul-banner");  //slide1ì— ëŒ€í•œ dom ì°¸ì¡°
+	    for (i = 0; i < x.length; i++) {
+	       x[i].style.display = "none";   //ì²˜ìŒì— ì „ë¶€ displayë¥¼ noneìœ¼ë¡œ í•œë‹¤.
+	    }
+	    index++;
+	    if (index > x.length) {
+	        index = 1;  //ì¸ë±ìŠ¤ê°€ ì´ˆê³¼ë˜ë©´ 1ë¡œ ë³€ê²½
+	    }   
+	    x[index-1].style.display = "block";  //í•´ë‹¹ ì¸ë±ìŠ¤ëŠ” blockìœ¼ë¡œ
+	    setTimeout(slideShow, 4000);   //í•¨ìˆ˜ë¥¼ 4ì´ˆë§ˆë‹¤ í˜¸ì¶œ
+	
+	    }
+    	$(function() {
+			
+    		var gatherNo;
+    		
+    			$(document).on("click", ".gather-img", function() {
+				gatherNo = $(this).attr("name");
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+			})
+    	
+    		$(document).on("click", ".list-card-title", function() {
+    			gatherNo = $(this).attr("id");
+    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+    		})
+		})
+		
+    </script>
+  </head>
+  <body>
+   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+   
+   <div class="bannerSection">
+	 
+		    <img src="${pageContext.request.contextPath}/css/banner3.png"
+			alt="modakbul-icon" class="modakbul-banner" onclick="" /> 
+			
+			<img src="${pageContext.request.contextPath}/css/banner4.png"
+			alt="modakbul-icon" class="modakbul-banner" />
+			
+			<img src="${pageContext.request.contextPath}/css/banner5.png"
+			alt="modakbul-icon" class="modakbul-banner" />
+			
+			<img src="${pageContext.request.contextPath}/css/banner6.png"
+			alt="modakbul-icon" class="modakbul-banner" />
+			
+			<img src="${pageContext.request.contextPath}/css/banner7.png"
+			alt="modakbul-icon" class="modakbul-banner" /> 
+			
+			<ul class="dot">
+	            <li class="on"> <input type="button" value="ë²„íŠ¼1"></li>
+	            <li> <input type="button" value="ë²„íŠ¼2"></li>
+	            <li> <input type="button" value="ë²„íŠ¼3"></li>
+	            <li> <input type="button" value="ë²„íŠ¼4"></li>
+	            <li> <input type="button" value="ë²„íŠ¼5"></li>
+        	</ul> 
+ 	</div>
+    <div class="wrap">
+      <main>
+       
+        <div class="featured-list-wrap">
+          <div class="list-header">
+            <div class="list-title">ì¶”ì²œ ëª¨ë‹¥ë¶ˆ</div>
+          </div>
+          
+          
+          <div class="card-list">
+          <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status" begin="0" end="3">
+            <div class="list-card">
+              <div class="list-image-wrap">
+                <a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="ì‚¬ì§„" /></a>
+                <img class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="í•˜íŠ¸" />
+              </div>
+              <div class="list-card-title">
+            	<a href="dd">${ad.gather.gatherName}</a>
+              </div>
+            </div>
+            </c:forEach> 
+          </div>
+          
+          
+        </div>
+        <div class="new-list-wrap">
+          <div class="list-header">
+            <div class="list-title">ìƒˆë¡œìš´ ëª¨ë‹¥ë¶ˆ</div>
+          </div>
+          <div class="card-list">
+          <c:forEach items="${requestScope.newGatherList}" var="newGather" varStatus="status">
+            <div class="list-card">
+              <div class="list-image-wrap">
+                <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${newGather.gatherImg}" alt="ì‚¬ì§„"  name="${newGather.gatherNo}"/>
+                <img name="${newGather.gatherNo}" class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="í•˜íŠ¸" />
+              </div>
+              <div class="list-card-title" id="${newGather.gatherNo}">
+                ${newGather.gatherName}
+              </div>
+            </div>
+          </c:forEach>
+          </div>
+        <div></div>
+        </div>
+        
+        <div class="featured-list-wrap">
+          <div class="list-header">
+            <div class="list-title">ë§ˆê°ì„ë°• ëª¨ë‹¥ë¶ˆ</div>
+          </div>
+          <div class="card-list">
+           <c:forEach items="${requestScope.deadLineGatherList}" var="deadLineGatherList" varStatus="status">
+            <div class="list-card">
+              <div class="list-image-wrap">
+                <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${deadLineGatherList.gatherImg}" name="${deadLineGatherList.gatherNo}" alt="ì‚¬ì§„" />
+                <img class="list-card-like" name="${deadLineGatherList.gatherNo}"src="${pageContext.request.contextPath}/save/heart.png" alt="í•˜íŠ¸" />
+              </div>
+              <div id="${deadLineGatherList.gatherNo}" class="list-card-title">
+                 ${deadLineGatherList.gatherName}
+              </div>
+            </div>
+        	</c:forEach>
+          </div>
+          <div></div>
+        </div>
+      </main>
+    </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+  </body>
 </html>
-
-
-
-
-
-
-

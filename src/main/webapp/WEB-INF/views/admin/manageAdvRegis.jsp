@@ -18,6 +18,7 @@
   <script type="text/javascript">
   	$(function(){
   		$(".button-agree").click(function(){
+  			let btn = $(this).parent().parent().parent();
   			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/admin/updateAdGather",
@@ -26,9 +27,10 @@
 				success:function(result){
 					alert(result);
 					console.log(result)
-					
-						$("#advRegis").load(location.href + " #advRegis");
-						$("#count").load(location.href + " #count");
+						//btn.remove()
+					    $("#advRegis").load(" #advRegis > *");
+						$("#count").load(location.href + " #count"); 
+						$("button").attr("disabled", false)
 			
 				},//function
 				error:function(error){
@@ -40,6 +42,7 @@
   		
   		
   		 $(".button-deny").click(function(){
+  			let btn = $(this).parent().parent().parent();
   			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/admin/updateAdGather",
@@ -48,8 +51,8 @@
 				success:function(result){
 					alert(result)
 					console.log(result)
-					
-						$(".cont-wrap").load(location.href + " .cont-wrap");
+						btn.remove()
+						/* $(".cont-wrap").load(location.href + " .cont-wrap"); */
 						$("#count").load(location.href + " #count");
 						
 						
@@ -88,8 +91,8 @@
             <p onclick="location.href='${pageContext.request.contextPath}/admin/manageAdvAll'">광고관리</p>
           </div>
         </nav>
-        <div class="modakbul-content" id="count">
-          <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
+        <div class="modakbul-content">
+          <div id="count"><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
 			<%-- <div class="ad-wrap">
 				<div class="ad">현재 진행중 광고 : ${fn:length(selectByStatus1)}</div>
