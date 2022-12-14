@@ -30,8 +30,10 @@ public class GatherDetailControllerChoi {
 		Long userNoLong = Long.parseLong(userNo);
 		
 		String yesOrNo = lgService.selectEle(gatherNo, userNoLong);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
 		  
 		int check = participantService.checkParticipant(gatherNo, userNoLong);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
@@ -40,7 +42,7 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("participant", participant);
 		model.addAttribute("userNo1", userNoLong);
 		model.addAttribute("check", check);
-		model.addAttribute("yesOrNo", yesOrNo);
+		
 		
 		
 	}
@@ -65,6 +67,9 @@ public class GatherDetailControllerChoi {
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
+		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		
@@ -77,6 +82,9 @@ public class GatherDetailControllerChoi {
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
