@@ -35,5 +35,5 @@ public interface LikeGatherService {
 	/**
 	 * 검색 - 단일객체
 	 */
-	LikeGather selectEle(Long gatherNo, Long userNo);
+	String selectEle(Long gatherNo, Long userNo);
 }

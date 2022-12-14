@@ -11,6 +11,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
+import modakbul.mvc.service.LikeGatherService;
 import modakbul.mvc.service.ParticipantService;
 @Controller
 @RequestMapping("/gatherDetail")
@@ -20,14 +21,15 @@ public class GatherDetailControllerChoi {
 	
 	private final GatherService gatherService;
 	private final ParticipantService participantService;
+	private final LikeGatherService lgService;
 	
 	@RequestMapping("/info")
 	public void info(Model model, Long gatherNo, String userNo) {
 		System.out.println("userNo = " + userNo);
 		
-		
-		
 		Long userNoLong = Long.parseLong(userNo);
+		
+		String yesOrNo = lgService.selectEle(gatherNo, userNoLong);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		  
@@ -38,6 +40,7 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("participant", participant);
 		model.addAttribute("userNo1", userNoLong);
 		model.addAttribute("check", check);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		
 	}
