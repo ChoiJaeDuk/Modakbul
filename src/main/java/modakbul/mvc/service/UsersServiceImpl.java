@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.jni.File;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -98,16 +97,19 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public Page<Users> selectUsers(Pageable pageable, String job, String keyword) {
+	public Page<Users> selectUsers(Pageable pageable, String userJob, String keyword, String section) {
 		QUsers users = QUsers.users;
 
 		BooleanBuilder builder = new BooleanBuilder();
-		if(job != null) {
-			builder.and(users.userJob.eq(job));
+		if(section != null) {
+			builder.and(users.userJob.eq(section));
 		}
 		
 		else if(keyword !=null) {
 			builder.and(users.userName.contains(keyword));
+		}
+		else if(userJob != null) {
+			builder.and(users.userJob.eq(userJob));
 		}
 	
 		List<Users> list = queryFactory
