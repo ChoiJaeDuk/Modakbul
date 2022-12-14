@@ -22,40 +22,104 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<script type="text/javascript">
-		var gatherPlace;
+		var gatherPlace;		
+		
 		$(function() {
+	
+		 	if($("#check").val()>0){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("신청완료")
+				$("#application-btn").attr("disabled",true)
+			}
+			 
 			gatherPlace = $("#gatherPlace").val();
 			//alert(gatherPlace)
-		})
-		
-		if($("#participant").val()>0){
-			$("#application-btn").css("background","grey")
-			$("#application-btn").val("신청완료")
-			$("#application-btn").attr("disabled",disabled)
-		}
-		
-		$(function() {
-			
 			
 			$("#application-btn").click(function() { 
-				if(!$("#gatherBid").val()==0){
-					//if(confirm("모임 참가를 신청하시겠습니까???")){
-						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?uesrNo="+$("#uesrNo").val()+"&gatherNo="+$(this).val()+"";	
-					//}
-				}else{
+				if($("#gatherBid").val()==0){
 					
+					if(confirm("모임 참가를 신청하시겠습니까???")){
+				
+						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$(this).val();
+					}	
+				}else{
+					var IMP = window.IMP;
+					IMP.init('imp55744106');
+					IMP.request_pay(
+									{
+										pg : "kakaopay",
+										pay_method : 'card',
+										merchant_uid : 'merchant_'
+												+ new Date().getTime(),
+										name : '상품명',
+										amount : $("#gatherBid").val(), //총판매가격
+										buyer_email : 'kyucando@gmail.com',
+										buyer_name : '규야 ',
+										buyer_tel : '01085510356',
+										buyer_addr : '경기도 용인시 ',
+										//buyer_postcode : '01234',
+										//m_redirect_url : '/index.jsp'
+									},
+									function(rsp) {
+										if (rsp.success) {
+											var msg = '결제가 완료되었습니다.';
+											var result = {
+											"imp_uid" : rsp.imp_uid,													
+	 										"pay_date" : new Date().getTime(),
+											"amount" : rsp.paid_amount,
+											"buyer_name": rsp.buyer_name
+											
+									     }
+											
+											//console.log("result = " + result.imp_uid);
+											//alert("${_csrf.parameterName}")
+											//alert("${_csrf.token}")
+											
+											$.ajax({
+												type : "post",
+												url : "${pageContext.request.contextPath}/ajaxTest?${_csrf.parameterName}=${_csrf.token}",  
+												dataType:"json",
+										   		data:JSON.stringify(result),	
+										        contentType:'application/json;charset=utf-8',
+										        success : function(result) {
+										        
+										        	location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$(this).val();
+										        },
+												error : function(err) {
+													alert(err);
+												}
+											});
+									
+										} else {
+											var msg = '결제에 실패하였습니다.';
+											rsp.error_msg;
+											alert(msg);
+										}
+									});
 				}
 				
 			});
+			
+			$("#like").click(function() {
+				
+				 if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
+					$("#like").attr("src","${pageContext.request.contextPath}/save/ok_modak.png")
+				}else{
+					$("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
+				} 
+			})
 			
 		})
 		
 	</script>
   <body>
   	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
-  	<input hidden="" id="check" value="${participant}">
+  	<input hidden="" id="check" value="${check}">
   	<sec:authentication var="user" property="principal" />
- 	<input hidden="" id="userNo" value="${user.userNo}">
+ 	<input hidden="" id="userNo" value="${userNo}">
+ 	<c:if test="${!empty userNo1}">
+ 		<input type="hidden" id="userNo1" value="${userNo1}">
+ 	</c:if>
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -73,7 +137,7 @@
 									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								<div class="heart-img">
-									<img src="${pageContext.request.contextPath}/save/no_modak.png" alt="img" style="width: 50px;">
+									<img id="like" src="${pageContext.request.contextPath}/save/no_modak.png" alt="img" style="width: 50px;">
 								</div>
 							</div>
 							<div class="rating">
@@ -123,7 +187,7 @@
 										</c:choose>
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / ${gather.gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
+									인원: ${participant} / ${gather.gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							

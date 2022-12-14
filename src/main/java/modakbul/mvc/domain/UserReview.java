@@ -52,6 +52,10 @@ public class UserReview {
 	@CreationTimestamp
 	private LocalDateTime userRevieweRegisDate;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "gather_no")
+	private Gather gatherNo;
+	
 	
 	/*
 	 * @ManyToOne(fetch = FetchType.LAZY)

@@ -25,6 +25,7 @@
 		var nowPage;
 		var agoPage=1;
     	$(function() {  
+    				
     		$(document).ready(function(){
     			
 					$("#regular").attr("class", "modakbul-header header-selected");
@@ -180,14 +181,6 @@
 				sort = $(this).val();
 				selectGatherList();
 			})
-			
-			$("#place-search-btn").click(function() {
-				nowPage=1;
-			    agoPage=1;
-				place = $("#place-search").val();
-				selectGatherList();
-				$("#place-search").text("")
-			})
 		})	    
     </script>
     <style type="text/css">
@@ -196,28 +189,19 @@
   </head>
   <body>
   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
           <div class="search-list-main-filter">
             <ul class="search-list-main-filter-wrap">
-              <li class="search-list-main-filter-item selected">모임검색</li>
-              <li class="search-list-main-filter-item">회원검색</li>
+              <li class="search-list-main-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/main/regularGather'">모임검색</li>
+              <li class="search-list-main-filter-item" onclick="location.href='${pageContext.request.contextPath}/main/searchUserIndivForRegular'">회원검색</li>
             </ul>
              <div class="search">
 			  <input id="search-text" type="text" placeholder="검색어 입력">
 			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="search-btn">
 			</div>
-			<ul class="search-list-main-filter-wrap" style="margin-left: 50px;">
-              <li class="search-list-main-filter-item selected">지역검색</li>
-            </ul>
-			<div class="search place">
-			  <input id="place-search" type="text" placeholder="검색어 입력">
-			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="place-search-btn">
-			</div>
             <select class="select-small" name="sort" id="sort">
-           	  <option value="">--선택--</option>
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
               <option value="gatherDeadLine">마감임박순</option>

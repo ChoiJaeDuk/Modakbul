@@ -35,13 +35,13 @@
    		 $(function(){
    	      let $modal ;
    	      
-   	   $(document).ajaxSend(function(e,xht,op){
+   	   	$(document).ajaxSend(function(e,xht,op){
 	         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
-	      	});
+	     });
    	   
    	       document.getElementById('following').addEventListener('click', function() {
    	             // 모달창 띄우기
-   	             modal('my_modal');
+   	       modal('my_modal');
    	             
    	            // alert("dd = " + document.querySelector(".modakbul-button following"))
    	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
@@ -252,12 +252,10 @@
 									}
 									
 								});//ajax
-							}/* else{
-								$("#pwd").val("")
-								return;
-							} */
+							}
 						
 						}
+   				}
 						$("#userInfo").ajaxForm({
 							type:"POST",
 							url:"${pageContext.request.contextPath}/update",
@@ -284,11 +282,11 @@
 						 $("input").attr("readonly", true);
 						 $("#updateBtn").attr({"readonly":false, "disabled":false})
 	
-   				}
+   				
    			 
    			 //$("#updateBtn").html("수정하기");
   
-   			})//
+   			
    			
    			var number = 0;
 			$(document).on("click",".certificate-add-button", function(){
@@ -363,7 +361,7 @@
 			        
 			    $(this).prev().prev().val(filename);
 			       
-				})   
+			})   
 
    		})
    		
@@ -408,7 +406,11 @@
 			}
 		}).open();
 	
-		})
+	}
+	
+	})
+	
+
    		
     </script>
 </head>
@@ -427,7 +429,7 @@
 								<c:set value="true" var="state2" />
 								<img class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-									alt="img" />
+									alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
 
 							</c:if>
 
@@ -435,7 +437,7 @@
 
 						<c:if test="${state1 ne state2}">
 							<img class="sign-up-image" src="${user.userProfileImg }"
-								alt="img" />
+								alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
 						</c:if>
 
 						<input id="sign-up-add-image" class="sign-up-add-image"
@@ -473,7 +475,7 @@
 					<ul>
 						<li class="my-page-nav-item selected"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position: relative;">
 						알림함
 							
 							<c:choose>

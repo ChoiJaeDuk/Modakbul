@@ -318,17 +318,9 @@ public class AdminController {
 		return "";
 	}
 
-	/**
-	 * 광고 배너 수정
-	 */
-	/*
-	 * @RequestMapping("/bannerUpdate") public String bannerUpdate(Advertisement
-	 * advertisement) {
-	 * 
-	 * adminService.bannerUpdate(advertisement);
-	 * 
-	 * return ""; }
-	 */
+	
+	  
+	 
 	/**
 	 * 광고 삭제
 	 */
@@ -412,6 +404,40 @@ public class AdminController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("userNo", userNo);
 	}
+	/**
+	 * 광고 배너수정 폼으로 이동
+	 */
+	
+	
+	/**
+	 * 광고 배너 수정
+	 */
+	
+	 @RequestMapping("/my_page/gatherAD/bannerUpdate")
+	 public String bannerUpdate(String bannerName, HttpSession session, MultipartFile file, String advertisementNo, String userNo) {
+		//모임 이미지 첨부
+		String saveDir = session.getServletContext().getRealPath("/save");
+		String originalFileName = file.getOriginalFilename();
+		try {
+			file.transferTo(new File(saveDir + "/" + originalFileName));
+		}catch (Exception e) {
+			e.getStackTrace();
+		}
+		
+		Long advertisementNo2 = Long.parseLong(advertisementNo);
+		
+		if(originalFileName.length() > 0) {
+			adminService.updateBanner(advertisementNo2, originalFileName);
+		}
+		 
+	 	
+	 
+	 	return "redirect:/my_page/gatherAD/adStatus?userNo="+userNo; 
+	 }
+	 
+	 
 
 }

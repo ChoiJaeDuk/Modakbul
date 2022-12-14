@@ -22,6 +22,7 @@ import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.UserAttachmentsService;
@@ -47,6 +48,9 @@ public class UsersController {
 	@Autowired
 	private GatherService gatherService;
 	
+	@Autowired
+	private AlarmService alarmService;
+	
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
 	
@@ -64,7 +68,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/userProfile/profileGather/{userNo}")
-	public String profileGather(@PathVariable Long userNo, Long loginUserNo, Model model, HttpSession session) {
+	public String profileGather(@PathVariable Long userNo,@RequestParam(required = false) Long loginUserNo, Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
 		
@@ -121,13 +125,18 @@ public class UsersController {
 		File file = new File(path);
 
 		String fileNames [] = file.list();
+		List<Follow> followList = followService.selectByUserId(userNo);
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
 		
 		
+		model.addAttribute("followingList", followList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 		
 		
 		model.addAttribute("attachList", attachList);
@@ -249,14 +258,19 @@ public class UsersController {
 	}
 	
 
-	@RequestMapping("/main/searchUser")
-	public void searchUser(@RequestParam(defaultValue = "1") int nowPage, Model model, 
-			@RequestParam(required = false) String userJob, @RequestParam(required = false) String keyWord, @RequestParam(required = false) String section) {
-		
+	@RequestMapping("/main/searchUserIndivForDaily/{keyWord}")
+	public String searchUserIndivForDaily(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			@PathVariable String keyWord, HttpSession session) {
+
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
-		Page<Users> userList = usersService.selectUsers(page, userJob, keyWord, section);
+		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
 		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		model.addAttribute("fileNames", fileNames);
 				
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
@@ -265,12 +279,80 @@ public class UsersController {
 		
 	
 		model.addAttribute("userList", userList);
-
+		model.addAttribute("keyword", keyWord);
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
 
 		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserIndivForDaily";
+		
+	}
+	
+	@RequestMapping("/main/searchUserIndivForRegular/{keyWord}")
+	public String searchUserIndivForRegular(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			@PathVariable String keyWord, HttpSession session) {
+		System.out.println("왔엉 ?");
+		System.out.println("keyword = " + keyWord);
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
+
+		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
+		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		model.addAttribute("fileNames", fileNames);
+				
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+		
+	
+		model.addAttribute("userList", userList);
+		model.addAttribute("keyword", keyWord);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserIndivForRegular";
+		
+	}
+	
+	@RequestMapping("/main/searchUserCom/{keyWord}")
+	public String searchUserCom(@RequestParam(defaultValue = "1") int nowPage, Model model, 
+			 @PathVariable String keyWord, HttpSession session) {
+		
+		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
+
+		Page<Users> userList = usersService.selectUsers(page, "기관", keyWord);
+		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		System.out.println("f = " + fileNames);
+		model.addAttribute("fileNames", fileNames);
+				
+		
+		int temp = (nowPage - 1) % BLOCK_COUNT;
+
+		int startPage = nowPage - temp;
+		
+	
+		model.addAttribute("userList", userList);
+		model.addAttribute("keyword", keyWord);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+
+		model.addAttribute("count", userList.getTotalElements());
+		
+		return "main/searchUserCom";
 		
 	}
 }
