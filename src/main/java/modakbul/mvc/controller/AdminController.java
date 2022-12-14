@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -425,8 +426,8 @@ public class AdminController {
 	 * 광고 배너 수정
 	 */
 	
-	 @RequestMapping("/my_page/gatherAD/bannerUpdate")
-	 public String bannerUpdate(String bannerName, HttpSession session, MultipartFile file, String advertisementNo, String userNo) {
+	 @RequestMapping(value = "/my_page/gatherAD/bannerUpdate", method = RequestMethod.POST)
+	 public String bannerUpdate(String bannerName, HttpSession session,  @RequestParam(value = "file", required = false) MultipartFile file, String advertisementNo, String userNo) {
 		//모임 이미지 첨부
 		String saveDir = session.getServletContext().getRealPath("/save");
 		String originalFileName = file.getOriginalFilename();
