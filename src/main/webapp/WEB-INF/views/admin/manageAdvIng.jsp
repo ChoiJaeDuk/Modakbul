@@ -119,20 +119,19 @@
       </div>
     </div>
     
-    <c:choose>
-	<c:when test="${empty requestScope.advIng}"></c:when>
-	<c:otherwise>
-     <nav class="pagination-container">
+<div style="text-align: center">
+   <nav class="pagination-container">
 	<div class="pagination">
 	<c:set var="doneLoop" value="false"/>
-		  <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		
+		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
 		      <a class="pagination-newer" href="${pageContext.request.contextPath}/admin/manageAdvIng?nowPage=${startPage-1}">PREV</a>
-		  </c:if>
+		  </c:if> 
 		  
 		<span class="pagination-inner"> 
 		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
-		
-			    <c:if test="${(i-1)>=indivList.getTotalPages()}">
+		  
+			    <c:if test="${(i-1)>=advIng.getTotalPages()}">
 			       <c:set var="doneLoop" value="true"/>
 			    </c:if> 
 		    
@@ -143,13 +142,12 @@
 		</c:forEach>
 		</span> 
 				
-		 <c:if test="${(startPage+blockCount)<=indivList.getTotalPages()}">
+		 <c:if test="${(startPage+blockCount)<=advIng.getTotalPages()}">
 		     <a class="pagination-older" href="${pageContext.request.contextPath}/admin/manageAdvIng?nowPage=${startPage+blockCount}">NEXT</a>
-		 </c:if> 
+		 </c:if>
 		</div>
-	</nav>
-	</c:otherwise>
-</c:choose>	
+	</nav>  
+	</div>
 	
      <jsp:include page="../layout/footer.jsp" />
 </div>

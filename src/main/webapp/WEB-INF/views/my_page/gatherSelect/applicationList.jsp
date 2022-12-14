@@ -332,7 +332,7 @@ $(document).ready(function(){
                         	<tr class="table-body">
                                 <td>${status.index+1}</td>
                                 <td>
-                                <div class="table-small-image-wrap">
+                                <div class="gather-img">
                                         <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" alt="이미지"/>
                                     </div>
                                 </td>

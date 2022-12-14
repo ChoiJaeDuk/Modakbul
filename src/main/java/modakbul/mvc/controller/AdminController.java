@@ -130,7 +130,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/{uml}")
+	@RequestMapping("/admin/{url}")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -345,7 +345,7 @@ public class AdminController {
 	}
 
 	/**
-	 * 마이페이지2 광고(신청대기)
+	 * 마이페이지 광고(신청대기)
 	 */
 	@RequestMapping("/my_page/gatherAD/adWaiting")
 	public void selectADGatherRegis(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo, HttpSession session) {
@@ -378,6 +378,7 @@ public class AdminController {
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("following", following.size());
 		model.addAttribute("newAlarm", newAlarm);
+
 		model.addAttribute("userNo", userNo);
 	}
 	
