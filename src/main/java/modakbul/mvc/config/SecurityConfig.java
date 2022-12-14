@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/user/login") //     pattern="/member/main" 
 		.hasAnyRole("USER", "ADMIN")          //      access="isAuthenticated()"
 		.antMatchers("/my_page/**")
-		.hasRole("USER")
+		.authenticated()
 		.antMatchers("/gatherDetail/info")
 		.authenticated()
 		//.authenticated()

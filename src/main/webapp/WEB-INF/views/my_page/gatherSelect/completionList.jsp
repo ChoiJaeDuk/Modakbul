@@ -187,7 +187,8 @@
 								<c:set value="true" var="state2" />
 								<img class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-									alt="img" />
+									alt="img" 
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'"/>
 
 							</c:if>
 
@@ -195,7 +196,8 @@
 
 						<c:if test="${state1 ne state2}">
 							<img class="sign-up-image" src="${user.userProfileImg }"
-								alt="img" />
+								alt="img" 
+								onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'"/>
 						</c:if>
 
 						<input id="sign-up-add-image" class="sign-up-add-image"
@@ -256,7 +258,8 @@
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
 						<li class="my-page-nav-item"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
-						<li class="my-page-nav-item">광고신청</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
 					</ul>
 				</nav>
           <section class="my-page-main-content">

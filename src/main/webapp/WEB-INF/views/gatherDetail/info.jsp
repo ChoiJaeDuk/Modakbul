@@ -174,7 +174,9 @@
   <body>
   	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
   	<input hidden="" id="check" value="${check}">
+  	<sec:authorize>
   	<sec:authentication var="user" property="principal" />
+  	</sec:authorize>
  	<input hidden="" id="userNo" value="${userNo}">
  	<c:if test="${!empty userNo1}">
  		<input type="hidden" id="userNo1" value="${userNo1}">

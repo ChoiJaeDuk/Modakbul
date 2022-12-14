@@ -19,52 +19,100 @@
    
     
   <body>
-    <div class="wrap">
-      <div class="my-page-wrap">
-        <div class="my-page-header">
-          <div class="my-page-image-wrap">
-            <img
-              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
-              alt="img"
-            />
-          </div>
-          <div class="my-page-user-info-wrap">
-            <div class="my-page-user-name">
-              <div>임지은님</div>
-              <button class="my-page-button" type="button">프로필 편집</button>
-            </div>
-            <div class="my-page-user-temperature">모닥불 온도 : 36.5&#8451</div>
-            <div class="my-page-user-follow-wrap">
-                <div>
-                    <div>팔로워</div>
-                    <div>320</div>
-                </div>
-                <div>
-                    <div>팔로잉</div>
-                    <div>11</div>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="my-page-content-wrap">
-          <nav>
-            <ul>
-                <li class="my-page-nav-item">프로필정보</li>
-                <li class="my-page-nav-item">알림함</li>
-                <li class="my-page-nav-item">모임조회</li>
-                <li class="my-page-nav-item">관심모임</li>
-                <li class="my-page-nav-item">후기조회</li>
-                <li class="my-page-nav-item">문의조회</li>
-                <li class="my-page-nav-item selected">광고신청</li>
-            </ul>
-          </nav>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+    <div class="my-page-wrap">
+			<div class="my-page-header">
+				<div class="my-page-image-wrap" id="original">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+									alt="img"
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img"
+								onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
+						</c:if>
+
+						<input id="sign-up-add-image" class="sign-up-add-image"
+							type="file" name="file" accept="image/*" />
+					</sec:authorize>
+				</div>
+				<div class="my-page-user-info-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<div class="my-page-user-name">
+
+							<div>${user.userName }님</div>
+
+
+						</div>
+						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
+						<div class="my-page-user-follow-wrap">
+							<div>
+								<div>팔로워</div>
+								<div>&nbsp;&nbsp;&nbsp;${follower}</div>
+							</div>
+							<div>
+								<div>팔로잉</div>
+
+								<div id="following">
+									<a>&nbsp;&nbsp;&nbsp;${following}</a>
+								</div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="my-page-content-wrap">
+				<nav>
+					<ul>
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
+						<!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'"
+							style="position: relative;">알림함 <c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</li>
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/likeGather/myLikeGather?userNo=${user.userNo}'">관심모임</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
+						<li class="my-page-nav-item selected"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
+					</ul>
+				</nav>
           <section class="my-page-main-content">
             <div class="class-search">
                 <div class="filter-wrap">
                     <div class="filter-list-wrap selected">
-                       <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=6'">광고신청</div>
-                       <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=6'">신청대기</div>
-                       <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=6'">광고진행중</div>
+                        <div class="filter-list-item " onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }'">광고신청</div>
+                        <div class="filter-list-item " onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo }'">신청대기</div>
+                        <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=${user.userNo }'">광고진행중</div>
                     </div>
                 </div>
                
@@ -238,12 +286,174 @@
         </div>
         <!-- 추가된 모달 -->
       </div>
+      <div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
+					</th>
+				</tr>
+			</c:forEach>
+	 	</table>
+	 
+        </div>
+         <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
     </div>
     
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
    
     <script type="text/javascript">
   	$(function(){
+  		if(${newAlarm}==0 || ${newAlarm}==null){
+  			$(".nav-counter").hide();
+  		}else{
+  			$(".nav-counter").show();
+  		}
+    	  
+    	  $(document).ready(function(){
+       	   $(function(){
+       	      let $modal ;
+       	      
+       	      $(document).ajaxSend(function(e,xht,op){
+       		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+       		      	});
+       	      
+       	       document.getElementById('following').addEventListener('click', function() {
+       	             // 모달창 띄우기
+       	             modal('my_modal');
+       	             
+       	            // alert("dd = " + document.querySelector(".modakbul-button following"))
+       	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
+       	              
+       	              
+       	              
+       	              $(document).on("click", "button[class='modakbul-button following']" , function(){
+       	                
+
+       	                      alert("버튼클릭했음" + " , " + $(this).val());
+       	                      
+       	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
+       	                      console.log("follower = " + $(this).val());
+       	                    /*   console.log("following = " + ${userNo}); */
+       	                      let targetBtn = $(this);
+       	                      
+       	                      if($(this).text() == "팔로잉"){
+       	                         alert("딜리트 반응?");
+       	                         $.ajax({
+       	                            url:"${pageContext.request.contextPath}/follow/delete", 
+       	                            type:"post",
+       	                            dataType:"text",
+       	                                data:JSON.stringify(target),   
+       	                                contentType:'application/json;charset=utf-8',
+       	                            success:function(result){
+       	                               if(result=="ok"){
+       	                                  alert("팔로잉이 해제 되었습니다.")                  
+       	                                  
+       	                                  targetBtn.css("background","rgb(243, 156, 18)")
+       	                                  targetBtn.text("팔로우")
+       	                               }
+       	                            },error:function(err){
+       	                               alert("err : "+err);
+       	                            }
+       	                         });//Delete ajax END
+       	                      }
+       	                      
+       	                      if($(this).text()=="팔로우"){
+       	                         alert("인설트반응?");
+       	                         $.ajax({
+       	                            url:"${pageContext.request.contextPath}/follow/insert",
+       	                            type:"post",
+       	                            dataType:"text",
+       	                                data:JSON.stringify(target),   
+       	                                contentType:'application/json;charset=utf-8',
+       	                            success:function(result){
+       	                               if(result=="ok"){
+       	                                  alert("팔로우 등록 되었습니다.")                  
+       	                                  
+       	                                  targetBtn.css("background","gray")
+       	                                  targetBtn.text("팔로잉")
+       	                               }
+       	                               
+       	                            },error:function(err){
+       	                               alert("err : "+err);
+       	                            }
+       	                         });//Insert ajax END
+       	                      }//if  END
+       	                      
+       	                   });///////////////////////////
+
+       	         });
+       	   })
+       	   
+       	    function modal(id) {
+       	                var zIndex = 9999;
+       	                var modal = document.getElementById(id);
+
+       	                // 모달 div 뒤에 희끄무레한 레이어
+       	                var bg = document.createElement('div');
+       	                bg.setStyle({
+       	                    position: 'fixed',
+       	                    zIndex: zIndex,
+       	                    left: '0px',
+       	                    top: '0px',
+       	                    width: '100%',
+       	                    height: '100%',
+       	                    overflow: 'auto',
+       	                    // 레이어 색갈은 여기서 바꾸면 됨
+       	                    backgroundColor: 'rgba(0,0,0,0.4)'
+       	                });
+       	                document.body.append(bg);
+
+       	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+       	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+       	                    bg.remove();
+       	                    modal.style.display = 'none';
+       	                });
+
+       	                modal.setStyle({
+       	                    position: 'fixed',
+       	                    display: 'block',
+       	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+       	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+       	                    zIndex: zIndex + 1,
+
+       	                    // div center 정렬
+       	                    top: '50%',
+       	                    left: '50%',
+       	                    transform: 'translate(-50%, -50%)',
+       	                    msTransform: 'translate(-50%, -50%)',
+       	                    webkitTransform: 'translate(-50%, -50%)'
+       	                });
+       	            }
+
+       	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+       	            Element.prototype.setStyle = function(styles) {
+       	                for (var k in styles) this.style[k] = styles[k];
+       	                return this;
+       	            };
+
+       });//ready END
 
             $(".my-page-button").click(function(){
                 var advNo = $(this).val();
