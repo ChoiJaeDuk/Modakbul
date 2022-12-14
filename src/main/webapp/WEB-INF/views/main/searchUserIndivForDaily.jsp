@@ -79,22 +79,26 @@
          				
                				 <div class="search-member-list-result-item-image-wrap">
                   				<c:set value="${user.userProfileImg}" var="img" />
-								<c:set value="true" var="state1" />
-								<c:forEach items="${fileNames }" var="file">
-								<c:if test="${file eq img }">
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
 								<c:set value="true" var="state2" />
-									<img
+								<img class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-									alt="img" width="100%"/>
+									alt="img" />
 
-								</c:if>
+							</c:if>
 
-								</c:forEach>
+						</c:forEach>
 
-								<c:if test="${state1 ne state2}">
-									<img src="${user.userProfileImg }"
-									alt="img" width="100%"/>
-								</c:if>
+						<c:if test="${state1 ne state2}">
+							${user.userNo }
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img" />
+						</c:if>
+								
+
+								
                 			</div>
                 			<div class="search-member-list-result-item-member-name">
                   				${user.userNick }

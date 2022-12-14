@@ -107,7 +107,7 @@ public class UsersServiceImpl implements UsersService {
 		if(keyword !=null) {
 			builder.and(users.userNick.contains(keyword));
 		}
-		else if(userJob != null) {
+		if(userJob != null) {
 			builder.and(users.userJob.eq(userJob));
 		}
 	

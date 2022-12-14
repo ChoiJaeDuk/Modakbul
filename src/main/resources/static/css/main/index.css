@@ -201,7 +201,7 @@
 .search-member-list-result-item-image-wrap {
   width: 120px;
   height: 120px;
-  background-color: red;
+ /*  background-color: red; */
   border-radius: 50%;
   overflow: hidden;
 }

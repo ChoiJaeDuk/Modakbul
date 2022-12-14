@@ -260,12 +260,17 @@ public class UsersController {
 
 	@RequestMapping("/main/searchUserIndivForDaily/{keyWord}")
 	public String searchUserIndivForDaily(@RequestParam(defaultValue = "1") int nowPage, Model model, 
-			@PathVariable String keyWord) {
+			@PathVariable String keyWord, HttpSession session) {
 
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
 		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		model.addAttribute("fileNames", fileNames);
 				
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
@@ -287,13 +292,18 @@ public class UsersController {
 	
 	@RequestMapping("/main/searchUserIndivForRegular/{keyWord}")
 	public String searchUserIndivForRegular(@RequestParam(defaultValue = "1") int nowPage, Model model, 
-			@PathVariable String keyWord) {
+			@PathVariable String keyWord, HttpSession session) {
 		System.out.println("왔엉 ?");
 		System.out.println("keyword = " + keyWord);
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 		Page<Users> userList = usersService.selectUsers(page, "개인", keyWord);
 		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		model.addAttribute("fileNames", fileNames);
 				
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
@@ -315,12 +325,18 @@ public class UsersController {
 	
 	@RequestMapping("/main/searchUserCom/{keyWord}")
 	public String searchUserCom(@RequestParam(defaultValue = "1") int nowPage, Model model, 
-			 @PathVariable String keyWord) {
+			 @PathVariable String keyWord, HttpSession session) {
 		
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");
 
 		Page<Users> userList = usersService.selectUsers(page, "기관", keyWord);
 		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+
+		String fileNames [] = file.list();
+		System.out.println("f = " + fileNames);
+		model.addAttribute("fileNames", fileNames);
 				
 		
 		int temp = (nowPage - 1) % BLOCK_COUNT;
@@ -329,7 +345,7 @@ public class UsersController {
 		
 	
 		model.addAttribute("userList", userList);
-
+		model.addAttribute("keyword", keyWord);
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
