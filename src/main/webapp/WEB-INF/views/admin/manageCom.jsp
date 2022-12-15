@@ -36,10 +36,10 @@
         
 		 <div class="cont-wrap">
 			<div class="nav-wrap">
-				<div id="nav1"><a href="${pageContext.request.contextPath}/admin/manageAll" >전체</a></div>
-				<div id="nav2"><a href="${pageContext.request.contextPath}/admin/manageIndiv?job=개인">개인회원</a></div>
-				<div id="nav3"><a href="${pageContext.request.contextPath}/admin/manageCom?job=기관">기관/사업자</a></div>
-				<div id="nav4"><a href="${pageContext.request.contextPath}/admin/manageGroup">모임관리</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageAll" >전체</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageIndiv?job=개인">개인회원</a></div>
+				<div class="manageGroup-nav selected"><a href="${pageContext.request.contextPath}/admin/manageCom?job=기관">기관/사업자</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageGroup">모임관리</a></div>
 			</div>
 			
 			
