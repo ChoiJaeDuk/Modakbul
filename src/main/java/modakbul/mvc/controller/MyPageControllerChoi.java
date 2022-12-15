@@ -29,6 +29,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.ParticipantGroupBy;
 import modakbul.mvc.groupby.SelectReplyState;
+import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherAttachmentsService;
@@ -50,7 +51,7 @@ public class MyPageControllerChoi {
 	private final InquiryService inqService;
 	private final FollowService followService;
 	private final AlarmService alarmService;
-	
+	private final AdminService adminService;
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	@RequestMapping("/{url}")
@@ -74,9 +75,10 @@ public class MyPageControllerChoi {
 		List<Follow> following = followService.myFollower(userNo);
 		List<Follow> follower = followService.myFollowing(userNo);
 		int newAlarm = alarmService.countNewAlarm(userNo);
+		Long selectMyGatherIng = adminService.selectMyGatherIng(userNo);
+		Long selectMyGatherEnd = adminService.selectMyGatherEnd(userNo);
 		
 		List<ParticipantGroupBy> selectApplicationStateCount = participantService.selectApplicationStateCount(userNo);
-
 		
 		
 		File file = new File(path);
@@ -103,16 +105,18 @@ public class MyPageControllerChoi {
 		 mv.addObject("fileNames", fileNames);
 		 
 		 mv.addObject("selectApplicationStateCount", selectApplicationStateCount);
+		 mv.addObject("selectMyGatherIng", selectMyGatherIng);
+		 mv.addObject("selectMyGatherEnd", selectMyGatherEnd);
+		 
 		
 		return mv;
 	}
 	
 	
 	@RequestMapping("/gatherAD/{url}")
-	public void url() {}
-	
-	@RequestMapping("/gatherSelect/applicationList")
-	public void selectApplicationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+	public void url(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		System.out.println("와이제?");
+		
 		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("nowPage = " + nowPage );
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
@@ -140,6 +144,42 @@ public class MyPageControllerChoi {
 		model.addAttribute("following", following.size());
 		model.addAttribute("newAlarm", newAlarm);
 		model.addAttribute("userNo", userNo);
+		
+		System.out.println("d = " + follower.size());
+	}
+	
+	@RequestMapping("/gatherSelect/applicationList")
+	public void selectApplicationList(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, HttpSession session) {
+		
+		String path = session.getServletContext().getRealPath("/save");
+		System.out.println("nowPage = " + nowPage );
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
+		
+		Page<Gather> applicationList = participantService.selectApplicationStateByUserNo(userNo, "신청대기", pageable);
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
+		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
+		
+		model.addAttribute("fileNames", fileNames);
+		model.addAttribute("applicationList", applicationList);
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage",startPage); 
+		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("followingList", followList);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
+		
+		System.out.println("d = " + follower.size());
 
 	}
 	
@@ -175,6 +215,8 @@ public class MyPageControllerChoi {
 		model.addAttribute("following", following.size());
 		model.addAttribute("newAlarm", newAlarm);
 		model.addAttribute("userNo", userNo);
+		
+		
 
 
 	}
@@ -402,10 +444,14 @@ public class MyPageControllerChoi {
 	
 	
 	@RequestMapping("/gatherAD/adApplication")
-	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo) {
+	public void adApplication(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long gatherNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
 		
 		//Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
 		Page<Gather> adApplicationList = gatherService.selectNoneADGatherList(userNo, pageable);
@@ -414,9 +460,23 @@ public class MyPageControllerChoi {
 		//model.addAttribute("gather", gather);
 		
 		
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
+		
+
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("followingList", followList);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 	}
 	
 	@ResponseBody
@@ -428,13 +488,6 @@ public class MyPageControllerChoi {
 		System.out.println("업데이트 잘 됐니?");
 		
 	}
-	//@RequestMapping("/gatherAD/adWaiting")
-	public void adWaiting() {
-		
-	}
+
 	
-	//@RequestMapping("/gatherAD/adStatus")
-	public void adStatus() {
-		
-	}
 }

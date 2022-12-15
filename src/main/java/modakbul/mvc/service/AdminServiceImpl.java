@@ -409,6 +409,24 @@ public class AdminServiceImpl implements AdminService {
 		return adminRep.selectByNo(advertisementNo);
 	}
 
+	@Override
+	public Long selectMyGatherIng(Long userNo) {
+		Long selectMyGatherIng = queryFactory.selectFrom(qGather)
+	      .where(qGather.gatherState.eq("모집중")
+	            .and(qGather.user.userNo.eq(userNo)))
+	      .fetchCount();
+		return selectMyGatherIng;
+	}
+
+	@Override
+	public Long selectMyGatherEnd(Long userNo) {
+		Long selectMyGatherEnd = queryFactory.selectFrom(qGather)
+			      .where(qGather.gatherState.eq("진행완료")
+			            .and(qGather.user.userNo.eq(userNo)))
+			      .fetchCount();
+				return selectMyGatherEnd;
+	}
+
 	
 	}
 

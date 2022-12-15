@@ -15,10 +15,82 @@
 
     <title>eCommerce Product Detail</title>
     <link href="${pageContext.request.contextPath}/css/gatherDetail/index.css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    	
+    $(document).ready(function(){
+		$(function(){
+			
+			let str = "yes";
+				if("${yesOrNo}"==str){
+					$("#like").attr("src","${pageContext.request.contextPath}/save/ok_modak.png")
+				}// check IF END
+			// 토글
+			$(document).ajaxSend(function(e,xht,op){
+		       xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		    });
+				
+		$(document).on('click', '#like',function(){
+					
+					alert("관심클릭했음" + " , " + "${gather.gatherNo}");
+                
+                let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
+                console.log("gatherNo = " + "${gather.gatherNo}");
+                console.log("userNo = " + "${userNo1}");
+					
+					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
+                    alert("딜리트 반응?");
+                    $.ajax({
+                       url:"${pageContext.request.contextPath}/likeGather/delete", 
+                       type:"post",
+                       dataType:"text",
+                           data:JSON.stringify(target),   
+                           contentType:'application/json;charset=utf-8',
+                       success:function(result){
+                          if(result=="ok"){
+                             alert("관심모임이 해제 되었습니다.")                  
+                             
+                            $("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
+                          }
+                       },error:function(err){
+                          alert("err");
+                       }
+                    });//Delete ajax END
+                 }//Delete IF END
+                 
+                 if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
+                    alert("인설트반응?");
+                    $.ajax({
+                       url:"${pageContext.request.contextPath}/likeGather/insert",
+                       type:"post",
+                       dataType:"text",
+                           data:JSON.stringify(target),   
+                           contentType:'application/json;charset=utf-8',
+                       success:function(result){
+                          if(result=="ok"){
+                             alert("관심모임 등록 되었습니다.")                  
+                             
+                             $("#like").attr("src","${pageContext.request.contextPath}/save/ok_modak.png")
+                          }
+                          
+                       },error:function(err){
+                          alert("로그인을 먼저 진행해주세요.");
+                       }
+                    });//Insert ajax END
+                 }//Insert if END
+                 
+				});//click END
+				
+		})//첫번쨰 function END
+		
+	})//ready END
+	
+    </script>
 
   </head>
 
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -91,15 +163,28 @@
 				<div class="gather-detail-info">
 					<div class="host-profile">
 						<div class="my-page-image-wrap">
-				            <img
-				              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
-				              alt="img"
-				            />
+				        <c:set value="${hostUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${hostUser.userProfileImg }"
+									alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${hostUser.userProfileImg }"
+								alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+						</c:if>
 				        </div>
 				        <div class="host-profile-info">
 				        	
-					        <div class="host name">OOO님  </div>
-					        <div class="host temper">모닥불 온도 : 36.5&#8451</div>
+					        <div class="host name">${hostUser.userNick }님  </div>
+					        <div class="host temper">모닥불 온도 : ${hostUser.temper }&#8451</div>
 					        <div class="host">모임 진행횟수 : </div>
 					        <div class="host">리뷰 : 3개</div>
 				        </div>
@@ -130,5 +215,6 @@
 			
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

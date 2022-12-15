@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
+import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
 
@@ -46,6 +48,8 @@ public class AdminController {
 	private AdminRepository adminRepository;
 	@Autowired
 	private GatherService gatherService;
+	@Autowired
+	private AlarmService alarmService;
 
 	private final static int PAGE_COUNT = 5;// 상수//한 페이지당 10개
 	private final static int BLOCK_COUNT = 4;
@@ -126,7 +130,7 @@ public class AdminController {
 	/**
 	 * 광고 페이지
 	 */
-	@RequestMapping("/admin/{uml}")
+	@RequestMapping("/admin/{url}")
 	public void adList(@RequestParam(defaultValue = "1") int nowPage, Model model, Advertisement advertisement) {// model : view로 전달 // nowPage 페이지
 																					// 넘버 받기
 		Pageable page = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "advertisementNo");
@@ -168,9 +172,30 @@ public class AdminController {
 	 * */
 	@ResponseBody
 	@RequestMapping("/admin/updateAdGather")
-	public String updateAdGather(Long advertisementNo, String status) {
+	public String updateAdGather(Long advertisementNo, String status, HttpSession session) {
 		System.out.println("광고 승인");
 		adminService.updateAdGather(advertisementNo, status);
+		
+		String moveDir = session.getServletContext().getRealPath("/banner");
+		String oriDir = session.getServletContext().getRealPath("/regis");
+		
+		Advertisement adv = adminService.selectByNo(advertisementNo);
+		
+		String filePath2 = moveDir + "/" + adv.getAdFileName();
+		String filePath1 = oriDir + "/" + adv.getAdFileName();
+		
+		File dir = new File(filePath2);
+		
+		
+		try {
+			File file = new File(filePath1);
+			
+			file.renameTo(dir);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return "광고진행상태가 변경되었습니다.";
 	}
@@ -201,53 +226,7 @@ public class AdminController {
 		return "광고진행상태가 변경되었습니다.";
 	}
 	
-	
-	
-	
 
-	/*	*//**
-			 * 유료모임 승인 리스트
-			 *//*
-				 * @RequestMapping("/admin/manageGather") public void selectGatherState(Model
-				 * model) { // 광고 리스트 List<Gather> selectGatherState =
-				 * adminService.selectGatherState();
-				 * 
-				 * model.addAttribute("selectGatherState", selectGatherState); }
-				 */
-
-	/*	*//**
-			 * 유료모임 승인 업데이트
-			 *//*
-				 * @RequestMapping("/admin/updateGather") public String updateGather(Long
-				 * gatherNo, Gather gather) {
-				 * 
-				 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
-				 * return "admin/manageGather"; }
-				 */
-	
-	
-	
-//	/**
-//	 * 유료모임 승인 리스트
-//	 * */
-//	@RequestMapping("/manageGather")
-//	public void selectGatherState(Model model) {
-//		// 광고 리스트
-//				List<Gather> selectGatherState = adminService.selectGatherState();
-//
-//				model.addAttribute("selectGatherState", selectGatherState);
-//	}
-//	
-	/**
-	 * 유료모임 승인 업데이트
-	 * */
-	/*
-	 * @RequestMapping("/updateGather") public String updateGather(Long gatherNo,
-	 * Gather gather) {
-	 * 
-	 * adminService.updateGather(gather, gatherNo); gather.setGatherState("모집중");
-	 * return "admin/manageGather"; }
-	 */
 
 	/**
 	 * 광고 등록폼
@@ -265,7 +244,7 @@ public class AdminController {
 			, Long gatherNo, String date1, String date2, Long userNo) {
 
 		//String userNo2 = request.getParameter("userNo");
-		String saveDir = session.getServletContext().getRealPath("/save");
+		String saveDir = session.getServletContext().getRealPath("/regis");
 		String originalFileName = file.getOriginalFilename();
 		
 		String adPrice = request.getParameter("adPrice");
@@ -318,17 +297,9 @@ public class AdminController {
 		return "";
 	}
 
-	/**
-	 * 광고 배너 수정
-	 */
-	/*
-	 * @RequestMapping("/bannerUpdate") public String bannerUpdate(Advertisement
-	 * advertisement) {
-	 * 
-	 * adminService.bannerUpdate(advertisement);
-	 * 
-	 * return ""; }
-	 */
+	
+	  
+	 
 	/**
 	 * 광고 삭제
 	 */
@@ -374,14 +345,23 @@ public class AdminController {
 	}
 
 	/**
-	 * 마이페이지2 광고(신청대기)
+	 * 마이페이지 광고(신청대기)
 	 */
 	@RequestMapping("/my_page/gatherAD/adWaiting")
-	public void selectADGatherRegis(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo) {
+	public void selectADGatherRegis(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("마이페이지 광고 신청대기");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
 		
 
 		Page<Advertisement> selectADGatherRegis = adminService.selectADGatherRegis(userNo, pageable, advertisementNo);
@@ -391,14 +371,23 @@ public class AdminController {
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("followingList", followList);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+
+		model.addAttribute("userNo", userNo);
 	}
 	
 	/**
 	 * 마이페이지2 광고(광고중)
 	 */
 	@RequestMapping("/my_page/gatherAD/adStatus")
-	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo) {
-
+	public void selectGatherADIng(Model model, @RequestParam(defaultValue ="1") int nowPage, Long userNo, Long advertisementNo, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/save");
 		System.out.println("마이페이지 광고중");
 		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
 		int temp= (nowPage -1)%BLOCK_COUNT; 
@@ -407,11 +396,59 @@ public class AdminController {
 		Page<Advertisement> selectGatherADIng = adminService.selectGatherADIng(userNo, pageable, advertisementNo);
 
 		
+		File file = new File(path);
+		String fileNames [] = file.list();
+		
+		List<Follow> followList = followService.selectByUserId(userNo);
+		List<Follow> following = followService.myFollower(userNo);
+		List<Follow> follower = followService.myFollowing(userNo);
+		int newAlarm = alarmService.countNewAlarm(userNo);
+		
 		model.addAttribute("selectGatherADIng", selectGatherADIng);
 		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage",startPage); 
 		model.addAttribute("nowPage", nowPage);
+		
+		model.addAttribute("fileNames", fileNames);
+		
+		model.addAttribute("followingList", followList);
+		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		model.addAttribute("newAlarm", newAlarm);
+		model.addAttribute("userNo", userNo);
 	}
+	/**
+	 * 광고 배너수정 폼으로 이동
+	 */
+	
+	
+	/**
+	 * 광고 배너 수정
+	 */
+	
+	 @RequestMapping(value = "/my_page/gatherAD/bannerUpdate", method = RequestMethod.POST)
+	 public String bannerUpdate(String bannerName, HttpSession session,  @RequestParam(value = "file", required = false) MultipartFile file, String advertisementNo, String userNo) {
+		//모임 이미지 첨부
+		String saveDir = session.getServletContext().getRealPath("/save");
+		String originalFileName = file.getOriginalFilename();
+		try {
+			file.transferTo(new File(saveDir + "/" + originalFileName));
+		}catch (Exception e) {
+			e.getStackTrace();
+		}
+		
+		Long advertisementNo2 = Long.parseLong(advertisementNo);
+		
+		if(originalFileName.length() > 0) {
+			adminService.updateBanner(advertisementNo2, originalFileName);
+		}
+		 
+	 	
+	 
+	 	return "redirect:/my_page/gatherAD/adStatus?userNo="+userNo; 
+	 }
+	 
+	 
 
 }

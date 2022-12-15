@@ -36,9 +36,8 @@
 	
 	    }
     	$(function() {
-			
     		var gatherNo;
-    		
+    		var userNo=$("#userNo").val()
     			$(document).on("click", ".main-gather-img", function() {
     				alert($("#userNo").val())
 				gatherNo = $(this).attr("name");
@@ -47,7 +46,7 @@
     	
     		$(document).on("click", ".list-card-title", function() {
     			gatherNo = $(this).attr("id");
-    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo;
+    			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo+"&userNo="+$("#userNo").val();
     		})
 		})
 		
@@ -57,29 +56,11 @@
    <jsp:include page="/WEB-INF/views/layout/header.jsp" />
    
    <div class="bannerSection">
-	 
-		    <img src="${pageContext.request.contextPath}/css/banner3.png"
-			alt="modakbul-icon" class="modakbul-banner" onclick="" /> 
-			
-			<img src="${pageContext.request.contextPath}/css/banner4.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner5.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner6.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner7.png"
-			alt="modakbul-icon" class="modakbul-banner" /> 
-			
-			<ul class="dot">
-	            <li class="on"> <input type="button" value="버튼1"></li>
-	            <li> <input type="button" value="버튼2"></li>
-	            <li> <input type="button" value="버튼3"></li>
-	            <li> <input type="button" value="버튼4"></li>
-	            <li> <input type="button" value="버튼5"></li>
-        	</ul> 
+		<c:forEach items="${fileNames }" var="banner">
+			<img src="${pageContext.request.contextPath}/banner/${banner}"
+				alt="modakbul-icon" class="modakbul-banner" onclick="" />
+		
+		</c:forEach>
  	</div>
     <div class="wrap">
       <main>
@@ -98,11 +79,11 @@
           <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status" begin="0" end="3">
             <div class="list-card">
               <div class="list-image-wrap">
-                <a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" /></a>
-                <img class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+                <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" name="${ad.gather.gatherNo}"/>
+                
               </div>
-              <div class="list-card-title">
-            	<a href="dd">${ad.gather.gatherName}</a>
+              <div class="list-card-title" id="${ad.gather.gatherNo }">
+            	${ad.gather.gatherName}
               </div>
             </div>
             </c:forEach> 
@@ -119,7 +100,7 @@
             <div class="list-card">
               <div class="list-image-wrap">
                 <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${newGather.gatherImg}" alt="사진"  name="${newGather.gatherNo}"/>
-                <img name="${newGather.gatherNo}" class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+               
               </div>
               <div class="list-card-title" id="${newGather.gatherNo}">
                 ${newGather.gatherName}
@@ -139,7 +120,7 @@
             <div class="list-card">
               <div class="list-image-wrap">
                 <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${deadLineGatherList.gatherImg}" name="${deadLineGatherList.gatherNo}" alt="사진" />
-                <img class="list-card-like" name="${deadLineGatherList.gatherNo}"src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+          
               </div>
               <div id="${deadLineGatherList.gatherNo}" class="list-card-title">
                  ${deadLineGatherList.gatherName}

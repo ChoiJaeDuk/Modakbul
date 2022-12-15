@@ -83,7 +83,7 @@
     					console.log(result.gatherList.totalPages)
     					var str ="";
     					$.each(result.gatherList.content, function(index,item) {
-    							str += `<article class="search-list-result-item">`;
+    							str += `<article class="search-list-result-item" name="detail" id=${"${item.gatherNo}"}>`;
     							str += `<div class="search-list-result-item-image-wrap">`;
     							str += `<img src="${pageContext.request.contextPath}/save/"${'${item.gatherImg}'} alt="이미지" width="100%" />`;
     							str += `</div>`;
@@ -185,25 +185,54 @@
 			
 			
 			$("#place-search-btn").click(function() {
-				alert(1)
 				nowPage=1;
 			    agoPage=1;
 				place = $("#place-search").val();
 				selectGatherList();
 				$("#place-search").text("")
 			})
+			
+			
+			$("#gather-insert-btn").click(function() {
+				$(".modal-wrap").show()
+				$("#regularGather").val($("#userNo").val())
+				$("#dayTime").val($("#userNo").val())
+			})
+			
+			$("#regularGather").click(function() {
+				location.href="${pageContext.request.contextPath}/gather/regularGatherInsertForm?userNo="+$(this).val()
+			})
+			
+			$("#dayTime").click(function() {
+				location.href="${pageContext.request.contextPath}/gather/dayTimeGatherInsertForm?userNo="+$(this).val()
+			})
+			
+			$(document).on("click", "[name='detail']", function() {
+				var gatherNo = $(this).attr("id")
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?userNo="+$("#userNo").val()+"&gatherNo="+gatherNo;
+			})
+			
+			$(".cancel-button").click(function() {
+				$(".modal-wrap").hide();
+			})
 		})	    
     </script>
   </head>
   <body>
    <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+    <sec:authorize access="isAuthenticated()">
+	<sec:authentication var="user" property="principal" />
+	<input type="hidden" value="${user.userNo }" id="userNo">
+	</sec:authorize>
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-top">
+        
           <div class="search-list-main-filter">
+         	<div><button class="my-page-button" id="gather-insert-btn" value="67">모임등록</button></div>
             <ul class="search-list-main-filter-wrap">
-              <li class="search-list-main-filter-item selected">모임검색</li>
-              <li class="search-list-main-filter-item">회원검색</li>
+              <li class="search-list-main-filter-item selected" onclick="location.href='${pageContext.request.contextPath}/main/agencyGather'">모임검색</li>
+              <li class="search-list-main-filter-item" onclick="location.href='${pageContext.request.contextPath}/main/searchUserCom'">회원검색</li>
             </ul>
             <div class="search">
 			  <input id="search-text" type="text" placeholder="검색어 입력">
@@ -245,6 +274,19 @@
         	
         	</nav>
         </div>
+        
+        <!-- 기관 개인 선택 모달 -->
+      <div class="modal-wrap" hidden="">
+        <div class="modal-sign-up-button-wrap">
+          <button class="sign-up-agency-button" id="regularGather">정기모임</button>
+          <button class="sign-up-individual-button" id="dayTime">일일모임</button>
+        </div>
+        <div class="modal-button-wrap">
+          <div></div>
+          <button type="button" class="modal-button cancel-button">닫기</button>
+          <div></div>
+        </div>
+      </div>
       </div>
     </div>
    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />

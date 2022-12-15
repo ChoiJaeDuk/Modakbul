@@ -4,7 +4,7 @@ body {
   font-family: 'open sans';
   overflow-x: hidden; }
 
-.gather-img {
+.gather-detail-img {
     width: 400px;
     height: 340px;
     margin: 10px;
@@ -233,6 +233,7 @@ body {
 
 .menu:hover{
 	background-color: rgb(251, 174, 51);
+	color: white;
 }
 
 
@@ -248,7 +249,7 @@ body {
 	text-align:center;
 	width:70%;
 	height: 500px;
-	background-color: yellow;
+
 }
 
 .my-page-image-wrap {
@@ -381,17 +382,19 @@ body {
 }
 
 .wrap {
-  margin: 0 auto;
-  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-header {
+/* header {
   padding: 24px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: lightblue;
-}
-.header-logo {
+} */
+/* .header-logo {
   display: flex;
   align-items: center;
   gap: 0 4px;
@@ -400,7 +403,7 @@ header {
   font-weight: bold;
   font-size: 30px;
   color: rgb(243, 156, 18);
-}
+} */
 .nav-wrap {
   display: flex;
   gap: 0 80px;
@@ -1005,7 +1008,6 @@ header {
 	margin-left: 400px;
 	width: 50px;
 	height: 50px;
-	background-color: red;
 }
 .underline-wrap{
 	width: 1500px;
@@ -1052,7 +1054,7 @@ margin-top:10px;
 	height : 300px;
 	border: solid lightgray 0.5px;
 	}
-/*µå·¡±×*/
+/*ï¿½å·¡ï¿½ï¿½*/
 
 .img {
   margin: 0;

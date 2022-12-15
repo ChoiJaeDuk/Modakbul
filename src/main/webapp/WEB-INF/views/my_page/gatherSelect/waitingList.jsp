@@ -90,6 +90,8 @@
 	                   });///////////////////////////
 	             
 	         });
+	       
+	       
 	   })
 	   
 	    function modal(id) {
@@ -139,7 +141,7 @@
 	                for (var k in styles) this.style[k] = styles[k];
 	                return this;
 	            };
-});//ready END
+
 	  
 		
 	  $(document).ready(function(){		
@@ -168,7 +170,14 @@
 				alert($("#check1").val())
 				location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteGather?userNo="+$('#check1').val()+"&gatherNo="+ $(this).val() + "&regularGatherNo="+ $("#regularGatherNo").val();
 			})
+	
 		})
+		
+		 $(".gather-img").click(function() {
+			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+			//alert($(this).attr("id"))
+		})
+  });//ready END
   </script>
  <body>
  	<input type="text" id="regularGatherNo" hidden=""/>	
@@ -186,7 +195,8 @@
 								<c:set value="true" var="state2" />
 								<img class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
-									alt="img" />
+									alt="img"
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
 
 							</c:if>
 
@@ -194,7 +204,8 @@
 
 						<c:if test="${state1 ne state2}">
 							<img class="sign-up-image" src="${user.userProfileImg }"
-								alt="img" />
+								alt="img"
+								onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
 						</c:if>
 
 						<input id="sign-up-add-image" class="sign-up-add-image"
@@ -208,7 +219,7 @@
 
 							<div>${user.userName }님</div>
 
-
+							<input hidden="" id="userNo" value="${user.userNo}" name="${user.userNo }">
 						</div>
 						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
 						<div class="my-page-user-follow-wrap">
@@ -232,7 +243,7 @@
 					<ul>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
-						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'">
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position: relative;">
 						알림함
 							
 							<c:choose>
@@ -255,7 +266,8 @@
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
 						<li class="my-page-nav-item"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
-						<li class="my-page-nav-item">광고신청</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
 					</ul>
 				</nav>
           <section class="my-page-main-content">
@@ -316,7 +328,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" id="${waitingList.gatherNo}" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${waitingList.gatherName}</td>

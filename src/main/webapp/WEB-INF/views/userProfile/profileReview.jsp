@@ -140,7 +140,7 @@
 						   				
 						   				</tr>
 						   				<tr class="user-info-page-content">
-						   					<th class="result-nick"> ${user.userNo} </th>
+						   					<th class="result-nick"> ${user.userNick} </th>
 						   					<th class="result-addr"> ${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]} </th>
 						   					<th class="result-temper"> ${user.temper}&#8451 </th>
 						   					<th class="result-follower">${follower }</th>

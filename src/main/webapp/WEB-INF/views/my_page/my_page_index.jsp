@@ -20,11 +20,9 @@
 <script type="text/javascript">
 
 
-/* var length = $("selectApplicationStateCount").length;
+ 
 
-$("#aaa").click(function() {
-	alert(length);
-}) */
+
 
     	$(function(){
     		console.log("새알람 = " + ${newAlarm});
@@ -159,7 +157,28 @@ $("#aaa").click(function() {
     	            };
 
     });//ready END
+  
+    $(function(){
+    	
+    	let state = [];
+		let count = [];
+		
+		<c:forEach items="${selectApplicationStateCount}" var="list">
+           var m = '${list.getApplicationState()}';
+           var c = '${list.getApplicationStateCount()}';
 
+           state.push(m);
+           count.push(c);
+           
+       </c:forEach>
+    	
+    	$(document).ready(function(){
+    		$("#11").text(count.slice(0, 1))
+    		$("#22").text(count.slice(2, 3))
+    		$("#33").text(count.slice(3, 4))
+    	}); 
+  
+    })
     </script>
 </head>
 <body>
@@ -247,7 +266,8 @@ $("#aaa").click(function() {
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
 						<li class="my-page-nav-item"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
-						<li class="my-page-nav-item">광고신청</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
 					</ul>
 				</nav>
 
@@ -256,36 +276,35 @@ $("#aaa").click(function() {
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">selectApplicationStateCount</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'" id="11"></span>&nbsp;개
 							</div>
-							<input type="button" id="aaa" value="aaa">
 							<div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}'" id="22"></span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">참가예정인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}'" id="33"></span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">참가완료한 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}'">${selectMyGatherIng}</span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">모집중인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}'">2</span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}'">${selectMyGatherEnd}</span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">진행완료한 모닥불</div>
 						</div>
@@ -438,6 +457,7 @@ $("#aaa").click(function() {
 
 
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 </body>
 
 </html>

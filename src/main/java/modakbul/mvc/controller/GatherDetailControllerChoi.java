@@ -1,6 +1,9 @@
 package modakbul.mvc.controller;
 
-import java.util.List;
+
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.InquiryReply;
+import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.InquiryReplytService;
 import modakbul.mvc.service.InquiryService;
+import modakbul.mvc.service.LikeGatherService;
 import modakbul.mvc.service.ParticipantService;
+import modakbul.mvc.service.UsersService;
 @Controller
 @RequestMapping("/gatherDetail")
 @RequiredArgsConstructor
@@ -28,36 +34,59 @@ public class GatherDetailControllerChoi {
 	
 	private final GatherService gatherService;
 	private final ParticipantService participantService;
+
 	private final InquiryService inquiryService;
 	private final InquiryReplytService inquiryReplyService;
 	
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=5;
+
+	private final LikeGatherService lgService;
+
+	private final UsersService usersService;
+
 	
 	@RequestMapping("/info")
-	public void info(Model model, Long gatherNo, String userNo) {
+	public void info(Model model, Long gatherNo, Long userNo) {
 		System.out.println("userNo = " + userNo);
-		Long userNoLong = Long.parseLong(userNo);
+		//Long userNoLong = Long.parseLong(userNo);
+		//Long gatherNoLong = Long.parseLong(gatherNo);
+	
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		  
-		int check = participantService.checkParticipant(gatherNo, userNoLong);
-		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		  
-		model.addAttribute("gather", gather); model.addAttribute("participant", participant);
-		 
+		int check = participantService.checkParticipant(gatherNo, userNo);
+		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
+		System.out.println("check = "+check);  
+		model.addAttribute("gather", gather); 
+		model.addAttribute("participant", participant);
+		model.addAttribute("userNo1", userNo);
+		model.addAttribute("check", check);
+		
+
 	}
 	
 	@RequestMapping("/hostProfile")
-	public void hostProfile(Model model, Long gatherNo, Long userNo) {
+	public void hostProfile(Model model, Long gatherNo, Long userNo, HttpSession session) {
+		
+		String path = session.getServletContext().getRealPath("/save");
+		File file = new File(path);
+		
+		String fileNames [] = file.list();
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
+		Users user = usersService.selectById(gather.getUser().getUserNo());
+		
+		model.addAttribute("hostUser", user);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
-		
+		model.addAttribute("fileNames", fileNames);
 	}
 	
 	
@@ -75,6 +104,8 @@ public class GatherDetailControllerChoi {
 		
 		int temp= (nowPage -1)%BLOCK_COUNT; 
 		int startPage= nowPage-temp;
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
 		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
@@ -107,18 +138,30 @@ public class GatherDetailControllerChoi {
 		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
+		model.addAttribute("yesOrNo", yesOrNo);
+		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		
 	}
 	
 	@RequestMapping("/insertParticipant")
-	public String insertParticipant(Model model, String userNo, Long gatherNo, String state,RedirectAttributes re) {
-		System.out.println("호출되니?");
+	public String insertParticipant(Model model, Long userNo, Long gatherNo,RedirectAttributes re) {
+		
 		System.out.println("userNo = " + userNo);
 		System.out.println("gatherNo = " + gatherNo);
 		Gather gather = new Gather(gatherNo);
+
+		Users user = new Users(userNo);
+		Participant participant = new Participant(0L, gather, user, "신청대기");
 		
+		int check = participantService.checkParticipant(gatherNo, userNo);
+		System.out.println("check = "+check);
+		participantService.insertParticipant(participant);
+		System.out.println("호출되니?");
+		model.addAttribute("check", check);
+
 		re.addAttribute("userNo",userNo);
 		re.addAttribute("gatherNo",gatherNo);
 		

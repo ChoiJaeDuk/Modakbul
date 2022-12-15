@@ -161,4 +161,15 @@ public interface AdminService {
 	 * selectByNo
 	 */
 	Advertisement selectByNo(Long advertisementNo);
+	
+	/**
+	 * 마이페이지 모집중인 모임 
+	 * */
+	Long selectMyGatherIng(Long userNo);
+	
+	/**
+	 * 마이페이지 진행완료 모임 
+	 * */
+	Long selectMyGatherEnd(Long userNo);
+	
 }

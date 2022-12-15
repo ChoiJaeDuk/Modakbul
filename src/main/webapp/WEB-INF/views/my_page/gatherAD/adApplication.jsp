@@ -28,37 +28,189 @@
   //let end = date.toISOString().slice(0,10);
   
  
-  	$(function() {
+     $(function(){
+    		console.log("새알람 = " + ${newAlarm});
+    		if(${newAlarm}==0 || ${newAlarm}==null){
+    			$(".nav-counter").hide();
+    		}else{
+    			$(".nav-counter").show();
+    		}
+    	})
+
+    $(document).ready(function(){
+    	   $(function(){
+    	      let $modal ;
+    	      
+    	      $(document).ajaxSend(function(e,xht,op){
+    		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+    		      	});
+    	      
+    	       document.getElementById('following').addEventListener('click', function() {
+    	             // 모달창 띄우기
+    	             modal('my_modal');
+    	             
+    	            // alert("dd = " + document.querySelector(".modakbul-button following"))
+    	              $modal = $("button[class='modakbul-button following']")//document.querySelector(".modakbul-button following");
+    	              
+    	              
+    	              
+    	              $(document).on("click", "button[class='modakbul-button following']" , function(){
+    	                
+
+    	                      alert("버튼클릭했음" + " , " + $(this).val());
+    	                      
+    	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
+    	                      console.log("follower = " + $(this).val());
+    	                    /*   console.log("following = " + ${userNo}); */
+    	                      let targetBtn = $(this);
+    	                      
+    	                      if($(this).text() == "팔로잉"){
+    	                         alert("딜리트 반응?");
+    	                         $.ajax({
+    	                            url:"${pageContext.request.contextPath}/follow/delete", 
+    	                            type:"post",
+    	                            dataType:"text",
+    	                                data:JSON.stringify(target),   
+    	                                contentType:'application/json;charset=utf-8',
+    	                            success:function(result){
+    	                               if(result=="ok"){
+    	                                  alert("팔로잉이 해제 되었습니다.")                  
+    	                                  
+    	                                  targetBtn.css("background","rgb(243, 156, 18)")
+    	                                  targetBtn.text("팔로우")
+    	                               }
+    	                            },error:function(err){
+    	                               alert("err : "+err);
+    	                            }
+    	                         });//Delete ajax END
+    	                      }
+    	                      
+    	                      if($(this).text()=="팔로우"){
+    	                         alert("인설트반응?");
+    	                         $.ajax({
+    	                            url:"${pageContext.request.contextPath}/follow/insert",
+    	                            type:"post",
+    	                            dataType:"text",
+    	                                data:JSON.stringify(target),   
+    	                                contentType:'application/json;charset=utf-8',
+    	                            success:function(result){
+    	                               if(result=="ok"){
+    	                                  alert("팔로우 등록 되었습니다.")                  
+    	                                  
+    	                                  targetBtn.css("background","gray")
+    	                                  targetBtn.text("팔로잉")
+    	                               }
+    	                               
+    	                            },error:function(err){
+    	                               alert("err : "+err);
+    	                            }
+    	                         });//Insert ajax END
+    	                      }//if  END
+    	                      
+    	                   });///////////////////////////
+
+    	         });
+    	   })
+    	   
+    	    function modal(id) {
+    	                var zIndex = 9999;
+    	                var modal = document.getElementById(id);
+
+    	                // 모달 div 뒤에 희끄무레한 레이어
+    	                var bg = document.createElement('div');
+    	                bg.setStyle({
+    	                    position: 'fixed',
+    	                    zIndex: zIndex,
+    	                    left: '0px',
+    	                    top: '0px',
+    	                    width: '100%',
+    	                    height: '100%',
+    	                    overflow: 'auto',
+    	                    // 레이어 색갈은 여기서 바꾸면 됨
+    	                    backgroundColor: 'rgba(0,0,0,0.4)'
+    	                });
+    	                document.body.append(bg);
+
+    	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+    	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+    	                    bg.remove();
+    	                    modal.style.display = 'none';
+    	                });
+
+    	                modal.setStyle({
+    	                    position: 'fixed',
+    	                    display: 'block',
+    	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+    	                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+    	                    zIndex: zIndex + 1,
+
+    	                    // div center 정렬
+    	                    top: '50%',
+    	                    left: '50%',
+    	                    transform: 'translate(-50%, -50%)',
+    	                    msTransform: 'translate(-50%, -50%)',
+    	                    webkitTransform: 'translate(-50%, -50%)'
+    	                });
+    	            }
+
+    	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+    	            Element.prototype.setStyle = function(styles) {
+    	                for (var k in styles) this.style[k] = styles[k];
+    	                return this;
+    	            };
+
+    //ready END
+
+        
+     	var data = $("#follower").val();
+   			
+   	
+			
+			
+			 $(document).on("change", ".commercial-image-input", function(){ //주황색
+					
+					alert(1)
+			        console.log($(this))
+			        	var filename = $(this).val().split('/').pop().split('\\').pop();
+			          //console.log(filename)
+			          
+			        $(this).prev().val(filename);
+			          //$(this).attr("name","test");
+			          
+			        console.log($(this))
+			        // $(this).prev().find("input").val(filename);
+
+			      
+			})   
+					
+					
   		
-  		
-  		
+<<<<<<< HEAD
+		
+					
   		$(document).ajaxSend(function(e,xht,op){
 			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 		});
   		
 		$("[name=adApplication-btn]").click(function() {
-			
+			//alert($("#imgg").attr("src"))
+			$("#submitBotton").css("background","lightgrey")
+			$("#img2").attr("src",$("#imgg").attr("src"))
 			
 			
 			//alert(today)
 			$("#start").attr("min",today)
 			//$("#end").attr("min",end)
 			$("#end").attr("disabled","disabled")
-			$("#gatherNo").val($(this).val());
+			$("#gatherNo").val($(this).attr("id"));
+			$(".create-commercial-class-name").text($(this).val())
 
 			//alert($("#gatherNo").val())
 			$("#ad-form").show();
 			
 			
-			/* $(".search-id-button").click(function(){
-
-                  if($("#payment").text()=="결제완료"){
-                	  $("#ad-form").hide();
-                  }else{
-                	  alert("결제를 완료해주세요!")
-                  }
-					
-              }) */
+			
 			
 			
 		})
@@ -88,7 +240,7 @@
 			
 			$("#end").attr("min",end2);
 			$("#end").removeAttr("disabled")
-			alert(end2)
+			//alert(end2)
 			
 			$("#adPrice").text("");
 		});
@@ -112,7 +264,7 @@
 		
 		//////////////////////////////////////////////////결제///////////////////////
 		$("#payment").click(function() {
-			alert(1)
+		
 					if($("#payment").text()=="결제하기"){
 					if(!$("#adPrice").text()==""){
 					var IMP = window.IMP;
@@ -124,7 +276,7 @@
 										merchant_uid : 'merchant_'
 												+ new Date().getTime(),
 										name : '상품명',
-										amount : adPrice, //총판매가격
+										amount : $("$gatherBid").val(), //총판매가격
 										buyer_email : 'kyucando@gmail.com',
 										buyer_name : '규야 ',
 										buyer_tel : '01085510356',
@@ -143,9 +295,7 @@
 											
 									     }
 											
-											//console.log("result = " + result.imp_uid);
-											//alert("${_csrf.parameterName}")
-											//alert("${_csrf.token}")
+											
 											
 											$.ajax({
 												type : "post",
@@ -154,14 +304,15 @@
 										   		data:JSON.stringify(result),	
 										        contentType:'application/json;charset=utf-8',
 										        success : function(result) {
-										        	alert(2)
+										        	$("#submitBotton").attr("disabled",false)
+										        	$("#submitBotton").css("background","rgb(251, 174, 51)")
 										    	    //location.href="${pageContext.request.contextPath}/payment/success";
 													$("#payment").text("결제완료")
 													$("#payment").css("background","lightgrey")
 													$("#payment").attr("disabled","disabled")
 										        	//$("#ad-form").hide();
 										        	//location.href="/my_page/gatherAD/insertAd"
-											alert(3)
+											
 										        },
 												error : function(err) {
 													alert(err);
@@ -180,10 +331,10 @@
 					}
 				});
 		////////////////////////////////////////////////////////////////
-	/* 	$("#submitBotton").click(function() {
+	 /* 	$("#submitBotton").click(function() {
 			if($("#adFileName").text()==""){
 				alert("파일을 첨부해주세요")
-				$("#submitBotton").attr("disabled","disabled")
+				$("#submitBotton").attr("disabled",true)
 				$("#submitBotton").css("background","lightgrey")
 	  	}else{
 	  		$("#submitBotton").removeAttr("disabled")
@@ -194,59 +345,276 @@
 			
 	  		$("#submitBotton").removeAttr("disabled")
 	  		
-	  	} */
-		
-		
-	})
+	  	}  */
+=======
+			  		$(document).ajaxSend(function(e,xht,op){
+						xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+					});
+        
+      $("[name=adApplication-btn]").click(function() {
+         //alert($("#imgg").attr("src"))
+         $("#submitBotton").css("background","lightgrey")
+         $("#img2").attr("src",$("#imgg").attr("src"))
+         
+         
+         //alert(today)
+         $("#start").attr("min",today)
+         //$("#end").attr("min",end)
+         $("#end").attr("disabled","disabled")
+         $("#gatherNo").val($(this).attr("id"));
+         $(".create-commercial-class-name").text($(this).val())
+
+         //alert($("#gatherNo").val())
+         $("#ad-form").show();
+         
+         
+         /* $(".search-id-button").click(function(){
+>>>>>>> jieun
+
+                  if($("#payment").text()=="결제완료"){
+                     $("#ad-form").hide();
+                  }else{
+                     alert("결제를 완료해주세요!")
+                  }
+               
+              }) */
+         
+         
+      })
+      
+      $(".cancel-button").click(function() {
+         $("#ad-form").hide();
+         
+         //alert($("[name='date']").val())
+      })
+      
+      $("#start").change(function() {
+         
+         $("#end").val("");
+         
+         $("#start-date").text($(this).val()+" ~ ")
+         start = new Date($(this).val())
+         dateCal = end - start
+         adPrice = 10000 * (dateCal/1000/60/60/24)
+         $("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+         
+      
+         let date = $(this).val();
+         
+         let tomorrow = new Date(date);
+         tomorrow.setDate(tomorrow.getDate() + 1);
+         let end2 = tomorrow.toISOString().slice(0,10);
+         
+         $("#end").attr("min",end2);
+         $("#end").removeAttr("disabled")
+         //alert(end2)
+         
+         $("#adPrice").text("");
+      });
+      
+   
+      $("#end").change(function() {
+         
+         $("#end-date").text($(this).val())   
+         
+         end = new Date($(this).val())
+         dateCal = end - start
+         
+         adPrice = 10000 * (dateCal/1000/60/60/24)
+         $("[name=adPrice]").val(adPrice)
+         $("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+         
+      });
+      
+      
+      
+      
+      //////////////////////////////////////////////////결제///////////////////////
+      $("#payment").click(function() {
+      
+               if($("#payment").text()=="결제하기"){
+               if(!$("#adPrice").text()==""){
+               var IMP = window.IMP;
+               IMP.init('imp55744106');
+               IMP.request_pay(
+                           {
+                              pg : "kakaopay",
+                              pay_method : 'card',
+                              merchant_uid : 'merchant_'
+                                    + new Date().getTime(),
+                              name : '상품명',
+                              amount : adPrice, //총판매가격
+                              buyer_email : 'kyucando@gmail.com',
+                              buyer_name : '규야 ',
+                              buyer_tel : '01085510356',
+                              buyer_addr : '경기도 용인시 ',
+                              //buyer_postcode : '01234',
+                              //m_redirect_url : '/index.jsp'
+                           },
+                           function(rsp) {
+                              if (rsp.success) {
+                                 var msg = '결제가 완료되었습니다.';
+                                 var result = {
+                                 "imp_uid" : rsp.imp_uid,                                       
+                                  "pay_date" : new Date().getTime(),
+                                 "amount" : rsp.paid_amount,
+                                 "buyer_name": rsp.buyer_name
+                                 
+                                }
+                                 
+                                 //console.log("result = " + result.imp_uid);
+                                 //alert("${_csrf.parameterName}")
+                                 //alert("${_csrf.token}")
+                                 
+                                 $.ajax({
+                                    type : "post",
+                                    url : "${pageContext.request.contextPath}/ajaxTest",  
+                                    dataType:"json",
+                                       data:JSON.stringify(result),   
+                                      contentType:'application/json;charset=utf-8',
+                                      success : function(result) {
+                                         $("#submitBotton").attr("disabled",false)
+                                         $("#submitBotton").css("background","rgb(251, 174, 51)")
+                                         //location.href="${pageContext.request.contextPath}/payment/success";
+                                       $("#payment").text("결제완료")
+                                       $("#payment").css("background","lightgrey")
+                                       $("#payment").attr("disabled","disabled")
+                                         //$("#ad-form").hide();
+                                         //location.href="/my_page/gatherAD/insertAd"
+                                 
+                                      },
+                                    error : function(err) {
+                                       alert(err);
+                                    }
+                                 });
+                           
+                              } else {
+                                 var msg = '결제에 실패하였습니다.';
+                                 rsp.error_msg;
+                                 alert(msg);
+                              }
+                           });
+                  }else{
+                     alert("날짜를 선택해주세요!!!")
+                  }
+               }
+            });
+      ////////////////////////////////////////////////////////////////
+    /*    $("#submitBotton").click(function() {
+         if($("#adFileName").text()==""){
+            alert("파일을 첨부해주세요")
+            $("#submitBotton").attr("disabled",true)
+            $("#submitBotton").css("background","lightgrey")
+        }else{
+           $("#submitBotton").removeAttr("disabled")
+        }
+      
+      })
+      if(!$("#create-image").text()==""){
+         
+           $("#submitBotton").removeAttr("disabled")
+           
+        }  */
+      
+      
+   })
   </script>
+
   <body>
-    <div class="wrap">
-      <div class="my-page-wrap">
-        <div class="my-page-header">
-          <div class="my-page-image-wrap">
-          
-            <img
-              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
-              alt="img"
-            />
-          </div>
-          <div class="my-page-user-info-wrap">
-            <div class="my-page-user-name">
-              <div>임지은님</div>
-              <button class="my-page-button" type="button">프로필 편집</button>
-            </div>
-            <div class="my-page-user-temperature">모닥불 온도 : 36.5&#8451</div>
-            <div class="my-page-user-follow-wrap">
-                <div>
-                    <div>팔로워</div>
-                    <div>320</div>
-                </div>
-                <div>
-                    <div>팔로잉</div>
-                    <div>11</div>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="my-page-content-wrap">
-          <nav>
-            <ul>
-                <li class="my-page-nav-item">프로필정보</li>
-                <li class="my-page-nav-item">알림함</li>
-                <li class="my-page-nav-item">모임조회</li>
-                <li class="my-page-nav-item">관심모임</li>
-                <li class="my-page-nav-item">후기조회</li>
-                <li class="my-page-nav-item">문의조회</li>
-                <li class="my-page-nav-item selected">광고신청</li>
-            </ul>
-          </nav>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+   <div class="wrap">
+		<div class="my-page-wrap">
+			<div class="my-page-header">
+				<div class="my-page-image-wrap" id="original">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<c:set value="${user.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="sign-up-image"
+									src="${pageContext.request.contextPath}/save/${user.userProfileImg }"
+									alt="img"
+									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="sign-up-image" src="${user.userProfileImg }"
+								alt="img"
+								onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${user.userNo}'" />
+						</c:if>
+
+						<input id="sign-up-add-image" class="sign-up-add-image"
+							type="file" name="file" accept="image/*" />
+					</sec:authorize>
+				</div>
+				<div class="my-page-user-info-wrap">
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication var="user" property="principal" />
+						<div class="my-page-user-name">
+
+							<div>${user.userName }님</div>
+
+
+						</div>
+						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
+						<div class="my-page-user-follow-wrap">
+							<div>
+								<div>팔로워</div>
+								<div>&nbsp;&nbsp;&nbsp;${follower}</div>
+							</div>
+							<div>
+								<div>팔로잉</div>
+
+								<div id="following">
+									<a>&nbsp;&nbsp;&nbsp;${following}</a>
+								</div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="my-page-content-wrap">
+				<nav>=
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
+						<!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'"
+							style="position: relative;">알림함 <c:choose>
+								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
+									<span class="nav-counter"> ${newAlarm} </span>
+								</c:when>
+								<c:otherwise>
+									<div class="nav-counter-invi" style="display: none;">
+										<span class="nav-counter-invi"> 0 </span>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</li>
+						<li class="my-page-nav-item "
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/likeGather/myLikeGather?userNo=${user.userNo}'">관심모임</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
+						<li class="my-page-nav-item selected"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
+					</ul>
+				</nav>
           <section class="my-page-main-content">
             <div class="class-search">
                 <div class="filter-wrap">
                     <div class="filter-list-wrap selected">
-                        <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=6'">광고신청</div>
-                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=6'">신청대기</div>
-                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=6'">광고진행중</div>
+                        <div class="filter-list-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }'">광고신청</div>
+                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adWaiting?userNo=${user.userNo }'">신청대기</div>
+                        <div class="filter-list-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adStatus?userNo=${user.userNo }'">광고진행중</div>
                     </div>
                 </div>
                 <div class="commercial" id="adInsert">
@@ -273,7 +641,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img class="gather-img" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%"/>
+                                        <img class="gather-img" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%" id="imgg"/>
                                     </div>
                                 </td>
                                 <td>${adApplicationList.gatherName}</td>
@@ -288,7 +656,7 @@
                                 </c:choose>
                                 </td>
                                 <td class="inquiry-replied">
-                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherNo}">광고신청</button>
+                                    <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherName}">광고신청</button>
                                 </td>
                             </tr>
        						</c:forEach>
@@ -344,9 +712,9 @@
             <div class="create-commercial-wrap">
                 <div class="create-commercial-top">
                     <div class="create-commercial-image-wrap">
-                        <img width="100%"/>
+                        <img width="100%" src="" id="img2"/>
                     </div>
-                    <div class="create-commercial-class-name">${gather.gatherName}</div>
+                    <div class="create-commercial-class-name"></div>
                 </div>
                 <div class="create-commercial-item">
                     <div class="commercial-modal-label">광고 진행일자:</div>
@@ -381,7 +749,7 @@
             </div>
             <div class="modal-button-wrap">
                 <button type="button" class="modal-button cancel-button">취소</button>
-                <button type="submit" class="modal-button search-id-button" id="submitBotton">확인</button>
+                <button type="submit" class="modal-button search-id-button" id="submitBotton" disabled="disabled">확인</button>
             </div>
         </div>
         </form>
@@ -422,6 +790,73 @@
         </div>
         <!-- 추가된 모달 -->
       </div>
+      <div id="my_modal">
+	 	<table id="following" style="width: 100%">
+	 		
+	 		<tr class="title">
+	 	
+	 		<th colspan="4" class="th">
+	 	
+	 		팔로잉
+	 	
+			</th>
+			 <a class="modal_close_btn">X</a>
+			
+			<c:forEach items="${followingList}" var="f">
+				<tr>
+					<th> 
+						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+					</th>
+					<th>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+					</th>
+					<th>
+						${f.followerUser.temper}℃
+					</th>
+					<th style="width: 20%">
+						<button class="modakbul-button following" id="" value="${f.followerUser.userNo}">팔로잉</button>
+					</th>
+				</tr>
+			</c:forEach>
+	 	</table>
+	 
+        </div>
     </div>
+    
+    <sec:authentication var="user" property="principal" />
+    <div style="text-align: center">
+   <nav class="pagination-container">
+	<div class="pagination">
+	<c:set var="doneLoop" value="false"/>
+		
+		 <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+		      <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
+		  </c:if> 
+		  
+		<span class="pagination-inner"> 
+		  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+		  
+			    <c:if test="${(i-1)>=adApplicationList.getTotalPages()}">
+			       <c:set var="doneLoop" value="true"/>
+			    </c:if> 
+		    
+		  <c:if test="${not doneLoop}" >
+		         <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
+		  </c:if>
+		   
+		</c:forEach>
+		</span> 
+				
+		 <c:if test="${(startPage+blockCount)<=adApplicationList.getTotalPages()}">
+		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
+		 </c:if>
+				 
+			
+		
+		</div>
+	</nav>  
+	</div>
+    
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

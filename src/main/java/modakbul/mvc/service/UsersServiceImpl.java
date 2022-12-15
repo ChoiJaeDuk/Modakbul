@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -97,18 +98,16 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public Page<Users> selectUsers(Pageable pageable, String userJob, String keyword, String section) {
+	public Page<Users> selectUsers(Pageable pageable, @RequestParam(required = false) String userJob, String keyword) {
 		QUsers users = QUsers.users;
 
 		BooleanBuilder builder = new BooleanBuilder();
-		if(section != null) {
-			builder.and(users.userJob.eq(section));
-		}
 		
-		else if(keyword !=null) {
-			builder.and(users.userName.contains(keyword));
+		
+		if(keyword !=null) {
+			builder.and(users.userNick.contains(keyword));
 		}
-		else if(userJob != null) {
+		if(userJob != null) {
 			builder.and(users.userJob.eq(userJob));
 		}
 	
