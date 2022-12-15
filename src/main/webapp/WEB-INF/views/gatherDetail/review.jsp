@@ -104,12 +104,12 @@
 							</div>	
 						</div>
 						<div class="gather-info">
-							<div class="gather-name">
+							<div  class="gather-name">
 								<div>
-									<h3 class="product-title">고양이 정보 공유해요!</h3>
+									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								<div class="heart-img">
-									<img src="" alt="img">
+									<img src="${pageContext.request.contextPath}/save/heart.png" alt="img">
 								</div>
 							</div>
 							<div class="rating">
@@ -120,28 +120,37 @@
 									<span class="fa fa-star"></span>
 									<span class="fa fa-star"></span>
 								</div>
-								<span class="category">자유</span>
+								<span class="category">${gather.category.categoryName}</span>
 							</div>
 							<div class="gather-detail">
 								<div class="gather gather-margin">
-									참가비: <span>???</span>
+									참가비: <span><c:choose>
+											<c:when test="${0 eq gather.gatherBid}">
+												무료
+											</c:when>
+											<c:otherwise>
+												${gather.gatherBid}
+											</c:otherwise>
+										</c:choose>
+										</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>2022-10-20 20:30</span>
+								
+									모임 날짜: <span>${gather.gatherDate}</span>
 								</div>
 								<div class="gather inline">
-									장소: 서울시 금천구
+									장소: ${gather.gatherPlace }
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender }
 								</div>
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령: 20 ~ 29
+									연령: ${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / 최대인원
+									인원: 신청인원 : ${participant} / 최대인원 : ${gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							
@@ -163,35 +172,19 @@
 				</div>
 					<div class="space"></div>
 
-			
+				<c:forEach var="gr" items="${grList.content}">
 	            <div class="search-inquiry-review-wrap">
                      <div class="search-inquiry-review">
-                     	<div><b>작성자 : </b></div>
-                     	<div class="review-regis-date">작성날짜: </div>
+                     	<div><b>작성자 : ${gr.writerUser.userName } </b></div>
+                     	<div class="review-regis-date">작성날짜: ${gr. reviewRegisDate}</div>
                      </div>
                      <div class="search-inquiry-reply">
-                       소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                       바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                       우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                       황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                       위하여 이 황금시대를
+                       ${gr.gatherReviewContent}
 				  	</div>
                  </div>
-                 <div class="search-inquiry-review-wrap">
-                     <div class="search-inquiry-review">
-                     	<div><b>작성자 : </b></div>
-                     	<div class="review-regis-date">작성날짜: </div>
-                     </div>
-                     <div class="search-inquiry-reply">
-                       소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                       바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                       우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                       황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                       위하여 이 황금시대를
-				  	</div>
-                 </div>
+            	 </c:forEach>
+                 
 			</div>
-				 
 		</div>
 	</div>
   </body>
