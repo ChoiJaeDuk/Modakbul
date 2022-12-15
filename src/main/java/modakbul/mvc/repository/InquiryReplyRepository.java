@@ -10,7 +10,7 @@ import modakbul.mvc.domain.InquiryReply;
 
 public interface InquiryReplyRepository extends JpaRepository<InquiryReply, Long>, QuerydslPredicateExecutor<InquiryReply>{
 
-	@Query(value = "select * from inquiry_reply where inq_no=?1", nativeQuery =true )
-	//@Query(value = "select ir from InquiryReply ir where ir.inquiry.inqNo=?1" )
+	@Query(value = "select * from inquiry_reply where inq_no=?1 order by INQUIRY_REPLY_NO" , nativeQuery =true )
+	//@Query(value = "select ir from  InquiryReply ir where ir.inquiry.inqNo=?1" )
 	Page<InquiryReply> selectReplyByInquiryNo(Long inqNo,Pageable pageable);
 }

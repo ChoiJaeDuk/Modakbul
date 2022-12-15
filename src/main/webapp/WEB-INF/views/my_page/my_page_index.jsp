@@ -337,107 +337,27 @@
 
 					<th colspan="4" class="th">팔로잉</th>
 					<a class="modal_close_btn">X</a>
-					<!-- <tr class="user">
-
-          <section class="my-page-main-content">
-            <div class="my-page-profile">
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}">
-                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
-                    </div>
-                    <div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
-                </div>
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                  	  	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}">
-                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
-                    </div>
-                    <div class="my-page-profile-card-label">
-                        참가예정인 모닥불
-                    </div>
-                </div>
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                    <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}">
-                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
-                    </div>
-                    <div class="my-page-profile-card-label">
-                        참가완료한 모닥불
-                    </div>
-                </div>
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/recruitingList?userNo=${user.userNo}">
-                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
-                    </div>
-                    <div class="my-page-profile-card-label">
-                        모집중인 모닥불
-                    </div>
-                </div>
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap">
-                    	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/gatherSelect/completionList?userNo=${user.userNo}">
-                        <span class="my-page-profile-card-count">2</span></a>&nbsp;개
-                    </div>
-                    <div class="my-page-profile-card-label">
-                        진행완료한 모닥불
-                    </div>
-                </div>
-                <div class="my-page-profile-card">
-                    <div class="my-page-profile-card-count-wrap" id="replyState">
-                         <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}" id="replyState">
-                         <span class="my-page-profile-card-count" >${replyState}</span></a>&nbsp;개
-                         
-                    </div>
-                    <div class="my-page-profile-card-label">
-                        댓글대기중인 문의글
-                    </div>
-                </div>
-            </div>
-            
-           
-                
-              
-       
-           
-          </section>
-        </div>
-       
-   
-      </div>
-      
-      <div id="my_modal">
-	 	<table id="following" style="width: 100%">
-	 		
-	 		<tr class="title">
-	 	
-	 		<th colspan="4" class="th">
-	 	
-	 		팔로잉
-	 	
-			</th>
-			 <a class="modal_close_btn">X</a>
-			<!-- <tr class="user">
-
-			<th style="width: 20%">
-			사진
-			</th>
-			<th style="width: 10%">
-			이름
-			</th>
-			<th style="width: 10%">
-			온도
-			</th>
-			<th style="width: 20%">
-			<button class="modakbul-button following" id="" value="">팔로우</button>
-			</th>
-			</tr> 	 -->
-
+		
 					<c:forEach items="${followingList}" var="f">
 						<tr>
-							<th><img alt="img" class="followImg"
-								src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
+							<th>
+							<c:set value="${f.followerUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="followImg"
+									src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg}"
+									alt="img"/>
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="followImg" src="${f.followerUser.userProfileImg }"
+								alt="img"/>
+						</c:if>
 							</th>
 							<th>
 								<p
@@ -454,7 +374,7 @@
 			</table>
 
 		</div>
-
+						
 
 	</div>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

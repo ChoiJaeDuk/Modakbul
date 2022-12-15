@@ -644,7 +644,7 @@ body {
   height: 40px;
   background-color: yellow;
 }
-.search-inquiry-reply-wrap {
+.search-inquiry-reply-wrap-only {
   display: flex;
   padding: 24px;
   gap: 0 16px;
@@ -939,8 +939,8 @@ body {
 	background-color: white;
 	font-size: 13px;
 	vertical-align: bottom;
-	text-align: left;
-	margin-top: 85px;
+	text-align: center;
+
 	border: none;
 }
 

@@ -389,6 +389,13 @@ public class GatherTest {
 			
 			System.out.println(list.getSize());
 		}
+		
+		@Test 
+		void selectGatherStateByUserNoNotNull(){
+			List<Long> list = gatherRep.selectGatherStateByUserNoNotNull(1L);
+			
+			list.forEach(b -> System.out.println(b));
+		}
 }
 
 
