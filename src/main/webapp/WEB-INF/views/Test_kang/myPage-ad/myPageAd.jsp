@@ -19,8 +19,7 @@
       <div class="my-page-wrap">
         <div class="my-page-header">
           <div class="my-page-image-wrap">
-            <img
-              src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
+            <img src="https://dummyimage.com/200x200/e8e3e8/fff&text=img"
               alt="img"
             />
           </div>

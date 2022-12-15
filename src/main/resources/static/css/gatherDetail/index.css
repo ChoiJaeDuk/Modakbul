@@ -1095,3 +1095,16 @@ margin-top:10px;
   transition: 0.05s linear;
   z-index: 1;
 }
+
+.fire-fill2 {
+  display: flex;
+  width: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: red;
+  overflow: hidden;
+  pointer-events: none;
+  transition: 0.05s linear;
+  z-index: 1;
+}

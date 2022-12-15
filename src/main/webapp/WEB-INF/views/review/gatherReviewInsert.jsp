@@ -24,16 +24,47 @@
 
 <script type="text/javascript">
 const drawStar = (e) => {
-  console.log(e.value);
-  const wrap = document.querySelector(`.fire-fill`);
-  if (wrap) {
-    const value = Number(e.value) || 0;
-    wrap.style.width = `${value * 10}%`;
-  }
-};
+    console.log(e.value);
+    const wrap = document.querySelector(`.fire-fill`);
+    console.log(wrap)
+   
+    if (wrap) {
+      const value = Number(e.value) || 0;
+      console.log(value)
+     // alert(value*10)
+      wrap.style.width = (value*10) +"%";
+      
+      $("input[name=userTemper]").val( value*10 );
+	  }
+	  
+	
+	};
+	
+	
+	 const drawStar2 = (e) => {
+		  console.log(e.value);
+		  
+		  const wrap2 = document.querySelector(`.fire-fill2`);
+		  
+		  
+		  if (wrap2) {
+			    const value2 = Number(e.value) || 0;
+			    wrap2.style.width = (value2*10) +"%";
+			    
+			    $("input[name=gatherTemper]").val( value*10 );
+		  }
+		
+	}; 
+	
+	
+	
+	  
+	
+	
 </script>
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
       <div class="search-list">
         <div class="search-list-body">
@@ -43,7 +74,7 @@ const drawStar = (e) => {
           <main class="search-list-main">
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
-                <h2 class="inquiry-title">주최자 후기 등록하기 </h2>
+                <h2 class="inquiry-title">모임 후기 등록하기 </h2>
                 <div class="inquiry-button-wrap">
                   
                 </div>
@@ -57,7 +88,7 @@ const drawStar = (e) => {
 						<div class="preview col-md-6">
 							
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="이미지" /></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${gather.gatherImg }" /></div>
 							</div>	
 						</div>
 						<div class="gather-info">
@@ -96,7 +127,7 @@ const drawStar = (e) => {
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령:${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
+									연령 : ${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
 									인원: 신청인원 / ${gather.gatherMaxUsers}
@@ -120,12 +151,14 @@ const drawStar = (e) => {
                 </div>
                 <div class="create-group-wrap">
                 <sec:authentication var="user" property="principal" />
-			        <form action="${pageContext.request.contextPath}/review/userReviewInsertbutton" method="post" >
+			        <form action="${pageContext.request.contextPath}/review/gatherReviewInsertbutton" method="post" >
 			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			        <input type="hidden" name="writerUser" value="${userNo}" id="writerUser">
 			        <input type="hidden" name="hostUser" value="${gather.user.userNo}" id="hostUser">
 			        <input type="hidden" name="regularGather" value="${gather.regularGather.regularGatherNo}" id="regularGather">
-
+					<input type="hidden" name="gatherTemper" value=""/>
+					<input type="hidden" name="userTemper" value=""/>
+					
 			          <div class="create-group-top">
 			            <div class="create-group-wrap-image">
 			              <div class="create-group-info-table-item">
@@ -133,27 +166,51 @@ const drawStar = (e) => {
 			                	<div class="rate-wrap">
 							      <div class="rate">
 							        <div class="empty-wrap">
-							          <img src="./assets/empty.png" width="30px" />
-							          <img src="./assets/empty.png" width="30px" />
-							          <img src="./assets/empty.png" width="30px" />
-							          <img src="./assets/empty.png" width="30px" />
-							          <img src="./assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
 							        </div>
 							        <div class="fire-fill">
-							          <img class="fire-image" src="./assets/logo.png" width="30px" />
-							          <img class="fire-image" src="./assets/logo.png" width="30px" />
-							          <img class="fire-image" src="./assets/logo.png" width="30px" />
-							          <img class="fire-image" src="./assets/logo.png" width="30px" />
-							          <img class="fire-image" src="./assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
 							        </div>
-							        <input  type="range" class="rate-input" onInput="drawStar(this)" step="10" min="50" max="100"/>
+							        <input  type="range" class="rate-input" onInput="drawStar(this)" step="1" min="0" max="10"/>
 							      </div>
 							    </div>
 			              	</div>
-			              	<div class="create-group-info-table-item-content">
-			                	<input class="create-group-form-input" id="gatherTemper" name="gatherTemper"/>
-			              	</div>
+			              <div class="notice-list-info-wrap">
+	            		    <h2 class="inquiry-guide-comment">
+	             			   모임 온도 남기기  	                 
+	                		</h2>
+               			 </div>
+			              
 			              	
+			             <div class="create-group-info-table-item-content">
+			                	<div class="rate-wrap">
+							      <div class="rate">
+							        <div class="empty-wrap">
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							          <img src="${pageContext.request.contextPath}/img/assets/empty.png" width="30px" />
+							        </div>
+							        <div class="fire-fill2">
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							          <img class="fire-image" src="${pageContext.request.contextPath}/img/assets/logo.png" width="30px" />
+							        </div>
+							        <input  type="range" class="rate-input" onInput="drawStar2(this)" step="1" min="0" max="10"/>
+							      </div>
+							    </div>
+			              	</div>
 			              </div>
 			            </div>
 			             <div class="create-group-info-table-item">
@@ -163,9 +220,21 @@ const drawStar = (e) => {
 			              	</h2>
 			              </div>
 			              <div class="create-group-info-table-item-content">
+			                <textarea class="create-group-form-textarea" name="userReviewContent" id="userReviewContent"></textarea>
+			              </div>
+			            </div>
+			            
+			             <div class="create-group-info-table-item">
+			              <div class="create-group-info-table-item-label">
+			              	<h2 class="user-review-content">
+			              	모임 후기
+			              	</h2>
+			              </div>
+			              <div class="create-group-info-table-item-content">
 			                <textarea class="create-group-form-textarea" name="gatherReviewContent" id="gatherReviewContent"></textarea>
 			              </div>
 			            </div>
+			            
 			                <div class="create-group-button-wrap">
 					            <button class="create-user-review-button" type="submit">등록하기</button>
 					            <button class="create-user-review-cancel-button" type="button">돌아가기</button>
@@ -179,5 +248,6 @@ const drawStar = (e) => {
         </div>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>
