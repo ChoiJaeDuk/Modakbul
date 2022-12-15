@@ -137,25 +137,14 @@
 			$(document).ajaxSend(function(e,xht,op){
 		       xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 		    });
-				
-<<<<<<< HEAD
+
 		$(document).on('click', '#like',function(){
-					
-					
-                
-=======
-		$(document).on('click', '#like',function(){ 
->>>>>>> my
                 let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                 console.log("gatherNo = " + "${gather.gatherNo}");
                 console.log("userNo = " + "${userNo1}");
-					
-<<<<<<< HEAD
+
 					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
-               
-=======
-					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){ 
->>>>>>> my
+
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/delete", 
                        type:"post",
@@ -173,13 +162,9 @@
                        }
                     });//Delete ajax END
                  }//Delete IF END
-                 
-<<<<<<< HEAD
+
                  if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                
-=======
-                 if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){ 
->>>>>>> my
+
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/insert",
                        type:"post",
