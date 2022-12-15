@@ -58,75 +58,8 @@ public class AdminController {
 
 	Users userTest = new Users().builder().userNo(2L).build();
 
-	/**
-	 * 유저 페이지
-	 */
-	@RequestMapping("/admin/userList")
-	public void userList(Long userNo, Model model, @RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달
-																									// // nowPage 페이지 넘버
-																									// 받기
-
-		// 모임 리스트
-		List<Gather> gatherList = adminService.selectGatherList();
-
-		model.addAttribute("gatherList", gatherList);
-		// 회원 리스트
-		List<Users> usersList = adminService.selectUsersList();
-
-		model.addAttribute("usersList", usersList);
-		// 회원 팔로워 리스트
-		List<Follow> followerList = followService.myFollower(userNo);
-
-		model.addAttribute("followerList", followerList);
-		///// 페이징 처리/////
-		Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");// 0부터 시작, PAGE_COUNT(10)개씩
-																								// 뿌림, 정렬, 기준=bno
-
-		Page<Users> pageList = adminService.selectUsersList(pageable);
-
-		int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
-
-		int startPage = nowPage - temp; // 6 - 1 = 5
-
-		model.addAttribute("pageList", pageList);
-		model.addAttribute("blockCount", BLOCK_COUNT);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
-
-	}
-
-	/**
-	 * 모임 페이지
-	 */
-	@RequestMapping("/gatherList")
-	public void gatherList(Model model, @RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달 // nowPage
-																						// 페이지 넘버 받기
-
-		// 모임 리스트
-		List<Gather> gatherList = adminService.selectGatherList();
-
-		model.addAttribute("gatherList", gatherList);
-		// 회원 리스트
-		List<Users> usersList = adminService.selectUsersList();
-
-		model.addAttribute("usersList", usersList);
-		///// 페이징 처리/////
-		Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "gatherNo");// 0부터 시작,
-																								// PAGE_COUNT(10)개씩 뿌림,
-																								// 정렬, 기준=bno
-
-		Page<Gather> pageList = adminService.selectGatherList(pageable);
-
-		int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
-
-		int startPage = nowPage - temp; // 6 - 1 = 5
-
-		model.addAttribute("pageList", pageList);
-		model.addAttribute("blockCount", BLOCK_COUNT);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
-	}
-
+	
+	////////////////////////////광고시작///////////////////////////
 	/**
 	 * 광고 페이지
 	 */
@@ -205,15 +138,23 @@ public class AdminController {
 	 * */
 	@ResponseBody
 	@RequestMapping("/admin/updateAdCancle")
-	public String updateAdCancle(Long advertisementNo, String status) {
-		System.out.println("광고 종료");
-		adminService.updateAdCancle(advertisementNo, status);
+	public String updateAdCancle(Long advertisementNo, String status, HttpSession session) {
+		String dir = session.getServletContext().getRealPath("/banner");
+		Advertisement dbAdv = adminService.selectByNo(advertisementNo);
+		if(dbAdv.getAdvertisementNo() == null) {
+			return "존재하지않는광고입니다.";
+		}else {
+			new File((dir + "/" + dbAdv.getAdFileName())).delete();
+			
+		}
 		
-		return "광고진행상태가 변경되었습니다.";
+		adminService.updateAdCancel(advertisementNo, status);
+		System.out.println("광고 종료");
+		return "광고진행상태가 변경되었습니다sc.";
 	}
 	
 	/**
-	 * 광고 상태변경(광고 신청 취소)
+	 * 마이페이지 광고 상태변경(광고 신청 취소)
 	 * */
 	@ResponseBody
 	@RequestMapping("/my_page/gatherAD/updateMyAdCancel")
@@ -226,15 +167,6 @@ public class AdminController {
 		return "광고진행상태가 변경되었습니다.";
 	}
 	
-
-
-	/**
-	 * 광고 등록폼
-	 */
-	@RequestMapping("/admin/adUploadForm")
-	public void adUploadForm() {
-	}
-
 	/**
 	 * 광고 등록
 	 */
@@ -297,52 +229,8 @@ public class AdminController {
 		return "";
 	}
 
+
 	
-	  
-	 
-	/**
-	 * 광고 삭제
-	 */
-	/*
-	 * @RequestMapping("/delete") public String delete(Long advertisementNo) {
-	 * adminService.delete(advertisementNo); return ""; }
-	 */
-
-	/**
-	 * 월별 유저 증가수 차트
-	 */
-	@RequestMapping("/admin/userChart")
-	public void selectMonthCountUser(Users users, Model model) {
-
-		List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
-		model.addAttribute("selectMonthCountUser", selectMonthCountUser);
-
-	}
-
-	/**
-	 * 카테고리별 모임 개수 차트
-	 */
-	@RequestMapping("/admin/manageAll2")
-	public void selectCategoryCount(Gather gather, Model model) {
-
-		List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
-		model.addAttribute("selectCategoryCount", selectCategoryCount);
-
-	}
-
-	/**
-	 * 모임 ,광고 매출 차트
-	 */
-	@RequestMapping("/admin/manageSales")
-	public void chart(Advertisement advertisement, Model model) {
-
-		List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
-		List<GatherGroupBy> selectBidTotal = gatherService.selectBidTotal("2022");
-		
-		model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
-		model.addAttribute("selectBidTotal", selectBidTotal);
-
-	}
 
 	/**
 	 * 마이페이지 광고(신청대기)
@@ -418,11 +306,7 @@ public class AdminController {
 		model.addAttribute("newAlarm", newAlarm);
 		model.addAttribute("userNo", userNo);
 	}
-	/**
-	 * 광고 배너수정 폼으로 이동
-	 */
-	
-	
+
 	/**
 	 * 광고 배너 수정
 	 */
@@ -430,24 +314,137 @@ public class AdminController {
 	 @RequestMapping(value = "/my_page/gatherAD/bannerUpdate", method = RequestMethod.POST)
 	 public String bannerUpdate(String bannerName, HttpSession session,  @RequestParam(value = "file", required = false) MultipartFile file, String advertisementNo, String userNo) {
 		//모임 이미지 첨부
-		String saveDir = session.getServletContext().getRealPath("/save");
+		String saveDir = session.getServletContext().getRealPath("/banner");
 		String originalFileName = file.getOriginalFilename();
-		try {
-			file.transferTo(new File(saveDir + "/" + originalFileName));
-		}catch (Exception e) {
-			e.getStackTrace();
-		}
 		
 		Long advertisementNo2 = Long.parseLong(advertisementNo);
-		
+		Advertisement dbAdv = adminService.selectByNo(advertisementNo2);
+
 		if(originalFileName.length() > 0) {
 			adminService.updateBanner(advertisementNo2, originalFileName);
+			
+			try {
+				
+				new File((saveDir + "/" +dbAdv.getAdFileName())).delete();
+				file.transferTo(new File(saveDir + "/" + originalFileName));
+			}catch (Exception e) {
+				e.getStackTrace();
+			}
+			
+			
 		}
-		 
-	 	
-	 
 	 	return "redirect:/my_page/gatherAD/adStatus?userNo="+userNo; 
 	 }
+	 ////////////////////////광고끝//////////////////////
+	 
+	 
+	 ////////////////////////차트시작///////////////////////
+	 /**
+		 * 월별 유저 증가수 차트
+		 */
+		@RequestMapping("/admin/userChart")
+		public void selectMonthCountUser(Users users, Model model) {
+
+			List<UsersGroupBy> selectMonthCountUser = adminService.selectMonthCountUser(users);
+			model.addAttribute("selectMonthCountUser", selectMonthCountUser);
+
+		}
+
+		/**
+		 * 카테고리별 모임 개수 차트
+		 */
+		@RequestMapping("/admin/manageAll2")
+		public void selectCategoryCount(Gather gather, Model model) {
+
+			List<GatherGroupBy> selectCategoryCount = adminService.selectCategoryCount(gather);
+			model.addAttribute("selectCategoryCount", selectCategoryCount);
+
+		}
+
+		/**
+		 * 모임 ,광고 매출 차트
+		 */
+		@RequestMapping("/admin/manageSales")
+		public void chart(Advertisement advertisement, Model model) {
+
+			List<AdvertisementGroupBy> selectAdTotalPrice = adminService.selectAdTotalPrice(advertisement);
+			List<GatherGroupBy> selectBidTotal = gatherService.selectBidTotal("2022");
+			
+			model.addAttribute("selectAdTotalPrice", selectAdTotalPrice);
+			model.addAttribute("selectBidTotal", selectBidTotal);
+
+		}
+		////////////////////////차트끝///////////////////////
+	 /**
+		 * 유저 페이지
+		 */
+/*
+	 @RequestMapping("/admin/userList")
+		public void userList(Long userNo, Model model, @RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달
+																										// // nowPage 페이지 넘버
+																										// 받기
+
+			// 모임 리스트
+			List<Gather> gatherList = adminService.selectGatherList();
+
+			model.addAttribute("gatherList", gatherList);
+			// 회원 리스트
+			List<Users> usersList = adminService.selectUsersList();
+
+			model.addAttribute("usersList", usersList);
+			// 회원 팔로워 리스트
+			List<Follow> followerList = followService.myFollower(userNo);
+
+			model.addAttribute("followerList", followerList);
+			///// 페이징 처리/////
+			Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "userNo");// 0부터 시작, PAGE_COUNT(10)개씩
+																									// 뿌림, 정렬, 기준=bno
+
+			Page<Users> pageList = adminService.selectUsersList(pageable);
+
+			int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
+
+			int startPage = nowPage - temp; // 6 - 1 = 5
+
+			model.addAttribute("pageList", pageList);
+			model.addAttribute("blockCount", BLOCK_COUNT);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("nowPage", nowPage);
+
+		}
+*/
+		/**
+		 * 모임 페이지
+		 */
+		/*
+		@RequestMapping("/gatherList")
+		public void gatherList(Model model, @RequestParam(defaultValue = "1") int nowPage) {// model : view로 전달 // nowPage
+																							// 페이지 넘버 받기
+
+			// 모임 리스트
+			List<Gather> gatherList = adminService.selectGatherList();
+
+			model.addAttribute("gatherList", gatherList);
+			// 회원 리스트
+			List<Users> usersList = adminService.selectUsersList();
+
+			model.addAttribute("usersList", usersList);
+			///// 페이징 처리/////
+			Pageable pageable = PageRequest.of(nowPage - 1, PAGE_COUNT, Direction.ASC, "gatherNo");// 0부터 시작,
+																									// PAGE_COUNT(10)개씩 뿌림,
+																									// 정렬, 기준=bno
+
+			Page<Gather> pageList = adminService.selectGatherList(pageable);
+
+			int temp = (nowPage - 1) % BLOCK_COUNT;// nowPage=6 //5 % 4 = 1// 나머지
+
+			int startPage = nowPage - temp; // 6 - 1 = 5
+
+			model.addAttribute("pageList", pageList);
+			model.addAttribute("blockCount", BLOCK_COUNT);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("nowPage", nowPage);
+		}*/
 	 
 	 
 

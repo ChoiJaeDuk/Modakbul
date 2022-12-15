@@ -578,7 +578,7 @@
 													class="my-page-search-address-input"
 													value="${user.userPostCode }" readonly="readonly" />
 												<button type="button" class="my-page-button"
-													onclick="execPostCode();" disabled="disabled">우편번호
+													onclick="execPostCode()" >우편번호
 													검색</button>
 											</div>
 											<input id="addr" name="userAddr" class="my-page-form-input"
