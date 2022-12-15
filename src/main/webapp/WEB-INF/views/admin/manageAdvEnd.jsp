@@ -43,10 +43,10 @@
 			</div>
 	
 			<div class="nav-wrap">
-				<div id="nav1"><a href="${pageContext.request.contextPath}/admin/manageAdvAll">전체</a></div>
-				<div id="nav2"><a href="${pageContext.request.contextPath}/admin/manageAdvRegis?adStatus=신청대기">신청대기</a></div>
-				<div id="nav3"><a href="${pageContext.request.contextPath}/admin/manageAdvIng?adStatus=광고중">진행중</a></div>
-				<div id="nav4"><a href="${pageContext.request.contextPath}/admin/manageAdvEnd?adStatus=광고종료">종료</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageAdvAll">전체</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageAdvRegis?adStatus=신청대기">신청대기</a></div>
+				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageAdvIng?adStatus=광고중">진행중</a></div>
+				<div class="manageGroup-nav selected"><a href="${pageContext.request.contextPath}/admin/manageAdvEnd?adStatus=광고종료">종료</a></div>
 			</div>
 			
 			

@@ -295,7 +295,6 @@
 		
 					if(count <=5){
 		
-						alert($div)
 						$("#certAdd").append($div);
 					
 					}
@@ -303,7 +302,7 @@
 		
 			$(document).on("change", ".sign-up-add-image", function(){ //주황색
 					
-					alert(1)
+					
 			        console.log($(this))
 			        	var filename = $(this).val().split('/').pop().split('\\').pop();
 			          //console.log(filename)
@@ -566,7 +565,7 @@
   </head>
   <body>
   <jsp:include page="layout/header.jsp" />
-    <div class="wrap">
+    <div class="wrap" id="loginForm">
       <div class="sign-up-wrap">
           <form action="${pageContext.request.contextPath }/insert" method="post" enctype="multipart/form-data">
          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 

@@ -570,9 +570,25 @@
 			</tr> 	 -->
 			<c:forEach items="${followingList}" var="f">
 				<tr>
-					<th> 
-						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
-					</th>
+					<th>
+							<c:set value="${f.followerUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="followImg"
+									src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg}"
+									alt="img"/>
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="followImg" src="${f.followerUser.userProfileImg }"
+								alt="img"/>
+						</c:if>
+							</th>
 					<th>
 						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
 					</th>
