@@ -92,7 +92,7 @@
 						</c:forEach>
 
 						<c:if test="${state1 ne state2}">
-							${user.userNo }
+							
 							<img class="sign-up-image" src="${user.userProfileImg }"
 								alt="img" />
 						</c:if>

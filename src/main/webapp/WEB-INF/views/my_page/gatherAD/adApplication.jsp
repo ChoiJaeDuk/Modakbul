@@ -396,7 +396,7 @@
                   <sec:authentication var="user" property="principal" />
                   <div class="my-page-user-name">
 
-                     <div>${user.userName }님</div>
+                     <div>${user.userNick }님</div>
 
 
                   </div>
@@ -419,8 +419,9 @@
          </div>
          <div class="my-page-content-wrap">
             <nav>
+		
            		<ul>
-                  <li class="my-page-nav-item "
+  				  <li class="my-page-nav-item "
                      onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
                   <!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
                   <li class="my-page-nav-item"

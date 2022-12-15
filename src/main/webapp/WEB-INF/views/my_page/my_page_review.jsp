@@ -192,7 +192,7 @@ function modal(id) {
 						<sec:authentication var="user" property="principal" />
 						<div class="my-page-user-name">
 
-							<div>${user.userName }님</div>
+							<div>${user.userNick }님</div>
 
 
 						</div>
@@ -360,20 +360,7 @@ function modal(id) {
 	 	
 			</th>
 			 <a class="modal_close_btn">X</a>
-			<!-- <tr class="user">
-			<th style="width: 20%">
-			사진
-			</th>
-			<th style="width: 10%">
-			이름
-			</th>
-			<th style="width: 10%">
-			온도
-			</th>
-			<th style="width: 20%">
-			<button class="modakbul-button following" id="" value="">팔로우</button>
-			</th>
-			</tr> 	 -->
+		
 			<c:forEach items="${followingList}" var="f">
 				<tr>
 					<th>

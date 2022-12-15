@@ -192,8 +192,7 @@
 						<sec:authentication var="user" property="principal" />
 						<div class="my-page-user-name">
 
-							<div>${user.userName }님</div>
-
+							<div>${user.userNick }님</div>
 
 						</div>
 						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
