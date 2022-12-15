@@ -247,7 +247,8 @@ function modal(id) {
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
 						<li class="my-page-nav-item"
 							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
-						<li class="my-page-nav-item">광고신청</li>
+						<li class="my-page-nav-item"
+							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
 					</ul>
 				</nav>
 				<section class="my-page-main-content">

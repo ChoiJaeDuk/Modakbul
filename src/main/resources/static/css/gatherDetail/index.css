@@ -387,14 +387,14 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-header {
+/* header {
   padding: 24px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: lightblue;
-}
-.header-logo {
+} */
+/* .header-logo {
   display: flex;
   align-items: center;
   gap: 0 4px;
@@ -403,7 +403,7 @@ header {
   font-weight: bold;
   font-size: 30px;
   color: rgb(243, 156, 18);
-}
+} */
 .nav-wrap {
   display: flex;
   gap: 0 80px;

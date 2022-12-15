@@ -55,29 +55,11 @@
    <jsp:include page="/WEB-INF/views/layout/header.jsp" />
    
    <div class="bannerSection">
-	 
-		    <img src="${pageContext.request.contextPath}/css/banner3.png"
-			alt="modakbul-icon" class="modakbul-banner" onclick="" /> 
-			
-			<img src="${pageContext.request.contextPath}/css/banner4.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner5.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner6.png"
-			alt="modakbul-icon" class="modakbul-banner" />
-			
-			<img src="${pageContext.request.contextPath}/css/banner7.png"
-			alt="modakbul-icon" class="modakbul-banner" /> 
-			
-			<ul class="dot">
-	            <li class="on"> <input type="button" value="버튼1"></li>
-	            <li> <input type="button" value="버튼2"></li>
-	            <li> <input type="button" value="버튼3"></li>
-	            <li> <input type="button" value="버튼4"></li>
-	            <li> <input type="button" value="버튼5"></li>
-        	</ul> 
+		<c:forEach items="${fileNames }" var="banner">
+			<img src="${pageContext.request.contextPath}/banner/${banner}"
+				alt="modakbul-icon" class="modakbul-banner" onclick="" />
+		
+		</c:forEach>
  	</div>
     <div class="wrap">
       <main>
