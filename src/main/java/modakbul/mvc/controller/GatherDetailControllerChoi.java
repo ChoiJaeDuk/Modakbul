@@ -184,7 +184,7 @@ public class GatherDetailControllerChoi {
 	
 	@RequestMapping("/insertParticipant")
 	public String insertParticipant(Model model, Long userNo, Long gatherNo,RedirectAttributes re) {
-		
+		System.out.println("호출되니?");
 		System.out.println("userNo = " + userNo);
 		System.out.println("gatherNo = " + gatherNo);
 		Gather gather = new Gather(gatherNo);
@@ -195,7 +195,7 @@ public class GatherDetailControllerChoi {
 		int check = participantService.checkParticipant(gatherNo, userNo);
 		System.out.println("check = "+check);
 		participantService.insertParticipant(participant);
-		System.out.println("호출되니?");
+		
 		model.addAttribute("check", check);
 
 		re.addAttribute("userNo",userNo);
