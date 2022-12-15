@@ -115,16 +115,12 @@
   		       xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
   		    });
   				
-			$(document).on('click', '#like',function(){
-  					
-  					alert("관심클릭했음" + " , " + "${gather.gatherNo}");
-                    
+			$(document).on('click', '#like',function(){ 
                     let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                     console.log("gatherNo = " + "${gather.gatherNo}");
                     console.log("userNo = " + "${userNo1}");
   					
-  					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
-                        alert("딜리트 반응?");
+  					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){ 
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/delete", 
                            type:"post",
@@ -138,13 +134,12 @@
                                 $("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
                               }
                            },error:function(err){
-                              alert("err");
+                        	   console.log("err");
                            }
                         });//Delete ajax END
                      }//Delete IF END
                      
-                     if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                        alert("인설트반응?");
+                     if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){ 
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/insert",
                            type:"post",
@@ -159,7 +154,7 @@
                               }
                               
                            },error:function(err){
-                              alert("로그인을 먼저 진행해주세요.");
+                        	   console.log("로그인을 먼저 진행해주세요.");
                            }
                         });//Insert ajax END
                      }//Insert if END

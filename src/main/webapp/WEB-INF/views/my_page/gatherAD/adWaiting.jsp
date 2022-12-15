@@ -35,9 +35,6 @@
                           dataType:"text",
                           data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,            
                           success:function(result){
-                              
-                          
-                                  alert(result);
                                   $("#adWaiting").load(location.href + " #adWaiting");
                                   
                                   $("#ADCancel").hide();

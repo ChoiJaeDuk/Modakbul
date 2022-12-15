@@ -56,9 +56,6 @@
    	              
    	              
    	              $(document).on("click", "button[class='modakbul-button following']" , function(){
-   	                
-
-   	                      alert("버튼클릭했음" + " , " + $(this).val());
    	                      
    	                      let target = {"follower":$(this).val() , "following":"${userNo}"}
    	                      console.log("follower = " + $(this).val());
@@ -66,7 +63,6 @@
    	                      let targetBtn = $(this);
    	                      
    	                      if($(this).text() == "팔로잉"){
-   	                         alert("딜리트 반응?");
    	                         $.ajax({
    	                            url:"${pageContext.request.contextPath}/follow/delete", 
    	                            type:"post",
@@ -81,13 +77,12 @@
    	                                  targetBtn.text("팔로우")
    	                               }
    	                            },error:function(err){
-   	                               alert("err : "+err);
+   	                               console.log("err : "+err);
    	                            }
    	                         });//Delete ajax END
    	                      }
    	                      
    	                      if($(this).text()=="팔로우"){
-   	                         alert("인설트반응?");
    	                         $.ajax({
    	                            url:"${pageContext.request.contextPath}/follow/insert",
    	                            type:"post",
@@ -103,7 +98,7 @@
    	                               }
    	                               
    	                            },error:function(err){
-   	                               alert("err : "+err);
+   	                               console.log("err : "+err);
    	                            }
    	                         });//Insert ajax END
    	                      }//if  END
@@ -175,7 +170,6 @@
 			
 			 $(document).on("change", "#sign-up-add-image2", function(){ //주황색
 					
-					alert(1)
 			        console.log($(this))
 			        	var filename = $(this).val().split('/').pop().split('\\').pop();
 			          //console.log(filename)
@@ -262,7 +256,6 @@
 			
 			$("#end").attr("min",end2);
 			$("#end").removeAttr("disabled")
-			alert(end2)
 			
 			$("#adPrice").text("");
 		});
@@ -286,7 +279,6 @@
 		
 		//////////////////////////////////////////////////결제///////////////////////
 		$("#payment").click(function() {
-			alert(1)
 					if($("#payment").text()=="결제하기"){
 					if(!$("#adPrice").text()==""){
 					var IMP = window.IMP;
@@ -326,17 +318,15 @@
 										   		data:JSON.stringify(result),	
 										        contentType:'application/json;charset=utf-8',
 										        success : function(result) {
-										        	alert(2)
 										    	    //location.href="${pageContext.request.contextPath}/payment/success";
 													$("#payment").text("결제완료")
 													$("#payment").css("background","lightgrey")
 													$("#payment").attr("disabled","disabled")
 										        	//$("#ad-form").hide();
 										        	//location.href="/my_page/gatherAD/insertAd"
-											alert(3)
 										        },
 												error : function(err) {
-													alert(err);
+													console.log(err);
 												}
 											});
 									
