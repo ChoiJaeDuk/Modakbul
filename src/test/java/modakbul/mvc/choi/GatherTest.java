@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -395,6 +396,16 @@ public class GatherTest {
 			List<Long> list = gatherRep.selectGatherStateByUserNoNotNull(1L);
 			
 			list.forEach(b -> System.out.println(b));
+		}
+		
+		@Test
+		void seresr() {
+			Pageable pageable = PageRequest.of(0, 5);
+			
+			Page<Gather> l = gatherService.selectGatherList("agency", null, "", "", "", pageable);
+			
+			l.forEach(b->System.out.println(b));
+			
 		}
 }
 
