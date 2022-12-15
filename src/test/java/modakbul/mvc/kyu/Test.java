@@ -135,9 +135,14 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	public void insertInquiry() {
-		for (int i = 1; i <= 2; i++) {
-			inquiryRep.save(Inquiry.builder().user(new Users(1L)).gather(new Gather(5L)).inqSubject("질문있어용" + i)
-					.inqContent("질문내욤." + i).build());
+		for (int i = 1; i <= 1; i++) {
+			inquiryRep.save(Inquiry.builder()
+					.inqNo(999L)
+					.user(new Users(1L))
+					.gather(new Gather(68L))
+					.inqSubject("질문있어용" + i)
+					.inqContent("질문내욤." + i)
+					.build());
 		}
 	}
 

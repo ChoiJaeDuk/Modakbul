@@ -40,4 +40,6 @@ public interface InquiryService {
 	 * 문의 수정하기 
 	 * */
 	Inquiry updatedInquiry(Inquiry inquiry);
+	
+	
 }

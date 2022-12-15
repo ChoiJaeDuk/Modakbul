@@ -32,12 +32,12 @@
 							</div>	
 						</div>
 						<div class="gather-info">
-							<div class="gather-name">
+							<div  class="gather-name">
 								<div>
-									<h3 class="product-title">고양이 정보 공유해요!</h3>
+									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								<div class="heart-img">
-									<img src="" alt="img">
+									<img src="${pageContext.request.contextPath}/save/heart.png" alt="img">
 								</div>
 							</div>
 							<div class="rating">
@@ -48,28 +48,37 @@
 									<span class="fa fa-star"></span>
 									<span class="fa fa-star"></span>
 								</div>
-								<span class="category">자유</span>
+								<span class="category">${gather.category.categoryName}</span>
 							</div>
 							<div class="gather-detail">
 								<div class="gather gather-margin">
-									참가비: <span>???</span>
+									참가비: <span><c:choose>
+											<c:when test="${0 eq gather.gatherBid}">
+												무료
+											</c:when>
+											<c:otherwise>
+												${gather.gatherBid}
+											</c:otherwise>
+										</c:choose>
+										</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>2022-10-20 20:30</span>
+								
+									모임 날짜: <span>${gather.gatherDate}</span>
 								</div>
 								<div class="gather inline">
-									장소: 서울시 금천구
+									장소: ${gather.gatherPlace }
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender }
 								</div>
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령: 20 ~ 29
+									연령: ${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / 최대인원
+									인원: 신청인원 : ${participant} / 최대인원 : ${gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							
