@@ -1,7 +1,9 @@
+
 package modakbul.mvc.controller;
 
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +22,7 @@ import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.InquiryReply;
 import modakbul.mvc.domain.Participant;
+import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherReviewService;
 import modakbul.mvc.service.GatherService;
@@ -27,6 +30,7 @@ import modakbul.mvc.service.InquiryReplytService;
 import modakbul.mvc.service.InquiryService;
 import modakbul.mvc.service.LikeGatherService;
 import modakbul.mvc.service.ParticipantService;
+import modakbul.mvc.service.UserReviewService;
 import modakbul.mvc.service.UsersService;
 @Controller
 @RequestMapping("/gatherDetail")
@@ -47,6 +51,7 @@ public class GatherDetailControllerChoi {
 
 	private final UsersService usersService;
 	private final GatherReviewService gatherReviewService;
+	private final UserReviewService userReviewService;
 
 	
 	@RequestMapping("/info")
@@ -73,7 +78,8 @@ public class GatherDetailControllerChoi {
 	}
 	
 	@RequestMapping("/hostProfile")
-	public void hostProfile(Model model, Long gatherNo, Long userNo, HttpSession session) {
+	public void hostProfile(Model model, Long gatherNo, Long userNo, HttpSession session,@RequestParam(defaultValue = "1") int nowPage) {
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
@@ -82,15 +88,32 @@ public class GatherDetailControllerChoi {
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
+		
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
 		Users user = usersService.selectById(gather.getUser().getUserNo());
+		System.out.println("user = " + user.getUserNo());
+		
+		//주최한 사람
+		Page<UserReview> userReview=userReviewService.selectByUserNo(user.getUserNo(),pageable);
+		List<UserReview> list=userReview.getContent();
+
+
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
 		
 		model.addAttribute("userNo1", userNo);
 		model.addAttribute("hostUser", user);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		model.addAttribute("fileNames", fileNames);
+		model.addAttribute("userReviewPageList", userReview);
+		model.addAttribute("userReviewList", list);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+		
 	}
 	
 	

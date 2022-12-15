@@ -9,7 +9,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <div style="width:100%;">
-  <canvas id="canvas"></canvas>
+  <canvas id="canvas"></canvas >
 </div>
 
 <script>

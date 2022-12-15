@@ -4,11 +4,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.UserReview;
+import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.UserReviewRepository;
 
 @Service
@@ -47,7 +49,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 	public void delete(Long userReviewNo) {
 		UserReview ur=userReviewRep.findById(userReviewNo).orElse(null);
 		if(ur== null) {
-			throw new RuntimeException("글번호 오류로 삭제 못함");
+			throw new RuntimeException("글 번호 오류로 삭제 못함");
 		}
 		userReviewRep.deleteById(userReviewNo);
 	}
@@ -55,13 +57,12 @@ public class UserReviewServiceImpl implements UserReviewService {
 	 * 회원 아이디별 상세
 	 * */
 	@Override
-	public UserReview selectByUserReviewNo(Long userReviewNo) {
-		UserReview userReview=userReviewRep.findById(userReviewNo).orElse(null);
+	public Page<UserReview> selectByUserNo(Long hostUserNo, Pageable pageable) {
+		Page<UserReview> userReview = userReviewRep.selectByUserReviewNo(hostUserNo, pageable);
 		if(userReview==null)
 			throw new RuntimeException("글번호 오류입니다.");
+		
 		return userReview;
 	}
-
-	
 
 }

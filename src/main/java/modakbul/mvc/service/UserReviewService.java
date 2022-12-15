@@ -1,3 +1,4 @@
+
 package modakbul.mvc.service;
 
 import org.springframework.data.domain.Page;
@@ -21,5 +22,7 @@ public interface UserReviewService {
 	 * */
 	void delete(Long userReviewNo);
 	
-	 UserReview selectByUserReviewNo(Long userReviewNo);
+	Page<UserReview> selectByUserNo(Long hostUserNo, Pageable pageable);
+	 
+	 
 }

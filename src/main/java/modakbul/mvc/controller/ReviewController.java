@@ -131,11 +131,32 @@ public class ReviewController {
 		  return mv; 
 		  
 		  }
+	
+	
 	@RequestMapping("/review/userReviewInsert")
-	public void userReviewInsertForm(Long gatherNo, Long userNo,Model model) {
-		Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
+	public String userReviewInsertForm(Long gatherNo, Long userNo, Model model) {
+		
+		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
+		
 		model.addAttribute("gather", gather);
 		model.addAttribute("userNo", userNo);
+		/*
+		 * System.out.println("gahter = " +
+		 * gather.getRegularGather().getRegularGatherNo());
+		 * System.out.println("gahter2 = " +
+		 * gather.getRegularGather().getRegularGatherNo());
+		 */
+		
+		System.out.println("g = "  + gather.getRegularGather());
+		if(gather.getRegularGather()==null) {
+			return "review/userReviewInsert";
+			
+			
+		}else {
+			return "review/gatherReviewInsert";
+
+		}
+		
 	}
 	
 	@RequestMapping("/review/userReviewInsertbutton")
@@ -148,6 +169,23 @@ public class ReviewController {
 		return "redirect:/my_page/my_page_review?userNo="+userNo; 
 	}
 	
+	@RequestMapping("/review/gatherReviewInsert")
+	public void gatherReviewInsert(Long gatherNo,Long regularGatherNo ,Long userNo,Model model) {
+		Gather gather=gatherService.selectGatherByGatherNo(gatherNo);
+		model.addAttribute("gather", gather);
+		model.addAttribute("userNo", userNo); 
+		model.addAttribute("regularGatherNo", regularGatherNo);
+	}
+	
+	@RequestMapping("/review/gatherReviewInsertbutton")
+	public String gatherReviewInsertbutton(GatherReview gatherReview, @RequestParam(defaultValue = "1") int nowPage) {
+		gatherReviewService.insert(gatherReview);
+		
+		Long userNo=gatherReview.getWriterUser().getUserNo();
+		System.out.println(userNo);
+		
+		return "redirect:/my_page/my_page_review?userNo="+userNo; 
+	}
 	
 
 	

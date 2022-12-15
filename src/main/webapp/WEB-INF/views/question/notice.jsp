@@ -82,6 +82,7 @@ $(function() {
                     </tr>
                   </thead>
                   <tbody>
+                  
                     <c:forEach var="notice" items="${noticeList.content}" varStatus="status">
                    	<c:set var="TextValue" value="${notice.serviceQuestionDate}" />
                  	  <tr class="table-row">

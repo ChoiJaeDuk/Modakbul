@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -138,24 +139,14 @@
 		       xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 		    });
 				
-<<<<<<< HEAD
-		$(document).on('click', '#like',function(){
-					
-					
-                
-=======
+
 		$(document).on('click', '#like',function(){ 
->>>>>>> my
                 let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                 console.log("gatherNo = " + "${gather.gatherNo}");
                 console.log("userNo = " + "${userNo1}");
 					
-<<<<<<< HEAD
 					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
                
-=======
-					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){ 
->>>>>>> my
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/delete", 
                        type:"post",
@@ -174,12 +165,8 @@
                     });//Delete ajax END
                  }//Delete IF END
                  
-<<<<<<< HEAD
-                 if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                
-=======
+
                  if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){ 
->>>>>>> my
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/insert",
                        type:"post",
@@ -308,7 +295,13 @@
 					</div>
 				</div>
 					<div class="space"></div>
-
+					<c:choose>
+						<c:when test="${0 eq requestScope.userReviewPageList.getTotalPages()}">
+							<div class="profile-review-list-ifnone">
+						작성된 후기가 없습니다. 
+						</div>				
+						</c:when>
+					<c:otherwise>	
 				<c:forEach var="gr" items="${grList.content}">
 	            <div class="search-inquiry-review-wrap">
                      <div class="search-inquiry-review">
@@ -320,6 +313,8 @@
 				  	</div>
                  </div>
             	 </c:forEach>
+            	</c:otherwise>
+	            </c:choose> 
 			</div>
 		</div>
 	</div>

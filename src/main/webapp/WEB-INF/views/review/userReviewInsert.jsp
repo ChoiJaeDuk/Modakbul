@@ -33,6 +33,7 @@
     </script> -->
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
    <script type="text/javascript">
       const drawStar = (e) => {
         console.log(e.value);
@@ -45,8 +46,18 @@
          // alert(value*10)
           wrap.style.width = (value*10) +"%";
           
+      		$("input[name=userTemper]").val( value*10 );
+          
+          
+          
+          
         }
+        
+        
       };
+      
+      
+       
     </script>
   
     <div class="wrap">
@@ -111,7 +122,7 @@
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령:${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
+									연령 : ${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
 									인원: 신청인원 / ${gather.gatherMaxUsers}
@@ -137,6 +148,8 @@
                
                 <sec:authentication var="user" property="principal" />
 			        <form action="${pageContext.request.contextPath}/review/userReviewInsertbutton" method="post" >
+			        <input type="hidden" name="gatherNo" value="${gather.gatherNo }"/> 
+			        <input type="hidden" name="userTemper" value=""/>
 			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			        <input type="hidden" name="writerUser" value="${userNo}" id="writerUser">
 			        <input type="hidden" name="hostUser" value="${gather.user.userNo}" id="hostUser">
@@ -171,7 +184,7 @@
 							        />
 							      </div>
 							   </div>
-								</div>
+							</div>
 			              </div>
 			            </div>
 			             <div class="create-group-info-table-item">
@@ -185,17 +198,17 @@
 			              </div>
 			            </div>
 			                <div class="create-group-button-wrap">
-					            <button class="create-user-review-button" type="submit">등록하기</button>
+					            <button class="create-user-review-button" type="submit" value="2">등록하기</button>
 					            <button class="create-user-review-cancel-button" type="button">돌아가기</button>
 					        </div>
 			            </div>
 			          </form>
              		</div>
-             		
             </section>
           </main>
         </div>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>
