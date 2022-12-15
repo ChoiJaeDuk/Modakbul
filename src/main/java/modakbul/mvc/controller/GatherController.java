@@ -53,7 +53,7 @@ public class GatherController {
 	
 	
 	@RequestMapping("/gatherInsert")
-	public ModelAndView gatherInsert(Gather gather,Long userNo, String date, RegularGather regularGather
+	public String gatherInsert(Gather gather,Long userNo, String date, RegularGather regularGather
 			,@RequestParam("gatherAttachmentsFileSubject[]") List<String> gatherAttachmentsFileSubject
 			,HttpSession session, MultipartFile file, @RequestParam("filesList[]") List<MultipartFile> filesList, Long categoryNo ) {
 		//gatherDate를 Local타입으로 변경
@@ -124,7 +124,7 @@ public class GatherController {
 
 		}
 		
-		return new ModelAndView("/gather/success");
+		return "redirect:/";
 	}
 	
 }

@@ -240,7 +240,7 @@
         <input hidden="" id="regularGatherState" name="regularGatherState" value="신청대기"/>
         <input hidden="" id="gatherDate" name="date"/>
         <input hidden="" name="gatherState" value="신청대기"/>
-        <input hidden="" id="userNo" name="userNo" value="1"/>
+        <input hidden="" id=userNo1 value="${userNo}" name="userNo"> 
           <div class="create-group-top">
             <div class="create-group-wrap-image">
               <div class="group-image-wrap">
