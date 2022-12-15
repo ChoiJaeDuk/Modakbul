@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+/<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -161,6 +161,10 @@ $(document).ready(function(){
 				
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo="+$("#check2").val();
 			})
+			
+			$(".gather-img").click(function() {
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+			})
 		
   });
   </script>
@@ -312,7 +316,7 @@ $(document).ready(function(){
                                 <td>${status.index+1}</td>
                                 <td>
 									<div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${participationList.gatherImg}" class="gather-img" alt="이미지"/>
+                                        <img src="${pageContext.request.contextPath}/save/${participationList.gatherImg}" id="${participationList.gatherNo}" class="gather-img" alt="이미지"/>
                                     </div>			
 								</td>
                                 <td>${participationList.gatherName}</td>   
