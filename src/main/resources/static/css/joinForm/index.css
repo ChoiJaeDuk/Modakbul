@@ -1,9 +1,18 @@
 .sign-up-wrap {
   width: 700px;
   position: relative;
+  margin-left: 30%;
 }
 .sign-up-image-area {
   margin-bottom: 24px;
+  margin-left: 25%
+}
+
+#loginForm{
+	
+	height: 1200px;
+	margin-top: 30px;
+	
 }
 .sign-up-form-image {
   display: inline-block;
