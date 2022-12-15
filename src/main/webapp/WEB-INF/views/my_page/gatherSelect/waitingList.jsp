@@ -90,6 +90,8 @@
 	                   });///////////////////////////
 	             
 	         });
+	       
+	       
 	   })
 	   
 	    function modal(id) {
@@ -139,7 +141,7 @@
 	                for (var k in styles) this.style[k] = styles[k];
 	                return this;
 	            };
-});//ready END
+
 	  
 		
 	  $(document).ready(function(){		
@@ -168,7 +170,14 @@
 				alert($("#check1").val())
 				location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteGather?userNo="+$('#check1').val()+"&gatherNo="+ $(this).val() + "&regularGatherNo="+ $("#regularGatherNo").val();
 			})
+	
 		})
+		
+		 $(".gather-img").click(function() {
+			location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+			//alert($(this).attr("id"))
+		})
+  });//ready END
   </script>
  <body>
  	<input type="text" id="regularGatherNo" hidden=""/>	
@@ -208,7 +217,7 @@
 
 							<div>${user.userName }님</div>
 
-
+							<input hidden="" id="userNo" value="${user.userNo}" name="${user.userNo }">
 						</div>
 						<div class="my-page-user-temperature">모닥불 온도 : ${user.temper }&#8451</div>
 						<div class="my-page-user-follow-wrap">
@@ -316,7 +325,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" id="${waitingList.gatherNo}" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${waitingList.gatherName}</td>

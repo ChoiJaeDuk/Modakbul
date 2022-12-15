@@ -242,7 +242,7 @@
         
     		})
 	   
-	      
+	      	
 	       //////////////////////////////////////////////////
 	   })
 	   
@@ -294,12 +294,15 @@
 	                for (var k in styles) this.style[k] = styles[k];
 	                return this;
 	            };
+	            
+	            
+	            $(".gather-img").click(function() {
+					location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+				})
 			});
 		
 		
-		 $(document).ready(function(){		
-			
-		 });
+		 
 		
  
   </script>
@@ -445,11 +448,11 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${requestScope.recruitingList.content}" var="recruitingList" varStatus="status">
-                            <tr class="table-body">
+                            <tr class="table-body" id="${recruitingList}">
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${recruitingList.getGatherImg()}" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${recruitingList.getGatherImg()}" id="${recruitingList.getGatherNo()}" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${recruitingList.getGatherName()}</td>

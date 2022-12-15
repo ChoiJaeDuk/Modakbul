@@ -36,7 +36,6 @@
 	
 	    }
     	$(function() {
-			alert($("#userNo").val())
     		var gatherNo;
     		var userNo=$("#userNo").val()
     			$(document).on("click", ".main-gather-img", function() {
@@ -97,11 +96,11 @@
           <c:forEach items="${requestScope.selectAdGather}" var="ad" varStatus="status" begin="0" end="3">
             <div class="list-card">
               <div class="list-image-wrap">
-                <a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" /></a>
-                <img class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+                <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${ad.gather.gatherImg}" alt="사진" name="${ad.gather.gatherNo}"/>
+                
               </div>
-              <div class="list-card-title">
-            	<a href="dd">${ad.gather.gatherName}</a>
+              <div class="list-card-title" id="${ad.gather.gatherNo }">
+            	${ad.gather.gatherName}
               </div>
             </div>
             </c:forEach> 
@@ -118,7 +117,7 @@
             <div class="list-card">
               <div class="list-image-wrap">
                 <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${newGather.gatherImg}" alt="사진"  name="${newGather.gatherNo}"/>
-                <img name="${newGather.gatherNo}" class="list-card-like" src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+               
               </div>
               <div class="list-card-title" id="${newGather.gatherNo}">
                 ${newGather.gatherName}
@@ -138,7 +137,7 @@
             <div class="list-card">
               <div class="list-image-wrap">
                 <img class="main-gather-img" width="100%" src="${pageContext.request.contextPath}/save/${deadLineGatherList.gatherImg}" name="${deadLineGatherList.gatherNo}" alt="사진" />
-                <img class="list-card-like" name="${deadLineGatherList.gatherNo}"src="${pageContext.request.contextPath}/save/heart.png" alt="하트" />
+          
               </div>
               <div id="${deadLineGatherList.gatherNo}" class="list-card-title">
                  ${deadLineGatherList.gatherName}

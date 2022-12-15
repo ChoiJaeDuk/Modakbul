@@ -3,16 +3,14 @@ package modakbul.mvc.controller;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,11 +35,21 @@ public class GatherController {
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
 	
-	@RequestMapping("/gatherInsertForm")
-	public void gatherInsertForm() {}
+	@RequestMapping("/regularGatherInsertForm")
+	public Model regularGatherInsertForm(Model model,Long userNo) {
+		System.out.println(userNo);
+		model.addAttribute("userNo", userNo);
+		return model;
+	}
 	
-	@RequestMapping("/gatherInsertForm2")
-	public void gatherInsertForm2() {}
+	
+	@RequestMapping("/dayTimeGatherInsertForm")
+	public Model dayTimeGatherInsertForm(Model model,Long userNo) {
+		
+		model.addAttribute("userNo", userNo);
+		
+		return model;
+	}
 	
 	
 	@RequestMapping("/gatherInsert")

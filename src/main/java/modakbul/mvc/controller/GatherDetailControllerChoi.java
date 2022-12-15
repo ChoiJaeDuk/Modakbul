@@ -24,23 +24,23 @@ public class GatherDetailControllerChoi {
 	private final LikeGatherService lgService;
 	
 	@RequestMapping("/info")
-	public void info(Model model, Long gatherNo, String userNo) {
+	public void info(Model model, Long gatherNo, Long userNo) {
 		System.out.println("userNo = " + userNo);
-		
-		Long userNoLong = Long.parseLong(userNo);
-		
-		String yesOrNo = lgService.selectEle(gatherNo, userNoLong);
+		//Long userNoLong = Long.parseLong(userNo);
+		//Long gatherNoLong = Long.parseLong(gatherNo);
+	
+		String yesOrNo = lgService.selectEle(gatherNo, userNo);
 		model.addAttribute("yesOrNo", yesOrNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
 		  
-		int check = participantService.checkParticipant(gatherNo, userNoLong);
+		int check = participantService.checkParticipant(gatherNo, userNo);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		System.out.println("check = "+check);  
 		model.addAttribute("gather", gather); 
 		model.addAttribute("participant", participant);
-		model.addAttribute("userNo1", userNoLong);
+		model.addAttribute("userNo1", userNo);
 		model.addAttribute("check", check);
 		
 		

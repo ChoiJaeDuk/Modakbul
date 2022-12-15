@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.UserReview;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.service.AlarmService;
 import modakbul.mvc.service.FollowService;
 import modakbul.mvc.service.GatherService;
@@ -68,19 +70,22 @@ public class UsersController {
 	}
 	
 	@RequestMapping("/userProfile/profileGather/{userNo}")
-	public String profileGather(@PathVariable Long userNo,@RequestParam(required = false) Long loginUserNo, Model model, HttpSession session) {
+	public String profileGather(@PathVariable Long userNo,@RequestParam(required = false) Long loginUserNo,@RequestParam(defaultValue = "1") int nowPage ,Model model, HttpSession session) {
 		String path = session.getServletContext().getRealPath("/save");
 		File file = new File(path);
 		
 		Users user = usersService.selectById(userNo);
 		String fileNames [] = file.list();
-		
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		List<Follow> follower = followService.myFollower(userNo);
+		
+		Page<GatherGroupBy> gatherList = gatherService.selectRecruitingList(pageable, loginUserNo);
 		
 		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
 		System.out.println("있어 없어? = " + searchFollow);
 		
 		System.out.println("로그인 :  " + loginUserNo);
+		model.addAttribute("gatherList", gatherList);
 		model.addAttribute("follower", follower.size());
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);

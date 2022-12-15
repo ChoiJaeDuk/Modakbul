@@ -45,6 +45,7 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 			+ ", NVL(pcount,0) as PCount\r\n"
 			+ ", NVL(l.like_count,0) as likeCount \r\n"
 			+ ", regular_gather_no as regularGatherNo\r\n"
+			+ ", gather_date as gatherDate\r\n"
 			+ "from gather g left outer join \r\n"
 			+ "(select gather_no, count(gather_no)as pcount from participant where application_state='참가승인' group by gather_no) p \r\n"
 			+ "on g.gather_no=p.gather_no \r\n"

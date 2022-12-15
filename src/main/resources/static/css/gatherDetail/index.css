@@ -4,7 +4,7 @@ body {
   font-family: 'open sans';
   overflow-x: hidden; }
 
-.gather-img {
+.gather-detail-img {
     width: 400px;
     height: 340px;
     margin: 10px;
@@ -233,6 +233,7 @@ body {
 
 .menu:hover{
 	background-color: rgb(251, 174, 51);
+	color: white;
 }
 
 
@@ -381,8 +382,10 @@ body {
 }
 
 .wrap {
-  margin: 0 auto;
-  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 header {
   padding: 24px 12px;

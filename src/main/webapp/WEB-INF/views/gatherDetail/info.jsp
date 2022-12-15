@@ -172,6 +172,7 @@
 		
 	</script>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
   	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
   	<input hidden="" id="check" value="${check}">
   	<sec:authentication var="user" property="principal" />
@@ -187,7 +188,7 @@
 						<div class="preview col-md-6">
 							
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${pageContext.request.contextPath}/save/${gather.gatherImg}"/></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-detail-img" src="${pageContext.request.contextPath}/save/${gather.gatherImg}"/></div>
 							</div>	
 						</div>
 						<div class="gather-info">
@@ -260,10 +261,10 @@
 				
 				<div class="tab-container">
 					<div class="menu-tab">
-						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'">상세정보</div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'">주최자 프로필</div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'">Q & A</div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'">후기(?)</div>	
+						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'"><p>상세정보</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'"><p>주최자 프로필</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'"><p>문의</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'"><p>후기</p></div>	
 					</div>
 				</div>
 				<div class="gather-detail-info">
@@ -371,5 +372,6 @@
 			
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

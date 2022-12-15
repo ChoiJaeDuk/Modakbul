@@ -174,6 +174,10 @@ $(document).ready(function(){
 		$("#confirm").click(function() {
 			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo="+$("#check2").val()+"&url=upcomingList&gatherNo="+$(this).val();
 		})
+		
+		  $(".gather-img").click(function() {
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+		  })
   });
   </script>
   <body>
@@ -320,7 +324,7 @@ $(document).ready(function(){
                                 <td>${status.index+1}</td>
                                 <td>
                                 <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${upcomingList.gatherImg}" class="gather-img" alt="이미지"/>
+                                        <img src="${pageContext.request.contextPath}/save/${upcomingList.gatherImg}" id="${upcomingList.gatherNo}" class="gather-img" alt="이미지"/>
                                     </div>
                                 </td>
                                 <td>${upcomingList.gatherName}</td>

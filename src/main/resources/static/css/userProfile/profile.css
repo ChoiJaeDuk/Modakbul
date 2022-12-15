@@ -52,10 +52,12 @@
 	font-size: 26px;
 	margin-bottom:100px;
 	margin-top:5px;
+	width: 500px;
 }
-.gahter-date{
+.gather-date{
 	font-size: 22px;
 	padding:5px;
+	width: 500px;
 }
 
 .modakbul-button {

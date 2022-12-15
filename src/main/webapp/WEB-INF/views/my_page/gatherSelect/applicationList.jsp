@@ -180,6 +180,10 @@ $(document).ready(function(){
 		$("#confirm").click(function() {
 			location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteParticipant?userNo="+$("#check1").val()+"&url=applicationList&gatherNo="+$(this).val();
 		})
+		
+		 $(".gather-img").click(function() {
+					location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+		})
   });
   </script>
 <body>
@@ -330,7 +334,7 @@ $(document).ready(function(){
                                 <td>${status.index+1}</td>
                                 <td>
                                 <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" alt="이미지"/>
+                                        <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" id="${applicationList.gatherNo}" alt="이미지"/>
                                     </div>
                                 </td>
                                 <td>${applicationList.gatherName}</td>
