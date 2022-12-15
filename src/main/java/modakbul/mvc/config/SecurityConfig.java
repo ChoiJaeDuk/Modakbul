@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.authorizeRequests()  //  security-context  <security:intercept-url
 		.antMatchers("/user/login") //     pattern="/member/main" 
 		.hasAnyRole("USER", "ADMIN")          //      access="isAuthenticated()"
+		.antMatchers("/gather/dayTimeGatherInsertForm")
+		.authenticated()
 		.antMatchers("/my_page/**")
 		.authenticated()
 		.antMatchers("/gatherDetail/info")
