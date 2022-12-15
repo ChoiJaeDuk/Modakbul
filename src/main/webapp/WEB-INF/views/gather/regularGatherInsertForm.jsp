@@ -227,14 +227,16 @@
     <title>Document</title>
   </head>
   <body>
+  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
+    
      <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="user" property="principal" />
 		<input type="hidden" value="${user.userNo}" id="userNo">
 	</sec:authorize>
 	
       <div class="create-group-wrap">
-        <form action="${pageContext.request.contextPath}/gather/gatherInsert" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo=${userNo}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input hidden="" id=userNo1 value="${userNo}" name="userNo"> 
         <input hidden="" id="regularGatherState" name="regularGatherState" value="신청대기"/>
@@ -641,5 +643,6 @@
         </form>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

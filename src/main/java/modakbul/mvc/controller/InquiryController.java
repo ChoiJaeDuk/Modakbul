@@ -79,8 +79,6 @@ public class InquiryController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("fileNames", fileNames);
-		
-
 	}
-
+	
 }

@@ -25,12 +25,34 @@
 		var gatherPlace;		
 		
 		$(function() {
-	
-		 	if($("#check").val()>0){
+			
+			if($("#application-btn").attr("name")=="모집중"){
+			 	if($("#check").val()>0){
+					$("#application-btn").css("background","grey")
+					$("#application-btn").text("신청완료")
+					$("#application-btn").attr("disabled",true)
+				}else{
+					$("#application-btn").text("신청하기")
+				}
+			}else if($("#application-btn").attr("name")=="진행완료"){
 				$("#application-btn").css("background","grey")
-				$("#application-btn").text("신청완료")
+				$("#application-btn").text("진행완료")
+				$("#application-btn").attr("disabled",true)
+			}else if($("#application-btn").attr("name")=="모임취소"){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("모임취소")
+				$("#application-btn").attr("disabled",true)
+			}else if($("#application-btn").attr("name")=="진행중"){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("진행중")
+				$("#application-btn").attr("disabled",true)
+			}else if($("#application-btn").attr("name")=="모집마감"){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("모집마감")
 				$("#application-btn").attr("disabled",true)
 			}
+			
+			
 			 
 			gatherPlace = $("#gatherPlace").val();
 			//alert(gatherPlace)
@@ -116,15 +138,13 @@
   		    });
   				
 			$(document).on('click', '#like',function(){
-  					
-  					alert("관심클릭했음" + " , " + "${gather.gatherNo}");
                     
                     let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                     console.log("gatherNo = " + "${gather.gatherNo}");
                     console.log("userNo = " + "${userNo1}");
   					
   					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
-                        alert("딜리트 반응?");
+                        
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/delete", 
                            type:"post",
@@ -133,8 +153,7 @@
                                contentType:'application/json;charset=utf-8',
                            success:function(result){
                               if(result=="ok"){
-                                 alert("관심모임이 해제 되었습니다.")                  
-                                 
+
                                 $("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
                               }
                            },error:function(err){
@@ -144,7 +163,7 @@
                      }//Delete IF END
                      
                      if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                        alert("인설트반응?");
+                       
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/insert",
                            type:"post",
@@ -153,7 +172,7 @@
                                contentType:'application/json;charset=utf-8',
                            success:function(result){
                               if(result=="ok"){
-                                 alert("관심모임 등록 되었습니다.")                  
+                                                  
                                  
                                  $("#like").attr("src","${pageContext.request.contextPath}/save/ok_modak.png")
                               }
@@ -227,13 +246,13 @@
 									</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>${gather.gatherDate}</span>
+									모임 날짜: <span>${fn:replace(gather.gatherDate, 'T', ' ')}</span>
 								</div>
 								<div class="gather inline">
 									장소: ${gather.gatherPlace}
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender}
 								</div>
 							</div>
 							<div class="gather-detail">
@@ -255,7 +274,7 @@
 							
 							
 							<div class="action">
-								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}"type="button">지금 예약하기</button>
+								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}"type="button" name="${gather.gatherState}"></button>
 							</div>
 						</div>
 					</div>
@@ -263,10 +282,10 @@
 				
 				<div class="tab-container">
 					<div class="menu-tab">
-						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'"><p>상세정보</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'"><p>주최자 프로필</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'"><p>문의</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'"><p>후기</p></div>	
+						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>상세정보</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>주최자 프로필</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>문의</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>후기</p></div>	
 					</div>
 				</div>
 				<div class="gather-detail-info">

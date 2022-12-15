@@ -24,7 +24,7 @@ public interface InquiryService {
 	/**
 	 * 문의 등록하기
 	 * */
-	void insertInquiry(Inquiry inquiry);
+	void insertInquiry(Inquiry inquiry, String gatherName,Long gatherNo);
 	/**
 	 * 문의 삭제하기 
 	 * */
@@ -40,4 +40,6 @@ public interface InquiryService {
 	 * 문의 수정하기 
 	 * */
 	Inquiry updatedInquiry(Inquiry inquiry);
+	
+	
 }

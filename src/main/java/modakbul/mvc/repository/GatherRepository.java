@@ -10,6 +10,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
+import modakbul.mvc.groupby.SelectGatherStateByUserNo;
 
 public interface GatherRepository extends JpaRepository<Gather, Long> , QuerydslPredicateExecutor<Gather> {
 	
@@ -70,6 +71,19 @@ public interface GatherRepository extends JpaRepository<Gather, Long> , Querydsl
 	
 	@Query(value = "select * from gather where gather_state='모집중' and rownum <5 order by gather_deadline asc", nativeQuery = true)
 	List<Gather> selectGatherOrderByDeadline();
+	
+	
+	@Query(value = "select p.gather_no from participant p "
+			+ "left outer join (select * from user_review where writer_user_no = ?1) ur\r\n"
+			+ "on p.gather_no = ur.gather_no "
+			+ "where user_no=?1 and application_state='참가완료' and user_review_no is null", nativeQuery = true)
+	List<Long> selectGatherStateByUserNoNull(Long userNo);
+	
+	@Query(value = "select p.gather_no from participant p "
+			+ "left outer join (select * from user_review where writer_user_no = ?1) ur\r\n"
+			+ "on p.gather_no = ur.gather_no "
+			+ "where user_no=?1 and application_state='참가완료' and user_review_no is not null" ,nativeQuery = true)
+	List<Long> selectGatherStateByUserNoNotNull(Long userNo);
 }
 
 

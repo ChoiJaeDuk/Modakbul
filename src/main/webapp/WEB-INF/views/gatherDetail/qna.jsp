@@ -88,8 +88,32 @@
     </script>
 
   </head>
+   <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $(this).on("click", function() {
+            $(".search-inquiry-reply-wrap-only").fadeToggle();
+            $(".reply-btn").show();
+            $(".search-inquiry-reply-wrap reply-show").show();
+        })
+        
+   	 }) 
+   	   $(function() {
+   		 $(".reply-btn").on("click", function() {
+             $(this).parent().next().fadeToggle();
+             
+         })
+   	 })
+   	 	
+   	 
+   	 
+   	 </script>
 
   <body>
+    <input hidden="" id="gatherBid" value="${gather.gatherBid}">
+  	<input hidden="" id="check" value="${participant}">
+  	<sec:authentication var="user" property="principal" />
+ 	<input hidden="" id="userNo" value="${user.userNo}">
 	<div class="wrap">
 		<div class="container">
 			<div class="card">
@@ -98,16 +122,16 @@
 						<div class="preview col-md-6">
 							
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="http://placekitten.com/400/252" /></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${pageContext.request.contextPath}/save/no_modak.png" /></div>
 							</div>	
 						</div>
 						<div class="gather-info">
 							<div class="gather-name">
 								<div>
-									<h3 class="product-title">고양이 정보 공유해요!</h3>
+									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
 								<div class="heart-img">
-									<img src="" alt="img">
+									<img src="${pageContext.request.contextPath}/save/heart.png" alt="img">
 								</div>
 							</div>
 							<div class="rating">
@@ -118,34 +142,43 @@
 									<span class="fa fa-star"></span>
 									<span class="fa fa-star"></span>
 								</div>
-								<span class="category">자유</span>
+								<span class="category">${gather.category.categoryName}</span>
 							</div>
 							<div class="gather-detail">
 								<div class="gather gather-margin">
-									참가비: <span>???</span>
+									참가비: <span><c:choose>
+											<c:when test="${0 eq gather.gatherBid}">
+												무료
+											</c:when>
+											<c:otherwise>
+												${gather.gatherBid}
+											</c:otherwise>
+										</c:choose>
+										</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>2022-10-20 20:30</span>
+								
+									모임 날짜: <span>${gather.gatherDate}</span>
 								</div>
 								<div class="gather inline">
-									장소: 서울시 금천구
+									장소: ${gather.gatherPlace }
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender }
 								</div>
 							</div>
 							<div class="gather-detail">
 								<div class="gather inline">
-									연령: 20 ~ 29
+									연령: ${gather.gatherMinAge} ~ ${gather.gatherMaxAge}
 								</div>
 								<div class="gather inline">
-									인원: 신청인원 / 최대인원
+									인원: 신청인원 : ${participant} / 최대인원 : ${gather.gatherMaxUsers} (최소진행 인원: ${gather.gatherMinUsers}명)
 								</div>
 							</div>
 							
 							
 							<div class="action">
-								<button class="add-to-cart btn btn-default" type="button">지금 예약하기</button>
+								<button class="add-to-cart btn btn-default" value="${gather.gatherNo}" type="button">지금 예약하기</button>
 							</div>
 						</div>
 					</div>
@@ -164,28 +197,28 @@
 						<button class="add-to-cart qna-write-btn" type="button">문의 작성</button>
 					</div>			
 				</div>
-				<form>
+				<form action="insert">
+				<input type="hidden"  name="user" value="${user.userNo}" />
+				<input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
+				<input type="hidden"  name="gatherName" value="${gather.gatherName}" />
 					<div class=qna-write-form>
 						
 						<div class="gather-detail-info qna-text">
 							<label class="sign-up-form-label" for="id">문의 제목</label>
-            				<input class="sign-up-form-input-medium"/>
+            				<input class="sign-up-form-input-medium" name="inqSubject"/>
 						</div>
 						<div class="gather-detail-info qna-text">
 							<label class="sign-up-form-label" for="id">문의 내용</label>
             				<div class="inquiry-detail-textarea-wrap">
-                  				<textarea class="inquiry-textarea"></textarea>
+                  				<input class="inquiry-textarea" name="inqContent"></input>
               				</div>	
 						</div>
-						<div class="gather-detail-info qna-text">
-							<label class="sign-up-form-label" for="id">비밀번호</label>
-            				<input type="password" class="sign-up-form-input-medium"/>
-						</div>
+						
 						
 					</div>
 					<div class=qna-write-form-btn>
 						<div class="qna-write">
-							<button class="add-to-cart" type="button">작성완료</button>
+							<button class="add-to-cart" type="submit">작성완료</button>
 							<button class="add-to-cart cancel-btn" type="button">취소</button>
 						</div>
 					</div>
@@ -213,56 +246,69 @@
 		                    </tr>
 		                  </thead>
 		                  <tbody>
+		                   <c:forEach var="qna" items="${qnaList.content}" varStatus="status">
+                   			<c:set var="TextValue" value="${qna.inqRegisDate}" />
 		                    <tr class="table-row">
-		                      <td>1</td>
-		                      <td>제목</td>
-		                      <td>작성자</td>
-		                      <td>22.11.13</td>
-		                      <td><button class="search-list-button" type="button">확인</button></td>
+		                      <td>${status.count}</td>
+		                      <td>${qna.inqSubject}</td>
+		                      <td>${qna.user.userName }</td>
+		                      <td>${fn:substring(TextValue,0,10)}</td>
+		                      <td><button class="search-list-button" type="button" value="${qna.inqNo}" >확인</button></td>
+		                      
 		                    </tr>
+		                    
+		                   <tr>
+		                    <td colspan="5">
+		                 	<div class="search-inquiry-reply-wrap-only" style="display: none;" >
+		                      <p class="search-inquiry-reply">
+		                      ${qna.inqContent}
+		                      </p>
+		                    </div>
+							
+							 <%-- <c:if test="${'' eq reply.user.userNo}">  --%>
+		                    <c:forEach items="${qna.inquiryReplyList}" var="reply">
+		                      <div class="reply-btn" style="display: none;">
+		                      	<button class="reply-btn" type="button">답변달기</button>
+		                      	<button class="reply-btn" type="button">삭제</button>
+		                      </div>
+		                    
+		                 	<div class="search-inquiry-reply-wrap reply-form-wrap" style="display: none;">
+	                       	<label class="reply-form" for="id">답변</label>
+	                       	<form action="qnaInsert">
+	           				<div class="inquiry-detail-textarea-wrap">
+	               				<textarea class="inquiry-textarea reply" name="inquiryReplycontent"></textarea>
+	           				</div>	
+	           				<div class="reply-btn">
+	           				<%-- ${reply.inquiry.inqNo} --%>
+	           					 <input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
+	           					<input type="hidden" class="" id="" name="user" value="${user.userNo}" />
+	           					<input type="hidden" class="inqNo" id="inqNo" name="inquiry" value="${reply.inquiry.inqNo }" />
+		                      	<button class="reply-form-btn" type="submit">답변작성</button>
+		                      	<button class="reply-form-btn" type="button">취소</button>
+	                      	</div>
+	                      	</form>
+	                    	 </div>
+	                     
+	                     <div class="search-inquiry-reply-wrap reply-show" >
+	                      <div class="search-inquiry-reply"><b>주최자: ${reply.user.userName } </b></div>
+	                      <div class="search-inquiry-reply">
+	                      ${reply.inquiryReplycontent}
+	                      </div>
+	                    </div> </c:forEach>
+	                   </td>  
+		              
+		            </tr>
+		          </c:forEach>
+	                
 		                  </tbody>
 		                </table>
 		              </div>
-		            </section>
+		             </section> 
 		          </main>
 		          </div>
-		            <div class="search-inquiry-reply-wrap">
-                      
-                      <p class="search-inquiry-reply">
-                        소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                        바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                        우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                        황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                        위하여 이 황금시대를
-                      </p>
-                      <div>
-                      	<button class="reply-btn" type="button">답변달기</button>
-                      	<button class="reply-btn" type="button">삭제</button>
-                      </div>
-                    </div>
-                    <div class="search-inquiry-reply-wrap reply-form-wrap">
-                      <label class="reply-form" for="id">답변</label>
-           				<div class="inquiry-detail-textarea-wrap">
-               				<textarea class="inquiry-textarea reply"></textarea>
-           				</div>	
-           				<div>
-	                      	<button class="reply-form-btn" type="button">답변작성</button>
-	                      	<button class="reply-form-btn" type="button">취소</button>
-                      	</div>
-                    </div>
-                    <div class="search-inquiry-reply-wrap reply-show">
-                      <div class="search-inquiry-reply"><b>주최자: </b></div>
-                      <div class="search-inquiry-reply">
-                        소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                        바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                        우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                        황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                        위하여 이 황금시대를
-                      </div>
-                    </div>
 				</div>
-				 
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

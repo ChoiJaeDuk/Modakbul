@@ -216,6 +216,11 @@
 	      
 		})  
 		
+		$(".create-group-cancel-button").click(function() {
+			history.back()
+		})
+		
+		
 	})        
   	
 	
@@ -223,6 +228,7 @@
     <title>Document</title>
   </head>
   <body>
+   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     <div class="wrap">
      <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="user" property="principal" />
@@ -628,5 +634,6 @@
         </form>
       </div>
     </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>
