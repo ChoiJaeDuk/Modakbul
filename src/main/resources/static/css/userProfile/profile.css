@@ -202,40 +202,13 @@ table{
 .user-info-page{
 	position: absolute;
 }
-.user-name{
-	position:absolute;
-	font-size: 20px;
-	left: 25%;
 
-}
-.user-temper{
-	position: absolute;
-	top: 40%;
-	left: 62%; 
-}
 /* .user-follow{
 	
 	font-size: 12px;
 	display: inline-block;
 	padding-right: 5px;
 } */
-
-.userNick{
-	position: absolute;
-	display: inline-block;
-	font-size: 16px;
-	top: 40%;
-	left: 10%;
-}
-
-
-.plusinfo{
-	position: absolute;
-	display: inline-block;
-	font-size: 16px;
-	top: 40%;
-	right: 20%;
-}
 
 .profileImg{
 	position: absolute;
@@ -246,15 +219,6 @@ table{
 
 }
 
-.follower{
-	position: absolute;
-	top: 40%;
-	left: 25%;
-	font-size: 16px;
-	
-	
-    
-}
 .followBtn{
 	
 	position: absolute;
@@ -273,31 +237,102 @@ table{
     color: white;
     margin-bottom: 30px;
 }
+
 .subject-title{
 	margin-left: 120px;
 }
 
+
+.user-name{
+	position:absolute;
+	font-size: 20px;
+	left: 25%;
+
+}
+.user-temper{
+	position: absolute;
+	top: 40%;
+	left: 75%; 
+}
+
+.follower{
+	position: absolute;
+	top: 40%;
+	left: 28%;
+	font-size: 16px;
+
+}
+
+.plusinfo{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 40%;
+	right: 10%;
+}
+
+.userNick{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 40%;
+	left: 5%;
+}
+
+.user-gender{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 40%;
+	left: 60%;
+}
+
+.user-old{
+	position: absolute;
+	display: inline-block;
+	font-size: 16px;
+	top: 40%;
+	left: 17%;
+}
 	
 .result-addr{
 	position: absolute;
 	display: inline-block;
 	font-size: 16px;
 	top: 60%;
-	right: 16%;
+	right: 7%;
 }
 .result-temper{
 	
 	color: orange;
 	position: absolute;
 	top: 60%;
-	left: 62%; 
+	left: 75%; 
+	
+}
+
+.result-gender{
+	
+	color: orange;
+	position: absolute;
+	top: 60%;
+	left: 60%; 
+	
+}
+
+.result-old{
+	
+	color: orange;
+	position: absolute;
+	top: 60%;
+	left: 16%; 
 	
 }
 
 .result-follower{
 	position: absolute;
 	top: 60%;
-	left: 26%;
+	left: 30%;
 	font-size: 16px;
 	display: inline-block;
 }
@@ -305,10 +340,12 @@ table{
 .result-nick{
 	position: absolute;
 	top: 60%;
-	left: 11%;
+	left: 5%;
 	font-size: 16px;
 	display: inline-block;
 }
+
+
 .checkUserSubject{
 	display: inline-block;
 	width: 10%

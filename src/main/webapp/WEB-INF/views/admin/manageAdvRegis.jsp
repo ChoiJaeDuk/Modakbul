@@ -27,8 +27,8 @@
 				success:function(result){
 					alert(result);
 					console.log(result)
-						//btn.remove()
-					    $("#advRegis").load(" #advRegis > *");
+						btn.remove()
+					    //$("#advRegis").load(" #advRegis > *");
 						$("#count").load(location.href + " #count"); 
 						$("button").attr("disabled", false)
 			

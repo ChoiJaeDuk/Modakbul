@@ -36,11 +36,7 @@
         <div class="modakbul-content">
           <div><b>진행중 광고 : ${fn:length(selectByStatus1)}&emsp;&emsp;신청대기 광고 : ${fn:length(selectByStatus2)}&emsp;&emsp;종료된 광고 : ${fn:length(selectByStatus3)}</b></div>
 		<div class="cont-wrap">
-			<div class="ad-wrap">
-				<div class="ad">현재 진행중 광고 : 1</div>
-				<div class="ad">현재 신청대기 광고 : 1</div>
-				<div class="ad">종료된 광고 : 1</div>
-			</div>
+			
 	
 			<div class="nav-wrap">
 				<div class="manageGroup-nav"><a href="${pageContext.request.contextPath}/admin/manageAdvAll">전체</a></div>

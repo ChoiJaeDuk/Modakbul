@@ -460,7 +460,7 @@ $(document).ready(function(){
 						<sec:authentication var="user" property="principal" />
 						<div class="my-page-user-name">
 
-							<div>${user.userName }님</div>
+							<div>${user.userNick }님</div>
 
 
 						</div>

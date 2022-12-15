@@ -339,44 +339,36 @@
 				}
 			
 		
-				let inval_Arr = new Array(10).fill(false);
+				let inval_Arr = new Array(9).fill(false);
 				//이름확인
-				if (nameJ.test($("#name").val())) {
-					
-					inval_Arr[0] = true;
-				} else {
-					inval_Arr[0] = false;
-					alert("이름은 한글로만 작성가능합니다.");
-					return false;
-				} 
 				
 				//id 중복체크 여부
 				if($("#checkId").html()=="중복체크완료"){
 					
-					inval_Arr[1] = true;
+					inval_Arr[0] = true;
 					
 				}else{
-					inval_Arr[1] = false;
+					inval_Arr[0] = false;
 					alert("id중복체크를 진행해주세요");
 					return false;
 				}
 				
 				// 비밀번호가 같은 경우 && 비밀번호 정규식
 				if ($("#comparePwd").html() == "" && $("#pw").val() != "" && $("#check-pw").val() != "" ) {
-					inval_Arr[2] = true;
+					inval_Arr[1] = true;
 					
 				} else {
-					inval_Arr[2] = false;
+					inval_Arr[1] = false;
 					alert("비밀번호를 확인하세요.");
 					return false;
 				}
 				
 				//닉네임
 				if($("#checkNick").html()=="중복체크완료"){
-					inval_Arr[3] = true;
+					inval_Arr[2] = true;
 				
 				}else{
-					inval_Arr[3] = false;
+					inval_Arr[2] = false;
 					alert("닉네임을 다시 입력해주세요.")
 					return false;
 				}
@@ -384,10 +376,10 @@
 				// 휴대폰번호 정규식
 				if (phoneJ.test($("#phone").val())) {
 					
-					inval_Arr[4] = true;
+					inval_Arr[3] = true;
 				
 				} else {
-					inval_Arr[4] = false;
+					inval_Arr[3] = false;
 					alert("휴대폰 번호를 확인하세요.");
 					return false;
 				} 
@@ -395,60 +387,60 @@
 				//주민번호
 				if (businessJ.test($("#business").val())) {
 					
-					inval_Arr[5] = true;
+					inval_Arr[4] = true;
 				
 				} else {
-					inval_Arr[5] = false;
+					inval_Arr[4] = false;
 					alert("사업자등록번호를 확인하세요.");
 					return false;
 				} 
 				
 				//이메일
 				  if($(".email-validate-error").html()=="인증완료"){
-					inval_Arr[6] = true;
+					inval_Arr[5] = true;
 					
 				}else{
-					inval_Arr[6] = false;
+					inval_Arr[5] = false;
 					alert("email 인증을 진행해주세요.");
 					return false;
 				} 
 				//파일첨부
 					if($("input[name='userAttachmentsFileSubject[]']").val()=="" && $("input[name='userAttachmentsFileName']").val() != "" ){
-						inval_Arr[7] = false;
+						inval_Arr[6] = false;
 						alert("파일이름을 입력해주세요.");
 						return false;
 
 					}else{
-						inval_Arr[7] = true;
+						inval_Arr[6] = true;
 					}
 				
 					//우편번호
 					if ( $("#zip").val().length >0 ) {
 						
-						inval_Arr[8] = true;
+						inval_Arr[7] = true;
 					
 					} else {
-						inval_Arr[8] = false;
+						inval_Arr[7] = false;
 						alert("우편번호를 입력해주세요.");
 						return false;
 					} 
 					//도로명주소
 					if ($("#address").val()!="") {
 						
-						inval_Arr[9] = true;
+						inval_Arr[8] = true;
 					
 					} else {
-						inval_Arr[9] = false;
+						inval_Arr[8] = false;
 						alert("주소를 확인해주세요.");
 						return false;
 					} 
 					
 					if ($("#address-detail").val() != "") {
 						
-						inval_Arr[10] = true;
+						inval_Arr[9] = true;
 					
 					} else {
-						inval_Arr[10] = false;
+						inval_Arr[9] = false;
 						alert("주소를 확인해주세요.");
 						return false;
 					} 
@@ -553,10 +545,13 @@
             </div>
           </div>
           <div class="sign-up-form-item">
-            <label class="sign-up-form-label" for="name">기관명</label>
-            <input class="sign-up-form-input-medium" id="name" name="userName" />
-           <span class="input-validate-error"></span>
-          </div class="sign-up-form-item">
+            <label class="sign-up-form-label" for="nick">닉네임</label>
+            <input class="sign-up-form-input-medium" id="nick" name="userNick" value="${userInfo.get('userNick') }"/>
+           	 <span class="input-validate-error"></span>
+<!--              <span class="input-validate-error" id="compareNick"></span> -->
+            <button class="sign-up-form-button" type="button" id="checkNick"> 닉네임 중복체크</button>
+          
+          </div>
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="id">ID</label>
             <input class="sign-up-form-input-medium" id="id" name="userId" />
@@ -574,14 +569,7 @@
             <span class="input-validate-error" id="comparePwd"></span>
             
           </div class="sign-up-form-item">
-          <div class="sign-up-form-item">
-            <label class="sign-up-form-label" for="nick">닉네임</label>
-            <input class="sign-up-form-input-medium" id="nick" name="userNick" value="${userInfo.get('userNick') }"/>
-           	 <span class="input-validate-error"></span>
-<!--              <span class="input-validate-error" id="compareNick"></span> -->
-            <button class="sign-up-form-button" type="button" id="checkNick"> 닉네임 중복체크</button>
           
-          </div class="sign-up-form-item">
           <div class="sign-up-form-item">
             <label class="sign-up-form-label" for="phone" name="userPhone">전화번호</label>
             <input class="sign-up-form-input-medium" id="phone" name="userPhone" />
@@ -649,7 +637,7 @@
           </div>
           
           <div class="form-button-wrap">
-            <button class="sign-up-cancel-button" type="button">취소</button>
+            <button class="sign-up-cancel-button" type="button" onclick="history.back(-1)">취소</button>
             <button class="sign-up-button" type="submit">회원가입</button>
           </div>
         </form>
