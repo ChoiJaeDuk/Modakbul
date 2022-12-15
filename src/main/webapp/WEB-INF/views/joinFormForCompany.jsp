@@ -37,12 +37,12 @@
 	
 		$(function(){
 			
-$("#email").keyup(function(){
+				$("#email").keyup(function(){
 				
-				$("#sendEmail").html("이메일 인증");
+					$("#sendEmail").html("이메일 인증");
 				
 		
-			})
+				})
 			
 			$("#id").keyup(function(){
 				$("#checkId").html(" id 중복체크 ");
