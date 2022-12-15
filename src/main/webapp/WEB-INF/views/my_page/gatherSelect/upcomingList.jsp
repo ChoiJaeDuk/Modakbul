@@ -332,7 +332,7 @@ $(document).ready(function(){
                                 </td>
                                 <td>${upcomingList.gatherName}</td>
                                 <td>${upcomingList.user.userNick}</td>
-                                <td>${upcomingList.gatherDate}</td>
+                                <td>${fn:replace(upcomingList.gatherDate, 'T', '<br>')}</td>
                                 <td>
                                     <button class="my-page-button" value="${upcomingList.gatherNo}">취소</button>
                                 </td>

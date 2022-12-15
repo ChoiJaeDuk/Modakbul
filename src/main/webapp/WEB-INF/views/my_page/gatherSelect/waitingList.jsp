@@ -167,7 +167,6 @@
 			})
 		
 			$("#confirm").click(function() {
-				alert($("#check1").val())
 				location.href="${pageContext.request.contextPath}/my_page/gatherSelect/deleteGather?userNo="+$('#check1').val()+"&gatherNo="+ $(this).val() + "&regularGatherNo="+ $("#regularGatherNo").val();
 			})
 	
@@ -332,7 +331,8 @@
                                     </div>
                                 </td>
                                 <td>${waitingList.gatherName}</td>
-                                <td>${waitingList.gatherRegisDate}</td>
+                                 <c:set var="TextValue" value="${waitingList.gatherRegisDate}" />
+                                <td>${fn:substring(TextValue,0,10)}</td>
                                 <td class="inquiry-replied">
                                     <button class="my-page-button" id="${waitingList.regularGather.regularGatherNo}" value="${waitingList.gatherNo}">취소하기</button>
                                 </td>

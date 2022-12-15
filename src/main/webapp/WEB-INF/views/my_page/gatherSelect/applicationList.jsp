@@ -343,7 +343,7 @@ $(document).ready(function(){
                                 </td>
                                 <td>${applicationList.gatherName}</td>
                                 <td>${applicationList.user.userNick}</td>
-                                <td>${applicationList.gatherDate}</td>
+                                <td>${fn:replace(applicationList.gatherDate, 'T', '<br>')}</td>
                                 <td>
                                     <button class="my-page-button" id="cancel" value="${applicationList.gatherNo}">취소</button>
                                 </td>

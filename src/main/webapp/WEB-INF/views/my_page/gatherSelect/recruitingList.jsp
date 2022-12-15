@@ -459,7 +459,7 @@
                                     </div>
                                 </td>
                                 <td>${recruitingList.getGatherName()}</td>
-                                <td>${recruitingList.getGatherDeadline()}</td>
+                                <td>${fn:replace(recruitingList.getGatherDeadline(), 'T', '<br>')}</td>
                                 <td>${recruitingList.getLikeCount()}</td>
                                 <td>
                                     <div class="table-interest-wrap">

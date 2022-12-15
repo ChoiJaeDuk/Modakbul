@@ -25,12 +25,32 @@
     var gatherPlace;		
     
     $(function() {
-    	
-	 	if($("#check").val()>0){
+    	if($("#application-btn").attr("name")=="모집중"){
+		 	if($("#check").val()>0){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("신청완료")
+				$("#application-btn").attr("disabled",true)
+			}else{
+				$("#application-btn").text("신청하기")
+			}
+		}else if($("#application-btn").attr("name")=="진행완료"){
 			$("#application-btn").css("background","grey")
-			$("#application-btn").text("신청완료")
+			$("#application-btn").text("진행완료")
+			$("#application-btn").attr("disabled",true)
+		}else if($("#application-btn").attr("name")=="모임취소"){
+			$("#application-btn").css("background","grey")
+			$("#application-btn").text("모임취소")
+			$("#application-btn").attr("disabled",true)
+		}else if($("#application-btn").attr("name")=="진행중"){
+			$("#application-btn").css("background","grey")
+			$("#application-btn").text("진행중")
+			$("#application-btn").attr("disabled",true)
+		}else if($("#application-btn").attr("name")=="모집마감"){
+			$("#application-btn").css("background","grey")
+			$("#application-btn").text("모집마감")
 			$("#application-btn").attr("disabled",true)
 		}
+		
 		 
 		gatherPlace = $("#gatherPlace").val();
 		//alert(gatherPlace)
@@ -227,7 +247,7 @@
 									</span>
 								</div>
 								<div class="gather gather-margin">
-									모임 날짜: <span>${gather.gatherDate}</span>
+									모임 날짜: <span>${fn:replace(gather.gatherDate, 'T', ' ')}</span>
 								</div>
 								<div class="gather inline">
 									장소: ${gather.gatherPlace}

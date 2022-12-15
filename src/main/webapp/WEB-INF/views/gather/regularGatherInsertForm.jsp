@@ -236,7 +236,7 @@
 	</sec:authorize>
 	
       <div class="create-group-wrap">
-        <form action="${pageContext.request.contextPath}/gather/gatherInsert" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo=${userNo}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input hidden="" id=userNo1 value="${userNo}" name="userNo"> 
         <input hidden="" id="regularGatherState" name="regularGatherState" value="신청대기"/>

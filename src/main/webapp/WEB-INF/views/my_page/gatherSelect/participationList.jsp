@@ -322,7 +322,7 @@ $(document).ready(function(){
                                 <td>${participationList.gatherName}</td>   
                                 <td>${participationList.user.userNick}</td>
                                 <td>${participationList.gatherState}</td>
-                                <td>${participationList.gatherDate}</td>
+                                <td>${fn:replace(participationList.gatherDate, 'T', '<br>')}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

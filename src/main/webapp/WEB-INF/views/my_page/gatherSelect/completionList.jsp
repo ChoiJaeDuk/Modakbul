@@ -326,7 +326,7 @@
                                 </td>
                                 <td>${completionList.gatherName}</td>
                                
-                                <td>${completionList.gatherDate}</td>
+                                <td>${fn:replace(completionList.getGatherDeadline(), 'T', '<br>')}</td>
                                 <td>${completionList.gatherState}</td>
                             </tr>
                        	</c:forEach>
