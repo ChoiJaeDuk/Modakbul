@@ -396,7 +396,7 @@
 				} 
 				
 				//이메일
-				  if($(".email-validate-error").html()=="인증완료"){
+				  if($("#sendEmail").html()=="인증완료"){
 					inval_Arr[5] = true;
 					
 				}else{
