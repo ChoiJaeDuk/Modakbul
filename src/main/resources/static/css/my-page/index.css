@@ -402,7 +402,7 @@ input[type="radio"]:checked + label {
 }
 .modal-wrap {
   width: 400px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -472,7 +472,7 @@ img{
 /* 異붽��맂 紐⑤떖 */
 .commercial-modal-wrap {
   width: 650px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
