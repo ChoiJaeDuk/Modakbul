@@ -313,7 +313,7 @@ function modal(id) {
 													<td>${review.gatherName}</td>
 													<td>${fn:substring(TextValue,0,10)}</td>
 													<td class="inquiry-replied">
-														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/review/userReviewInsert?userNo=${user.userNo}&gatherNo=${review.gatherNo}'">상세로 이동할버튼</button>
+														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${review.gatherNo}'">상세로 이동할버튼</button>
 													</td>
 												</tr>
 											</c:forEach>
