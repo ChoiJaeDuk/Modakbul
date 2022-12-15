@@ -297,35 +297,18 @@
 				</div>
 					<div class="space"></div>
 
-			
+				<c:forEach var="gr" items="${grList.content}">
 	            <div class="search-inquiry-review-wrap">
                      <div class="search-inquiry-review">
-                     	<div><b>작성자 : </b></div>
-                     	<div class="review-regis-date">작성날짜: </div>
+                     	<div><b>작성자 : ${gr.writerUser.userName } </b></div>
+                     	<div class="review-regis-date">작성날짜: ${gr. reviewRegisDate}</div>
                      </div>
                      <div class="search-inquiry-reply">
-                       소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                       바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                       우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                       황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                       위하여 이 황금시대를
+                       ${gr.gatherReviewContent}
 				  	</div>
                  </div>
-                 <div class="search-inquiry-review-wrap">
-                     <div class="search-inquiry-review">
-                     	<div><b>작성자 : </b></div>
-                     	<div class="review-regis-date">작성날짜: </div>
-                     </div>
-                     <div class="search-inquiry-reply">
-                       소리다이것은 피어나기 전인 유소년에게서 구하지 못할
-                       바이며 시들어 가는 노년에게서 구하지 못할 바이며 오직
-                       우리 청춘에서만 구할 수 있는 것이다 청춘은 인생의
-                       황금시대다 우리는 이 황금시대의 가치를 충분히 발휘하기
-                       위하여 이 황금시대를
-				  	</div>
-                 </div>
+            	 </c:forEach>
 			</div>
-				 
 		</div>
 	</div>
   </body>

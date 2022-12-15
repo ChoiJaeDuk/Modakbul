@@ -186,8 +186,7 @@
 					
 					
   		
-<<<<<<< HEAD
-		
+
 					
   		$(document).ajaxSend(function(e,xht,op){
 			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
@@ -346,7 +345,7 @@
 	  		$("#submitBotton").removeAttr("disabled")
 	  		
 	  	}  */
-=======
+
 			  		$(document).ajaxSend(function(e,xht,op){
 						xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 					});
@@ -579,7 +578,7 @@
 				</div>
 			</div>
 			<div class="my-page-content-wrap">
-				<nav>=
+				<nav>
 						<li class="my-page-nav-item "
 							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
 						<!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
@@ -804,9 +803,25 @@
 			
 			<c:forEach items="${followingList}" var="f">
 				<tr>
-					<th> 
-						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
-					</th>
+					<th>
+							<c:set value="${f.followerUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="followImg"
+									src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg}"
+									alt="img"/>
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="followImg" src="${f.followerUser.userProfileImg }"
+								alt="img"/>
+						</c:if>
+							</th>
 					<th>
 						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
 					</th>

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import modakbul.mvc.domain.Alarm;
+import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Inquiry;
+import modakbul.mvc.domain.Users;
 import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.InquiryRepository;
 
@@ -28,6 +30,9 @@ public class InquiryServiceImpl implements InquiryService {
 	
 	@Autowired
 	private AlarmService alarmService;
+	
+	@Autowired
+	private UsersService userService;
 	
 	@Override
 	public Page<Inquiry> InquiryListByGatherNo(Long gatherNo,Pageable pageable) {
@@ -45,15 +50,25 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public void insertInquiry(Inquiry inquiry) {
+	public void insertInquiry(Inquiry inquiry,String gatherName,Long gatherNo) {
 		inquiryRep.save(inquiry);
 		
+		Users user = userService.selectById(inquiry.getUser().getUserNo());
+		System.out.println("user = " + user.getUserNo());
+		System.out.println("인쿼리 서비스 게더넘버 오나요 ?"+gatherNo);
+		
+		inquiry.setGather(Gather.builder().gatherNo(gatherNo).build());
+		System.out.println("인쿼리 서비스 ninquiry에게더넘버 오나요 ?"+inquiry.getGather().getGatherNo());
+		
 		String alarmSubject = "새로운 문의가 있습니다.";
-		String alarmContent = inquiry.getGather().getGatherName()+"모임에 " + inquiry.getUser().getUserName() +"님께서 질문을 남겼습니다.";
+		String alarmContent = gatherName+"모임에 " + user.getUserName() +"님께서 질문을 남겼습니다.";
+		
+		
+		
 		Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
 		
 		
-		alarmService.insertReceiverOne(inquiry.getGather().getUser(), alarm);
+		/* alarmService.insertReceiverOne(inquiry.getGather().getUser(), alarm); */
 	}
 
 	@Override

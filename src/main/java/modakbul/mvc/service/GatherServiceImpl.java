@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -412,7 +411,7 @@ public class GatherServiceImpl implements GatherService {
 
 	}
 
-	
+
 	  @Override 
 	  public Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable) { 
 		  
@@ -435,6 +434,7 @@ public class GatherServiceImpl implements GatherService {
 	  }
 	  
 	  
+
 
 	@Override
 	public Page<Gather> selectGatherStateByUserNo(Pageable pageable, Long userNo, String state) {

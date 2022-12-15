@@ -38,6 +38,7 @@ public class InquiryReplytServiceImpl implements InquiryReplytService {
 	@Override
 	public void insertInquiryReply(InquiryReply inquiryReply) {
 		inquiryReplyRep.save(inquiryReply);
+		System.out.println("go?");
 		
 		String alarmSubject = "문의에 대한 답변이 있습니다.";
 		String alarmContent = "주최자가 답변을 남겼습니다.";

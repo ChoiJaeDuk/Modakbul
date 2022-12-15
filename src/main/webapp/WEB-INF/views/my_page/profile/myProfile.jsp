@@ -578,7 +578,7 @@
 													class="my-page-search-address-input"
 													value="${user.userPostCode }" readonly="readonly" />
 												<button type="button" class="my-page-button"
-													onclick="execPostCode();" disabled="disabled">우편번호
+													onclick="execPostCode()" >우편번호
 													검색</button>
 											</div>
 											<input id="addr" name="userAddr" class="my-page-form-input"
@@ -686,9 +686,25 @@
 			</tr> 	 -->
 			<c:forEach items="${followingList}" var="f">
 				<tr>
-					<th> 
-						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
-					</th>
+					<th>
+							<c:set value="${f.followerUser.userProfileImg}" var="img" />
+						<c:set value="true" var="state1" />
+						<c:forEach items="${fileNames }" var="file">
+							<c:if test="${file eq img }">
+								<c:set value="true" var="state2" />
+								<img class="followImg"
+									src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg}"
+									alt="img"/>
+
+							</c:if>
+
+						</c:forEach>
+
+						<c:if test="${state1 ne state2}">
+							<img class="followImg" src="${f.followerUser.userProfileImg }"
+								alt="img"/>
+						</c:if>
+							</th>
 					<th>
 						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
 					</th>

@@ -126,7 +126,10 @@ public interface GatherService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable pageable);
+	
+	  Page<Gather> selectByReviewState(Long userNo, boolean state, Pageable
+	  pageable);
+	 
 	
 	
 	/**
