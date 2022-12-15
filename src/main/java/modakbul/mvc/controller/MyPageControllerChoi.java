@@ -88,7 +88,7 @@ public class MyPageControllerChoi {
 		 int startPage = nowPage - temp;
 		 
 		
-		mv.addObject("replyState", totalWaiting); 
+		 mv.addObject("replyState", totalWaiting); 
 		System.out.println(resultList1.size());
 		
 		 mv.setViewName("my_page/my_page_index");
