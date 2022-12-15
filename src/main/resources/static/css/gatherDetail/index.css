@@ -651,8 +651,8 @@ body {
   border-bottom: 2px solid lightgray;
   border-top:  2px solid lightgray;
 }
-.search-inquiry-reply {
-  width: 845px;
+.search-inquiry-reply reply-show{
+  width: 400px;
   margin-left: 70px;
 }
 .search-inquiry-list-expand-button-result-icon {

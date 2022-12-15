@@ -13,8 +13,8 @@
 
     <title>eCommerce Product Detail</title>
  <link href="${pageContext.request.contextPath}/css/gatherDetail/index.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/gatherDetail/reset.css" rel="stylesheet" />
-
+ <link href="${pageContext.request.contextPath}css/gatherDetail/reset.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/gatherDetail/styles.css" rel="stylesheet" />
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript">
     
@@ -136,17 +136,14 @@
 			$(document).ajaxSend(function(e,xht,op){
 		       xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 		    });
-				
+
 		$(document).on('click', '#like',function(){
 					
-				
-                
                 let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                 console.log("gatherNo = " + "${gather.gatherNo}");
                 console.log("userNo = " + "${userNo1}");
-					
+
 					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
-                   
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/delete", 
                        type:"post",
@@ -160,13 +157,12 @@
                             $("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
                           }
                        },error:function(err){
-                          alert("err");
+                    	   console.log("err");
                        }
                     });//Delete ajax END
                  }//Delete IF END
-                 
+
                  if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                   
                     $.ajax({
                        url:"${pageContext.request.contextPath}/likeGather/insert",
                        type:"post",
@@ -181,7 +177,7 @@
                           }
                           
                        },error:function(err){
-                          alert("로그인을 먼저 진행해주세요.");
+                    	   console.log("로그인을 먼저 진행해주세요.");
                        }
                     });//Insert ajax END
                  }//Insert if END
@@ -198,9 +194,9 @@
    <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
     $(function() {
-        $(this).on("click", function() {
-            $(".search-inquiry-reply-wrap-only").fadeToggle();
-            $(".reply-btn").show();
+        $(".table-row").on("click", function() {
+            $("."+$(this).attr("id")).fadeToggle();
+            //$(".reply-btn").show();
             $(".search-inquiry-reply-wrap reply-show").show();
         })
         
@@ -373,7 +369,7 @@
 		                  <tbody>
 		                   <c:forEach var="qna" items="${qnaList.content}" varStatus="status">
                    			<c:set var="TextValue" value="${qna.inqRegisDate}" />
-		                    <tr class="table-row">
+		                    <tr class="table-row" id="${qna.inqNo}">
 		                      <td>${status.count}</td>
 		                      <td>${qna.inqSubject}</td>
 		                      <td>${qna.user.userName }</td>
@@ -384,45 +380,80 @@
 		                    
 		                   <tr>
 		                    <td colspan="5">
-		                 	<div class="search-inquiry-reply-wrap-only" style="display: none;" >
+		                 	<div class="search-inquiry-reply-wrap-only ${qna.inqNo}"  style="display: none;" >
 		                      <p class="search-inquiry-reply">
-		                      ${qna.inqContent}
+		                      	${qna.inqContent}
 		                      </p>
 		                    </div>
 							
 							 <%-- <c:if test="${'' eq reply.user.userNo}">  --%>
-		                    <c:forEach items="${qna.inquiryReplyList}" var="reply">
-		                      <div class="reply-btn">
+		                   
+		                     
+	                    	 
+	                    	   <!-- Comments section-->
+                    <section class="mb-5">
+                        <div class="bg-light">
+                            <div class="card-body">
+                                <!-- Comment form-->
+               
+                                <!-- Comment with nested comments-->
+                                <div class="d-flex mb-4">
+                                    <!-- Parent comment-->
+                                    
+                          <div class="ms-3">
+	                      <c:forEach items="${qna.inquiryReplyList}" var="reply">
+	                      <c:set var="TextValue" value="${reply.inquiryReplyRegisDate}" />         
+	                            <div class="d-flex mt-4">
+	                                <div class="flex-shrink-0"><img class="rounded-circle" src="${pageContext.request.contextPath}/save/" alt="..." /></div>
+	                                <div class="ms-3">
+	                                    <div class="fw-bold">닉네임: ${reply.user.userNick}</div>
+	                                    내용: ${reply.inquiryReplycontent }
+	                                </div>
+	                            </div>
+	                      </c:forEach>
+	                                    
+	                      </div>
+                         </div>
+                        </div>
+                      </div>
+                    </section>
+                	 	<div class="reply-btn" >
 		                      	<button class="reply-btn" type="button">답변달기</button>
 		                      	<button class="reply-btn" type="button">삭제</button>
-		                      </div>
+		                    </div>
 		                    
-		                 	<div class="search-inquiry-reply-wrap reply-form-wrap">
+		                 	<div class="search-inquiry-reply-wrap reply-form-wrap" style="display: none;">
 	                       	<label class="reply-form" for="id">답변</label>
 	                       	<form action="qnaInsert">
-	           				<div class="inquiry-detail-textarea-wrap">
-	               				<textarea class="inquiry-textarea reply" name="inquiryReplycontent"></textarea>
+	           				<div class="inquiry-detail-textarea-wrap" >
+	               				<textarea  class="inquiry-textarea reply" name="inquiryReplycontent"></textarea>
 	           				</div>	
 	           				<div class="reply-btn">
 	           				<%-- ${reply.inquiry.inqNo} --%>
 	           					 <input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
 	           					<input type="hidden" class="" id="" name="user" value="${user.userNo}" />
-	           					<input type="hidden" class="inqNo" id="inqNo" name="inquiry" value="${reply.inquiry.inqNo }" />
+	           					<input type="hidden" class="inqNo" id="inqNo" name="inquiry" value="${qna.inqNo }" />
 		                      	<button class="reply-form-btn" type="submit">답변작성</button>
 		                      	<button class="reply-form-btn" type="button">취소</button>
 	                      	</div>
 	                      	</form>
-	                    	 </div>
-	                     
-	                     <div class="search-inquiry-reply-wrap reply-show" >
-	                      <div class="search-inquiry-reply"><b>주최자: ${reply.user.userName } </b></div>
-	                      <div class="search-inquiry-reply">
-	                      ${reply.inquiryReplycontent}
-	                      </div>
-	                    </div> </c:forEach>
+	                    </div>
 	                   </td>  
 		              
 		            </tr>
+		          
+		            
+		             
+			
+                  
+                    
+                  
+                                      
+                                      
+                    
+
+		            
+		       
 		          </c:forEach>
 	                
 		                  </tbody>

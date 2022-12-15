@@ -51,18 +51,13 @@ $(function(){
 				
 			}//searchFollow if END
           
-          $(document).on("click", "button[class='modakbul-button following']" , function(){
-            
-
-                  alert("버튼클릭했음" + " , " + $(this).val());
-                  
+          $(document).on("click", "button[class='modakbul-button following']" , function(){ 
                   let target = {"follower":$(this).val() , "following":"${userNo}"}
                   console.log("follower = " + $(this).val());
                   console.log("following = " + ${userNo});
                   let targetBtn = $(this);
                   
-                  if($(this).text() == "팔로잉"){
-                     alert("딜리트 반응?");
+                  if($(this).text() == "팔로잉"){ 
                      $.ajax({
                         url:"${pageContext.request.contextPath}/follow/delete", 
                         type:"post",
@@ -77,13 +72,12 @@ $(function(){
                               targetBtn.text("팔로우")
                            }
                         },error:function(err){
-                           alert("err : "+err);
+                        	console.log("err : "+err);
                         }
                      });//Delete ajax END
                   }//Delete if END
                   
-                  if($(this).text()=="팔로우"){
-                     alert("인설트반응?");
+                  if($(this).text()=="팔로우"){ 
                      $.ajax({
                         url:"${pageContext.request.contextPath}/follow/insert",
                         type:"post",
@@ -99,7 +93,7 @@ $(function(){
                            }
                            
                         },error:function(err){
-                           alert("err : "+err);
+                        	console.log("err : "+err);
                         }
                      });//Insert ajax END
                   }//if  END

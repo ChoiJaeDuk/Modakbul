@@ -10,7 +10,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.groupby.GatherGroupBy;
-import modakbul.mvc.groupby.SelectGatherStateByUserNo;
 
 public interface GatherRepository extends JpaRepository<Gather, Long> , QuerydslPredicateExecutor<Gather> {
 	
