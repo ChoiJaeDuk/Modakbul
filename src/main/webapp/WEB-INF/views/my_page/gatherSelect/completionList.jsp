@@ -170,6 +170,11 @@
 				
 				location.href = "${pageContext.request.contextPath}/my_page/gatherSelect/waitingList?userNo="+$("#check2").val();
 			})
+			
+			$(".gather-img").click(function() {
+				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo="+$("#check1").val();
+			//alert($(this).attr("id"))
+			})
 		})
   </script>
   <body>
@@ -316,7 +321,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}" alt="이미지" class="gather-img"/>
+                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}" id="${completionList.gatherNo }" alt="이미지" class="gather-img"/>
                                     </div>
                                 </td>
                                 <td>${completionList.gatherName}</td>

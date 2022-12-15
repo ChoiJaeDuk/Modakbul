@@ -99,9 +99,6 @@
  
    <body>
 
- 
- 
- 
 
    <jsp:include page="../layout/header.jsp" /> 
    	<div id="user-outer-wrapper">
@@ -185,94 +182,33 @@
 			</div>
 			</nav>
 			</div>
-			
+			<c:forEach items="${requestScope.gatherList.content}" var="gatherList" varStatus="status">
 			<div class="profile-gather-list">
               <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img"  alt="modakbul-charged-img" />
+                <img class="gatherGroup-img" src="${pageContext.request.contextPath}/save/${gatherList.gatherImg}"  alt="modakbul-charged-img" />
               </div>
               <div class="modakbul-charged-grid-col">
                 
                 <div class="modakbul-charged-grid-director gather">
                   <p class="gather-name">
-                    모임이름
+                    ${gatherList.gatherName}
                   </p>
                   
                     <p class="gather-date">
-                    마감일
+                    마감시간: ${gatherList.gatherDeadline}
                   </p>
                    <p class="gather-date">
-                    모임날자 
+                    진행시간: ${gatherList.gatherDate}
                   </p>
                 </div>
               </div>
              
             </div>
-			
-           <div class="profile-gather-list">
-              <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="gather-name">
-                    모임이름
-                  </p>
-                  
-                    <p class="gather-date">
-                    마감일
-                  </p>
-                   <p class="gather-date">
-                    모임날자 
-                  </p>
-                </div>
-              </div>
-             
-            </div>
+			</c:forEach>
             
-           <div class="profile-gather-list">
-              <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="gather-name">
-                    모임이름
-                  </p>
-                  
-                    <p class="gather-date">
-                    마감일
-                  </p>
-                   <p class="gather-date">
-                    모임날자 
-                  </p>
-                </div>
-              </div>
-             
-            </div>
+         
             
-            <div class="profile-gather-list">
-              <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="gather-name">
-                    모임이름
-                  </p>
-                  
-                    <p class="gather-date">
-                    마감일
-                  </p>
-                   <p class="gather-date">
-                    모임날자 
-                  </p>
-                </div>
-              </div>
-             
-            </div>
+           
             
           </div>
           

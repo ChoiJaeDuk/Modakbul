@@ -13,224 +13,233 @@
  	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
  	<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery.timepicker.min.js"></script>
-    <script type="text/javascript">
-    
-    $(function() {
-    	
-    	function readImage(input) {
-			  
-			// 인풋 태그에 파일이 있는 경우
-		    if(input.files && input.files[0]) {
-		        // 이미지 파일인지 검사 (생략)
-		        // FileReader 인스턴스 생성
-		        const reader = new FileReader()
-		        // 이미지가 로드가 된 경우
-		        reader.onload = e => {
-		            const previewImage = document.getElementById("group-image")
-		          
-		            previewImage.src = e.target.result
-		          
+	<script type="text/javascript">
+	    
+	    $(function() {
+	    	
+	    	function readImage(input) {
+				  
+				// 인풋 태그에 파일이 있는 경우
+			    if(input.files && input.files[0]) {
+			        // 이미지 파일인지 검사 (생략)
+			        // FileReader 인스턴스 생성
+			        const reader = new FileReader()
+			        // 이미지가 로드가 된 경우
+			        reader.onload = e => {
+			            const previewImage = document.getElementById("group-image")
+			          
+			            previewImage.src = e.target.result
+			          
+			        }
+			        // reader가 이미지 읽도록 하기
+			        reader.readAsDataURL(input.files[0])
+			    }
+			}
+			// input file에 change 이벤트 부여
+			const inputImage = document.getElementById("group-add-image")
+			
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
+			
+			
+			      $("#sign-up-add-file").on("change",function(){
+			        if(window.FileReader){
+			        	var filename = $(this).val().split('/').pop().split('\\').pop();
+			          console.log(filename)
+			        } else {
+			          var filename = $(this).val().split('/').pop().split('\\').pop();
+			        }
+			        $("#fileName").val(filename);
+			      });
+			
+			
+			$(document).on("click","#placeName", function() {
+				if(confirm($(this).next().text()+" "+$(this).text()+"을 \n모임장소로 선택하시겠습니까?")){
+					$("#gatherPlace").val($(this).next().text()+" "+$(this).text());
+				};
+			})
+			
+			
+			
+			$("#bidSelect").change(function() {
+				if($("#bidSelect").is(":checked")){
+		            $("#gatherBid").attr("disabled",false);
+		        }else{
+		        	$("#gatherBid").attr("disabled",true);
+		        	$("#gatherBid").val("");
 		        }
-		        // reader가 이미지 읽도록 하기
-		        reader.readAsDataURL(input.files[0])
-		    }
-		}
-		// input file에 change 이벤트 부여
-		const inputImage = document.getElementById("group-add-image")
-		
-		inputImage.addEventListener("change", e => {
-		    readImage(e.target)
-		})
-		
-		
-		      $("#sign-up-add-file").on("change",function(){
-		        if(window.FileReader){
-		        	var filename = $(this).val().split('/').pop().split('\\').pop();
-		          console.log(filename)
-		        } else {
-		          var filename = $(this).val().split('/').pop().split('\\').pop();
+			});
+			
+			
+			$("#ageLimit").change(function() {
+				if($("#ageLimit").is(":checked")){
+		            $("#gatherMinAge").attr("disabled",false);
+		            $("#gatherMaxAge").attr("disabled",false);
+		        }else{
+		        	$("#gatherMinAge").attr("disabled",true);
+		            $("#gatherMaxAge").attr("disabled",true);
+		        	$("#gatherMinAge").val("");
+		        	$("#gatherMaxAge").val("");
 		        }
-		        $("#fileName").val(filename);
-		      });
-		
-		
-		$(document).on("click","#placeName", function() {
-			if(confirm($(this).next().text()+" "+$(this).text()+"을 \n모임장소로 선택하시겠습니까?")){
-				$("#gatherPlace").val($(this).next().text()+" "+$(this).text());
-			};
-		})
-		
-		
-		
-		$("#bidSelect").change(function() {
-			if($("#bidSelect").is(":checked")){
-	            $("#gatherBid").attr("disabled",false);
-	        }else{
-	        	$("#gatherBid").attr("disabled",true);
-	        	$("#gatherBid").val("");
-	        }
-		});
-		
-		
-		$("#ageLimit").change(function() {
-			if($("#ageLimit").is(":checked")){
-	            $("#gatherMinAge").attr("disabled",false);
-	            $("#gatherMaxAge").attr("disabled",false);
-	        }else{
-	        	$("#gatherMinAge").attr("disabled",true);
-	            $("#gatherMaxAge").attr("disabled",true);
-	        	$("#gatherMinAge").val("");
-	        	$("#gatherMaxAge").val("");
-	        }
-		});
-		
-		
-		$("#time").timepicker({
-			interval: 30, //시간간격 : 5분
-			startTime: "00:00",           
-			timeFormat: "HH:mm"    //시간:분 으로표시
-		});
-		$('#time').attr("readonly",true);
-		
-		
-		
-		$("form").on("submit",function() {
-		
-			if($("#category").val()===""){
-				alert("카테고리를 설정해주세요.")
-				return false;
-			}
+			});
 			
-			//모임명 유효성검사
-			if($("#gatherName").val()===""){
-				alert("모임명을 입력해주세요.")
-				return false;
-			}
-	
 			
-			let minUsers = Number($("#gatherMinUsers").val());
-			let maxUsers = Number($("#gatherMaxUsers").val());
-					
-	
-			//모임인원 유효성검사
-			if($("#gatherMinUsers").val()=="" || $("#gatherMaxUsers").val()==""){
-				alert("모임 인원을 설정해주세요.");
-				return false;
-			}else if(minUsers > maxUsers || $("#gatherMaxUsers").val()< 0 || $("#gatherMinUsers").val() < 0){
-				alert("모임 인원을 다시 설정해주세요.")
-				return false;
-			}
+			$("#time").timepicker({
+				interval: 30, //시간간격 : 5분
+				startTime: "00:00",           
+				timeFormat: "HH:mm"    //시간:분 으로표시
+			});
+			$('#time').attr("readonly",true);
 			
-			//연령제한 유효성검사
-			if($("#ageLimit").is(":checked")){
-				if($("#gatherMinAge").val()==""||$("#gatherMaxAge").val()==""){
-					alert("연령제한을 설정해주세요.")
-					return false;
-				}else if($("#gatherMinAge").val()>=$("#gatherMaxAge").val()||$("#gatherMinAge").val()<0 ||$("#gatherMaxAge").val()<0){
-					alert("연령제한을 다시 설정해주세요.")
+			
+			
+			$("form").on("submit",function() {
+			
+				if($("#category").val()===""){
+					alert("카테고리를 설정해주세요.")
 					return false;
 				}
-			}
-			
-			
-			//모임 주기 유효성 검사
-			if($("#regularGatherCycle").val()==""){
-				alert("모임 주기를 설정해주세요.")
-				return false;
-			}else if($("#regularGatherCycle").val()<1){
-				alert("모임 주기를 다시 설정해주세요")
-				return false;
-			}
-			
-			//진행시간 유효성 검사
-			if($("#gatherTime").val()==""){
-				alert("진행시간을 입력해주세요.")
-				return false;
-			}else if(0>$("#gatherTime").val() || $("#gatherTime").val()>24){
-				alert("진행시간을 다시 입력해주세요")
-				return false;
-			}
-			
-			
-			//모임 날짜 유효성검사
-			let today = new Date();
-			//let gatherDate = new Date($("#date").val() + " " + $("#time").val())
-			//let gatherDate = LocalDateTime.parse($("#date").val() + "T" + $("#time").val())
-			
-			if($("#date").val()=="" || $("#time").val()==""){
-				alert("모임 날짜 및 시간을 입력해주세요.")
-				return false;
-			}else if(today>=gatherDate){//현재 날짜와 비교
-				alert("모임 날짜를 다시 설정해주세요.")
-				return false;
-			}else{
-				$("#gatherDate").val($("#date").val() + " " + $("#time").val())	
-			}
-			
-			
-			//모임 장소 유효성검사
-			if($("#gatherPlace").val()==""){
-				alert("모임 장소를 설정해주세요")
-				return false;
-			}
-			
-		});
-		
-		
-		var count = 1;
-		$(document).on("click",".certificate-add-button", function(){
-			
-			var $div = $(".certificate-input-wrap").eq(0).clone();	
-			$div.find("input").val("");
-			
-			var $div='<div class="certificate-input-wrap">';
-			$div+='파일제목 <input class="create-group-form-input-medium" name=gatherAttachmentsFileSubject[] ';
-			$div+='id="gatherAttachmentsFileSubject"/>'
-			$div+='<input class="create-group-form-input-medium" name="gatherAttachmentsFileName" readonly="readonly"/>';
-			$div+='<input id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>';
-			$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" >파일 첨부</label>'
-			$div+='<div class="certificate-add-button">+</div>'
-			count++;
-	
-				if(count <=5){
-	
-					alert($div)
-					$(".plus").append($div);
 				
+				//모임명 유효성검사
+				if($("#gatherName").val()===""){
+					alert("모임명을 입력해주세요.")
+					return false;
 				}
-		})
 		
-		$(document).on("change", ".sign-up-add-image", function(){ //주황색
+				
+				let minUsers = Number($("#gatherMinUsers").val());
+				let maxUsers = Number($("#gatherMaxUsers").val());
+						
+		
+				//모임인원 유효성검사
+				if($("#gatherMinUsers").val()=="" || $("#gatherMaxUsers").val()==""){
+					alert("모임 인원을 설정해주세요.");
+					return false;
+				}else if(minUsers > maxUsers || $("#gatherMaxUsers").val()< 0 || $("#gatherMinUsers").val() < 0){
+					alert("모임 인원을 다시 설정해주세요.")
+					return false;
+				}
+				
+				//연령제한 유효성검사
+				if($("#ageLimit").is(":checked")){
+					if($("#gatherMinAge").val()==""||$("#gatherMaxAge").val()==""){
+						alert("연령제한을 설정해주세요.")
+						return false;
+					}else if($("#gatherMinAge").val()>=$("#gatherMaxAge").val()||$("#gatherMinAge").val()<0 ||$("#gatherMaxAge").val()<0){
+						alert("연령제한을 다시 설정해주세요.")
+						return false;
+					}
+				}
+				
+				
+				//모임 주기 유효성 검사
+				if($("#regularGatherCycle").val()==""){
+					alert("모임 주기를 설정해주세요.")
+					return false;
+				}else if($("#regularGatherCycle").val()<1){
+					alert("모임 주기를 다시 설정해주세요")
+					return false;
+				}
+				
+				//진행시간 유효성 검사
+				if($("#gatherTime").val()==""){
+					alert("진행시간을 입력해주세요.")
+					return false;
+				}else if(0>$("#gatherTime").val() || $("#gatherTime").val()>24){
+					alert("진행시간을 다시 입력해주세요")
+					return false;
+				}
+				
+				
+				//모임 날짜 유효성검사
+				let today = new Date();
+				//let gatherDate = new Date($("#date").val() + " " + $("#time").val())
+				//let gatherDate = LocalDateTime.parse($("#date").val() + "T" + $("#time").val())
+				
+				if($("#date").val()=="" || $("#time").val()==""){
+					alert("모임 날짜 및 시간을 입력해주세요.")
+					return false;
+				}else if(today>=gatherDate){//현재 날짜와 비교
+					alert("모임 날짜를 다시 설정해주세요.")
+					return false;
+				}else{
+					$("#gatherDate").val($("#date").val() + " " + $("#time").val())	
+				}
+				
+				
+				//모임 장소 유효성검사
+				if($("#gatherPlace").val()==""){
+					alert("모임 장소를 설정해주세요")
+					return false;
+				}
+				
+			});
 			
-			alert(1)
-	        console.log($(this))
-	       var filename = $(this).val().split('/').pop().split('\\').pop();
-	          //console.log(filename)
-	          
-	        $(this).prev().val(filename);
-	          //$(this).attr("name","test");
-	          
-	         console.log($(this))
-	        // $(this).prev().find("input").val(filename);
-
-	      
-		})  
+			
+			var count = 1;
+			$(document).on("click",".certificate-add-button", function(){
+				
+				var $div = $(".certificate-input-wrap").eq(0).clone();	
+				$div.find("input").val("");
+				
+				var $div='<div class="certificate-input-wrap">';
+				$div+='파일제목 <input class="create-group-form-input-medium" name=gatherAttachmentsFileSubject[] ';
+				$div+='id="gatherAttachmentsFileSubject"/>'
+				$div+='<input class="create-group-form-input-medium" name="gatherAttachmentsFileName" readonly="readonly"/>';
+				$div+='<input id="sign-up-add-file'+count+'" class="sign-up-add-image" type="file" name="filesList[]"/>';
+				$div+='<label for="sign-up-add-file'+count+'" class="certificate-file-button" >파일 첨부</label>'
+				$div+='<div class="certificate-add-button">+</div>'
+				count++;
 		
-	})        
-  	
-	
-    </script>
+					if(count <=5){
+		
+						alert($div)
+						$(".plus").append($div);
+					
+					}
+			})
+			
+			$(document).on("change", ".sign-up-add-image", function(){ //주황색
+				
+				alert(1)
+		        console.log($(this))
+		       var filename = $(this).val().split('/').pop().split('\\').pop();
+		          //console.log(filename)
+		          
+		        $(this).prev().val(filename);
+		          //$(this).attr("name","test");
+		          
+		         console.log($(this))
+		        // $(this).prev().find("input").val(filename);
+
+		      
+			})  
+			
+			$(".create-group-cancel-button").click(function() {
+				history.back()
+			})
+			
+		})        
+	  	
+		
+	    </script>  
     <title>Document</title>
   </head>
   <body>
     <div class="wrap">
+     <sec:authorize access="isAuthenticated()">
+	<sec:authentication var="user" property="principal" />
+		<input type="hidden" value="${user.userNo}" id="userNo">
+	</sec:authorize>
+	
       <div class="create-group-wrap">
         <form action="${pageContext.request.contextPath}/gather/gatherInsert" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        <input hidden="" id=userNo1 value="${userNo}" name="userNo"> 
         <input hidden="" id="regularGatherState" name="regularGatherState" value="신청대기"/>
         <input hidden="" id="gatherDate" name="date"/>
         <input hidden="" name="gatherState" value="신청대기"/>
-        <input hidden="" id="userNo" name="userNo" value="6"/>
           <div class="create-group-top">
             <div class="create-group-wrap-image">
               <div class="group-image-wrap">

@@ -152,7 +152,8 @@
 			}
 			
 			
-			//모임 날짜 유효성검사
+			//모임 날짜 유효성검사e);
+
 			let today = new Date();
 			//let gatherDate = new Date($("#date").val() + " " + $("#time").val())
 			//let gatherDate = LocalDateTime.parse($("#date").val() + "T" + $("#time").val())
@@ -211,8 +212,7 @@
 	          //$(this).attr("name","test");
 	          
 	         console.log($(this))
-	        // $(this).prev().find("input").val(filename);
-
+	        // $(this).prev().find("input").val(filenam
 	      
 		})  
 		
@@ -224,6 +224,10 @@
   </head>
   <body>
     <div class="wrap">
+     <sec:authorize access="isAuthenticated()">
+	<sec:authentication var="user" property="principal" />
+		<input type="hidden" value="${user.userNo}" id="userNo">
+	</sec:authorize>
       <div class="create-group-wrap">
         <form action="${pageContext.request.contextPath}/gather/gatherInsert" method="post" enctype="multipart/form-data">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
