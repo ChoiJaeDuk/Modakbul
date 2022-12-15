@@ -217,7 +217,6 @@
    	 </script>
 
   <body>
-
   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
   	<input hidden="" id="gatherBid" value="${gather.gatherBid}">
   	<input hidden="" id="check" value="${check}">
@@ -310,10 +309,12 @@
 				
 				<div class="tab-container">
 					<div class="menu-tab">
+
 						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>상세정보</p></div>
 						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>주최자 프로필</p></div>
 						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>문의</p></div>
 						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>후기</p></div>	
+
 					</div>
 				</div>
 				<div class="gather-detail-info">
@@ -391,12 +392,12 @@
 							
 							 <%-- <c:if test="${'' eq reply.user.userNo}">  --%>
 		                    <c:forEach items="${qna.inquiryReplyList}" var="reply">
-		                      <div class="reply-btn" style="display: none;">
+		                      <div class="reply-btn">
 		                      	<button class="reply-btn" type="button">답변달기</button>
 		                      	<button class="reply-btn" type="button">삭제</button>
 		                      </div>
 		                    
-		                 	<div class="search-inquiry-reply-wrap reply-form-wrap" style="display: none;">
+		                 	<div class="search-inquiry-reply-wrap reply-form-wrap">
 	                       	<label class="reply-form" for="id">답변</label>
 	                       	<form action="qnaInsert">
 	           				<div class="inquiry-detail-textarea-wrap">
