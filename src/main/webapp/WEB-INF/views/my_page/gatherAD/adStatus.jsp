@@ -486,9 +486,6 @@
                             dataType:"text",
                             data: "${_csrf.parameterName}=${_csrf.token}&advertisementNo="+advNo,            
                             success:function(result){
-                                
-                            
-                                    alert(result);
                                     $("#adWaiting").load(location.href + " #adWaiting");
                                     
                                     $("#bannerUpdate").hide();
@@ -529,8 +526,6 @@
         });
   	
   	$(document).on("change", ".commercial-image-input", function(){ //주황색
-		
-		alert(1)
         console.log($(this))
         	filename = $(this).val().split('/').pop().split('\\').pop();
   	// var filename = $(".commercial-image-input").val().split('/').pop().split('\\').pop();
