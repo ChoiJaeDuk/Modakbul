@@ -16,10 +16,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Gather;
+import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.domain.Inquiry;
 import modakbul.mvc.domain.InquiryReply;
 import modakbul.mvc.domain.Participant;
 import modakbul.mvc.domain.Users;
+import modakbul.mvc.service.GatherReviewService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.InquiryReplytService;
 import modakbul.mvc.service.InquiryService;
@@ -44,6 +46,7 @@ public class GatherDetailControllerChoi {
 	private final LikeGatherService lgService;
 
 	private final UsersService usersService;
+	private final GatherReviewService gatherReviewService;
 
 	
 	@RequestMapping("/info")
@@ -132,10 +135,14 @@ public class GatherDetailControllerChoi {
 	
 	
 	@RequestMapping("/review")
-	public void review(Model model, Long gatherNo, Long userNo) {
+	public void review(Model model, Long gatherNo, Long userNo, @RequestParam(defaultValue = "1") int nowPage) {
+		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
+		Page<GatherReview> page=gatherReviewService.selectAllByRegularGatherNo(gatherNo, null);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
 		
+		int temp= (nowPage -1)%BLOCK_COUNT; 
+		int startPage= nowPage-temp;
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		
 		String yesOrNo = lgService.selectEle(gatherNo, userNo);
@@ -143,6 +150,11 @@ public class GatherDetailControllerChoi {
 		
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
+		model.addAttribute("grList", page);
+		
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
 		
 	}
 	
@@ -167,4 +179,15 @@ public class GatherDetailControllerChoi {
 		
 		return "redirect:/gatherDetail/info";
 	}
+	
+	@RequestMapping("/insert")
+	public String insertInquery(Model model,RedirectAttributes re,String gatherName,Inquiry inquiry,Long userNo, Long gatherNo) {
+		System.out.println("userNo2 = " + inquiry.getUser().getUserNo());
+		System.out.println("gatherNo = " + gatherNo);
+		
+		inquiryService.insertInquiry(inquiry, gatherName,gatherNo);
+		
+		return "redirect:/gatherDetail/qna?inquiry="+inquiry+"&gatherNo="+gatherNo;
+	}
+
 }

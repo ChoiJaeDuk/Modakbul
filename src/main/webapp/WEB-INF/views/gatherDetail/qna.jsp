@@ -197,28 +197,28 @@
 						<button class="add-to-cart qna-write-btn" type="button">문의 작성</button>
 					</div>			
 				</div>
-				<form action="">
+				<form action="insert">
+				<input type="hidden"  name="user" value="${user.userNo}" />
+				<input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
+				<input type="hidden"  name="gatherName" value="${gather.gatherName}" />
 					<div class=qna-write-form>
 						
 						<div class="gather-detail-info qna-text">
 							<label class="sign-up-form-label" for="id">문의 제목</label>
-            				<input class="sign-up-form-input-medium"/>
+            				<input class="sign-up-form-input-medium" name="inqSubject"/>
 						</div>
 						<div class="gather-detail-info qna-text">
 							<label class="sign-up-form-label" for="id">문의 내용</label>
             				<div class="inquiry-detail-textarea-wrap">
-                  				<textarea class="inquiry-textarea"></textarea>
+                  				<input class="inquiry-textarea" name="inqContent"></input>
               				</div>	
 						</div>
-						<div class="gather-detail-info qna-text">
-							<label class="sign-up-form-label" for="id">비밀번호</label>
-            				<input type="password" class="sign-up-form-input-medium"/>
-						</div>
+						
 						
 					</div>
 					<div class=qna-write-form-btn>
 						<div class="qna-write">
-							<button class="add-to-cart" type="button">작성완료</button>
+							<button class="add-to-cart" type="submit">작성완료</button>
 							<button class="add-to-cart cancel-btn" type="button">취소</button>
 						</div>
 					</div>
