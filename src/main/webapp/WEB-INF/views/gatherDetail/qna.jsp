@@ -317,6 +317,7 @@
 					</div>			
 				</div>
 				<form action="insert">
+				<sec:authentication var="user" property="principal" />
 				<input type="hidden"  name="user" value="${user.userNo}" />
 				<input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
 				<input type="hidden"  name="gatherName" value="${gather.gatherName}" />
