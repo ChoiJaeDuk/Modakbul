@@ -170,10 +170,10 @@
           	<div class="subject-title">
           	<nav>
 			<div class="checkUserSubject">
-			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${user.userNo }'">주최모임</h3>
+			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${user.userNo }?loginUserNo=${loginUserNo }'">주최모임</h3>
 			</div>
 			<div class="checkUserSubject">
-			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileReview/${user.userNo }'" style="color: lightgray">후기</h3>
+			<h3 onclick="location.href='${pageContext.request.contextPath}/userProfile/profileReview/${user.userNo }?loginUserNo=${loginUserNo }'" style="color: lightgray">후기</h3>
 			</div>
 			</nav>
 			</div>
