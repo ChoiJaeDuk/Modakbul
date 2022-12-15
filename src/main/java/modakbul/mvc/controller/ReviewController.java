@@ -139,22 +139,13 @@ public class ReviewController {
 	}
 	
 	@RequestMapping("/review/userReviewInsertbutton")
-	public String userReviewInsertbutton(UserReview userReview, Model model, @RequestParam(defaultValue = "1") int nowPage) {
+	public String userReviewInsertbutton(UserReview userReview, @RequestParam(defaultValue = "1") int nowPage) {
 		userReviewService.insert(userReview);
-		
-		int temp= (nowPage -1)%BLOCK_COUNT; 
-		int startPage= nowPage-temp;
-		  
-		model.addAttribute("startPage",startPage);
-		model.addAttribute("blockCount", BLOCK_COUNT); 
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
-		
 		
 		Long userNo=userReview.getWriterUser().getUserNo();
 		System.out.println(userNo);
 		
-		return "redirect:/my_page/my_page_review?userNo="+userNo; //여기 경우 만들어서 테으스
+		return "redirect:/my_page/my_page_review?userNo="+userNo; 
 	}
 	
 	
