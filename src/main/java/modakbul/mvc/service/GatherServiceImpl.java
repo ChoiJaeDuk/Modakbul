@@ -378,7 +378,7 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public Page<Gather> selectNoneADGatherList(Long userNo, Pageable pageable) {
 		QueryResults<Gather> result = queryFactory.select(g).from(g).leftJoin(a).on(g.gatherNo.eq(a.gather.gatherNo))
-				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo))).offset(pageable.getOffset())
+				.where(a.gather.gatherNo.isNull().and(g.user.userNo.eq(userNo)).and(g.gatherState.eq("모집중"))).offset(pageable.getOffset())
 				.limit(pageable.getPageSize()).fetchResults();
 
 		return new PageImpl<Gather>(result.getResults(), pageable, result.getTotal());
