@@ -62,11 +62,12 @@
 			//alert(gatherPlace)
 			
 			$("#application-btn").click(function() { 
+				$("#gatherNo").val($(this).val())
 				if($("#gatherBid").val()==0){
 					
 					if(confirm("모임 참가를 신청하시겠습니까???")){
 				
-						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$(this).val();
+						location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$("#gatherNo").val();
 					}	
 				}else{
 					var IMP = window.IMP;
@@ -108,8 +109,9 @@
 										   		data:JSON.stringify(result),	
 										        contentType:'application/json;charset=utf-8',
 										        success : function(result) {
-										        
-										        	location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$(this).val();
+										        	//alert($(this).val());
+										        	alert($("#userNo1").val())
+										        	location.href="${pageContext.request.contextPath}/gatherDetail/insertParticipant?userNo="+$("#userNo1").val()+"&gatherNo="+$("#gatherNo").val();
 										        },
 												error : function(err) {
 													alert(err);
@@ -199,6 +201,7 @@
   	<sec:authentication var="user" property="principal" />
   	</sec:authorize>
  	<input hidden="" id="userNo" value="${userNo}">
+ 	<input hidden="" id="gatherNo">
  	<c:if test="${!empty userNo1}">
  		<input type="hidden" id="userNo1" value="${userNo1}">
  	</c:if>
