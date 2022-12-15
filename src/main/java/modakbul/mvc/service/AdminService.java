@@ -2,6 +2,8 @@ package modakbul.mvc.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +15,12 @@ import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.groupby.UsersGroupBy;
 
 public interface AdminService {
-
+	//////////////////////광고/////////////////////////
+	/**
+	 * 광고 조회 - Page처리
+	 * */
+	Page<Advertisement> selectAd(Pageable pageable, String adStatus);
+	
 	/**
 	 * 광고 종료 스케줄러 
 	 * */
@@ -62,35 +69,11 @@ public interface AdminService {
 	 * */
 	void delete(Advertisement advertisement);
 
-	/**
-	 * 모임 조회
-	 * */
-	List<Gather> selectGatherList();
 
-	/**
-	 * 회원 조회
-	 * */
-	List<Users> selectUsersList();
 
-	/**
-	 * 광고 조회
-	 * */
-	List<Advertisement> selectAll();
 
-	/**
-	 * 모임 조회 - Page처리
-	 * */
-	Page<Gather> selectGatherList(Pageable pageable);
 
-	/**
-	 * 회원 조회 - Page처리
-	 * */
-	Page<Users> selectUsersList(Pageable pageable);
-
-	/**
-	 * 광고 조회 - Page처리
-	 * */
-	Page<Advertisement> selectAd(Pageable pageable, String adStatus);
+	
 
 	/**
 	 * 광고 매출 차트
@@ -120,7 +103,7 @@ public interface AdminService {
 	/**
 	 * 광고 종료하기
 	 * */
-	void updateAdCancle(Long advertisementNo, String status);
+	void updateAdCancel(Long advertisementNo, String status);
 	
 	/**
 	 * 모임 신청대기 리스트
@@ -171,5 +154,32 @@ public interface AdminService {
 	 * 마이페이지 진행완료 모임 
 	 * */
 	Long selectMyGatherEnd(Long userNo);
+	
+	/**
+	 * 광고 조회
+	 * */
+	List<Advertisement> selectAll();
+	
+	/**
+	 * 모임 조회
+	 * */
+	List<Gather> selectGatherList();
+
+	/**
+	 * 회원 조회
+	 * */
+	List<Users> selectUsersList();
+	
+	/**
+	 * 모임 조회 - Page처리
+	 * */
+	Page<Gather> selectGatherList(Pageable pageable);
+
+	/**
+	 * 회원 조회 - Page처리
+	 * */
+	Page<Users> selectUsersList(Pageable pageable);
+
+
 	
 }

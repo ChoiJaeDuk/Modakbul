@@ -25,10 +25,10 @@
 				dataType:"text",
 				data: "${_csrf.parameterName}=${_csrf.token}&status=광고종료&advertisementNo="+$(this).val(),			
 				success:function(result){
-					alert(result+"ㅇㅇㅇㅇ")
+					alert(result)
 					console.log(result)
 			        let tr = $(this).parent().parent().parent();
-					alert(tr)
+					
 					
 					//$(this).parent().parent().parent().parent().remove("tr:first");
 					btn.remove()

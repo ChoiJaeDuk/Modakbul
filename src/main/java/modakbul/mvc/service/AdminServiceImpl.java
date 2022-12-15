@@ -1,8 +1,10 @@
 package modakbul.mvc.service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	@Scheduled(cron = "0 0 0 * * *")
 	public void AutoAdvertisementUpdate() {
+		//String dir = session.getServletContext().getRealPath("/banner");
 		List<Advertisement> advertisementList = queryFactory.selectFrom(ad).where(ad.adStatus.eq("광고중")).fetch();
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -66,6 +69,7 @@ public class AdminServiceImpl implements AdminService {
 			
 			if(advertisement.getDeadLine().isEqual(ldt)) {
 				advertisement.setAdStatus("광고종료");
+				//new File((dir + "/" + advertisement.getAdFileName())).delete();
 			}
 		}
 	}
@@ -191,7 +195,6 @@ public class AdminServiceImpl implements AdminService {
 		.where(ad.gather.gatherNo.eq(advertisement.getGather().getGatherNo())
 				.and(ad.adStatus.eq("광고중")))
 		.execute();
-
 	}
 	
 	/**
@@ -299,10 +302,11 @@ public class AdminServiceImpl implements AdminService {
 	 * 광고 종료하기
 	 * */
 	@Override
-	public void updateAdCancle(Long advertisementNo, String status) {
-		LocalDateTime now = LocalDateTime.now();
+	public void updateAdCancel(Long advertisementNo, String status) {
 		
+		LocalDateTime now = LocalDateTime.now();
 		Advertisement dbAdv = adminRep.findById(advertisementNo).orElse(null);
+		
 		dbAdv.setAdStatus(status);
 		dbAdv.setDeadLine(now);
 		
