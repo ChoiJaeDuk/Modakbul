@@ -86,7 +86,7 @@
 								let gatherDate = item.gatherDate.replace("T"," ");
     							str += `<article class="search-list-result-item" name="detail" id=${"${item.gatherNo}"}>`;
     							str += `<div class="search-list-result-item-image-wrap">`;
-    							str += `<img src="${pageContext.request.contextPath}/save/"${'${item.gatherImg}'} alt="이미지" width="100%" />`;
+    							str += `<img src='${pageContext.request.contextPath}/save/${"${item.gatherImg}"}' alt="이미지" width="100%" />`;
     							str += `</div>`;
     							str += `<div class="search-list-result-item-info">`;
     							str += `<div class="search-list-result-item-title">`;

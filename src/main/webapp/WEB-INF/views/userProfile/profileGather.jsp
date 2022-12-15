@@ -174,7 +174,7 @@
       <div id="profile-inner-wrapper" class="divi">
        
         <div class="profile-content">
-          <!-- 여기에 내용 넣으면 됨. -->
+          <!-- 여기에 내용 넣으면 됨 -->
           	<div class="subject-title">
           	<nav>
 			<div class="checkUserSubject">
@@ -221,29 +221,7 @@
 			</c:choose>
           </div> 
 
-			<c:forEach items="${requestScope.gatherList.content}" var="gatherList" varStatus="status">
-			<div class="profile-gather-list">
-              <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img" src="${pageContext.request.contextPath}/save/${gatherList.gatherImg}"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="gather-name">
-                    ${gatherList.gatherName}
-                  </p>
-                  
-                    <p class="gather-date">
-                    마감시간: ${gatherList.gatherDeadline}
-                  </p>
-                   <p class="gather-date">
-                    진행시간: ${gatherList.gatherDate}
-                  </p>
-                </div>
-              </div>
-             
-            </div>
-			</c:forEach>
+			
 
             
           </div>
@@ -253,7 +231,7 @@
           </div>
           <!-- 여기까지 content -->
         
-      </div>
+    
       
              <!-- confirm 모달을 쓸 페이지에 추가 start-->
         <section class="modal modal-section type-confirm">

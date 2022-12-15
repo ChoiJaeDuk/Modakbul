@@ -79,7 +79,7 @@ public class UsersController {
 		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		List<Follow> follower = followService.myFollower(userNo);
 		
-		Page<GatherGroupBy> gatherList = gatherService.selectRecruitingList(pageable, loginUserNo);
+		Page<GatherGroupBy> gatherList = gatherService.selectRecruitingList(pageable, userNo);
 		
 		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
 		System.out.println("있어 없어? = " + searchFollow);
