@@ -79,7 +79,8 @@
     				dataType:"json",
     				//contentType:'application/json;charset=utf-8',
     				success:function(result){
-    					
+    					let deadLine = item.gatherDeadline.replace("T"," ");
+						let gatherDate = item.gatherDate.replace("T"," ");
     					console.log(result.gatherList.totalPages)
     					var str ="";
     					$.each(result.gatherList.content, function(index,item) {
@@ -91,9 +92,9 @@
     							str += `<div class="search-list-result-item-title">`;
     							str += `${"${item.gatherName}"}</div>`;
     							str += `<div class="search-list-result-item-text">모집인원 : ${"${item.gatherMaxUsers}"}</div>`;
-    							str += `<div class="search-list-result-item-text">마감일 : ${"${item.gatherDeadline}"}</div>`;
+    							str += `<div class="search-list-result-item-text">마감일 : ${"${gatherDate}"}</div>`;
     							str += `<div class="search-list-result-item-date">`;
-    							str += `<div>모임날짜 : ${"${item.gatherDate}"}</div>`;
+    							str += `<div>모임날짜 : ${"${gatherDate}"}</div>`;
     							str += `<div class="user-nick">작성자 : ${"${item.user.userNick}"}</div>`;
     							str += `</div>`;
     							str += `</div>`;

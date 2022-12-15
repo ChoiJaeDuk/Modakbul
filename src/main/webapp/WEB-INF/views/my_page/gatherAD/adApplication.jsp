@@ -418,7 +418,8 @@
             </div>
          </div>
          <div class="my-page-content-wrap">
-            <nav>=
+            <nav>
+            <ul>
                   <li class="my-page-nav-item "
                      onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
                   <!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
@@ -502,6 +503,38 @@
                         </tbody>
                     </table>
                 </div>
+                <div style="text-align: center">
+   <nav class="pagination-container">
+   <div class="pagination">
+   <c:set var="doneLoop" value="false"/>
+      
+       <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
+            <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
+        </c:if> 
+        
+      <span class="pagination-inner"> 
+        <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
+        
+             <c:if test="${(i-1)>=adApplicationList.getTotalPages()}">
+                <c:set var="doneLoop" value="true"/>
+             </c:if> 
+          
+        <c:if test="${not doneLoop}" >
+               <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
+        </c:if>
+         
+      </c:forEach>
+      </span> 
+            
+       <c:if test="${(startPage+blockCount)<=adApplicationList.getTotalPages()}">
+           <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
+       </c:if>
+             
+         
+      
+      </div>
+   </nav>  
+   </div>
               </div>
             <!-- 추가된 내용 -->
           </section>
@@ -679,38 +712,7 @@
     </div>
     
     <sec:authentication var="user" property="principal" />
-    <div style="text-align: center">
-   <nav class="pagination-container">
-   <div class="pagination">
-   <c:set var="doneLoop" value="false"/>
-      
-       <c:if test="${(startPage-blockCount) > 0}"> <!-- (-2) > 0  -->
-            <a class="pagination-newer" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage-1}">PREV</a>
-        </c:if> 
-        
-      <span class="pagination-inner"> 
-        <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+blockCount}'> 
-        
-             <c:if test="${(i-1)>=adApplicationList.getTotalPages()}">
-                <c:set var="doneLoop" value="true"/>
-             </c:if> 
-          
-        <c:if test="${not doneLoop}" >
-               <a class="${i==nowPage?'pagination-active':page}" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${i}">${i}</a> 
-        </c:if>
-         
-      </c:forEach>
-      </span> 
-            
-       <c:if test="${(startPage+blockCount)<=adApplicationList.getTotalPages()}">
-           <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
-       </c:if>
-             
-         
-      
-      </div>
-   </nav>  
-   </div>
+    
     
     <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
