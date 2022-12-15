@@ -218,20 +218,20 @@ public class GatherTest {
 		
 		@Test
 		public void selectGatherList2() {
-			boolean gatherType = true; //true이면 정기모임, false이면 일일모임
-			String place = null;
-			List<Long> categoryList= null;//java.util.Arrays.asList(1L);
-			String sort = "gatherDeadline";
-		
-			Pageable pageable = PageRequest.of(0, 5 , Direction.ASC, sort);
-		
-			List<OrderSpecifier> ORDERS = gatherSort(pageable);
-		
-			Page<Gather> page = gatherService.selectGatherList(gatherType, categoryList, place, sort, "",pageable);
-			
-			List<Gather> gatherList = page.getContent();
-			gatherList.forEach(b->System.out.println(b.getGatherDeadline()));
-			System.out.println("page = " + page);
+//			boolean gatherType = true; //true이면 정기모임, false이면 일일모임
+//			String place = null;
+//			List<Long> categoryList= null;//java.util.Arrays.asList(1L);
+//			String sort = "gatherDeadline";
+//		
+//			Pageable pageable = PageRequest.of(0, 5 , Direction.ASC, sort);
+//		
+//			List<OrderSpecifier> ORDERS = gatherSort(pageable);
+//		
+//			Page<Gather> page = gatherService.selectGatherList(gatherType, categoryList, place, sort, "",pageable);
+//			
+//			List<Gather> gatherList = page.getContent();
+//			gatherList.forEach(b->System.out.println(b.getGatherDeadline()));
+//			System.out.println("page = " + page);
 		}
 		
 		@Test

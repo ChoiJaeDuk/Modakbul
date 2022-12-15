@@ -39,7 +39,6 @@
     		var gatherNo;
     		var userNo=$("#userNo").val()
     			$(document).on("click", ".main-gather-img", function() {
-    				alert($("#userNo").val())
 				gatherNo = $(this).attr("name");
 				location.href="${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+gatherNo+"&userNo="+$("#userNo").val();
 			})
@@ -66,7 +65,7 @@
       <main>
      <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="user" property="principal" />
-	<input type="hidden" value="${user.userNo }" id="userNo">
+	<input type="hidden" value="${user.userNo}" id="userNo">
 	</sec:authorize>
        
         <div class="featured-list-wrap">

@@ -251,9 +251,9 @@ public class Test {
 	void selectByAdminNo() {
 		Pageable pageable = PageRequest.of(0, 5,Direction.DESC,"SERVICE_QUESTION_NO");
 
-		Page<ServiceQuestion> page = serviceQuestionRep.selectByAdminNo(4L,pageable);
-		List<ServiceQuestion> adminList=page.getContent();
-		adminList.forEach(b -> System.out.println(b.getUser().getUserNick() + "//" + b.getServiceQuestionContent()));
+//		Page<ServiceQuestion> page = serviceQuestionRep.selectByAdminNo(4L,pageable);
+//		List<ServiceQuestion> adminList=page.getContent();
+//		adminList.forEach(b -> System.out.println(b.getUser().getUserNick() + "//" + b.getServiceQuestionContent()));
 	}
 
 	// 마이페이지에서 답변유무 상태 확인 ---------------ㅋ 못함요

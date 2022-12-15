@@ -315,29 +315,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.waitingList.content}" var="waitingList" varStatus="status">
-                    
-                            <tr class="table-body">
-                                <td>${status.index+1}</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" id="${waitingList.gatherNo}" alt="이미지" class="gather-img"/>
-                                    </div>
-                                </td>
-                                <td>${waitingList.gatherName}</td>
-                                 <c:set var="TextValue" value="${waitingList.gatherRegisDate}" />
-                                <td>${fn:substring(TextValue,0,10)}</td>
-                                <td class="inquiry-replied">
-                                    <button class="my-page-button" id="${waitingList.regularGather.regularGatherNo}" value="${waitingList.gatherNo}">취소하기</button>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:choose>
+							<c:when test="${0 eq requestScope.waitingList.getTotalPages()}">
+								<tr>
+									<td colspan="5">신청한 모닥불이 없습니다 🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+		                        <c:forEach items="${requestScope.waitingList.content}" var="waitingList" varStatus="status">
+		                    
+		                            <tr class="table-body">
+		                                <td>${status.index+1}</td>
+		                                <td>
+		                                    <div class="table-small-image-wrap">
+		                                        <img src="${pageContext.request.contextPath}/save/${waitingList.gatherImg}" id="${waitingList.gatherNo}" alt="이미지" class="gather-img"/>
+		                                    </div>
+		                                </td>
+		                                <td>${waitingList.gatherName}</td>
+		                                 <c:set var="TextValue" value="${waitingList.gatherRegisDate}" />
+		                                <td>${fn:substring(TextValue,0,10)}</td>
+		                                <td class="inquiry-replied">
+		                                    <button class="my-page-button" id="${waitingList.regularGather.regularGatherNo}" value="${waitingList.gatherNo}">취소하기</button>
+		                                </td>
+		                            </tr>
+		                        </c:forEach>
+		                     </c:otherwise>
+						</c:choose>
                         </tbody>
                     </table>
                 </div>
              </div>
              <div>
-	             <div style="text-align: center">
+	          	<div style="text-align: center">
 					<!--  블럭당  -->
 			 <nav class="pagination-container">
 				<div class="pagination">

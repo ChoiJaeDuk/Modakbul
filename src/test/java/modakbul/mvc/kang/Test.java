@@ -119,11 +119,11 @@ public class Test {
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectByStatus2() {
-		List<Advertisement> list = advertisementRep.selectByStatus2(null);
-		/*for(Advertisement b :list) {
-			System.out.println(b);
-		}*/
-		list.forEach(b->System.out.println(b));
+//		List<Advertisement> list = advertisementRep.selectByStatus2(null);
+//		/*for(Advertisement b :list) {
+//			System.out.println(b);
+//		}*/
+//		list.forEach(b->System.out.println(b));
 	}
 	
 	/**
@@ -180,7 +180,7 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	void updateGathWer() {
 			Gather gather = gatherRepository.findById(69L).orElse(null);
-			adminService.updateGather(gather);
+			//adminService.updateGather(gather);
 			
 		}
 	
@@ -201,11 +201,11 @@ public class Test {
 	 * */
 	@org.junit.jupiter.api.Test
 	public void selectGatherList() {
-		List<Gather> list = adminService.selectADGatherRegis(userTest, null);
-		/*for(Advertisement b :list) {
-			System.out.println(b);
-		}*/
-		list.forEach(b->System.out.println(b));
+//		List<Gather> list = adminService.selectADGatherRegis(userTest, null);
+//		/*for(Advertisement b :list) {
+//			System.out.println(b);
+//		}*/
+//		list.forEach(b->System.out.println(b));
 }
 	
 //////////////////////////////////////////////////////////////////////////////////

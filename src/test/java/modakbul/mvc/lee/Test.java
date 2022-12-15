@@ -104,10 +104,10 @@ public class Test {
 
 	@org.junit.jupiter.api.Test
 	public void selectLike() {
-		List<LikeGather> gatherlist = like.selectByUserId(5L);
-		for (LikeGather l : gatherlist) {
-			System.out.println(l);
-		}
+//		List<LikeGather> gatherlist = like.selectByUserId(5L);
+//		for (LikeGather l : gatherlist) {
+//			System.out.println(l);
+//		}
 	}
 	
 	@org.junit.jupiter.api.Test

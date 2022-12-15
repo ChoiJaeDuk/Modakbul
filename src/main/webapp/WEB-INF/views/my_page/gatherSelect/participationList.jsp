@@ -306,20 +306,30 @@ $(document).ready(function(){
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.participationList.content}" var="participationList" varStatus="status">
-                            <tr class="table-body">
-                                <td>${status.index+1}</td>
-                                <td>
-									<div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${participationList.gatherImg}" id="${participationList.gatherNo}" class="gather-img" alt="이미지"/>
-                                    </div>			
-								</td>
-                                <td>${participationList.gatherName}</td>   
-                                <td>${participationList.user.userNick}</td>
-                                <td>${participationList.gatherState}</td>
-                                <td>${fn:replace(participationList.gatherDate, 'T', '<br>')}</td>
-                            </tr>
-                        </c:forEach>
+                        <c:choose>
+							<c:when
+								test="${0 eq requestScope.participationList.getTotalPages()}">
+								<tr>
+									<td colspan="5">진행완료된 모닥불이 없습니다. 🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+		                        <c:forEach items="${requestScope.participationList.content}" var="participationList" varStatus="status">
+		                            <tr class="table-body">
+		                                <td>${status.index+1}</td>
+		                                <td>
+											<div class="table-small-image-wrap">
+		                                        <img src="${pageContext.request.contextPath}/save/${participationList.gatherImg}" id="${participationList.gatherNo}" class="gather-img" alt="이미지"/>
+		                                    </div>			
+										</td>
+		                                <td>${participationList.gatherName}</td>   
+		                                <td>${participationList.user.userNick}</td>
+		                                <td>${participationList.gatherState}</td>
+		                                <td>${fn:replace(participationList.gatherDate, 'T', '<br>')}</td>
+		                            </tr>
+		                        </c:forEach>
+		                    </c:otherwise>
+						</c:choose>
                         </tbody>
                     </table>
                 </div>

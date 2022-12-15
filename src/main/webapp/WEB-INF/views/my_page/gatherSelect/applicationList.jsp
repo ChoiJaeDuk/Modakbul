@@ -327,23 +327,33 @@ $(document).ready(function(){
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.applicationList.content}" var="applicationList" varStatus="status">
-                        	<tr class="table-body">
-                                <td>${status.index+1}</td>
-                                <td>
-
-                                	<div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" id="${applicationList.gatherNo}" alt="이미지"/>
-                                    </div>
-                                </td>
-                                <td>${applicationList.gatherName}</td>
-                                <td>${applicationList.user.userNick}</td>
-                                <td>${fn:replace(applicationList.gatherDate, 'T', '<br>')}</td>
-                                <td>
-                                    <button class="my-page-button" id="cancel" value="${applicationList.gatherNo}">취소</button>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:choose>
+							<c:when
+								test="${0 eq requestScope.applicationList.getTotalPages()}">
+								<tr>
+									<td colspan="5">참가신청한 모닥불이 없습니다 🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+		                        <c:forEach items="${requestScope.applicationList.content}" var="applicationList" varStatus="status">
+		                        	<tr class="table-body">
+		                                <td>${status.index+1}</td>
+		                                <td>
+		
+		                                	<div class="table-small-image-wrap">
+		                                        <img src="${pageContext.request.contextPath}/save/${applicationList.gatherImg}" class="gather-img" id="${applicationList.gatherNo}" alt="이미지"/>
+		                                    </div>
+		                                </td>
+		                                <td>${applicationList.gatherName}</td>
+		                                <td>${applicationList.user.userNick}</td>
+		                                <td>${fn:replace(applicationList.gatherDate, 'T', '<br>')}</td>
+		                                <td>
+		                                    <button class="my-page-button" id="cancel" value="${applicationList.gatherNo}">취소</button>
+		                                </td>
+		                            </tr>
+		                        </c:forEach>
+		                	</c:otherwise>
+						</c:choose>
                         </tbody>
                     </table>
                     

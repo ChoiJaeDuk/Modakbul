@@ -311,20 +311,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.completionList.content}" var="completionList" varStatus="status">
-                            <tr class="table-body">
-                                <td>${status.index+1}</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}" id="${completionList.gatherNo }" alt="이미지" class="gather-img"/>
-                                    </div>
-                                </td>
-                                <td>${completionList.gatherName}</td>
-                               
-                                <td>${fn:replace(completionList.getGatherDeadline(), 'T', '<br>')}</td>
-                                <td>${completionList.gatherState}</td>
-                            </tr>
-                       	</c:forEach>
+                        <c:choose>
+							<c:when
+								test="${0 eq requestScope.completionList.getTotalPages()}">
+								<tr>
+									<td colspan="5">진행된 모닥불이 없습니다 🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+		                        <c:forEach items="${requestScope.completionList.content}" var="completionList" varStatus="status">
+		                            <tr class="table-body">
+		                                <td>${status.index+1}</td>
+		                                <td>
+		                                    <div class="table-small-image-wrap">
+		                                        <img src="${pageContext.request.contextPath}/save/${completionList.gatherImg}" id="${completionList.gatherNo }" alt="이미지" class="gather-img"/>
+		                                    </div>
+		                                </td>
+		                                <td>${completionList.gatherName}</td>
+		                               
+		                                <td>${fn:replace(completionList.getGatherDeadline(), 'T', '<br>')}</td>
+		                                <td>${completionList.gatherState}</td>
+		                            </tr>
+		                       	</c:forEach>		                       	
+                       		</c:otherwise>
+						</c:choose>
                     </table>
                 </div>
             </div>    

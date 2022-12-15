@@ -316,6 +316,13 @@ $(document).ready(function(){
                             </tr>
                         </thead>
                         <tbody>
+                        <c:choose>
+							<c:when test="${0 eq requestScope.upcomingList.getTotalPages()}">
+								<tr>
+									<td colspan="5">참가예정 모임이 없습니다🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
                         	<c:forEach items="${requestScope.upcomingList.content}" var="upcomingList" varStatus="status">
                             <tr class="table-body">
                                 <td>${status.index+1}</td>
@@ -332,6 +339,8 @@ $(document).ready(function(){
                                 </td>
                             </tr>
                             </c:forEach>
+                            </c:otherwise>
+						</c:choose>
                         </tbody>
                     </table>
                 </div>

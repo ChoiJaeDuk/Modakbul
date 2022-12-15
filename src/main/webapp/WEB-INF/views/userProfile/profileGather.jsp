@@ -177,37 +177,40 @@
 			</div>
 			</nav>
 			</div>
-			<c:forEach items="${requestScope.gatherList.content}" var="gatherList" varStatus="status">
-			<div class="profile-gather-list">
-              <div class="modakbul-charged-grid-col">
-                <img class="gatherGroup-img" src="${pageContext.request.contextPath}/save/${gatherList.gatherImg}"  alt="modakbul-charged-img" />
-              </div>
-              <div class="modakbul-charged-grid-col">
-                
-                <div class="modakbul-charged-grid-director gather">
-                  <p class="gather-name">
-                    ${gatherList.gatherName}
-                  </p>
-                  
-                    <p class="gather-date">
-                    마감시간: ${gatherList.gatherDeadline}
-                  </p>
-                   <p class="gather-date">
-                    진행시간: ${gatherList.gatherDate}
-                  </p>
-                </div>
-              </div>
-             
-            </div>
-			</c:forEach>
-            
-         
-            
-           
-            
-          </div>
-          
-           
+			<c:choose>
+				<c:when
+					test="${0 eq requestScope.gatherList.getTotalPages()}">
+					<div class="profile-review-list-ifnone">
+						진행한 모닥불이 없습니다.
+					</div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${requestScope.gatherList.content}" var="gatherList" varStatus="status">
+					<div class="profile-gather-list" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gatherList.gatherNo}&userNo=${loginUserNo}'">
+		              <div class="modakbul-charged-grid-col">
+		                <img class="gatherGroup-img" src="${pageContext.request.contextPath}/save/${gatherList.gatherImg}"  alt="modakbul-charged-img" />
+		              </div>
+		              <div class="modakbul-charged-grid-col">
+		                
+		                <div class="modakbul-charged-grid-director gather">
+		                  <p class="gather-name">
+		                    ${gatherList.gatherName}
+		                  </p>
+		                  
+		                    <p class="gather-date">
+		                    마감시간: ${gatherList.gatherDeadline}
+		                  </p>
+		                   <p class="gather-date">
+		                    진행시간: ${gatherList.gatherDate}
+		                  </p>
+		                </div>
+		              </div>
+		             
+		            </div>
+					</c:forEach>
+            	</c:otherwise>
+			</c:choose>
+          </div> 
           </div>
           <!-- 여기까지 content -->
         
@@ -238,7 +241,6 @@
         <div style="text-align: center">
 		
 		</div>
-        <
     <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>

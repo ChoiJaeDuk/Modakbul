@@ -444,32 +444,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.recruitingList.content}" var="recruitingList" varStatus="status">
-                            <tr class="table-body" id="${recruitingList}">
-                                <td>${status.index+1}</td>
-                                <td>
-                                    <div class="table-small-image-wrap">
-                                        <img src="${pageContext.request.contextPath}/save/${recruitingList.getGatherImg()}" id="${recruitingList.getGatherNo()}" alt="이미지" class="gather-img"/>
-                                    </div>
-                                </td>
-                                <td>${recruitingList.getGatherName()}</td>
-                                <td>${fn:replace(recruitingList.getGatherDeadline(), 'T', '<br>')}</td>
-                                <td>${recruitingList.getLikeCount()}</td>
-                                <td>
-                                    <div class="table-interest-wrap">
-                                        <div class="table-heart"></div>
-                                        <div>
-                                           ${recruitingList.getPCount()} / ${recruitingList.getGatherMaxUsers()}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="inquiry-replied">
-                                    <button name="modal-on" class="my-page-button" name="selectParticipant" value="${recruitingList.getGatherNo()}">확인하기</button>
-                              	
-                                    <button class="my-page-button" name="cancel" id="${recruitingList.getRegularGatherNo()}" value="${recruitingList.getGatherNo()}">취소하기</button>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:choose>
+							<c:when
+								test="${0 eq requestScope.recruitingList.getTotalPages()}">
+								<tr>
+									<td colspan="5">모집중인 모닥불이 없습니다 🔥</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+		                        <c:forEach items="${requestScope.recruitingList.content}" var="recruitingList" varStatus="status">
+		                            <tr class="table-body" id="${recruitingList}">
+		                                <td>${status.index+1}</td>
+		                                <td>
+		                                    <div class="table-small-image-wrap">
+		                                        <img src="${pageContext.request.contextPath}/save/${recruitingList.getGatherImg()}" id="${recruitingList.getGatherNo()}" alt="이미지" class="gather-img"/>
+		                                    </div>
+		                                </td>
+		                                <td>${recruitingList.getGatherName()}</td>
+		                                <td>${fn:replace(recruitingList.getGatherDeadline(), 'T', '<br>')}</td>
+		                                <td>${recruitingList.getLikeCount()}</td>
+		                                <td>
+		                                    <div class="table-interest-wrap">
+		                                        <div class="table-heart"></div>
+		                                        <div>
+		                                           ${recruitingList.getPCount()} / ${recruitingList.getGatherMaxUsers()}
+		                                        </div>
+		                                    </div>
+		                                </td>
+		                                <td class="inquiry-replied">
+		                                    <button name="modal-on" class="my-page-button" name="selectParticipant" value="${recruitingList.getGatherNo()}">확인하기</button>
+		                              	
+		                                    <button class="my-page-button" name="cancel" id="${recruitingList.getRegularGatherNo()}" value="${recruitingList.getGatherNo()}">취소하기</button>
+		                                </td>
+		                            </tr>
+		                            
+		                        </c:forEach>
+                        	</c:otherwise>
+						</c:choose>
                         </tbody>
                     </table>
                 </div>
