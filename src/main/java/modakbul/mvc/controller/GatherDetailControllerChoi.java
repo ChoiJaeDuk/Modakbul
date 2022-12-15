@@ -70,6 +70,7 @@ public class GatherDetailControllerChoi {
 		
 		Users user = usersService.selectById(gather.getUser().getUserNo());
 		
+		model.addAttribute("userNo1", userNo);
 		model.addAttribute("hostUser", user);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
@@ -86,7 +87,7 @@ public class GatherDetailControllerChoi {
 		
 		String yesOrNo = lgService.selectEle(gatherNo, userNo);
 		model.addAttribute("yesOrNo", yesOrNo);
-		
+		model.addAttribute("userNo1", userNo);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		
@@ -102,7 +103,7 @@ public class GatherDetailControllerChoi {
 		
 		String yesOrNo = lgService.selectEle(gatherNo, userNo);
 		model.addAttribute("yesOrNo", yesOrNo);
-		
+		model.addAttribute("userNo1", userNo);
 		model.addAttribute("gather", gather);
 		model.addAttribute("participant", participant);
 		

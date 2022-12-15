@@ -116,15 +116,13 @@
   		    });
   				
 			$(document).on('click', '#like',function(){
-  					
-  					alert("관심클릭했음" + " , " + "${gather.gatherNo}");
                     
                     let target = {"gatherNo": "${gather.gatherNo}", "userNo":"${userNo1}"}
                     console.log("gatherNo = " + "${gather.gatherNo}");
                     console.log("userNo = " + "${userNo1}");
   					
   					if($("#like").attr("src")=="${pageContext.request.contextPath}/save/ok_modak.png"){
-                        alert("딜리트 반응?");
+                        
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/delete", 
                            type:"post",
@@ -133,8 +131,7 @@
                                contentType:'application/json;charset=utf-8',
                            success:function(result){
                               if(result=="ok"){
-                                 alert("관심모임이 해제 되었습니다.")                  
-                                 
+
                                 $("#like").attr("src","${pageContext.request.contextPath}/save/no_modak.png")
                               }
                            },error:function(err){
@@ -144,7 +141,7 @@
                      }//Delete IF END
                      
                      if($("#like").attr("src")=="${pageContext.request.contextPath}/save/no_modak.png"){
-                        alert("인설트반응?");
+                       
                         $.ajax({
                            url:"${pageContext.request.contextPath}/likeGather/insert",
                            type:"post",
@@ -153,7 +150,7 @@
                                contentType:'application/json;charset=utf-8',
                            success:function(result){
                               if(result=="ok"){
-                                 alert("관심모임 등록 되었습니다.")                  
+                                                  
                                  
                                  $("#like").attr("src","${pageContext.request.contextPath}/save/ok_modak.png")
                               }
@@ -233,7 +230,7 @@
 									장소: ${gather.gatherPlace}
 								</div>
 								<div class="gather inline">
-									성별: 남녀모두
+									성별: ${gather.gatherSelectGender}
 								</div>
 							</div>
 							<div class="gather-detail">
@@ -263,10 +260,10 @@
 				
 				<div class="tab-container">
 					<div class="menu-tab">
-						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}'"><p>상세정보</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}'"><p>주최자 프로필</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}'"><p>문의</p></div>
-						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}'"><p>후기</p></div>	
+						<div class="menu selected" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/info?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>상세정보</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/hostProfile?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>주최자 프로필</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/qna?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>문의</p></div>
+						<div class="menu" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${gather.gatherNo}&userNo=${userNo1}'"><p>후기</p></div>	
 					</div>
 				</div>
 				<div class="gather-detail-info">
