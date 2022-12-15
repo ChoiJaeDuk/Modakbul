@@ -304,7 +304,7 @@
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap" id="replyState">
-								<a class="btn btn-outline-secondary" href="index.jsp"
+								<a class="btn btn-outline-secondary"
 									id="replyState"> <span class="my-page-profile-card-count"
 									onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">${replyState}</span></a>&nbsp;개
 
