@@ -12,7 +12,7 @@
 <title>MODAKBUL</title>
 <link
 	href="${pageContext.request.contextPath}/css/admin/adminLayout.css"
-	rel="stylesheet" />
+	rel="stylesheet"/>
 	
 <script type="text/javascript">
 /* 

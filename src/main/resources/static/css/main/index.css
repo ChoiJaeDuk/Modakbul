@@ -711,3 +711,7 @@
 .sign-up-individual-button:active {
   background-color: rgb(214, 132, 0);
 }
+
+a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: black; text-decoration: none;}

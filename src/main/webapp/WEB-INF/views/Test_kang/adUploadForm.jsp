@@ -20,7 +20,7 @@
 	가격 : <input type="text" name="adPrice"><p>
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	<input type="submit" value="전송"/>
+	<input type="submit" value="전송" />
 </form>
 </div>
 

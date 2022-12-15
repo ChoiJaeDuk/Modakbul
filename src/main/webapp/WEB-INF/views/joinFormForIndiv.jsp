@@ -347,6 +347,7 @@
 				$("#sendEmail").html("이메일 인증");
 			})
 			
+			
 			$("form").on("submit",function(){
 				if($(".sign-up-add-image").html()==""){
 					
@@ -782,7 +783,7 @@
           </div>
           
           <div class="form-button-wrap">
-            <button class="sign-up-cancel-button" type="button">취소</button>
+            <button class="sign-up-cancel-button" type="button" onclick="history.back(-1)">취소</button>
             <button class="sign-up-button" type="submit">회원가입</button>
           </div>
         </form>

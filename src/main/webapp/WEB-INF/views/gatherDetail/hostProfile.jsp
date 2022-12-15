@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -316,28 +317,39 @@
 					        <div class="host name">${hostUser.userNick }님  </div>
 					        <div class="host temper">모닥불 온도 : ${hostUser.temper }&#8451</div>
 					        <div class="host">모임 진행횟수 : </div>
-					        <div class="host">리뷰 : 3개</div>
+					        <div class="host">리뷰 : ${userReviewList.size()}개</div>
 				        </div>
 					</div>
 					<h2 class="host-review">후기</h2>
 					<div class="host-review">
+					<c:choose>
+						<c:when test="${0 eq requestScope.userReviewPageList.getTotalPages()}">
+							<div class="profile-review-list-ifnone">
+						작성된 후기가 없습니다. 
+						</div>				
+						</c:when>
+					<c:otherwise>
+					<c:forEach var="ur" items="${userReviewPageList.content}">
+					<c:set var="TextValue" value="${ur.userRevieweRegisDate}" />
 						<div class="user-profile-review-item-right">
 			                <div class="user-profile-review-item-right-user-info">
 			                  <div>
 			                    <div class="user-profile-review-item-right-user-name">
-			                      닉네임
+			                      ${ur.hostUser.userNick }
 			                    </div>
 			                    <div class="user-profile-review-item-right-date">
-			                      2022.22.22
+			                      ${fn:substring(TextValue,0,10)}
 			                    </div>
 			                  </div>
-			                  <div>여기에 온도</div>
+			                  <div>${ur.hostUser.temper}</div>
 			                </div>
 			                <div class="user-profile-review-item-right-introduce">
-			                  동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라
-			                  만세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세
+			                  ${ur.userReviewContent}
 			                </div>
 	              		</div>
+	              		</c:forEach>
+	              	</c:otherwise>
+	              </c:choose>
               		</div>
 				</div>
 			</div>

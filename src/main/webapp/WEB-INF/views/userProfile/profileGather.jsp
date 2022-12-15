@@ -134,15 +134,23 @@
 						   				<tr class="user-info-page-title">
 						   					<th class="userNick"> 닉네임 </th>
 						   					<th class="follower"> 팔로워 </th>
+						   					<th class="user-gender"> 성별 </th>
 						   					<th class="user-temper"> 온도 </th>
 						   					<th class="plusinfo"> 지역 </th>
+						   					<th class="user-old"> 나이 </th>
 						   				
 						   				</tr>
 						   				<tr class="user-info-page-content">
 						   					<th class="result-nick"> ${user.userNick} </th>
 						   					<th class="result-addr"> ${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]} </th>
+						   					<c:if test="${!empty user.userGender }">
+						   					<th class="result-gender"> ${user.userGender} </th>
+						   					</c:if>
 						   					<th class="result-temper"> ${user.temper}&#8451 </th>
-						   					<th class="result-follower">${follower }</th>
+						   					<th class="result-follower">${follower}</th>
+						   					<c:if test="${!empty user.userGender }">
+						   					<th class="result-old">${user.userValidateNo.substring(0,2)}년생</th>
+						   					</c:if>
 						   				</tr>	
 						   			</table>
 
@@ -177,6 +185,7 @@
 			</div>
 			</nav>
 			</div>
+
 			<c:choose>
 				<c:when
 					test="${0 eq requestScope.gatherList.getTotalPages()}">
@@ -211,6 +220,36 @@
             	</c:otherwise>
 			</c:choose>
           </div> 
+
+			<c:forEach items="${requestScope.gatherList.content}" var="gatherList" varStatus="status">
+			<div class="profile-gather-list">
+              <div class="modakbul-charged-grid-col">
+                <img class="gatherGroup-img" src="${pageContext.request.contextPath}/save/${gatherList.gatherImg}"  alt="modakbul-charged-img" />
+              </div>
+              <div class="modakbul-charged-grid-col">
+                
+                <div class="modakbul-charged-grid-director gather">
+                  <p class="gather-name">
+                    ${gatherList.gatherName}
+                  </p>
+                  
+                    <p class="gather-date">
+                    마감시간: ${gatherList.gatherDeadline}
+                  </p>
+                   <p class="gather-date">
+                    진행시간: ${gatherList.gatherDate}
+                  </p>
+                </div>
+              </div>
+             
+            </div>
+			</c:forEach>
+
+            
+          </div>
+          
+           
+
           </div>
           <!-- 여기까지 content -->
         

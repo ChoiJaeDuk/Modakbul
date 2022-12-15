@@ -48,22 +48,69 @@ public class UsersTest {
 		
 		String encodedPassword = passwordEncoder.encode("1234");
 		
-	
+			//개인회원
 			usersRep.save(
 					Users.builder()
-					.userId("aj3338@nate.com")
+					.userId("")
 					.userpwd(encodedPassword)
-					.userName("임지민")
-					.userNick("지민")
+					.userName("")
+					.userNick("")
+					.userGender("")
+					.userEmail("")
+					.userValidateNo("")
+					.userPhone("")
+					.userPostCode("")
+					.userAddr("")
+					.userAddrDetail("")
+					.userJob("개인")
+					.temper(50)
+					.temperCount(1)
+					.userProfileImg("")
+					.state(Role.ROLE_USER)
+					.build()
+					
+					);
+			
+			//관리자
+			usersRep.save(
+					Users.builder()
+					.userId("admin")
+					.userpwd(encodedPassword)
+					.userName("관리자")
+					.userNick("관리자")
 					.userGender("여자")
-					.userEmail("aj3338@nate.com")
-					.userValidateNo("32333")
-					.userPhone("122231")
-					.userPostCode("1231")
+					.userEmail("aj5452@naver.com")
+					.userValidateNo("970407")
+					.userPhone("01036045452")
+					.userPostCode("13530")
 					.userAddr("경기도 성남시 분당구")
 					.userAddrDetail("알파리움")
 					.userJob("개인")
-					.state(Role.ROLE_USER)
+					.temper(50)
+					.temperCount(1)
+					.userProfileImg("")
+					.state(Role.ROLE_ADMIN)
+					.build()
+					
+					);
+			
+			//기관회원
+			usersRep.save(
+					Users.builder()
+					.userId("")
+					.userpwd(encodedPassword)
+					.userNick("")
+					.userEmail("")
+					.userValidateNo("")
+					.userPhone("")
+					.userPostCode("")
+					.userAddr("")
+					.userAddrDetail("")
+					.userJob("기관")
+					.temper(50)
+					.temperCount(1)
+					.userProfileImg("")
+					.state(Role.ROLE_ADMIN)
 					.build()
 					
 					);

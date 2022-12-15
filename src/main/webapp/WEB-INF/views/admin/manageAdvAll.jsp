@@ -61,9 +61,9 @@
 					</tr>
 					<c:choose>
 					<c:when test="${!empty requestScope.advAll}">
-						<c:forEach var="adv" items="${advAll.content}">
+						<c:forEach var="adv" varStatus="status" items="${advAll.content}">
 						<tr>
-							<td>${adv.advertisementNo}</td>
+							<td>${status.index+1}</td>
 							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userName}</td>
