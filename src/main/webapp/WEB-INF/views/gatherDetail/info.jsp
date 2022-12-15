@@ -50,6 +50,10 @@
 				$("#application-btn").css("background","grey")
 				$("#application-btn").text("모집마감")
 				$("#application-btn").attr("disabled",true)
+			}else if($("#application-btn").attr("name")=="신청대기"){
+				$("#application-btn").css("background","grey")
+				$("#application-btn").text("신청대기")
+				$("#application-btn").attr("disabled",true)
 			}
 			
 			
@@ -274,7 +278,7 @@
 							
 							
 							<div class="action">
-								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}"type="button" name="${gather.gatherState}"></button>
+								<button class="add-to-cart btn btn-default" id="application-btn" value="${gather.gatherNo}" type="button" name="${gather.gatherState}"></button>
 							</div>
 						</div>
 					</div>

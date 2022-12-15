@@ -21,7 +21,7 @@
 	</style>
 	<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
   	<script type="text/javascript">
-  	$(function () {
+  	$(function() {
   	    //사용 예시 **************************
   	    $(document).on("click", ".button-agree", function () {
   	    	$("#approve").val($(this).attr("id"))
@@ -52,6 +52,14 @@
   	 	$("#approve").on("click", function() {
   			location.href="${pageContext.request.contextPath}/admin/gatherApprove?gatherNo="+$(this).val()+"&state=" + $(this).attr("name");
 		});
+  	 	
+  	 	
+  	 	
+  	 	$(document).on("click", ".button-detail", function() {
+			alert($(this).attr("id"))
+			
+			location.href = "${pageContext.request.contextPath}/gatherDetail/info?gatherNo="+$(this).attr("id")+"&userNo=4";
+		})
   	});
   	
 	jQuery.fn.center = function () {
@@ -156,7 +164,7 @@
                   <p class="modakbul-charged-grid-director-info">
                     <span>주최자</span> ${gatherList.user.userNick}
                   </p>
-                  <button class="modakbul-button button-detail">
+                  <button class="modakbul-button button-detail" id="${gatherList.gatherNo}" >
                     모임 상세보기
                   </button>
                 </div>

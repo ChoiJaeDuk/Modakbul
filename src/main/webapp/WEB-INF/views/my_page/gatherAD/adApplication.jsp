@@ -183,12 +183,137 @@
 			      
 			})   
 					
+				
+
 					
+  		$(document).ajaxSend(function(e,xht,op){
+			xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+		});
   		
+		$("[name=adApplication-btn]").click(function() {
+			//alert($("#imgg").attr("src"))
+			$("#submitBotton").css("background","lightgrey")
+			$("#img2").attr("src",$("#imgg").attr("src"))
+			
+			
+			//alert(today)
+			$("#start").attr("min",today)
+			//$("#end").attr("min",end)
+			$("#end").attr("disabled","disabled")
+			$("#gatherNo").val($(this).attr("id"));
+			$(".create-commercial-class-name").text($(this).val())
 
 		$(document).ajaxSend(function(e,xht,op){
 		xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
 		});
+
+		
+	
+		$("#end").change(function() {
+			
+			$("#end-date").text($(this).val())	
+			
+			end = new Date($(this).val())
+			dateCal = end - start
+			
+			adPrice = 10000 * (dateCal/1000/60/60/24)
+			$("[name=adPrice]").val(adPrice)
+			$("#adPrice").text( adPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + " 원");
+			
+		});
+		
+		
+		
+		
+		//////////////////////////////////////////////////결제///////////////////////
+		$("#payment").click(function() {
+		
+					if($("#payment").text()=="결제하기"){
+					if(!$("#adPrice").text()==""){
+					var IMP = window.IMP;
+					IMP.init('imp55744106');
+					IMP.request_pay(
+									{
+										pg : "kakaopay",
+										pay_method : 'card',
+										merchant_uid : 'merchant_'
+												+ new Date().getTime(),
+										name : '상품명',
+										amount : $("$gatherBid").val(), //총판매가격
+										buyer_email : 'kyucando@gmail.com',
+										buyer_name : '규야 ',
+										buyer_tel : '01085510356',
+										buyer_addr : '경기도 용인시 ',
+										//buyer_postcode : '01234',
+										//m_redirect_url : '/index.jsp'
+									},
+									function(rsp) {
+										if (rsp.success) {
+											var msg = '결제가 완료되었습니다.';
+											var result = {
+											"imp_uid" : rsp.imp_uid,													
+	 										"pay_date" : new Date().getTime(),
+											"amount" : rsp.paid_amount,
+											"buyer_name": rsp.buyer_name
+											
+									     }
+											
+											
+											
+											$.ajax({
+												type : "post",
+												url : "${pageContext.request.contextPath}/ajaxTest",  
+												dataType:"json",
+										   		data:JSON.stringify(result),	
+										        contentType:'application/json;charset=utf-8',
+										        success : function(result) {
+										        	$("#submitBotton").attr("disabled",false)
+										        	$("#submitBotton").css("background","rgb(251, 174, 51)")
+										    	    //location.href="${pageContext.request.contextPath}/payment/success";
+													$("#payment").text("결제완료")
+													$("#payment").css("background","lightgrey")
+													$("#payment").attr("disabled","disabled")
+										        	//$("#ad-form").hide();
+										        	//location.href="/my_page/gatherAD/insertAd"
+											
+										        },
+												error : function(err) {
+													alert(err);
+												}
+											});
+									
+										} else {
+											var msg = '결제에 실패하였습니다.';
+											rsp.error_msg;
+											alert(msg);
+										}
+									});
+						}else{
+							alert("날짜를 선택해주세요!!!")
+						}
+					}
+				});
+		////////////////////////////////////////////////////////////////
+	 /* 	$("#submitBotton").click(function() {
+			if($("#adFileName").text()==""){
+				alert("파일을 첨부해주세요")
+				$("#submitBotton").attr("disabled",true)
+				$("#submitBotton").css("background","lightgrey")
+	  	}else{
+	  		$("#submitBotton").removeAttr("disabled")
+	  	}
+		
+		})
+		if(!$("#create-image").text()==""){
+			
+	  		$("#submitBotton").removeAttr("disabled")
+	  		
+	  	}  */
+
+			  		$(document).ajaxSend(function(e,xht,op){
+						xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+					});
+
         
       $("[name=adApplication-btn]").click(function() {
          //alert($("#imgg").attr("src"))
@@ -208,7 +333,7 @@
          
          
          /* $(".search-id-button").click(function(){
->>>>>>> jieun
+
 
                   if($("#payment").text()=="결제완료"){
                      $("#ad-form").hide();
@@ -418,13 +543,12 @@
 				</div>
 			</div>
 			<div class="my-page-content-wrap">
-				<nav>=
-						<li class="my-page-nav-item "
-							onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
+				<nav>
+					<ul>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/profile/myProfile/${user.userNo}'">프로필정보</li>
 						<!--  <a href="#" class="button" style="width:50px; position:relative;">공지<span class="nav-counter">30</span></a> -->
-						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'"
-							style="position: relative;">알림함 <c:choose>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/alarm/myAlarm?userNo=${user.userNo}'" style="position: relative;">알림함 
+						<c:choose>
 								<c:when test="${newAlarm ne 0 || newAlarm ne null}">
 									<span class="nav-counter"> ${newAlarm} </span>
 								</c:when>
@@ -433,18 +557,13 @@
 										<span class="nav-counter-invi"> 0 </span>
 									</div>
 								</c:otherwise>
-							</c:choose>
+						</c:choose>
 						</li>
-						<li class="my-page-nav-item "
-							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
-						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/likeGather/myLikeGather?userNo=${user.userNo}'">관심모임</li>
-						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
-						<li class="my-page-nav-item"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
-						<li class="my-page-nav-item selected"
-							onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'">모임조회</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/likeGather/myLikeGather?userNo=${user.userNo}'">관심모임</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_review?userNo=${user.userNo}'">후기조회</li>
+						<li class="my-page-nav-item" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_inquiry?userNo=${user.userNo}'">문의조회</li>
+						<li class="my-page-nav-item selected" onclick="location.href='${pageContext.request.contextPath}/my_page/gatherAD/adApplication?userNo=${user.userNo}'">광고신청</li>
 					</ul>
 				</nav>
           <section class="my-page-main-content">

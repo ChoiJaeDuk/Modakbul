@@ -351,28 +351,9 @@ $(document).ready(function(){
                         </c:forEach>
                         </tbody>
                     </table>
+                    
             </div>
-            </div>
-              
-          </section>
- 			</div>
-		</div>
-	</div>
-         
-   
-       
-
-	<div class="modal-wrap" hidden="" id="modal">
-		<div class="modal-title">내용</div>
-		<div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
-		<div class="modal-button-wrap">
-			<button type="button" class="modal-button cancel-button"
-				id="modalCancel">취소</button>
-			<button type="button" class="modal-button search-id-button"
-				id="confirm">확인</button>
-		</div>
-	</div>
-<div style="text-align: center">
+            <div style="text-align: center">
 		<!--  블럭당  -->
  <nav class="pagination-container">
 	<div class="pagination">
@@ -399,12 +380,32 @@ $(document).ready(function(){
 		 <c:if test="${(startPage+blockCount)<=applicationList.getTotalPages()}">
 		     <a class="pagination-older" href="${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo }&nowPage=${startPage+blockCount}">NEXT</a>
 		 </c:if>
-				 
-			
-		
+
+			</div>
+		</nav>  
+	</div>
+            </div>
+              
+          </section>
+ 			</div>
 		</div>
-	</nav>  
-	 <div id="my_modal">
+	</div>
+         
+   
+       
+
+	<div class="modal-wrap" hidden="" id="modal">
+		<div class="modal-title">내용</div>
+		<div class="modal-text-wrap">정말 신청취소 하시겠습니까?</div>
+		<div class="modal-button-wrap">
+			<button type="button" class="modal-button cancel-button"
+				id="modalCancel">취소</button>
+			<button type="button" class="modal-button search-id-button"
+				id="confirm">확인</button>
+		</div>
+	</div>
+
+	<div id="my_modal">
 	 	<table id="following" style="width: 100%">
 	 		
 	 		<tr class="title">
@@ -464,8 +465,6 @@ $(document).ready(function(){
 	 	</table>
 	 
         </div>
-	
-</div>
-	
+        <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
   </body>
 </html>
