@@ -286,7 +286,7 @@ function modal(id) {
 										<th>사진</th>
 										<th>모임</th>
 										<th>종료날짜</th>
-										<th>후기쓰기</th>
+										<th>바로가기</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -313,7 +313,7 @@ function modal(id) {
 													<td>${review.gatherName}</td>
 													<td>${fn:substring(TextValue,0,10)}</td>
 													<td class="inquiry-replied">
-														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${review.gatherNo}'">상세로 이동할버튼</button>
+														<button type="button" class="my-page-button" onclick="location.href='${pageContext.request.contextPath}/gatherDetail/review?gatherNo=${review.gatherNo}'">모임 상세</button>
 													</td>
 												</tr>
 											</c:forEach>
