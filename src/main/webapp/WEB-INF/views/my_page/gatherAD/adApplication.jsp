@@ -193,7 +193,7 @@
       $("[name=adApplication-btn]").click(function() {
          //alert($("#imgg").attr("src"))
          $("#submitBotton").css("background","lightgrey")
-         $("#img2").attr("src",$("#imgg").attr("src"))
+         
          
          
          //alert(today)
@@ -202,7 +202,7 @@
          $("#end").attr("disabled","disabled")
          $("#gatherNo").val($(this).attr("id"));
          $(".create-commercial-class-name").text($(this).val())
-
+		$(".img22").attr("src",$(".gather-img").attr("src"))
          //alert($("#gatherNo").val())
          $("#ad-form").show();
          
@@ -482,7 +482,7 @@
                                 <td>${status.index+1}</td>
                                 <td>
                                     <div class="table-small-image-wrap">
-                                        <img class="gather-img" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%" id="imgg"/>
+                                        <img class="gather-img" name="imggg" src="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}" alt="이미지" width="100%" id="imgg"/>
                                     </div>
                                 </td>
                                 <td>${adApplicationList.gatherName}</td>
@@ -585,7 +585,7 @@
             <div class="create-commercial-wrap">
                 <div class="create-commercial-top">
                     <div class="create-commercial-image-wrap">
-                        <img width="100%" src="" id="img2"/>
+                        <img width="100%" src="" id="img2" class="img22"/>
                     </div>
                     <div class="create-commercial-class-name"></div>
                 </div>
