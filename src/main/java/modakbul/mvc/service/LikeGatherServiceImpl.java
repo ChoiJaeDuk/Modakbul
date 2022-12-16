@@ -17,7 +17,7 @@ import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.LikeGatherRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 public class LikeGatherServiceImpl implements LikeGatherService {
 	

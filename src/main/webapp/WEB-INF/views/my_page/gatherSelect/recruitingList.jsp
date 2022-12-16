@@ -51,8 +51,8 @@
                         		str += `${"${item.user.temper}"}℃`;
                         		str += `</th>`;
                         		str += `<th style="width: 30%">`;
-                        		str += `<button class="modakbul-button approve-btn" name=${"${item.user.userNo}"} id="참가승인" >승인</button>`;
-                        		str += `<button class="modakbul-button reject-btn" name=${"${item.user.userNo}"} id="참가거절">거부</button>`;
+                        		str += `<button class="modakbul-button approve-btn" name="참가승인" id=${"${item.user.userNo}"} >승인</button>`;
+                        		str += `<button class="modakbul-button reject-btn" name="참가거절" id= ${"${item.user.userNo}"} >거부</button>`;
                         		str += `</th>`;
                         		str += `</tr>`;
 							});
@@ -69,8 +69,9 @@
 		   //////////////////////////////////////////////////////////////
 		   
 		   $(document).on("click", ".approve-btn,.reject-btn", function() {
-				var userNo = $(this).attr("name")
-				var state = $(this).attr("id")
+			  	   
+				var userNo = $(this).attr("id")
+				var state = $(this).attr("name")
 				var gatherNo = $("#gatherNo").val()
 				$.ajax({
                        url:"${pageContext.request.contextPath}/my_page/updateApplicationState", 
@@ -108,8 +109,8 @@
                         		str += `${"${item.user.temper}"}℃`;
                         		str += `</th>`;
                         		str += `<th style="width: 30%">`;
-                        		str += `<button class="modakbul-button approve-btn" name=${"${item.user.userNo}"} id="참가승인" >승인</button>`;
-                        		str += `<button class="modakbul-button reject-btn" name=${"${item.user.userNo}"} id="참가거절">거부</button>`;
+                        		str += `<button class="modakbul-button approve-btn" name="참가승인" id=${"${item.user.userNo}"}>승인</button>`;
+                        		str += `<button class="modakbul-button reject-btn" name="참가거절" id=${"${item.user.userNo}"}>거부</button>`;
                         		str += `</th>`;
                         		str += `</tr>`;
 							});

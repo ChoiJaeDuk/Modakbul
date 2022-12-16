@@ -14,7 +14,7 @@ import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.UserReviewRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class UserReviewServiceImpl implements UserReviewService {
 	@Autowired
 	private UserReviewRepository userReviewRep;

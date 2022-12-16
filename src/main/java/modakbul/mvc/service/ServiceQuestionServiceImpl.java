@@ -18,7 +18,7 @@ import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	@Autowired
 	private ServiceQuestionRepository serviceQuestionRep;

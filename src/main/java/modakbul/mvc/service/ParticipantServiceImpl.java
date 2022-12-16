@@ -108,7 +108,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 				.from(participant).join(gather)
 				.on(participant.gather.gatherNo.eq(gather.gatherNo))
 				.where(participant.user.userNo.eq(userNo)
-						.and(participant.applicationState.in(state,"참가취소")))
+						.and(participant.applicationState.in(state,"참가취소","참가확정","진행중")))
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetchResults();

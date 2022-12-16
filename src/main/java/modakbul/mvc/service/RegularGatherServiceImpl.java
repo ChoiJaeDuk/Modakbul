@@ -19,7 +19,7 @@ import modakbul.mvc.repository.RegularGatherRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 @EnableScheduling
 public class RegularGatherServiceImpl implements RegularGatherService {
 

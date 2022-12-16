@@ -20,7 +20,7 @@ import modakbul.mvc.groupby.SelectReplyState;
 import modakbul.mvc.repository.InquiryRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class InquiryServiceImpl implements InquiryService {
 	@Autowired
 	private JPAQueryFactory queryFactory;

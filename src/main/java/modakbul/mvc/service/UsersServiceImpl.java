@@ -46,7 +46,7 @@ import modakbul.mvc.repository.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class UsersServiceImpl implements UsersService {
 
 	private final UsersRepository usersRep;

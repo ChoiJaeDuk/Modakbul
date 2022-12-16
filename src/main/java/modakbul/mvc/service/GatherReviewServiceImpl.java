@@ -14,7 +14,7 @@ import modakbul.mvc.domain.GatherReview;
 import modakbul.mvc.repository.GatherReviewRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class GatherReviewServiceImpl implements GatherReviewService {
 	
 	@Autowired
