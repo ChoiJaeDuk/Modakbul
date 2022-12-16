@@ -1,0 +1,72 @@
+ step20_UserBoardTiles
+
+ * 회원관리 및 자료실형태의 게시판
+
+  1)회원관리 : 로그인 , 로그아웃
+
+
+  2) 자료실 : 등록, 검색 , 읽기, 삭제, 수정
+              (업로드 , 다운로드기능) - 
+             *전제조건 : 자료실 이용은 반드시
+                         로그인 된 사용자만 접근 가능. - AOP적용 :  before방식
+
+
+  * 주요 	
+    - 화면 layout : tiles적용
+    - 세션유무체크 : AOP적용
+    - 업로드 , 다운로드 : 업로드 컴포포넌트(MultipartFile)
+    - DB연동 : MyBatis 적용
+    - transaction적용
+    - 예외사항 : 별도의 예외페이지를 설정하여 예외처리하도록.
+    - UI : bootstrap 이용!
+
+
+  * 필요한 lib
+    - sprint WEB MVC
+    - tiles 3개
+    - aop 1개
+    - 업로드 관련 2개
+    - DB+MyBatis (오라클, mybatis, mybatis-spring, jdbc, dbcp)
+    - transction적용 : aop
+    - lombok LIB
+
+
+
+----------------------------------------------
+  *springBean 설정문서
+    1) servlet-context.xml : 기본
+    2) mybatis-context.xml : mybatis설정 , transaction설정
+    3) upDown-context.xml : 업로드 설정
+    
+
+  * package구조
+
+   회원관리
+     kosta.web.mvc.user.controller
+     kosta.web.mvc.user.service
+     kosta.web.mvc.user.repository
+     kosta.web.mvc.user.dto
+	
+   자료실
+     kosta.web.mvc.board.controller
+     kosta.web.mvc.board.service
+     kosta.web.mvc.board.repository
+     kosta.web.mvc.board.dto
+
+
+ * mybatis설정문서
+    - dbInfo.properties
+    - mapper준비 - interface기반의 @Annotation 하면 생략가능
+    - SqlMapConfig.xml - springBean에서 property로 설정하면 생략가능
+
+
+*Schema
+    1)자료실 : electronics.sql
+    2)회원 : member.sql
+
+
+
+
+
+
+
