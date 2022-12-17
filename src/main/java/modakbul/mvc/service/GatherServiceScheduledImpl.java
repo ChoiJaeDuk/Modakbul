@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +26,6 @@ import modakbul.mvc.repository.AlarmRepository;
 import modakbul.mvc.repository.GatherRepository;
 
 @Service
-@Transactional
 public class GatherServiceScheduledImpl implements GatherServiceScheduled  {
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -56,7 +58,6 @@ public class GatherServiceScheduledImpl implements GatherServiceScheduled  {
 	}
   
   @Override
-  @Transactional(propagation=Propagation.REQUIRES_NEW)
    public int selectParticipantCountByGatherNo(Long gatherNo) {
 		
 		List<Participant> list = queryFactory.selectFrom(p)

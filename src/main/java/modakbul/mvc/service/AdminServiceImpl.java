@@ -53,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
 	 * 광고 종료 스케줄러 
 	 * */
 	@Override
-	@Scheduled(cron = "0 0 0 * * *")
+	//@Scheduled(cron = "0 0 0 * * *")
 	public void AutoAdvertisementUpdate() {
 		//String dir = session.getServletContext().getRealPath("/banner");
 		List<Advertisement> advertisementList = queryFactory.selectFrom(ad).where(ad.adStatus.eq("광고중")).fetch();

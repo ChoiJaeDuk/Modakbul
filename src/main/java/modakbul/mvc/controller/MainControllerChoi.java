@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.GatherService;
+import oracle.security.crypto.core.DES;
 
 @Controller
 //@RequestMapping("/main")
@@ -79,8 +81,10 @@ public class MainControllerChoi {
 		System.out.println(place);
 		String gatherType = request.getParameter("gatherType");
 		String sort = request.getParameter("sort");
+		String orderBy = request.getParameter("orderBy");
 		String search = request.getParameter("search");
-		System.out.println(nowPage);
+		
+		System.out.println("nowPage = " + nowPage);
 //		System.out.println("place = "+ place);
 //		System.out.println("gatherType = "+ gatherType);
 //		System.out.println("sort = "+ sort);
@@ -91,9 +95,9 @@ public class MainControllerChoi {
 	
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT);
-		
+		System.out.println("sort = " + sort);
+		Pageable pageable = PageRequest.of((nowPage-1),PAGE_COUNT, Sort.by(orderBy, sort));
+		System.out.println("여기는 와?");
 		Page<Gather> gatherList = gatherService.selectGatherList(gatherType, categoryList, place, sort, search, pageable);
 		
 		

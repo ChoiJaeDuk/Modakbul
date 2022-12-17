@@ -66,6 +66,10 @@ public class GatherServiceImpl implements GatherService {
 	private ParticipantService participantService;
 
 	@Autowired
+	private GatherServiceScheduled scheduledService;
+	
+	
+	@Autowired
 	private AlarmService alarmService;
 
 	@Autowired
@@ -79,6 +83,8 @@ public class GatherServiceImpl implements GatherService {
 	private final GatherAttachmentsRepository gatherAttachementsRep;
 
 	private final RegularGatherRepository regularGatherRep;
+	
+	
 
 	@Override
 	public void insertGather(Gather gather) {
@@ -92,8 +98,8 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	@Scheduled(cron = "0 0,30 * * * *") // 매시간 0분 30분마다 실행된다.
-	// @Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 매시간 0분 30분마다 실행된다.
+	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {
 
 		/////////////////////////////////
@@ -113,11 +119,10 @@ public class GatherServiceImpl implements GatherService {
 			LocalDateTime grd = gather.getGatherDate();
 			LocalDateTime completeDate = grd.plusHours(gather.getGatherTime());
 
-			int i = participantService.selectParticipantCountByGatherNo(gather.getGatherNo());
+			int i = scheduledService.selectParticipantCountByGatherNo(gather.getGatherNo());
 
-			// System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
-			// System.out.println("i = " + i +" / " + "최소인원: " +
-			// gather.getGatherMinUsers());
+			 System.out.println("결과 = " + ldt.isEqual(gather.getGatherDeadline()));
+			 System.out.println("i = " + i +" / " + "최소인원: " +gather.getGatherMinUsers());
 			if (!gather.getGatherState().equals("모집보류")) {
 
 				if (ldt.isEqual(gather.getGatherDeadline())) {
@@ -153,6 +158,7 @@ public class GatherServiceImpl implements GatherService {
 						}
 					} else {
 						gather.setGatherState("모집마감");
+						System.out.println("여기옵니까?");
 						autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
 
 						String alarmSubject = gather.getGatherName() + "모임 상태알림";
@@ -207,7 +213,7 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
-		// System.out.println("참가자 상태 업데이트 호출되니?" +state);
+		System.out.println("참가자 상태 업데이트 호출되니?" +state);
 		queryFactory.update(p).set(p.applicationState, state)
 				.where(p.gather.gatherNo.eq(gatherNo).and(p.applicationState.eq(dbState))).execute();
 	}
@@ -287,19 +293,20 @@ public class GatherServiceImpl implements GatherService {
 				Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
 				switch (order.getProperty()) {
 				case "gatherDeadline":
-					OrderSpecifier<?> orderGatherDeadline = GatherServiceImpl.getSortedColumn(direction, QGather.gather,
-							"gatherDeadline");
+					OrderSpecifier<?> orderGatherDeadline = GatherServiceImpl.getSortedColumn(direction, QGather.gather.gatherDeadline, "gatherDeadline");
 					ORDERS.add(orderGatherDeadline);
 					break;
 				case "userTemper":
-					OrderSpecifier<?> orderUserTemper = GatherServiceImpl.getSortedColumn(direction,
-							QGather.gather.user, "temper");
+					OrderSpecifier<?> orderUserTemper = GatherServiceImpl.getSortedColumn(direction, QGather.gather.user.temper, "temper");
 					ORDERS.add(orderUserTemper);
 					break;
 				case "likeCount":
-					OrderSpecifier<?> orderLikeCount = GatherServiceImpl.getSortedColumn(direction, QGather.gather,
-							"likeCount");
+					OrderSpecifier<?> orderLikeCount = GatherServiceImpl.getSortedColumn(direction, QGather.gather.likeCount, "likeCount");
 					ORDERS.add(orderLikeCount);
+					break;
+				case "gatherNo":
+					OrderSpecifier<?> orderGatherNo = GatherServiceImpl.getSortedColumn(direction, QGather.gather.gatherNo, "gatherNo");
+					ORDERS.add(orderGatherNo);
 					break;
 				default:
 					break;

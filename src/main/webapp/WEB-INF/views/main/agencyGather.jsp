@@ -17,135 +17,139 @@
     <title>Document</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
-		var categoryList =[];
-		var sort="";
-		var gatherType="agency";
-		var search="";
-		var place="";
-		var nowPage;
-		var agoPage=1;
-    	$(function() {
-    		
-			$(document).ready(function(){
-    			
-				$("#gov").attr("class", "modakbul-header header-selected");
+    var categoryList =[];
+	var sort="gatherNo";
+	var gatherType="regular";
+	var search="";
+	var place="";
+	var nowPage;
+	var agoPage=1;
+	var orderBy="DESC"
+	$(function() {  
+				
+		$(document).ready(function(){
+			
+				$("#regular").attr("class", "modakbul-header header-selected");
 			 /*  $(":header").css("background-color", "yellow"); */
 
-			});
-    		
-    		///////////ajax페이징
-    		$(document).on("click","a",function() {
-    			
-    			nowPage=$(this).attr("id");
-    			agoPage=$(this).attr("id");
-    			selectGatherList();
-			})
-    		
-    		$(document).ajaxSend(function(e,xht,op){
-		         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
-		      });
-    		
-    		var object = {
+		});
+		
+		///////////ajax페이징
+		$(document).on("click","a",function() {
+			
+			nowPage=$(this).attr("id");
+			agoPage=$(this).attr("id");
+			selectGatherList();
+		})
+		
+		$(document).ajaxSend(function(e,xht,op){
+	         xht.setRequestHeader("${_csrf.headerName}" ,"${_csrf.token}");
+	      });
+		
+		var object = {
+				"${_csrf.parameterName}":"${_csrf.token}",
+				"categoryList" : categoryList,
+				"sort"	: sort,
+				"search" : search,
+				"place" : place,
+				"gatherType" : gatherType,
+				"nowPage" : nowPage,
+				"orderBy" : orderBy
+		}//JSON.stringify(object)
+		
+		
+		selectGatherList();
+		
+		
+		function selectGatherList() {
+			console.log("nowPage = " + nowPage)
+			object = {
     				"${_csrf.parameterName}":"${_csrf.token}",
     				"categoryList" : categoryList,
     				"sort"	: sort,
     				"search" : search,
     				"place" : place,
     				"gatherType" : gatherType,
-    				"nowPage" : nowPage
-    		}//JSON.stringify(object)
-    		
-    		
-    		selectGatherList();
-    		
-    		
-    		function selectGatherList() {
-    			
-    			object = {
-        				"${_csrf.parameterName}":"${_csrf.token}",
-        				"categoryList" : categoryList,
-        				"sort"	: sort,
-        				"search" : search,
-        				"place" : place,
-        				"gatherType" : gatherType,
-        				"nowPage" : nowPage
-        		}
-    			
-    			
-    			$.ajax({
-    				type:"POST",
-    				url:"${pageContext.request.contextPath}/main/ajaxPage",
-    				data:object, 
-    				dataType:"json",
-    				//contentType:'application/json;charset=utf-8',
-    				success:function(result){
-    					
-    					console.log(result.gatherList.totalPages)
-    					var str ="";
-    					$.each(result.gatherList.content, function(index,item) {
-    							let deadLine = item.gatherDeadline.replace("T"," ");
-    							let gatherDate = item.gatherDate.replace("T"," ");
-    							str += `<article class="search-list-result-item" name="detail" id=${"${item.gatherNo}"}>`;
-    							str += `<div class="search-list-result-item-image-wrap">`;
-    							str += `<img src='${pageContext.request.contextPath}/save/${"${item.gatherImg}"}' alt="이미지" width="100%" />`;
-    							str += `</div>`;
-    							str += `<div class="search-list-result-item-info">`;
-    							str += `<div class="search-list-result-item-title">`;
-    							str += `${"${item.gatherName}"}</div>`;
-    							str += `<div class="search-list-result-item-text">모집인원 : ${"${item.gatherMaxUsers}"}</div>`;
-    							str += `<div class="search-list-result-item-text">마감일 : ${"${deadLine}"}</div>`;
-    							str += `<div class="search-list-result-item-date">`;
-    							str += `<div>모임날짜 : ${"${gatherDate}"}</div>`;
-    							str += `<div class="user-nick">작성자 : ${"${item.user.userNick}"}</div>`;
-    							str += `</div>`;
-    							str += `</div>`;
-    							str += `</article>` 
-						});
-    					var startPage = result.startPage;
-    					var blockCount = result.blockCount;
-    					var gatherList = result.gatherList;
-    					nowPage = result.nowPage;
-    					var result = false;
-  						
-    					var page =`<div class="pagination">`
-    					if ( (startPage-blockCount) > 0){
-    						
-    						page +=	`<a name='page' id=${"${nowPage=startPage-1}"} class="pagination-newer">PREV</a>`
-    						
-    					} <!-- (-2) > 0  --> 
-    				 	page +=	`<span class="pagination-inner">`;
-    				 	for(let i = startPage; i<=(startPage-1)+ blockCount ; i++){
-    				 		if( (i-1) >= gatherList.totalPages ){
-    				 			result=false;
-    				 		}else{
-    				 			
-    				 			page +=`<a name='page' class="${"${i==agoPage ? 'pagination-active': 'page'}"}" id=${"${nowPage=i}"}>${"${i}"}</a>`;
-    				 			
-    				 		}
-    				 		if(result) break;
-    				 	}
-    				 	page +=	`</span>`; 				
-    							 					
-    				 	page +=	`</div>`;
-    				 	page +=	`</span>`;
-    				 	//
-    				 	if(startPage+blockCount<=gatherList.totalPages){
-    				 		
-    				 		page +=	`<a name='page' id=${"${nowPage=startPage+blockCount}"} class="pagination-older">NEXT</a>`;
-    				 		
-    				 	}		
-    				 	
-    				 	page +=	`</div>`;
-    				 	
-    				 
-    					$(".pagination-container").html(page);
-    					$(".search-list-result-wrap").html(str)
-    				},
-    				error: function(err) {
-						alert(err)
-					}
-    			})//ajax
+    				"nowPage" : nowPage,
+    				"orderBy" : orderBy
     		}
+			
+			
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/main/ajaxPage",
+				data:object, 
+				dataType:"json",
+				//contentType:'application/json;charset=utf-8',
+				success:function(result){
+					
+					console.log(result.gatherList.totalPages)
+					var str ="";
+					$.each(result.gatherList.content, function(index,item) {
+						   
+							str += `<article class="search-list-result-item" name="detail" id=${"${item.gatherNo}"}>`;
+							str += `<div class="search-list-result-item-image-wrap">`;
+							str += `<img src='${pageContext.request.contextPath}/save/${"${item.gatherImg}"}' alt="이미지" width="100%" />`;
+							str += `</div>`;
+							str += `<div class="search-list-result-item-info">`;
+							str += `<div class="search-list-result-item-title">`;
+							str += `${"${item.gatherName}"}</div>`;
+							str += `<div class="search-list-result-item-text">모집인원 : ${"${item.gatherMaxUsers}"}</div>`;
+							let deadLine = item.gatherDeadline.replace("T"," ");
+							let gatherDate = item.gatherDate.replace("T"," ");
+							str += `<div class="search-list-result-item-text">마감일 :  ${"${deadLine}"} </div>`;
+							str += `<div class="search-list-result-item-date">`;
+							str += `<div>모임날짜 : ${"${gatherDate}"}</div>`;
+							str += `<div class="user-nick">작성자 :${"${item.user.userNick}"} </div>`;
+							str += `</div>`;
+							str += `</div>`;
+							str += `</article>` 
+					});
+					var startPage = result.startPage;
+					var blockCount = result.blockCount;
+					var gatherList = result.gatherList;
+					var pageNowPage = result.nowPage;
+					var pageResult = false;
+						
+					var page =`<div class="pagination">`
+					if ( (startPage-blockCount) > 0){
+						
+						page +=	`<a name='page' id=${"${pageNowPage=startPage-1}"} class="pagination-newer">PREV</a>`
+						
+					} <!-- (-2) > 0  --> 
+				 	page +=	`<span class="pagination-inner">`;
+				 	for(let i = startPage; i<=(startPage-1)+ blockCount ; i++){
+				 		if( (i-1) >= gatherList.totalPages ){
+				 			pageResult=false;
+				 		}else{
+				 			
+				 			page +=`<a name='page' class="${"${i==agoPage ? 'pagination-active': 'page'}"}" id=${"${pageNowPage=i}"}>${"${i}"}</a>`;
+				 			
+				 		}
+				 		if(pageResult) break;
+				 	}
+				 	page +=	`</span>`; 				
+							 					
+				 	page +=	`</div>`;
+				 	page +=	`</span>`;
+				 	//
+				 	if(startPage+blockCount<=gatherList.totalPages){
+				 		
+				 		page +=	`<a name='page' id=${"${pageNowPage=startPage+blockCount}"} class="pagination-older">NEXT</a>`;
+				 		
+				 	}		
+				 	
+				 	page +=	`</div>`;
+				 	
+				 
+					$(".pagination-container").html(page);
+					$(".search-list-result-wrap").html(str)
+				},
+				error: function(err) {
+					alert(err)
+				}
+			})//ajax
+		}
 		
     		//////////////////////////////////////
     		
@@ -181,8 +185,13 @@
     		
     		$("#sort").change(function() {
 				sort = $(this).val();
+				if($(this).val()=="gatherDeadline"){
+					orderBy="ASC"
+				}else{
+					orderBy="DESC"
+				}
+				
 				selectGatherList();
-		
 			})
 			
 			
@@ -249,7 +258,7 @@
 			</div>
 			
             <select class="select-small" name="sort" id="sort">
-              <option value="">---선택---</option>
+              <option value="gatherNo">---선택---</option>
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
               <option value="gatherDeadLine">마감임박순</option>
