@@ -5,9 +5,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.jni.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import lombok.RequiredArgsConstructor;
+import modakbul.mvc.domain.QUserAttachments;
 import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UserAttachmentsRepository;
@@ -21,7 +26,10 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	//private final UsersService usersService;
 	private final EntityManager em;
 	
+	private QUserAttachments ua = QUserAttachments.userAttachments;
 	
+	@Autowired
+	private JPAQueryFactory queryFactory;
 
 	@Override
 	public void insert(UserAttachments userAttachments) {
@@ -62,6 +70,15 @@ public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 		//UserAttachments s =
 		return  userAttachRep.findById(userAttachmentsFileNo).orElse(null);
 		
+	}
+
+	@Override
+	public List<UserAttachments> selectUserAttachmentsByUserNo(Long userNo) {
+		
+		List<UserAttachments> fileList = queryFactory.selectFrom(ua)
+				.where(ua.user.userNo.eq(userNo)).fetch();
+		
+		return fileList;
 	}
 
 }

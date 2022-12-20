@@ -1,5 +1,7 @@
 package modakbul.mvc.lim;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -44,4 +46,12 @@ public class UserAttachTest {
 		service.update(new UserAttachments(1L, new Users(2L), "hello.hwp", "증명서"));
 	}
 
+	
+	@Test
+	void selectTest() {
+		List<UserAttachments> list = service.selectUserAttachmentsByUserNo(1L);
+		
+		System.out.println(list.size());
+		
+	}
 }

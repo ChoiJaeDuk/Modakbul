@@ -348,9 +348,9 @@
               <div class="create-group-info-table-item-content">
                 <div class="create-group-form-certificate-wrap">
                   <select class="create-group-form-select">
-                    <option>심판</option>
-                    <option>자격</option>
-                    <option>증</option>
+                  	<c:forEach items="${userAttachments}" var="userFile">
+                  		<option>${userFile.userAttachmentsFileSubject}
+                  	</c:forEach>
                   </select>
                 </div>
               </div>

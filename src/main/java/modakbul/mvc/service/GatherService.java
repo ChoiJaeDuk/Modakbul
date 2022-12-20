@@ -171,9 +171,15 @@ public interface GatherService {
 	List<GatherGroupBy> selectBidTotal(String year);
 	
 	
+	
 	List<Gather> selectDeadlineOrderBy();
 	
 	
+	/**
+	 * 모임번호에 해당하는 파일을 불러온다.
+	 * @param gatherNo
+	 * @return
+	 */
 	List<String> selectGatherFile(Long gatherNo);
 }
 

@@ -38,4 +38,6 @@ public interface UserAttachmentsService {
 	 * @return
 	 */
 	UserAttachments selectByNo(Long userAttachmentsFileNo);
+	
+	List<UserAttachments> selectUserAttachmentsByUserNo(Long userNo);
 }

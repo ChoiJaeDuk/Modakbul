@@ -19,10 +19,13 @@ import modakbul.mvc.domain.Category;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.GatherAttachments;
 import modakbul.mvc.domain.RegularGather;
+import modakbul.mvc.domain.UserAttachments;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.service.GatherAttachmentsService;
 import modakbul.mvc.service.GatherService;
 import modakbul.mvc.service.RegularGatherService;
+import modakbul.mvc.service.UserAttachmentsService;
+import modakbul.mvc.service.UsersService;
 @Controller
 @RequestMapping("/gather")
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class GatherController {
 	private final GatherService gatherService;
 	private final RegularGatherService regularGatherService;
 	private final GatherAttachmentsService gatherAttachmentsService;
+	private final UserAttachmentsService userAttachmentsService;
 	
 	private final static int PAGE_COUNT=5;
 	private final static int BLOCK_COUNT=4;
@@ -38,7 +42,12 @@ public class GatherController {
 	@RequestMapping("/regularGatherInsertForm")
 	public Model regularGatherInsertForm(Model model,Long userNo) {
 		System.out.println(userNo);
+		List<UserAttachments> userAttachments = userAttachmentsService.selectUserAttachmentsByUserNo(userNo);
+		
+		
+		model.addAttribute("userAttachments", userAttachments);
 		model.addAttribute("userNo", userNo);
+		
 		return model;
 	}
 	
@@ -46,6 +55,9 @@ public class GatherController {
 	@RequestMapping("/dayTimeGatherInsertForm")
 	public Model dayTimeGatherInsertForm(Model model,Long userNo) {
 		
+		List<UserAttachments> userAttachments = userAttachmentsService.selectUserAttachmentsByUserNo(userNo);
+			
+		model.addAttribute("userAttachments", userAttachments);
 		model.addAttribute("userNo", userNo);
 		
 		return model;
