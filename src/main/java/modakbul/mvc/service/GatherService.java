@@ -173,6 +173,8 @@ public interface GatherService {
 	
 	List<Gather> selectDeadlineOrderBy();
 	
+	
+	List<String> selectGatherFile(Long gatherNo);
 }
 
 

@@ -165,7 +165,7 @@ public class UsersController {
 	public String insert(Users user, @RequestParam(value="userAttachmentsFileSubject[]", required = false ) List<String> userAttachmentsFileSubject, 
 			HttpSession session, @RequestParam(value ="filesList[]", required = false) List<MultipartFile> filesList, MultipartFile file) {
 		
-		UserAttachments userAttach = new UserAttachments();
+		
 		String saveDir = session.getServletContext().getRealPath("/save");
 		
 		System.out.println(user.getUserProfileImg());
@@ -203,7 +203,7 @@ public class UsersController {
 		if(filesList.size()>0) {
 			System.out.println("오지?");
 			for(int i = 0; i<filesList.size(); i++) {
-				
+				UserAttachments userAttach = new UserAttachments();
 				System.out.println("여기를안와?");
 				MultipartFile attachFile = filesList.get(i);
 				

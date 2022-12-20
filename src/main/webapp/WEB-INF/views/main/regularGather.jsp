@@ -18,12 +18,13 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
 		var categoryList =[];
-		var sort="";
+		var sort="gatherNo";
 		var gatherType="regular";
 		var search="";
 		var place="";
 		var nowPage;
 		var agoPage=1;
+		var orderBy="DESC"
     	$(function() {  
     				
     		$(document).ready(function(){
@@ -52,7 +53,8 @@
     				"search" : search,
     				"place" : place,
     				"gatherType" : gatherType,
-    				"nowPage" : nowPage
+    				"nowPage" : nowPage,
+    				"orderBy" : orderBy
     		}//JSON.stringify(object)
     		
     		
@@ -60,7 +62,7 @@
     		
     		
     		function selectGatherList() {
-    			
+    			console.log("nowPage = " + nowPage)
     			object = {
         				"${_csrf.parameterName}":"${_csrf.token}",
         				"categoryList" : categoryList,
@@ -68,7 +70,8 @@
         				"search" : search,
         				"place" : place,
         				"gatherType" : gatherType,
-        				"nowPage" : nowPage
+        				"nowPage" : nowPage,
+        				"orderBy" : orderBy
         		}
     			
     			
@@ -105,25 +108,25 @@
     					var startPage = result.startPage;
     					var blockCount = result.blockCount;
     					var gatherList = result.gatherList;
-    					nowPage = result.nowPage;
-    					var result = false;
+    					var pageNowPage = result.nowPage;
+    					var pageResult = false;
   						
     					var page =`<div class="pagination">`
     					if ( (startPage-blockCount) > 0){
     						
-    						page +=	`<a name='page' id=${"${nowPage=startPage-1}"} class="pagination-newer">PREV</a>`
+    						page +=	`<a name='page' id=${"${pageNowPage=startPage-1}"} class="pagination-newer">PREV</a>`
     						
     					} <!-- (-2) > 0  --> 
     				 	page +=	`<span class="pagination-inner">`;
     				 	for(let i = startPage; i<=(startPage-1)+ blockCount ; i++){
     				 		if( (i-1) >= gatherList.totalPages ){
-    				 			result=false;
+    				 			pageResult=false;
     				 		}else{
     				 			
-    				 			page +=`<a name='page' class="${"${i==agoPage ? 'pagination-active': 'page'}"}" id=${"${nowPage=i}"}>${"${i}"}</a>`;
+    				 			page +=`<a name='page' class="${"${i==agoPage ? 'pagination-active': 'page'}"}" id=${"${pageNowPage=i}"}>${"${i}"}</a>`;
     				 			
     				 		}
-    				 		if(result) break;
+    				 		if(pageResult) break;
     				 	}
     				 	page +=	`</span>`; 				
     							 					
@@ -132,7 +135,7 @@
     				 	//
     				 	if(startPage+blockCount<=gatherList.totalPages){
     				 		
-    				 		page +=	`<a name='page' id=${"${nowPage=startPage+blockCount}"} class="pagination-older">NEXT</a>`;
+    				 		page +=	`<a name='page' id=${"${pageNowPage=startPage+blockCount}"} class="pagination-older">NEXT</a>`;
     				 		
     				 	}		
     				 	
@@ -182,6 +185,12 @@
 			
     		$("#sort").change(function() {
 				sort = $(this).val();
+				if($(this).val()=="gatherDeadline"){
+					orderBy="ASC"
+				}else{
+					orderBy="DESC"
+				}
+				
 				selectGatherList();
 			})
 			
@@ -240,9 +249,10 @@
 			  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id="place-search-btn">
 			</div>
             <select class="select-small" name="sort" id="sort">
+              <option value="gatherNo">--선택--</option>	
               <option value="likeCount">관심순</option>
               <option value="userTemper">온도순</option>
-              <option value="gatherDeadLine">마감임박순</option>
+              <option value="gatherDeadline">마감임박순</option>
             </select>
           </div>
         </div>

@@ -18,7 +18,7 @@ import modakbul.mvc.repository.GatherAttachmentsRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 @EnableScheduling
 public class GatherAttachmentsServiceImpl implements GatherAttachmentsService {
 	private final EntityManager em;

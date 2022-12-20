@@ -14,7 +14,7 @@ import modakbul.mvc.repository.UserAttachmentsRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class UserAttachmentsServiceImpl implements UserAttachmentsService {
 	
 	private final UserAttachmentsRepository userAttachRep;

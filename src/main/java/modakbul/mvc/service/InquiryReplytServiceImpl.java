@@ -12,7 +12,7 @@ import modakbul.mvc.domain.InquiryReply;
 import modakbul.mvc.repository.InquiryReplyRepository;
 
 @Service
-@Transactional
+@org.springframework.transaction.annotation.Transactional
 public class InquiryReplytServiceImpl implements InquiryReplytService {
 
 	@Autowired

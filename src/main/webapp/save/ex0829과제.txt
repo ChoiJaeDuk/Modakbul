@@ -1,0 +1,30 @@
+-새로운 프로젝트 생성해서 작성
+
+1번 : 성별이 여자인 학생의 정보 검색
+
+4번 : "구"를 인수로 전달받아 구에 거주하는 강사의 정보 검색
+
+
+5. 과목을 인수로 전달받아 그 과목을 강의하는 강사의 정보 (서브쿼리) 
+      select * from teacher where 수강코드 = 
+    (select 수강코드 from subject where upper(과목)=upper( ? ));
+
+8번 먼저 뷰를 생성한다.
+   CREATE or replace VIEW v_tear
+as
+select  te.강사번호 ,강사이름, te.수강코드, 과목, ro.강의실번호, 수용인원
+   from teacher te
+		inner join subject su on te.수강코드=su.수강코드
+		inner join sugangtb sug on su.수강코드=sug.수강코드
+		inner join room ro on sug.강의실번호=ro.강의실번호;
+
+
+ 위의 쿼리를 실행해서 뷰로 만든다.
+
+ 그리고나서 
+   강사의 번호를 인수로 전달받아 뷰에서 그 강사번호에 해당하는 정보를 출력한다.
+
+--------------------------------------------------------------
+
+ 위의 4문제를 만들어본다.
+

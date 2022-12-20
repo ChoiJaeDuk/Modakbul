@@ -328,7 +328,7 @@
                         <tr class="table-body">
                         	 <c:set var="TextValue" value="${lg.gather.gatherDate}" />
                             <td>${state.count}</td>
-                            <td><img src="img/${lg.gather.gatherImg}"></td>
+                            <td><img src="${pageContext.request.contextPath}/save/${lg.gather.gatherImg}"></td>
                             <td>${lg.gather.gatherName}</td>
                             <td>${lg.gather.user.userNick}</td>
                             <td>
