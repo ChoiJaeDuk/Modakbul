@@ -44,8 +44,8 @@ public class GatherAttachmentsServiceImpl implements GatherAttachmentsService {
 	}
 
 	@Override
-	public void deleteGatherAttachments(Long gatherAttachmentNo) {
-		gatherAttachmentsRep.deleteById(gatherAttachmentNo);
+	public void deleteGatherAttachments(Long gatherNo) {
+		queryFactory.delete(ga).where(ga.gather.gatherNo.eq(gatherNo)).execute();
 	}
 	
 	//보류 어떤값을 리턴해야하는지 모르겠어요~~!

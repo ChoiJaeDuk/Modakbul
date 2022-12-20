@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ch.qos.logback.core.Context;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.Follow;
 import modakbul.mvc.domain.Gather;
@@ -411,11 +412,19 @@ public class MyPageControllerChoi {
 	}
 	
 	@RequestMapping("/gatherSelect/deleteGather")
-	public String deleteGather(Long gatherNo, Long regularGatherNo, Long userNo, RedirectAttributes redirect) {
+	public String deleteGather(Long gatherNo, Long regularGatherNo, Long userNo, RedirectAttributes redirect, HttpSession session) {
 		
 		System.out.println("regularGatherNo = " + regularGatherNo);
-	
+		String saveDir = session.getServletContext().getRealPath("/save");
 		
+		List<String> fileList = gatherService.selectGatherFile(gatherNo);
+		for(String fileName: fileList) {
+			String fn = saveDir +"/"+fileName;
+			File file = new File(fn);
+			file.delete();
+		}
+		
+		gatherAttachmentsService.deleteGatherAttachments(gatherNo);
 		
 		if(regularGatherNo!=null) {
 			regularGatherService.deleteRegularGather(regularGatherNo);
