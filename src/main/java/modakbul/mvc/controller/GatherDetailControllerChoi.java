@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -64,15 +65,19 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("yesOrNo", yesOrNo);
 		
 		Gather gather = gatherService.selectGatherByGatherNo(gatherNo);
-		  
+		
+		List<String> fileList = gatherService.selectGatherFile(gatherNo);
 		  
 		int check = participantService.checkParticipant(gatherNo, userNo);
 		int participant = participantService.selectParticipantCountByGatherNo(gatherNo);
 		System.out.println("check = "+check);  
+		
+		model.addAttribute("fileList", fileList);
 		model.addAttribute("gather", gather); 
 		model.addAttribute("participant", participant);
 		model.addAttribute("userNo1", userNo);
 		model.addAttribute("check", check);
+		
 		
 
 	}
@@ -213,5 +218,14 @@ public class GatherDetailControllerChoi {
 		
 		return "redirect:/gatherDetail/qna?inquiry="+inquiry+"&gatherNo="+gatherNo;
 	}
-
+	
+	
+	/**
+	 * 다운로드 하기
+	 * */
+	@RequestMapping("/down")
+	public ModelAndView down(String fileName, HttpSession session) {
+		String path = session.getServletContext().getRealPath("/WEB-INF/save");
+		return new ModelAndView("downLoadView","fname", new File(path+"/"+fileName));//뷰의 이름이 bean이름과 동일한 객체를 찾아서 뷰가 실행된다.
+	}
 }

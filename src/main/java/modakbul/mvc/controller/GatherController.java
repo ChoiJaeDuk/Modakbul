@@ -93,10 +93,10 @@ public class GatherController {
 		gatherService.insertGather(gather);
 		
 		
-		GatherAttachments gatherAttachments = new GatherAttachments();
+		
 		if(filesList.size()>1) {
 			for(int i = 0; i<filesList.size(); i++) {
-				
+				GatherAttachments gatherAttachments = new GatherAttachments();
 				System.out.println("여기를안와?");
 				file = filesList.get(i);
 				

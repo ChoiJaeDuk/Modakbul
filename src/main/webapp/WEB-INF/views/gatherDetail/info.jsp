@@ -390,7 +390,12 @@
 						    } 
 						});    
 					</script> -->
-					<div class="file-down">파일위치</div>
+					<div class="file-down">
+						<c:forEach items="${fileList}" var="fileName">
+							<li><a href="${pageContext.request.contextPath}/gatherDetail/down?fileName=${fileName}">${fileName}</a></li>
+						</c:forEach>
+						
+					</div>
 				</div>
 			</div>
 		

@@ -29,7 +29,7 @@
 				
 		$(document).ready(function(){
 			
-				$("#dayTime").attr("class", "modakbul-header header-selected");
+				$("#daily").attr("class", "modakbul-header header-selected");
 			 /*  $(":header").css("background-color", "yellow"); */
 
 		});

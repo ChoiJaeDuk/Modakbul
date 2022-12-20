@@ -31,6 +31,7 @@ import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
 import modakbul.mvc.domain.QGather;
+import modakbul.mvc.domain.QGatherAttachments;
 import modakbul.mvc.domain.QGatherReview;
 import modakbul.mvc.domain.QLikeGather;
 import modakbul.mvc.domain.QParticipant;
@@ -61,6 +62,8 @@ public class GatherServiceImpl implements GatherService {
 	private QParticipant p = QParticipant.participant;
 
 	private QLikeGather l = QLikeGather.likeGather;
+	
+	private QGatherAttachments ga = QGatherAttachments.gatherAttachments;
 
 	@Autowired
 	private ParticipantService participantService;
@@ -84,7 +87,7 @@ public class GatherServiceImpl implements GatherService {
 
 	private final RegularGatherRepository regularGatherRep;
 	
-	
+
 
 	@Override
 	public void insertGather(Gather gather) {
@@ -99,7 +102,7 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	//@Scheduled(cron = "0 * * * * *") // 매시간 0분 30분마다 실행된다.
-	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {
 
 		/////////////////////////////////
@@ -489,6 +492,15 @@ public class GatherServiceImpl implements GatherService {
 		List<Gather> list = gatherRep.selectGatherOrderByDeadline();
 
 		return list;
+	}
+
+	@Override
+	public List<String> selectGatherFile(Long gatherNo) {
+		List<String> result = queryFactory.select(ga.gatherAttachmentsFileName)
+				.from(ga)
+				.where(ga.gather.gatherNo.eq(gatherNo))
+				.fetch();
+		return result;
 	}
 
 }

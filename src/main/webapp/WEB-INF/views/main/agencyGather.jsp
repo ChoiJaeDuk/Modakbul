@@ -29,7 +29,7 @@
 				
 		$(document).ready(function(){
 			
-				$("#regular").attr("class", "modakbul-header header-selected");
+				$("#gov").attr("class", "modakbul-header header-selected");
 			 /*  $(":header").css("background-color", "yellow"); */
 
 		});
