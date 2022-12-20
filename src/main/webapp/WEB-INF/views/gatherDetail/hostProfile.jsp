@@ -296,6 +296,7 @@
 				<div class="gather-detail-info">
 					<div class="host-profile">
 						<div class="my-page-image-wrap">
+						<sec:authentication property="principal" var="user"/>
 				        <c:set value="${hostUser.userProfileImg}" var="img" />
 						<c:set value="true" var="state1" />
 						<c:forEach items="${fileNames }" var="file">
@@ -303,7 +304,7 @@
 								<c:set value="true" var="state2" />
 								<img class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${hostUser.userProfileImg }"
-									alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+									alt="img" onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${hostUser.userNo}?loginUserNo=${user.userNo }'" />
 
 							</c:if>
 
@@ -311,7 +312,7 @@
 
 						<c:if test="${state1 ne state2}">
 							<img class="sign-up-image" src="${hostUser.userProfileImg }"
-								alt="img" onclick="location.href='${pageContext.request.contextPath}/my_page/my_page_index/${hostUser.userNo}'" />
+								alt="img" onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${hostUser.userNo}?loginUserNo=${user.userNo }'" />
 						</c:if>
 				        </div>
 				        <div class="host-profile-info">

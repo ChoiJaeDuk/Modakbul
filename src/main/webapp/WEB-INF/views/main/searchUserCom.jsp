@@ -29,7 +29,7 @@
 			});
     		
     		$("#search-btn").click(function(){
-    			alert(1)
+    			
     			location.href="${pageContext.request.contextPath}/main/searchUserCom/"+$("#search-text").val()
     			
     			

@@ -58,6 +58,7 @@
                                  
                                  targetBtn.css("background","rgb(243, 156, 18)")
                                  targetBtn.text("팔로우")
+                                 $(".user-info-page").load(location.href + " .user-info-page")
                               }
                            },error:function(err){
                         	   console.log("err");
@@ -81,7 +82,7 @@
                               }
                               
                            },error:function(err){
-                        	   console.log("로그인을 먼저 진행해주세요.");
+                        	   alert("로그인을 먼저 진행해주세요.");
                            }
                         });//Insert ajax END
                      }//if  END
@@ -147,7 +148,7 @@
 						   					<th class="result-gender"> ${user.userGender} </th>
 						   					</c:if>
 						   					<th class="result-temper"> ${user.temper}&#8451 </th>
-						   					<th class="result-follower">${follower}</th>
+						   					<th class="result-follower">${following}</th>
 						   					<c:if test="${!empty user.userGender }">
 						   					<th class="result-old">${user.userValidateNo.substring(0,2)}년생</th>
 						   					</c:if>

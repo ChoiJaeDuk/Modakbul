@@ -78,6 +78,7 @@ public class UsersController {
 		String fileNames [] = file.list();
 		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
 		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 		
 		Page<GatherGroupBy> gatherList = gatherService.selectRecruitingList(pageable, userNo);
 		
@@ -86,7 +87,7 @@ public class UsersController {
 		
 		System.out.println("로그인 :  " + loginUserNo);
 		model.addAttribute("gatherList", gatherList);
-		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);
 		model.addAttribute("searchFollow",searchFollow);
@@ -104,15 +105,18 @@ public class UsersController {
 		String fileNames [] = file.list();
 		
 		Pageable pageable = PageRequest.of(nowPage-1, PAGE_COUNT);
+		List<Follow> follower = followService.myFollower(userNo);
+		List<Follow> following = followService.myFollowing(userNo);
 		Page<UserReview> page=userReviewService.selectAllByUserReviewNo(userNo, pageable);
 		
-		List<Follow> follower = followService.myFollower(userNo);
+		
 		
 		
 		String searchFollow = followService.searchFollowing(userNo, loginUserNo);
 		
 		
-		model.addAttribute("follower", follower.size());
+		model.addAttribute("following", following.size());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("fileNames", fileNames);
 		model.addAttribute("searchFollow",searchFollow);

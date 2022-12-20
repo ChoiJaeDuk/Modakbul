@@ -79,7 +79,7 @@
                               }
                               
                            },error:function(err){
-                        	   console.log("err : "+err);
+                        	   elert("회원가입을 먼저 진행해주세요.")
                            }
                         });//Insert ajax END
                      }//if  END
@@ -130,15 +130,23 @@
 						   				<tr class="user-info-page-title">
 						   					<th class="userNick"> 닉네임 </th>
 						   					<th class="follower"> 팔로워 </th>
+						   					<th class="user-gender"> 성별 </th>
 						   					<th class="user-temper"> 온도 </th>
 						   					<th class="plusinfo"> 지역 </th>
+						   					<th class="user-old"> 나이 </th>
 						   				
 						   				</tr>
 						   				<tr class="user-info-page-content">
 						   					<th class="result-nick"> ${user.userNick} </th>
 						   					<th class="result-addr"> ${fn:split(user.userAddr,' ')[0]} &nbsp ${fn:split(user.userAddr,' ')[1]} </th>
+						   					<c:if test="${!empty user.userGender }">
+						   					<th class="result-gender"> ${user.userGender} </th>
+						   					</c:if>
 						   					<th class="result-temper"> ${user.temper}&#8451 </th>
-						   					<th class="result-follower">${follower }</th>
+						   					<th class="result-follower">${following}</th>
+						   					<c:if test="${!empty user.userGender }">
+						   					<th class="result-old">${user.userValidateNo.substring(0,2)}년생</th>
+						   					</c:if>
 						   				</tr>	
 						   			</table>
 

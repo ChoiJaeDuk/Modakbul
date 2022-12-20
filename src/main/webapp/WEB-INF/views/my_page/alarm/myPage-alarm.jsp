@@ -349,7 +349,7 @@
 						<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/${f.followerUser.userProfileImg }">
 					</th>
 					<th>
-						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}'">${f.followerUser.userNick}<p>
+						<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${f.followerUser.userNo}?loginUserNo=${user.userNo}'">${f.followerUser.userNick}<p>
 					</th>
 					<th>
 						${f.followerUser.temper}℃

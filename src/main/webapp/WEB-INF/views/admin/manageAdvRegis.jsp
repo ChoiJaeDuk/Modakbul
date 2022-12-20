@@ -125,7 +125,7 @@
 							<td>${status.index+1}</td>
 							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
-							<td>${adv.user.userName}</td>
+							<td>${adv.user.userNick}</td>
 							<td>${adv.user.userJob}</td>
 							<td>${fn:substring(adv.adRegisDate,0,10)}</td>
 							<td>

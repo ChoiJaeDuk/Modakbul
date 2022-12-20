@@ -107,7 +107,7 @@ $("form").on("submit",function() {
 			            <div class="create-group-info-table-item">
 			              	<div class="create-group-info-table-item-label">임시 비밀번호</div>
 			              	<div class="create-group-info-table-item-content">
-			                	<input class="create-group-form-input-temp" id="serviceQuestionPwd" name="serviceQuestionPwd"/>
+			                	<input type="password" class="create-group-form-input-temp" id="serviceQuestionPwd" name="serviceQuestionPwd"/>
 			              	</div>
 			             </div>
 			            
