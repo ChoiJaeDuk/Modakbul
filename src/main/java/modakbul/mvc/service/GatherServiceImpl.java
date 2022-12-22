@@ -102,7 +102,7 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	//@Scheduled(cron = "0 * * * * *") // 매시간 0분 30분마다 실행된다.
-	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {
 
 		/////////////////////////////////
@@ -143,21 +143,23 @@ public class GatherServiceImpl implements GatherService {
 						alarmService.insertReceiverAll(usersList, alarm);
 
 						// 정기모임 재등록
-						if (gather.getRegularGather().getRegularGatherState().equals("진행중")) {
-							// 다음 날짜를 계산
-							LocalDateTime newGatherDate = gather.getGatherDate()
-									.plusDays(gather.getRegularGather().getRegularGatherCycle() * 7);
-							// 다음 마감시간을 계산
-							LocalDateTime newDeadline = newGatherDate.minusHours(3);
-							// 새로운 모임을 insert
-							Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(),
-									gather.getRegularGather(), gather.getGatherName(), gather.getGatherMinUsers(),
-									gather.getGatherMaxUsers(), gather.getGatherSelectGender(),
-									gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline,
-									gather.getGatherTime(), gather.getGatherPlace(), gather.getGatherPlaceDetail(),
-									gather.getGatherComment(), "모집중", null, gather.getGatherBid(),
-									gather.getGatherImg(), gather.getLikeCount());
-							gatherRep.save(newGather);
+						if(gather.getRegularGather()!=null) {
+							if (gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+								// 다음 날짜를 계산
+								LocalDateTime newGatherDate = gather.getGatherDate()
+										.plusDays(gather.getRegularGather().getRegularGatherCycle() * 7);
+								// 다음 마감시간을 계산
+								LocalDateTime newDeadline = newGatherDate.minusHours(3);
+								// 새로운 모임을 insert
+								Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(),
+										gather.getRegularGather(), gather.getGatherName(), gather.getGatherMinUsers(),
+										gather.getGatherMaxUsers(), gather.getGatherSelectGender(),
+										gather.getGatherMinAge(), gather.getGatherMaxAge(), newGatherDate, newDeadline,
+										gather.getGatherTime(), gather.getGatherPlace(), gather.getGatherPlaceDetail(),
+										gather.getGatherComment(), "모집중", null, gather.getGatherBid(),
+										gather.getGatherImg(), gather.getLikeCount());
+								gatherRep.save(newGather);
+							}
 						}
 					} else {
 						gather.setGatherState("모집마감");
@@ -179,22 +181,23 @@ public class GatherServiceImpl implements GatherService {
 
 					gather.setGatherState("진행완료");
 					autoUpdateParticipantState(gather.getGatherNo(), "참가완료", "참가중");
-
-					if (gather.getRegularGather().getRegularGatherState().equals("진행중")) {
-
-						// 다음 날짜를 계산
-						LocalDateTime newGatherDate = gather.getGatherDate()
-								.plusDays(gather.getRegularGather().getRegularGatherCycle() * 7);
-						// 다음 마감시간을 계산
-						LocalDateTime newDeadline = newGatherDate.minusHours(3);
-						// 새로운 모임을 insert
-						Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(),
-								gather.getRegularGather(), gather.getGatherName(), gather.getGatherMinUsers(),
-								gather.getGatherMaxUsers(), gather.getGatherSelectGender(), gather.getGatherMinAge(),
-								gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(),
-								gather.getGatherPlace(), gather.getGatherPlaceDetail(), gather.getGatherComment(),
-								"모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
-						gatherRep.save(newGather);
+					if(gather.getRegularGather()!=null) {
+						if (gather.getRegularGather().getRegularGatherState().equals("진행중")) {
+	
+							// 다음 날짜를 계산
+							LocalDateTime newGatherDate = gather.getGatherDate()
+									.plusDays(gather.getRegularGather().getRegularGatherCycle() * 7);
+							// 다음 마감시간을 계산
+							LocalDateTime newDeadline = newGatherDate.minusHours(3);
+							// 새로운 모임을 insert
+							Gather newGather = new Gather(0L, gather.getCategory(), gather.getUser(),
+									gather.getRegularGather(), gather.getGatherName(), gather.getGatherMinUsers(),
+									gather.getGatherMaxUsers(), gather.getGatherSelectGender(), gather.getGatherMinAge(),
+									gather.getGatherMaxAge(), newGatherDate, newDeadline, gather.getGatherTime(),
+									gather.getGatherPlace(), gather.getGatherPlaceDetail(), gather.getGatherComment(),
+									"모집중", null, gather.getGatherBid(), gather.getGatherImg(), gather.getLikeCount());
+							gatherRep.save(newGather);
+						}
 					}
 				}
 			} else if (ldt.isEqual(gather.getGatherDeadline())) {
@@ -357,7 +360,7 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public Page<Gather> selectGatherOrderByRegisDate(Pageable pageable) {
 
-		List<Gather> result = queryFactory.selectFrom(g).where(g.gatherState.eq("모집중")).orderBy(g.gatherRegisDate.asc())
+		List<Gather> result = queryFactory.selectFrom(g).where(g.gatherState.eq("모집중")).orderBy(g.gatherRegisDate.desc())
 				.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();// 카테고리 체크박스
 		System.out.println("result = " + result);
 

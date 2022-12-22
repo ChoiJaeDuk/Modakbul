@@ -77,8 +77,6 @@ public class GatherDetailControllerChoi {
 		model.addAttribute("participant", participant);
 		model.addAttribute("userNo1", userNo);
 		model.addAttribute("check", check);
-		
-		
 
 	}
 	

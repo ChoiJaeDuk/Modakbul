@@ -47,7 +47,7 @@ public class MainControllerChoi {
 		
 		String fileNames [] = file.list();
 		
-		Pageable pageable = PageRequest.of(2,4);
+		Pageable pageable = PageRequest.of(0,4);
 		
 		List<Advertisement> selectAdGather = adminService.selectAdGather();
 		
