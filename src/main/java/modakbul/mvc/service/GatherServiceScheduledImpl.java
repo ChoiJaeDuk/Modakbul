@@ -45,6 +45,7 @@ public class GatherServiceScheduledImpl implements GatherServiceScheduled  {
 	
 	
   @Override
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void autoUpdateParticipantState(Long gatherNo, String state, String dbState) {
 		// System.out.println("참가자 상태 업데이트 호출되니?" +state);
 		queryFactory.update(p).set(p.applicationState, state)

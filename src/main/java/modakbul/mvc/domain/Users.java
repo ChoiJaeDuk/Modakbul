@@ -92,25 +92,25 @@ public class Users {
 	@Enumerated(EnumType.STRING)
 	private Role state;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<UserAttachments> userAttachList;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
-	private List<Follow> followingList;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
-	private List<Follow> followerList;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
-	private List<UserReview> userReviewList;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<ServiceQuestion> serviceQuestionList;
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private List<UserAttachments> userAttachList;
+//	
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
+//	private List<Follow> followingList;
+//	
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
+//	private List<Follow> followerList;
+//	
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
+//	private List<UserReview> userReviewList;
+//	
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private List<ServiceQuestion> serviceQuestionList;
 	/*
 	 * @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) private
 	 * List<GatherReview> gatherReviewList;
