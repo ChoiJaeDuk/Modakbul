@@ -139,6 +139,8 @@ public class UsersController {
 		List<Follow> follower = followService.myFollowing(userNo);
 		int newAlarm = alarmService.countNewAlarm(userNo);
 		List<UserAttachments> attachList = attachService.selectAll(Users.builder().userNo(userNo).build());
+		System.out.println("userNo = " + userNo);
+		System.out.println("2 = " + attachList.size());
 		
 		
 		model.addAttribute("followingList", followList);
@@ -165,9 +167,9 @@ public class UsersController {
 	public String insert(Users user, @RequestParam(value="userAttachmentsFileSubject[]", required = false ) List<String> userAttachmentsFileSubject, 
 			HttpSession session, @RequestParam(value ="filesList[]", required = false) List<MultipartFile> filesList, MultipartFile file) {
 		
-		
+	//	System.out.println("사이즈요? =" + filesList.size());
 		String saveDir = session.getServletContext().getRealPath("/save");
-		
+	
 		System.out.println(user.getUserProfileImg());
 		System.out.println("userGender" + user.getUserGender());
 			
@@ -191,9 +193,6 @@ public class UsersController {
 			usersService.insert(user);
 		}
 		
-		
-		
-		
 		System.out.println("성공");
 		System.out.println("userId= " + user.getUserId());
 		System.out.println("userId= " + user.getUserEmail());
@@ -207,10 +206,12 @@ public class UsersController {
 				System.out.println("여기를안와?");
 				MultipartFile attachFile = filesList.get(i);
 				
-				String subject = userAttachmentsFileSubject.get(i);
-				String originalFileName2 = attachFile.getOriginalFilename();
-					System.out.println("gg = " + (originalFileName2.length()));
+				
 				if(attachFile.getOriginalFilename().length()>0) {
+					String subject = userAttachmentsFileSubject.get(i);
+					String originalFileName2 = attachFile.getOriginalFilename();
+						System.out.println("gg = " + (originalFileName2.length()));
+					
 					
 					try {
 						System.out.println("업로드");
