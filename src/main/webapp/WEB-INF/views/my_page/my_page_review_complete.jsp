@@ -301,7 +301,7 @@ function modal(id) {
 													<td>${review.gatherNo}</td>
 													<td>
 														<div class="table-small-image-wrap">
-															<img src="${pageContext.request.contextPath}/save/${review.gatherImg}" alt="img" width="100%" />
+															<img src="${pageContext.request.contextPath}/save/${review.gatherImg}" alt="gather-img" class="gather-img" />
 														</div>
 													</td>
 													<td>${review.gatherName}</td>

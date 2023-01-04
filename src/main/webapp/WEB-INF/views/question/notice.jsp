@@ -55,7 +55,7 @@ $(function() {
 			
 				<c:when test="${user.state == 'ROLE_ADMIN'}">
                 <div class="inquiry-button-wrap">
-                  <button class="search-list-button" type="button">등록</button>
+                  <button class="search-list-button" type="button" onclick="location.href='${pageContext.request.contextPath}/question/noticeInsertForm'" >등록</button>
                   <button class="search-list-button" type="button"> 삭제</button>
                 </div>
                 </c:when>

@@ -83,7 +83,7 @@
 						<div class="preview col-md-6">
 							 
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${gather.gatherImg }" /></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${gather.gatherImg}" /></div>
 							</div>	 
 						</div>
 						<div class="gather-info">
@@ -91,10 +91,7 @@
 								<div>
 									<h3 class="product-title">${gather.gatherName}</h3>
 								</div>
-								
-								<div class="heart-img">
-									<img src="" alt="img">
-								</div>
+							
 							</div>
 							<div class="rating">
 								<div class="stars">

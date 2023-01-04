@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.domain.Users;
@@ -77,6 +78,34 @@ public class InqueryControllerKyu {
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("nowPage", nowPage);
 		}
+	
+	@RequestMapping("/noticeInsertForm")
+	public void noticeInsertForm() {
+		
+	}
+	@RequestMapping("/noticeInsert")	
+		public String noticeInsert(ServiceQuestion serviceQuestion) {
+			serviceQuestionService.insertServiceQustion(serviceQuestion);
+			
+			return "redirect:/question/notice";
+		}	
+	@RequestMapping("/noticeUpdateForm")
+	public void noticeUpdateForm(Long serviceQuestionNo,Model model) {
+		ServiceQuestion dbNotice=serviceQuestionService.selectNoticeDetail(serviceQuestionNo);
+		
+		model.addAttribute("dbNotice", dbNotice);
+	}
+	
+	@RequestMapping("/noticeUpdate")
+	public ModelAndView noticeUpdate(ServiceQuestion serviceQuestion) {//ServiceQuestion serviceQuestion
+		
+		ServiceQuestion db=serviceQuestionService.updateNotice(serviceQuestion);
+	
+		
+		return new ModelAndView("question/noticeDetail", "noticeDetail",db);
+	}
+	
+	
 	@RequestMapping("/inqueryDetail")
 	public void qnaDetail(Long serviceQuestionNo, @RequestParam(required = false) String serviceQuestionPwd, Long userNo, Model model) {
 		if(userNo == 4) { //어드민이 들어오면 다 문의사항보여줌 
@@ -124,7 +153,7 @@ public class InqueryControllerKyu {
 		
 		model.addAttribute("noticeDetail", dbNotice);
 	}
-	
+		
 	@RequestMapping("/question_insert")
 	public void inauiryInsertForm() {}
 	
@@ -132,7 +161,7 @@ public class InqueryControllerKyu {
 	@RequestMapping("/questionInsert")
 	public String inquiryInsert(ServiceQuestion serviceQuestion) {
 		serviceQuestionService.insertServiceQustion(serviceQuestion);
-		
+		System.out.println("이거타나 ;;?");
 		return "redirect:/question/inqueryQnA";
 	}
 	
@@ -141,5 +170,6 @@ public class InqueryControllerKyu {
 		serviceQuestionService.deleteServiceQuestion(serviceQuestionNo, serviceQuestionPwd);
 		return null;
 	}
+	
 }
 	

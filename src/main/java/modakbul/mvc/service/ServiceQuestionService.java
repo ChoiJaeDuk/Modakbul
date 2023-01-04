@@ -37,8 +37,17 @@ public interface ServiceQuestionService {
 	 * */
 	Page<ServiceQuestion> selectByAdminNo(Pageable pageable);
 	
-	/**공지사항상세보기*/
+	/*
+	 * 공지사항상세보기
+	 * */
 	ServiceQuestion selectNoticeDetail(Long serviceQuestionNo);
 	
 	ServiceQuestion selectByNo(Long serviceQuestionNo);
+	
+	/**
+	 * 공지사항 수정하기
+	 * */
+	ServiceQuestion updateNotice(ServiceQuestion serviceQuestion);
+
+	
 }

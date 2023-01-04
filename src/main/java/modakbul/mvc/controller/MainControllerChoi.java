@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,6 @@ import modakbul.mvc.domain.Gather;
 import modakbul.mvc.repository.AdminRepository;
 import modakbul.mvc.service.AdminService;
 import modakbul.mvc.service.GatherService;
-import oracle.security.crypto.core.DES;
 
 @Controller
 //@RequestMapping("/main")

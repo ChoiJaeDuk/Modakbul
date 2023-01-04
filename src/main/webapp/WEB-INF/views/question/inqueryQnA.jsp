@@ -19,22 +19,17 @@
     $(function() {
         $(".table-row").on("click", function() {
         	
-            $(this).next().fadeToggle();
+           $(this).next().fadeToggle();
         })
         
    	 })  
     	 $(function() {
         //비밀번호 비교 
+        var target = $(obj).siblings().eq(0);
         
-        $(document).on("click", "button[class=password-form-button]" , function(){
-        	//alert(11111)
-        	alert($("#password").val())
-        	//alert($("#serviceQuestionNo").val())
-        	//console.log(${serviceQuestionNo})
-        	//if($("#password").val().length==0){
-			//	alert("비밀번호를 입력해주세요.")
-			//	return;
-			//}
+        $(document).on("click","button[class=password-form-button]", function(){
+        	//alert($(this).attr("id")
+        	//alert(target)
         	
         	$.ajax({
 				type:"POST",
@@ -43,7 +38,6 @@
 				data: "${_csrf.parameterName}=${_csrf.token}&password="+$("#password").val()+"&serviceQuestionNo="+$("#serviceQuestionNo").val(),			
 				success:function(result){
 					
-						alert(result);
 						location.href="${pageContext.request.contextPath}/question/inqueryDetail"+result;
 					
 				},//function
@@ -61,7 +55,9 @@
         })
         
    	 })
-        
+    	///////////////////////////////////////////////
+      
+      
         
     }) 
     </script>
@@ -105,7 +101,7 @@
                   <c:forEach var="serviceQ" items="${serviceQuestionList.content}" varStatus="status">
                    	<c:set var="TextValue" value="${serviceQ.serviceQuestionDate}" />
                    	
-                 	  <tr class="table-row">
+                 	  <tr class="table-row" >
                       <td>${serviceQ.serviceQuestionNo}</td>
                       <td>비밀글 입니다. </td>
                       <td>${serviceQ.user.userName}</td>
@@ -122,7 +118,7 @@
 	                    <input type="hidden" class="id"id="id" name="id" />
 	                    <input type="password" class="password-form" id="password" name="password" />
 	                    <input type="hidden" value="${serviceQ.serviceQuestionNo}" class="serviceQuestionNo"id="serviceQuestionNo" name="serviceQuestionNo" />
-	                    <button class="password-form-button" type="button" > 확인 </button> 
+	                    <button class="password-form-button" type="button" id="${serviceQ.serviceQuestionNo}"> 확인 </button> 
 	                </div>
                     </td>
                     <tr>

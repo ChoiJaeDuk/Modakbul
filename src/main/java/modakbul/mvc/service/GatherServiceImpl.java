@@ -102,7 +102,7 @@ public class GatherServiceImpl implements GatherService {
 
 	@Override
 	//@Scheduled(cron = "0 * * * * *") // 매시간 0분 30분마다 실행된다.
-	@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
+	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {
 
 		/////////////////////////////////

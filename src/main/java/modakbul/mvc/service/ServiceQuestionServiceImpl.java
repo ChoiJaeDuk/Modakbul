@@ -18,7 +18,7 @@ import modakbul.mvc.domain.ServiceQuestion;
 import modakbul.mvc.repository.ServiceQuestionRepository;
 
 @Service
-@org.springframework.transaction.annotation.Transactional
+@Transactional
 public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	@Autowired
 	private ServiceQuestionRepository serviceQuestionRep;
@@ -113,6 +113,20 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 	public ServiceQuestion selectByNo(Long serviceQuestionNo) {
 		ServiceQuestion serviceQuestion= serviceQuestionRep.findById(serviceQuestionNo).orElse(null);
 		return serviceQuestion;
+	}
+	@Override
+	public ServiceQuestion updateNotice(ServiceQuestion serviceQuestion) {
+		ServiceQuestion dbNotice=serviceQuestionRep.selectNoticeDetail(serviceQuestion.getServiceQuestionNo());
+		System.out.println("dbNotice"+dbNotice);
+		if(dbNotice==null) {
+			throw new RuntimeException("공지사항 글을 찾을 수 없습니다.");
+		}
+		
+		//수정
+		dbNotice.setServiceQuestionSubject(serviceQuestion.getServiceQuestionSubject());
+		dbNotice.setServiceQuestionContent(serviceQuestion.getServiceQuestionContent());
+		
+		return dbNotice;
 	}
 	
 	

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ 	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%> 
@@ -197,8 +197,8 @@
     $(function() {
         $(".table-row").on("click", function() {
             $("."+$(this).attr("id")).fadeToggle();
-            //$(".reply-btn").show();
-            $(".search-inquiry-reply-wrap reply-show").show();
+            $(".reply-btn").show();
+            $(".ms-3").show();
         })
         
    	 }) 
@@ -208,7 +208,14 @@
              
          })
    	 })
-   	 	
+   	 
+   	 //add-to-cart qna-write-btn 
+   	 	$(function() {
+   		 $(".qna-write").on("click", function() {
+             $("#qnaForm").fadeToggle();
+             
+         })
+   	 })
    	 
    	 
    	 </script>
@@ -316,7 +323,7 @@
 						<button class="add-to-cart qna-write-btn" type="button">문의 작성</button>
 					</div>			
 				</div>
-				<form action="insert">
+				<form action="insert" style="display: none;" id="qnaForm">
 				<sec:authentication var="user" property="principal" />
 				<input type="hidden"  name="user" value="${user.userNo}" />
 				<input type="hidden"  name="gatherNo" value="${gather.gatherNo}" />
@@ -372,7 +379,7 @@
 		                      <td>${status.count}</td>
 		                      <td>${qna.inqSubject}</td>
 		                      <td>${qna.user.userName }</td>
-		                      <td>${fn:substring(TextValue,0,10)}</td>
+		                      <td>${fn:substring(TextValue,0,10)} ${qna.inqRegisDate} </td>
 		                      <td><button class="search-list-button" type="button" value="${qna.inqNo}" >확인</button></td>
 		                      
 		                    </tr>
@@ -399,11 +406,11 @@
                                 <div class="d-flex mb-4">
                                     <!-- Parent comment-->
                                     
-                          <div class="ms-3">
+                          <div class="ms-3" style="display: none">
 	                      <c:forEach items="${qna.inquiryReplyList}" var="reply">
 	                      <c:set var="TextValue" value="${reply.inquiryReplyRegisDate}" />         
 	                            <div class="d-flex mt-4">
-	                                <div class="flex-shrink-0"><img class="rounded-circle" src="${pageContext.request.contextPath}/save/" alt="..." /></div>
+	                                <div class="flex-shrink-0"><img class="rounded-circle" src="${pageContext.request.contextPath}/save/${reply.user.userProfileImg }" width="70px" height="50px" alt="" /></div>
 	                                <div class="ms-3">
 	                                    <div class="fw-bold">닉네임: ${reply.user.userNick}</div>
 	                                    내용: ${reply.inquiryReplycontent }
@@ -416,9 +423,9 @@
                         </div>
                       </div>
                     </section>
-                	 	<div class="reply-btn" >
+                	 	<div class="reply-btn" style="display: none;">
 		                      	<button class="reply-btn" type="button">답변달기</button>
-		                      	<button class="reply-btn" type="button">삭제</button>
+		                      	<button class="reply-btn" type="button">취소</button>
 		                    </div>
 		                    
 		                 	<div class="search-inquiry-reply-wrap reply-form-wrap" style="display: none;">

@@ -42,7 +42,7 @@
               <div class="inquiry-top">
                 <h2 class="inquiry-title">공지사항</h2>
                 <div class="inquiry-button-wrap">
-                  <button class="search-list-button" type="button">수정</button>
+                  <button class="search-list-button" type="button" onclick="location.href='${pageContext.request.contextPath}/question/noticeUpdateForm?serviceQuestionNo=${noticeDetail.serviceQuestionNo}'">수정</button>
                   <button class="search-list-button" type="button">삭제</button>
                 </div>
               </div>
