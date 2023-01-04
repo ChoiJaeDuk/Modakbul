@@ -101,7 +101,8 @@ public class GatherServiceImpl implements GatherService {
 	}
 
 	@Override
-	//@Scheduled(cron = "0 * * * * *") // 매시간 0분 30분마다 실행된다.
+
+	//@Scheduled(cron = "0 0,30 * * * *") // 매시간 0분 30분마다 실행된다.
 	//@Scheduled(cron = "0 * * * * *") // 1분마다 실행된다.
 	public void autoUpdateGatherState() {
 
@@ -134,8 +135,8 @@ public class GatherServiceImpl implements GatherService {
 
 					if (i < gather.getGatherMinUsers()) {
 						gather.setGatherState("모임취소");
-						autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
-						autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
+						scheduledService.autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+						scheduledService.autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
 						String alarmSubject = gather.getGatherName() + "모임 상태알림";
 						String alarmContent = "신청하신 " + gather.getGatherName() + "모임이 참가 인원 미달로인해 취소되었습니다.";
 						Alarm alarm = new Alarm(0L, alarmSubject, alarmContent, null);
@@ -164,7 +165,7 @@ public class GatherServiceImpl implements GatherService {
 					} else {
 						gather.setGatherState("모집마감");
 						System.out.println("여기옵니까?");
-						autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
+						scheduledService.autoUpdateParticipantState(gather.getGatherNo(), "참가확정", "참가승인");
 
 						String alarmSubject = gather.getGatherName() + "모임 상태알림";
 						String alarmContent = "신청하신 " + gather.getGatherName() + "모임 진행이 확정되었습니다!";
@@ -203,8 +204,8 @@ public class GatherServiceImpl implements GatherService {
 			} else if (ldt.isEqual(gather.getGatherDeadline())) {
 
 				gather.setGatherState("모임취소");
-				autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
-				autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
+				scheduledService.autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "참가승인");
+				scheduledService.autoUpdateParticipantState(gather.getGatherNo(), "모임취소", "신청대기");
 
 			}
 		}

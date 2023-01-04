@@ -67,9 +67,9 @@ public class GatherReview {
 	@CreationTimestamp
 	private LocalDateTime reviewRegisDate;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "gatherReview", cascade=CascadeType.ALL)
-	private List<GatherReviewReply> gatherReviewReplyList;
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "gatherReview", cascade=CascadeType.ALL)
+//	private List<GatherReviewReply> gatherReviewReplyList;
 
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "gather_no")
