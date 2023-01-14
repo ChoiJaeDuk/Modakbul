@@ -48,7 +48,7 @@ public class Users {
 	
 	@Column(nullable = false)
 	private String userpwd;
-	private String userName;//
+	private String userName;
 	
 	@Column(unique = true, nullable = true)
 	private String userNick;
@@ -96,13 +96,13 @@ public class Users {
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //	private List<UserAttachments> userAttachList;
 //	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
-//	private List<Follow> followingList;
-//	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
-//	private List<Follow> followerList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
+	private List<Follow> followingList;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL)
+	private List<Follow> followerList;
 //	
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)

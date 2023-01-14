@@ -41,6 +41,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import modakbul.mvc.domain.KakaoOAuthToken;
 import modakbul.mvc.domain.QUsers;
+import modakbul.mvc.domain.Role;
 import modakbul.mvc.domain.Users;
 import modakbul.mvc.repository.UsersRepository;
 
@@ -65,6 +66,7 @@ public class UsersServiceImpl implements UsersService {
 	
 	private final static int PAGE_COUNT = 5;
 	private final static int BLOCK_COUNT=4;
+
 	
 	@Override
 	public List<Users> selectAll() {
@@ -100,10 +102,11 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Page<Users> selectUsers(Pageable pageable, @RequestParam(required = false) String userJob, String keyword) {
 		QUsers users = QUsers.users;
+		Role state = Role.ROLE_USER;
 
 		BooleanBuilder builder = new BooleanBuilder();
 		
-		
+		builder.and(users.state.eq(state));
 		if(keyword !=null) {
 			builder.and(users.userNick.contains(keyword));
 		}
@@ -119,9 +122,6 @@ public class UsersServiceImpl implements UsersService {
 				.limit(pageable.getPageSize())
 				.orderBy(users.userNo.desc())
 				.fetch();
-		
-		
-		 System.out.println("hie = " + list.size());
 		 
 		 JPAQuery<Users> countQuery = queryFactory
 		            .select(users)
@@ -158,7 +158,7 @@ public class UsersServiceImpl implements UsersService {
 		
 		System.out.println("userpwd =" + user.getUserpwd() );
 		if(user.getUserpwd().length() > 0) {
-			System.out.println("여기에 갓니 ?");
+			
 			String encodedPassword = passwordEncoder.encode(user.getUserpwd());
 			user.setUserpwd(encodedPassword);
 			dbU.setUserpwd(user.getUserpwd());
