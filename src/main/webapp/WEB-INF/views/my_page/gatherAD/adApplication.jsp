@@ -192,6 +192,7 @@
         
       $("[name=adApplication-btn]").click(function() {
          //alert($("#imgg").attr("src"))
+       
          $("#submitBotton").css("background","lightgrey")
          
          
@@ -202,7 +203,7 @@
          $("#end").attr("disabled","disabled")
          $("#gatherNo").val($(this).attr("id"));
          $(".create-commercial-class-name").text($(this).val())
-		$(".img22").attr("src",$(".gather-img").attr("src"))
+		 $(".img22").attr("src",$(this).prev().val())
          //alert($("#gatherNo").val())
          $("#ad-form").show();
          
@@ -497,6 +498,7 @@
                                 </c:choose>
                                 </td>
                                 <td class="inquiry-replied">
+                                	<input type="hidden" value="${pageContext.request.contextPath}/save/${adApplicationList.gatherImg}"/>
                                     <button class="my-page-button" name="adApplication-btn" id="${adApplicationList.gatherNo}" value="${adApplicationList.gatherName}">광고신청</button>
                                 </td>
                             </tr>

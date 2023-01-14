@@ -302,7 +302,7 @@
 						<c:forEach items="${fileNames }" var="file">
 							<c:if test="${file eq img }">
 								<c:set value="true" var="state2" />
-								<img class="sign-up-image"
+								<img width="100%"  class="sign-up-image"
 									src="${pageContext.request.contextPath}/save/${hostUser.userProfileImg }"
 									alt="img" onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/${hostUser.userNo}?loginUserNo=${user.userNo }'" />
 

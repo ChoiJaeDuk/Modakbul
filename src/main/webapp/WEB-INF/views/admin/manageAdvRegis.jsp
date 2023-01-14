@@ -123,7 +123,7 @@
 						<c:forEach var="adv" varStatus="status" items="${advRegis.content}">
 						<tr>
 							<td>${status.index+1}</td>
-							<td><a href="dd"><img width="100%" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
+							<td><a href="dd"><img width="300px" src="${pageContext.request.contextPath}/save/${adv.gather.gatherImg}" alt="사진" /></a></td>
 							<td>${adv.gather.gatherName}</td>
 							<td>${adv.user.userNick}</td>
 							<td>${adv.user.userJob}</td>

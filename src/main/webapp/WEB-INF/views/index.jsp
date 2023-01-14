@@ -57,7 +57,7 @@
    <div class="bannerSection">
 		<c:forEach items="${fileNames }" var="banner">
 			<img src="${pageContext.request.contextPath}/banner/${banner}"
-				alt="modakbul-icon" class="modakbul-banner" onclick="" />
+				alt="modakbul-icon" class="modakbul-banner" onclick="" width="100%" height="100%"/>
 		
 		</c:forEach>
  	</div>

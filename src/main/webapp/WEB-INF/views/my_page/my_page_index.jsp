@@ -152,7 +152,7 @@
 
     });//ready END
   
-    $(function(){
+    /* $(function(){
     	
     	let state = [];
 		let count = [];
@@ -172,7 +172,7 @@
     		$("#33").text(count.slice(3, 4))
     	}); 
   
-    })
+    }) */
     </script>
 </head>
 <body>
@@ -270,21 +270,21 @@
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'" id="11"></span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/applicationList?userNo=${user.userNo}'" id="11">${selectApplicationStateCount.get(0).getApplicationStateCount()}</span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">참가 신청중인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}'" id="22"></span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/upcomingList?userNo=${user.userNo}'" id="22">${selectApplicationStateCount.get(1).getApplicationStateCount() + selectApplicationStateCount.get(3).getApplicationStateCount()+selectApplicationStateCount.get(4).getApplicationStateCount()}</span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">참가예정인 모닥불</div>
 						</div>
 						<div class="my-page-profile-card">
 							<div class="my-page-profile-card-count-wrap">
 								<span class="my-page-profile-card-count"
-									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}'" id="33"></span>&nbsp;개
+									onclick="location.href='${pageContext.request.contextPath}/my_page/gatherSelect/participationList?userNo=${user.userNo}'" id="33">${selectApplicationStateCount.get(2).getApplicationStateCount()}</span>&nbsp;개
 							</div>
 							<div class="my-page-profile-card-label">참가완료한 모닥불</div>
 						</div>
