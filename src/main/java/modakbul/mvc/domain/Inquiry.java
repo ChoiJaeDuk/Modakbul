@@ -56,8 +56,8 @@ public class Inquiry {
 	@CreationTimestamp
 	private LocalDateTime inqRegisDate;
 	
-//	//댓글과 연결
-//	@OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL)
-//	private List<InquiryReply> inquiryReplyList;
+	//댓글과 연결
+	@OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL)
+	private List<InquiryReply> inquiryReplyList;
 	
 }
