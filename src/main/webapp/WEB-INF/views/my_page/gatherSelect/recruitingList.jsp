@@ -42,7 +42,7 @@
                        			console.log(item.user)
                         		str += `<tr>`;
                         		str += `<th>`
-                        		str += `<img alt="img" class="followImg" src="${pageContext.request.contextPath}/save/"${"${item.user.userProfileImg}"}>`;
+                        		str += `<img alt="img" class="followImg" src=${pageContext.request.contextPath}/save/${"${item.user.userProfileImg}"}>`;
                         		str += `</th>`;
                         		str += `<th>`;
                         		str += `<p onclick="location.href='${pageContext.request.contextPath}/userProfile/profileGather/'"${"${item.user.userNo}"}>${"${item.user.userNick}"}<p>`;

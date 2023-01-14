@@ -53,9 +53,9 @@ public class RegularGather {
 	@CreationTimestamp
 	private LocalDateTime regularGatherRegisDate;
 
-//	@OneToMany(mappedBy = "regularGather", cascade = CascadeType.ALL) //모임에 대한 후기 
-//	private List<GatherReview> gatherReivew;
-//	
-//	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
-//	private List<UserReview> userReviewList;
+	@OneToMany(mappedBy = "regularGather", cascade = CascadeType.ALL) //모임에 대한 후기 
+	private List<GatherReview> gatherReivew;
+	
+	@OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL)
+	private List<UserReview> userReviewList;
 }

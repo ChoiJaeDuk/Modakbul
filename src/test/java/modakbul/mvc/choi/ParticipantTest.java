@@ -74,9 +74,11 @@ public class ParticipantTest {
 	void selectApplicationStateCount() {
 		List<ParticipantGroupBy> list = participantService.selectApplicationStateCount(1L);
 		
-		for(ParticipantGroupBy p:list) {
-			System.out.println(p.getApplicationState() + "/"+p.getApplicationStateCount());
-		}
+		System.out.println(list.get(0).getApplicationStateCount());
+		
+//		for(ParticipantGroupBy p:list) {
+//			System.out.println(p.getApplicationState() + "/"+p.getApplicationStateCount());
+//		}
 	}
 	
 	
