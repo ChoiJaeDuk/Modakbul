@@ -196,9 +196,10 @@
     <script type="text/javascript">
     $(function() {
         $(".table-row").on("click", function() {
+   
             $("."+$(this).attr("id")).fadeToggle();
-            $(".reply-btn").show();
-            $(".ms-3").show();
+           
+          /*   $(".ms-3").fadeToggle(); */
         })
         
    	 }) 
@@ -406,12 +407,12 @@
                                 <div class="d-flex mb-4">
                                     <!-- Parent comment-->
                                     
-                          <div class="ms-3" style="display: none">
+                          <div class="ms-3 ${qna.inqNo}" style="display: none">
 	                      <c:forEach items="${qna.inquiryReplyList}" var="reply">
 	                      <c:set var="TextValue" value="${reply.inquiryReplyRegisDate}" />         
 	                            <div class="d-flex mt-4">
 	                                <div class="flex-shrink-0"><img class="rounded-circle" src="${pageContext.request.contextPath}/save/${reply.user.userProfileImg }" width="70px" height="50px" alt="" /></div>
-	                                <div class="ms-3">
+	                                <div class="ms-3 ">
 	                                    <div class="fw-bold">닉네임: ${reply.user.userNick}</div>
 	                                    내용: ${reply.inquiryReplycontent }
 	                                </div>
@@ -423,7 +424,7 @@
                         </div>
                       </div>
                     </section>
-                	 	<div class="reply-btn" style="display: none;">
+                	 	<div class="reply-btn ${qna.inqNo}" style="display: none;">
 		                      	<button class="reply-btn" type="button">답변달기</button>
 		                      	<button class="reply-btn" type="button">취소</button>
 		                    </div>
