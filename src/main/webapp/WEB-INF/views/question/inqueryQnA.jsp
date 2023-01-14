@@ -25,7 +25,7 @@
    	 })  
     	 $(function() {
         //비밀번호 비교 
-        var target = $(obj).siblings().eq(0);
+        //var target = $(obj).siblings().eq(0);
         
         $(document).on("click","button[class=password-form-button]", function(){
         	//alert($(this).attr("id")
@@ -77,7 +77,7 @@
             <section class="search-inquiry-list-result-wrap">
               <div class="inquiry-top">
                 <h2 class="inquiry-title">Q&A</h2>
-                <button class="insert-question-button" type="button" id="insertQuestion"> 등록하기 </button>
+                <button class="insert-question-button" type="button" onclick="location.href='${pageContext.request.contextPath}/question/question_insert'"> 등록하기 </button>
                 
               </div>
               <div class="search-inquiry-list">

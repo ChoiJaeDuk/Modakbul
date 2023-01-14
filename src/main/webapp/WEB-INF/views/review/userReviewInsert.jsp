@@ -83,7 +83,7 @@
 						<div class="preview col-md-6">
 							 
 							<div class="preview-pic tab-content">
-							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${gather.gatherImg}" /></div>
+							  <div class="tab-pane active" id="pic-1"><img class="gather-img" src="${pageContext.request.contextPath}/save/${gather.gatherImg}"/></div>
 							</div>	 
 						</div>
 						<div class="gather-info">
