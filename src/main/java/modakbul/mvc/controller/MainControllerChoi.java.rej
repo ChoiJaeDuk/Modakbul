@@ -1,0 +1,9 @@
+diff a/src/main/java/modakbul/mvc/controller/MainControllerChoi.java b/src/main/java/modakbul/mvc/controller/MainControllerChoi.java	(rejected hunks)
+@@ -26,6 +26,7 @@
+ import modakbul.mvc.service.AdminService;
+ import modakbul.mvc.service.GatherService;
+ 
++
+ @Controller
+ //@RequestMapping("/main")
+ @RequiredArgsConstructor
