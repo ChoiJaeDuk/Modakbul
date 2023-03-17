@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
@@ -26,7 +25,6 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import modakbul.mvc.controller.ExampleController;
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.QAdvertisement;
@@ -75,8 +73,6 @@ public class GatherServiceImpl implements GatherService {
 	@Autowired
 	private AlarmService alarmService;
 
-	@Autowired
-	private ExampleController exampleController;
 
 	@Autowired
 	private JPAQueryFactory queryFactory;

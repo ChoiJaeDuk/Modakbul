@@ -69,7 +69,7 @@ public class ReviewController {
 		  List<Follow> follower = followService.myFollowing(userNo);
 		  int newAlarm = alarmService.countNewAlarm(userNo);
 		  
-		
+		  
 		  
 		  int temp= (nowPage -1)%BLOCK_COUNT; 
 		  int startPage= nowPage-temp;

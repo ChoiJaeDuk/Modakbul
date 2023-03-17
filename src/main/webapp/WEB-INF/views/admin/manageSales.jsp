@@ -17,7 +17,7 @@
     <link href="${pageContext.request.contextPath}/css/admin/adminLayout.css" rel="stylesheet" />
       <link href="${pageContext.request.contextPath}/css/admin/adminSales.css" rel="stylesheet" />
   </head>
-  <bod>
+  <body>
   <jsp:include page="../layout/header.jsp" />
     <div id="modakbul-outer-wrapper">
      

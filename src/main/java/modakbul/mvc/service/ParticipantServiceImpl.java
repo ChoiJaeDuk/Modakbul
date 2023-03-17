@@ -15,7 +15,6 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import modakbul.mvc.controller.ExampleController;
 import modakbul.mvc.domain.Alarm;
 import modakbul.mvc.domain.Gather;
 import modakbul.mvc.domain.Participant;
@@ -46,8 +45,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	@Autowired
 	private AlarmService alarmService;
-	@Autowired
-	private ExampleController exampleController;
 	//시간나면 유효성검사를 해보자
 	@Override
 	public void insertParticipant(Participant participant) {
