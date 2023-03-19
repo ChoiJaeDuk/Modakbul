@@ -56,6 +56,7 @@
 </dependency>
       
       <!-- 오라클 클라우드 연결 --> 
+      
 
       
       <dependency>
@@ -190,6 +191,12 @@
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
 			<version>3.0.8</version>
+		</dependency>
+  		<!-- mysql  -->
+		<dependency>
+   			<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>5.1.47</version>
 		</dependency>
   		
 

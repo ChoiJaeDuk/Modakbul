@@ -35,8 +35,8 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Advertisement {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "advertisement_no_seq")
-	@SequenceGenerator(name = "advertisement_no_seq" , allocationSize = 1 , sequenceName = "advertisement_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "advertisement_no_seq" , allocationSize = 1 , sequenceName = "advertisement_no_seq")
 	@NonNull
 	private Long advertisementNo;
 	

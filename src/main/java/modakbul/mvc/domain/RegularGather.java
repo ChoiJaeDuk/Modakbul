@@ -34,8 +34,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class RegularGather {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "regularGather_no_seq")
-	@SequenceGenerator(name = "regularGather_no_seq" , allocationSize = 1 , sequenceName = "regularGather_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "regularGather_no_seq" , allocationSize = 1 , sequenceName = "regularGather_no_seq")
 	@NonNull
 	private Long regularGatherNo;
 	

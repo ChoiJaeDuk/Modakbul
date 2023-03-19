@@ -30,8 +30,8 @@ import lombok.Setter;
 public class UserAttachments {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_attachments_no_seq")
-	@SequenceGenerator(name = "user_attachments_no_seq" , allocationSize = 1 , sequenceName = "user_attachments_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "user_attachments_no_seq" , allocationSize = 1 , sequenceName = "user_attachments_no_seq")
 	private Long userAttachmentsFileNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -29,8 +29,8 @@ import lombok.Setter;
 
 public class InquiryReply {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inquiry_reply_no_seq")
-	@SequenceGenerator(name = "inquiry_reply_no_seq" , allocationSize = 1 , sequenceName = "inquiry_reply_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "inquiry_reply_no_seq" , allocationSize = 1 , sequenceName = "inquiry_reply_no_seq")
 	private Long inquiryReplyNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -23,8 +23,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Category {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_no_seq")
-	@SequenceGenerator(name = "category_no_seq" , allocationSize = 1 , sequenceName = "category_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "category_no_seq" , allocationSize = 1 , sequenceName = "category_no_seq")
 	@NonNull
 	private Long categoryNo;
 	

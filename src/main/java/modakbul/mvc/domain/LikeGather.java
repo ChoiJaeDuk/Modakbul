@@ -31,8 +31,8 @@ import lombok.ToString;
 @ToString
 public class LikeGather {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attention_no_seq")
-	@SequenceGenerator(name = "attention_no_seq" , allocationSize = 1 , sequenceName = "attention_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "attention_no_seq" , allocationSize = 1 , sequenceName = "attention_no_seq")
 	private Long attentionNo;
 
 	@ManyToOne(fetch = FetchType.LAZY)

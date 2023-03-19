@@ -41,8 +41,8 @@ import lombok.ToString;
 @ToString
 public class Gather {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_no_seq")
-	@SequenceGenerator(name = "gather_no_seq" , allocationSize = 1 , sequenceName = "gather_no_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "gather_no_seq" , allocationSize = 1 , sequenceName = "gather_no_seq")
 	@NonNull
 	private Long gatherNo;
 	
