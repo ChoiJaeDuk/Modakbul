@@ -37,8 +37,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class GatherReview {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name ="gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_review_no_seq")
+	@SequenceGenerator(name ="gather_review_no_seq" , allocationSize = 1 , sequenceName = "gather_review_no_seq")
 	@NonNull
 	private Long gatherReviewNo;
 	

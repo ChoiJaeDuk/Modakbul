@@ -28,8 +28,8 @@ import lombok.Setter;
 @Builder
 public class Alarm {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "alarm_no_seq" , allocationSize = 1 , sequenceName = "alarm_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alarm_no_seq")
+	@SequenceGenerator(name = "alarm_no_seq" , allocationSize = 1 , sequenceName = "alarm_no_seq")
 	private Long alarmNo;
 	
 	@Column(nullable = false)

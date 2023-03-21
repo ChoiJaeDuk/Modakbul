@@ -30,8 +30,8 @@ import lombok.Setter;
 public class UserReview {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "user_review_no_seq", allocationSize = 1, sequenceName = "user_review_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_review_no_seq")
+	@SequenceGenerator(name = "user_review_no_seq", allocationSize = 1, sequenceName = "user_review_no_seq")
 	private Long userReviewNo;
 	
 	

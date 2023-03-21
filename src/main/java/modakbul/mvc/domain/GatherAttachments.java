@@ -24,11 +24,8 @@ import lombok.Setter;
 @Builder
 public class GatherAttachments {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	//오라클에서 쓸때 시퀀스 설정
-	//@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gather_attachments_no_seq")
-	//@SequenceGenerator(name = "gather_attachments_no_seq" , allocationSize = 1 , sequenceName = "gather_attachments_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_attachments_no_seq")
+	@SequenceGenerator(name = "gather_attachments_no_seq" , allocationSize = 1 , sequenceName = "gather_attachments_no_seq")
 	private Long gatherAttachmentsFileNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

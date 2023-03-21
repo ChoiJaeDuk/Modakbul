@@ -34,8 +34,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Inquiry {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "inq_no_seq" , allocationSize = 1 , sequenceName = "inq_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inq_no_seq")
+	@SequenceGenerator(name = "inq_no_seq" , allocationSize = 1 , sequenceName = "inq_no_seq")
 	@NonNull
 	private Long inqNo;
 	

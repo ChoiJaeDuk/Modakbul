@@ -34,8 +34,8 @@ import lombok.Setter;
 @Builder
 public class ServiceQuestion {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "service_question_no_seq" , allocationSize = 1 , sequenceName = "service_question_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_question_no_seq")
+	@SequenceGenerator(name = "service_question_no_seq" , allocationSize = 1 , sequenceName = "service_question_no_seq")
 	private Long serviceQuestionNo;
 	
 	@JsonIgnore

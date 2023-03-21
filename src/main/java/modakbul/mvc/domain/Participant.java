@@ -25,8 +25,8 @@ import lombok.Setter;
 @Builder
 public class Participant {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "participant_no_seq" , allocationSize = 1 , sequenceName = "participant_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "participant_no_seq")
+	@SequenceGenerator(name = "participant_no_seq" , allocationSize = 1 , sequenceName = "participant_no_seq")
 	private Long participantNo;
 
 	@JsonIgnore

@@ -28,8 +28,8 @@ import lombok.Setter;
 @Builder
 public class GatherReviewReply {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "gather_review_reply_no_seq" , allocationSize = 1 , sequenceName = "gather_review_reply_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gather_review_reply_no_seq")
+	@SequenceGenerator(name = "gather_review_reply_no_seq" , allocationSize = 1 , sequenceName = "gather_review_reply_no_seq")
 	private Long gatherReviewReplyNo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -29,8 +29,8 @@ import lombok.ToString;
 @ToString
 public class AlarmReceiver {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "alarm_receiver_no_seq" , allocationSize = 1 , sequenceName = "alarm_receiver_no_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alarm_receiver_no_seq")
+	@SequenceGenerator(name = "alarm_receiver_no_seq" , allocationSize = 1 , sequenceName = "alarm_receiver_no_seq")
 	private Long alarmReceiveNo;
 	
 	@OneToOne(fetch=FetchType.LAZY) //onetoone 맞나영
