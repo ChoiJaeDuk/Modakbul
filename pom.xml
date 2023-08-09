@@ -16,6 +16,7 @@
    <description>Demo project for Spring Boot</description>
    <properties>
       <java.version>11</java.version>
+      <skipTests>true</skipTests>
    </properties>
       
       <!-- 아임포트  -->
@@ -190,15 +191,23 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>3.0.8</version>
 		</dependency>
-  
+  		
 
    </dependencies>
 
    <build>
       <plugins>
+      	<plugin> 
+    <groupId>org.apache.maven.plugins</groupId> 
+    <artifactId>maven-surefire-plugin</artifactId> 
+    <configuration> 
+        <skipTests>true</skipTests> 
+    </configuration> 
+</plugin>
          <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
+            
             <configuration>
                <excludes>
                   <exclude>

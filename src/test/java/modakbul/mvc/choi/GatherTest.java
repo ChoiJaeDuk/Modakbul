@@ -40,7 +40,6 @@ import modakbul.mvc.groupby.GatherGroupBy;
 import modakbul.mvc.repository.GatherRepository;
 import modakbul.mvc.repository.LikeGatherRepository;
 import modakbul.mvc.service.GatherService;
-import oracle.net.aso.b;
 
 @SpringBootTest
 @Transactional

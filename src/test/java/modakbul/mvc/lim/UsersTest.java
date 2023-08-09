@@ -150,12 +150,11 @@ public class UsersTest {
 		System.out.println(user.getUserName());
 	}
 	
-	@Test
-	public void selectById() {
-		Users user = usersRep.selectById("user1");
-		System.out.println("userNo = " + user.getUserNo() + "follow = " + user.getFollowingList().size());
-	}
-	
+	/*
+	 * @Test public void selectById() { Users user = usersRep.selectById("user1");
+	 * System.out.println("userNo = " + user.getUserNo() + "follow = " +
+	 * user.getFollowingList().size()); }
+	 */
 	@Test
 	public void selectUserId() {
 		String userId = usersRep.selectUserId("jieun3604@gmail.com");

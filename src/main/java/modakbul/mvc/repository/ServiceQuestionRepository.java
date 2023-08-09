@@ -22,7 +22,7 @@ public interface ServiceQuestionRepository extends JpaRepository<ServiceQuestion
 	/**
 	 * 어드민이 쓴 글(user_no=4)은 공지사항
 	 * */
-	@Query(value = "select * from service_question where user_No=4",nativeQuery = true)
+	@Query(value = "select * from service_question where user_No=4 order by SERVICE_QUESTION_NO desc",nativeQuery = true)
 	Page<ServiceQuestion> selectByAdminNo( Pageable pageable);
 	
 	@Query("select s from ServiceQuestion s where s.serviceQuestionNo=?1")

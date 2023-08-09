@@ -137,9 +137,7 @@ public class UsersAjaxController {
                 new UsernamePasswordAuthenticationToken(dbUser.getUserId(), dbUser.getUserpwd()));
                 
         SecurityContextHolder.getContext().setAuthentication(authentication);
- 
       
-		
 		if(filesList !=null) {
 			for(int i = 0; i< filesList.size(); i++) {
 				
@@ -157,7 +155,6 @@ public class UsersAjaxController {
 					 e.getStackTrace();
 				 }
 				 
-				
 				 
 				 userAttach.setUser(Users.builder().userNo(dbUser.getUserNo()).build());
 				 userAttach.setUserAttachmentsFileSubject(subject);
@@ -166,10 +163,7 @@ public class UsersAjaxController {
 			}
 			
 		}
-		 
-		
 	
-		
 
 		return "ok";
 	}
